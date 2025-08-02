@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://betdnk2m31png"]
+[gd_scene load_steps=8 format=3 uid="uid://betdnk2m31png"]
 
 [ext_resource type="Script" uid="uid://ci16bxk3si1py" path="res://Scripts/Hearth.gd" id="1_abea5"]
 [ext_resource type="Texture2D" uid="uid://cq23fmociwtqn" path="res://Sprites/life.png" id="2_16pkc"]
+[ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="3_md20t"]
+[ext_resource type="AudioStream" uid="uid://b0nq0yyery2gj" path="res://sounds/powerUp.wav" id="4_jgkh0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8cfbd"]
 radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lx1vc"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3nfkf"]
 properties/0/path = NodePath(".:freeze")
@@ -25,13 +29,17 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath(".:visible")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath(".:collected")
+properties/6/path = NodePath(".:hearth_id")
 properties/6/spawn = true
 properties/6/replication_mode = 1
+properties/7/path = NodePath(".:linear_velocity")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:collected")
+properties/8/spawn = true
+properties/8/replication_mode = 1
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lx1vc"]
-
-[node name="hearth" type="RigidBody2D" groups=["persistent"]]
+[node name="hearth" type="RigidBody2D" groups=["hearth"]]
 scale = Vector2(1.5, 1.5)
 mass = 0.01
 freeze = true
@@ -40,9 +48,6 @@ script = ExtResource("1_abea5")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8cfbd")
 disabled = true
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_3nfkf")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -53,5 +58,18 @@ shape = SubResource("RectangleShape2D_lx1vc")
 position = Vector2(0, 2.38419e-07)
 scale = Vector2(0.1875, 0.1875)
 texture = ExtResource("2_16pkc")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0, 0, 1)
+range_layer_min = -100
+texture = ExtResource("3_md20t")
+texture_scale = 0.27
+
+[node name="hearth sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jgkh0")
+bus = &"SFX"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3nfkf")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

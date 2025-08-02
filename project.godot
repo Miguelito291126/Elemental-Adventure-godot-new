@@ -11,20 +11,17 @@ config_version=5
 [application]
 
 config/name="Elemental Adventure"
-run/main_scene="uid://bq8c11xjf1nct"
+run/main_scene="uid://ck6cqfxuu22vs"
 config/features=PackedStringArray("4.4", "Forward Plus")
-boot_splash/bg_color=Color(0.239216, 0, 0.396078, 1)
-boot_splash/show_image=false
-boot_splash/fullsize=false
-boot_splash/use_filter=false
+boot_splash/bg_color=Color(1, 0, 1, 1)
+boot_splash/image="uid://ckt0eppr5lntw"
 config/icon="uid://ckt0eppr5lntw"
-boot_splash/minimum_display_time=7
 
 [autoload]
 
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
-GameController="*res://Scripts/GameController.gd"
 MusicManager="*res://Scenes/Music Manager.tscn"
+GameController="*res://Scenes/gamecontroller.tscn"
 
 [debug]
 
@@ -38,13 +35,23 @@ window/size/viewport_height=1080
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 window/handheld/orientation=4
-window/show_image=false
-window/fullsize=false
-window/icon="uid://ckt0eppr5lntw"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/better-terrain/plugin.cfg")
+
+[global_group]
+
+bullet=""
+water=""
+player=""
+enemy=""
+"energy ball"=""
+coins=""
+checkpoint=""
+box=""
+hearth=""
+terrain=""
 
 [importer_defaults]
 
@@ -114,6 +121,11 @@ ui_down={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":12,"pressure":0.0,"pressed":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
+]
+}
+jump0={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
 

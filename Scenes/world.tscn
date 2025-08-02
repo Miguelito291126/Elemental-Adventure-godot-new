@@ -1,0 +1,166 @@
+[gd_scene load_steps=11 format=3 uid="uid://belcwwwg3jp18"]
+
+[ext_resource type="TileSet" uid="uid://c4h164cv78rlk" path="res://Earth.tres" id="1_5v1tr"]
+[ext_resource type="Script" uid="uid://dftwl7o3yrocm" path="res://Scripts/environment.gd" id="1_fo5ed"]
+[ext_resource type="Texture2D" uid="uid://ba0h75s4rn30r" path="res://Sprites/Background grey.png" id="2_5ukr8"]
+[ext_resource type="Texture2D" uid="uid://bibf8kwmrsuu" path="res://Sprites/Background clouds.png" id="3_o06y3"]
+[ext_resource type="Texture2D" uid="uid://dl06axc5rb8rk" path="res://Sprites/Background floor.png" id="4_k7acu"]
+[ext_resource type="Texture2D" uid="uid://bahsfwikkfi35" path="res://Sprites/background tree.png" id="5_5v1tr"]
+[ext_resource type="Texture2D" uid="uid://c18dotgyxy3gs" path="res://Sprites/Background floor 2.png" id="6_5ukr8"]
+[ext_resource type="Texture2D" uid="uid://cwqu268jr8hjm" path="res://Sprites/Background floor 3.png" id="7_k7acu"]
+[ext_resource type="Texture2D" uid="uid://di45wcexls5pg" path="res://Sprites/background cactus.png" id="8_5v1tr"]
+
+[sub_resource type="Environment" id="Environment_0fj1v"]
+
+[node name="World" type="TileMapLayer"]
+tile_set = ExtResource("1_5v1tr")
+script = ExtResource("1_fo5ed")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0fj1v")
+
+[node name="Background" type="ParallaxBackground" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Background"]
+color = Color(0.190762, 0.190762, 0.190762, 1)
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer3"]
+position = Vector2(-69.5, -89.5)
+scale = Vector2(1.00677, 1.00463)
+texture = ExtResource("2_5ukr8")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer4"]
+position = Vector2(74, -23)
+scale = Vector2(1.00677, 1.00463)
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/ParallaxLayer4"]
+position = Vector2(1034, -28)
+scale = Vector2(1.00677, 1.00463)
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="Background"]
+position = Vector2(10, 190)
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer2"]
+position = Vector2(-6, 384)
+texture = ExtResource("4_k7acu")
+centered = false
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Background"]
+position = Vector2(3, 128)
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer"]
+position = Vector2(1173, 28)
+texture = ExtResource("5_5v1tr")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/ParallaxLayer"]
+position = Vector2(378, 33)
+texture = ExtResource("5_5v1tr")
+centered = false
+
+[node name="Background2" type="ParallaxBackground" parent="."]
+visible = false
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Background2"]
+color = Color(0.190762, 0.190762, 0.190762, 1)
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Background2"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background2/ParallaxLayer3"]
+texture = ExtResource("2_5ukr8")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Background2"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background2/ParallaxLayer4"]
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background2/ParallaxLayer4"]
+position = Vector2(956, 3)
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="Background2"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background2/ParallaxLayer5"]
+position = Vector2(-3, 577)
+texture = ExtResource("6_5ukr8")
+centered = false
+
+[node name="Background3" type="ParallaxBackground" parent="."]
+visible = false
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Background3"]
+color = Color(0.190762, 0.190762, 0.190762, 1)
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Background3"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background3/ParallaxLayer3"]
+texture = ExtResource("2_5ukr8")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Background3"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background3/ParallaxLayer4"]
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background3/ParallaxLayer4"]
+position = Vector2(956, 3)
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="Background3"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background3/ParallaxLayer5"]
+position = Vector2(-3, 577)
+texture = ExtResource("7_k7acu")
+centered = false
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Background3"]
+position = Vector2(3, 128)
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background3/ParallaxLayer"]
+position = Vector2(1188, 225)
+texture = ExtResource("8_5v1tr")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background3/ParallaxLayer"]
+position = Vector2(322, 296)
+texture = ExtResource("8_5v1tr")
+centered = false

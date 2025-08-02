@@ -19,13 +19,13 @@ theme = ExtResource("1_f10x6")
 
 [node name="Title" type="Control" parent="."]
 layout_mode = 3
-anchor_left = 0.497917
-anchor_top = 0.0925926
-anchor_right = 0.497917
-anchor_bottom = 0.0925926
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_top = 51.0
+offset_right = 28.0
+offset_bottom = 91.0
 grow_horizontal = 2
 theme = ExtResource("1_f10x6")
 metadata/_edit_use_anchors_ = true
@@ -110,12 +110,72 @@ theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Exit"
 
+[node name="Multiplayer" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -279.0
+offset_top = -153.0
+offset_right = 279.0
+offset_bottom = 153.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_f10x6")
+alignment = 1
+
+[node name="IPLabel" type="Label" parent="Multiplayer"]
+layout_mode = 2
+text = "IP"
+horizontal_alignment = 1
+
+[node name="IP" type="LineEdit" parent="Multiplayer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PortLabel" type="Label" parent="Multiplayer"]
+layout_mode = 2
+text = "Port"
+horizontal_alignment = 1
+
+[node name="Port" type="LineEdit" parent="Multiplayer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PlayMultiplayer" type="Button" parent="Multiplayer"]
+layout_mode = 2
+theme = ExtResource("1_f10x6")
+theme_override_fonts/font = ExtResource("3_his25")
+text = "Create
+"
+
+[node name="PlayMultiplayerClient" type="Button" parent="Multiplayer"]
+layout_mode = 2
+theme = ExtResource("1_f10x6")
+theme_override_fonts/font = ExtResource("3_his25")
+text = "Join"
+
+[node name="Back2" type="Button" parent="Multiplayer"]
+layout_mode = 2
+theme = ExtResource("1_f10x6")
+theme_override_fonts/font = ExtResource("3_his25")
+text = "Back"
+
 [node name="Options" type="VBoxContainer" parent="."]
 visible = false
-offset_left = 694.0
-offset_top = 547.0
-offset_right = 1252.0
-offset_bottom = 605.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -279.0
+offset_top = -165.0
+offset_right = 279.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" type="Label" parent="Options"]
 layout_mode = 2
@@ -159,6 +219,11 @@ text = "Back"
 [connection signal="pressed" from="main menu/Online" to="." method="_on_online_pressed"]
 [connection signal="pressed" from="main menu/option" to="." method="_on_option_pressed"]
 [connection signal="pressed" from="main menu/exit" to="." method="_on_exit_pressed"]
+[connection signal="text_changed" from="Multiplayer/IP" to="." method="_on_ip_text_changed"]
+[connection signal="text_changed" from="Multiplayer/Port" to="." method="_on_port_text_changed"]
+[connection signal="pressed" from="Multiplayer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
+[connection signal="pressed" from="Multiplayer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
+[connection signal="pressed" from="Multiplayer/Back2" to="." method="_on_back_2_pressed"]
 [connection signal="value_changed" from="Options/Volume" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="Options/Volume 2" to="." method="_on_volume_2_value_changed"]
 [connection signal="toggled" from="Options/CheckButton" to="." method="_on_check_button_toggled"]

@@ -1,0 +1,134 @@
+[gd_scene load_steps=14 format=3 uid="uid://ct3pfn4ke0vqa"]
+
+[ext_resource type="Script" uid="uid://dxslqpfeh70jp" path="res://Scripts/enemy_robot_3.gd" id="1_g8808"]
+[ext_resource type="Texture2D" uid="uid://b75py0udg551" path="res://Sprites/robot 3.png" id="2_g8808"]
+[ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="3_g8808"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0gqy"]
+size = Vector2(32, 24.5556)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_virmk"]
+atlas = ExtResource("2_g8808")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iorok"]
+atlas = ExtResource("2_g8808")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5om28"]
+atlas = ExtResource("2_g8808")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0eqvs"]
+atlas = ExtResource("2_g8808")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf0e2"]
+atlas = ExtResource("2_g8808")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3q7bq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_virmk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iorok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5om28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0eqvs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cf0e2")
+}],
+"loop": true,
+"name": &"robot 3 Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g8808"]
+radius = 416.308
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_virmk"]
+radius = 8.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g8808"]
+properties/0/path = NodePath(".:health")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:damagecount")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:enemy_id")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:color")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:is_invincible")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:invincibility_time")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("AnimatedSprite2D:animation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("AnimatedSprite2D:frame")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("PointLight2D:color")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:visible")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+
+[node name="enemy_robot_3" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_g8808")
+color = Color(0, 0, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r0gqy")
+
+[node name="bulletpos" type="Node2D" parent="."]
+
+[node name="bulletspawn" type="Marker2D" parent="bulletpos"]
+position = Vector2(40, 0)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_3q7bq")
+animation = &"robot 3 Idle"
+frame = 2
+frame_progress = 0.842725
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_g8808")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(3.8147e-06, -3.8147e-06)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("CircleShape2D_virmk")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0, 0, 1, 1)
+range_layer_min = -100
+texture = ExtResource("3_g8808")
+texture_scale = 0.5
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_g8808")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]

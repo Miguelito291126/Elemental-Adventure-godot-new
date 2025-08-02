@@ -2,10 +2,12 @@ extends CanvasLayer
 
 @onready var mainmenu = $"main menu"
 @onready var optionsmenu = $Options
+@onready var onlinemenu = $Multiplayer
 
 func _ready() -> void:
 	optionsmenu.visible = false
 	mainmenu.visible = true
+	onlinemenu.visible = false
 	
 	var config = ConfigFile.new()
 	var err = config.load("user://config.cfg")
@@ -30,11 +32,12 @@ func _ready() -> void:
 
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/chose_character.tscn")
+	GameController.LoadCharacterMenu()
 
 
 func _on_online_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
+	onlinemenu.visible = !onlinemenu.visible
 
 
 func _on_option_pressed() -> void:
@@ -46,6 +49,8 @@ func _on_delete_data_pressed() -> void:
 	var config = ConfigFile.new()
 	config.clear()
 	config.save("user://config.cfg")
+	config.save("user://data.cfg")
+	get_tree().quit()
 
 
 func _on_exit_pressed() -> void:
@@ -87,3 +92,22 @@ func _on_volume_2_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db( volume_index, linear_to_db(value))
 	config.set_value("config", "music volume", value)
 	config.save("user://config.cfg")
+
+
+func _on_ip_text_changed(new_text: String) -> void:
+	GameController.ip = new_text
+	
+func _on_port_text_changed(new_text: String) -> void:
+	GameController.port = new_text.to_int()
+
+func _on_play_multiplayer_pressed() -> void:
+	GameController.Play_MultiplayerServer()
+
+func _on_play_multiplayer_client_pressed() -> void:
+	GameController.Play_MultiplayerClient()
+	self.queue_free()
+
+
+func _on_back_2_pressed() -> void:
+	mainmenu.visible = !mainmenu.visible
+	onlinemenu.visible = !onlinemenu.visible

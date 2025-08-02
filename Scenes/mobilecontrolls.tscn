@@ -7,9 +7,22 @@
 [node name="Mobilecontrolls" type="CanvasLayer"]
 script = ExtResource("1_u6svl")
 
-[node name="jump" type="TouchScreenButton" parent="."]
-position = Vector2(1572, 748)
-scale = Vector2(2.6125, 2.5125)
+[node name="Jump" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -344.0
+offset_top = -312.0
+offset_right = -184.0
+offset_bottom = -152.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="jump" type="TouchScreenButton" parent="Jump"]
+scale = Vector2(2, 2)
 texture_normal = ExtResource("2_rg3jk")
 action = "jump0"
 visibility_mode = 1

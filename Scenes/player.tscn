@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=14 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
@@ -7,9 +7,59 @@
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
 [ext_resource type="AudioStream" uid="uid://drr2wubpf40ds" path="res://sounds/laserShoot.wav" id="6_8erm5"]
 [ext_resource type="PackedScene" uid="uid://y6bboatewubh" path="res://Scenes/pause_menu.tscn" id="9_aviom"]
-[ext_resource type="Texture2D" uid="uid://c45gcdl5erpan" path="res://Sprites/linght.png" id="10_6u4n5"]
+[ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="10_tx1dd"]
 [ext_resource type="PackedScene" uid="uid://ywyhxmenkfw" path="res://Scenes/mobilecontrolls.tscn" id="11_tb078"]
 [ext_resource type="AudioStream" uid="uid://b58fkkwav5ji4" path="res://sounds/Walk.wav" id="21_ctvyi"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tx1dd"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("AnimatedSprite2D:flip_h")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:scale")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:health")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:speed")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:gravity")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("AnimatedSprite2D:animation")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("AnimatedSprite2D:frame")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("bulletpos:rotation")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath("bulletpos/bulletspawn:rotation")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath("PointLight2D:color")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+properties/12/path = NodePath("bulletpos/bulletspawn:position")
+properties/12/spawn = true
+properties/12/replication_mode = 1
+properties/13/path = NodePath("bulletpos:position")
+properties/13/spawn = true
+properties/13/replication_mode = 1
+properties/14/path = NodePath("bulletpos:scale")
+properties/14/spawn = true
+properties/14/replication_mode = 1
+properties/15/path = NodePath("bulletpos/bulletspawn:scale")
+properties/15/spawn = true
+properties/15/replication_mode = 1
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dy66o"]
 radius = 29.7705
@@ -18,23 +68,26 @@ height = 64.7923
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
 size = Vector2(40, 48)
 
-[node name="player" type="CharacterBody2D" groups=["persistent", "player"]]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_peqvs")
+gravity = 500
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tx1dd")
+visibility_update_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, -16)
 scale = Vector2(0.537445, 0.540188)
 shape = SubResource("CapsuleShape2D_dy66o")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(8, -16)
 sprite_frames = ExtResource("2_svkx8")
 animation = &"fire idle"
 autoplay = "fire idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(16, -24)
+zoom = Vector2(2, 2)
 
 [node name="Hud" type="CanvasLayer" parent="."]
 
@@ -103,20 +156,24 @@ stretch_mode = 0
 visible = false
 
 [node name="Mobilecontrolls" parent="." instance=ExtResource("11_tb078")]
+visible = false
 
 [node name="bulletpos" type="Node2D" parent="."]
 
-[node name="bulletspawn" type="Node2D" parent="bulletpos"]
+[node name="bulletspawn" type="Marker2D" parent="bulletpos"]
 position = Vector2(40, 0)
 
 [node name="JumpSounds" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_3smsa")
+bus = &"SFX"
 
 [node name="ShootSounds" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_8erm5")
+bus = &"SFX"
 
 [node name="WalkSounds" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("21_ctvyi")
+bus = &"SFX"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(8, -16)
@@ -124,13 +181,13 @@ scale = Vector2(0.195313, 0.1875)
 range_layer_min = -100
 shadow_enabled = true
 shadow_filter = 1
-texture = ExtResource("10_6u4n5")
+texture = ExtResource("10_tx1dd")
+texture_scale = 3.93
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(8, -16)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["player"]]
 shape = SubResource("RectangleShape2D_tx1dd")
 
 [connection signal="pressed" from="Hud/TextureButton" to="." method="_on_texture_button_pressed"]

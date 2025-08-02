@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://v8uq1u8p3nxj"]
+[gd_scene load_steps=5 format=3 uid="uid://v8uq1u8p3nxj"]
 
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_56oo4"]
 [ext_resource type="Script" uid="uid://b6264exh1ntmu" path="res://Scripts/game over Menu.gd" id="1_i0b3j"]
+[ext_resource type="AudioStream" uid="uid://bofmlupe81xjl" path="res://sounds/game over.wav" id="2_eqaa1"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_xqlid"]
-[ext_resource type="AudioStream" uid="uid://cegwxo4m0nxd3" path="res://sounds/game over sound.wav" id="3_lxwha"]
-[ext_resource type="Script" uid="uid://c77tqvtvjxiyi" path="res://Scripts/Button.gd" id="3_p0xq0"]
 
 [node name="Death Menu" type="CanvasLayer"]
 process_mode = 3
@@ -14,9 +13,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Death music" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("3_lxwha")
+stream = ExtResource("2_eqaa1")
 autoplay = true
-bus = &"FX"
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 15
@@ -65,7 +63,6 @@ layout_mode = 2
 theme = ExtResource("1_56oo4")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Return"
-script = ExtResource("3_p0xq0")
 
 [node name="back" type="Button" parent="VBoxContainer"]
 process_mode = 3

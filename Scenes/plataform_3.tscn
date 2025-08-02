@@ -1,135 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ddbba7cpls6he"]
+[gd_scene load_steps=7 format=3 uid="uid://ddbba7cpls6he"]
 
 [ext_resource type="Script" uid="uid://doojc5isfvjst" path="res://Scripts/plataform.gd" id="1_h04up"]
 [ext_resource type="Texture2D" uid="uid://k2hy7cu1gn86" path="res://Sprites/plataform_3.png" id="2_wtg0p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylvgc"]
 size = Vector2(24.9971, 22.0945)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u4aut"]
-polygon = PackedVector2Array(-1, 22, 22, 22, 22, 0, -1, 0)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3cx38"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:scale")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("PathFollow2D:position")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-properties/4/path = NodePath("PathFollow2D:rotation")
-properties/4/spawn = true
-properties/4/replication_mode = 1
-properties/5/path = NodePath("PathFollow2D:scale")
-properties/5/spawn = true
-properties/5/replication_mode = 1
-properties/6/path = NodePath("PathFollow2D/RemoteTransform2D:position")
-properties/6/spawn = true
-properties/6/replication_mode = 1
-properties/7/path = NodePath("PathFollow2D/RemoteTransform2D:rotation")
-properties/7/spawn = true
-properties/7/replication_mode = 1
-properties/8/path = NodePath("PathFollow2D/RemoteTransform2D:scale")
-properties/8/spawn = true
-properties/8/replication_mode = 1
-properties/9/path = NodePath("AnimationPlayer:current_animation")
-properties/9/spawn = true
-properties/9/replication_mode = 1
-properties/10/path = NodePath("AnimationPlayer:speed_scale")
-properties/10/spawn = true
-properties/10/replication_mode = 1
-properties/11/path = NodePath(".:loop")
-properties/11/spawn = true
-properties/11/replication_mode = 1
-properties/12/path = NodePath(".:speed")
-properties/12/spawn = true
-properties/12/replication_mode = 1
-properties/13/path = NodePath(".:speed_scale")
-properties/13/spawn = true
-properties/13/replication_mode = 1
-properties/14/path = NodePath("PathFollow2D:progress")
-properties/14/spawn = true
-properties/14/replication_mode = 1
-properties/15/path = NodePath("PathFollow2D:h_offset")
-properties/15/spawn = true
-properties/15/replication_mode = 1
-properties/16/path = NodePath("PathFollow2D:v_offset")
-properties/16/spawn = true
-properties/16/replication_mode = 1
-properties/17/path = NodePath("PathFollow2D:rotates")
-properties/17/spawn = true
-properties/17/replication_mode = 1
-properties/18/path = NodePath("PathFollow2D:cubic_interp")
-properties/18/spawn = true
-properties/18/replication_mode = 1
-properties/19/path = NodePath("PathFollow2D:loop")
-properties/19/spawn = true
-properties/19/replication_mode = 1
-properties/20/path = NodePath("AnimatableBody2D:sync_to_physics")
-properties/20/spawn = true
-properties/20/replication_mode = 1
-properties/21/path = NodePath("AnimatableBody2D:constant_linear_velocity")
-properties/21/spawn = true
-properties/21/replication_mode = 1
-properties/22/path = NodePath("AnimatableBody2D:constant_angular_velocity")
-properties/22/spawn = true
-properties/22/replication_mode = 1
-properties/23/path = NodePath("AnimatableBody2D:position")
-properties/23/spawn = true
-properties/23/replication_mode = 1
-properties/24/path = NodePath("AnimatableBody2D:rotation")
-properties/24/spawn = true
-properties/24/replication_mode = 1
-properties/25/path = NodePath("AnimatableBody2D:scale")
-properties/25/spawn = true
-properties/25/replication_mode = 1
-properties/26/path = NodePath("PathFollow2D:progress_ratio")
-properties/26/spawn = true
-properties/26/replication_mode = 1
-properties/27/path = NodePath("AnimationPlayer:movie_quit_on_finish")
-properties/27/spawn = true
-properties/27/replication_mode = 1
-properties/28/path = NodePath("AnimationPlayer:playback_default_blend_time")
-properties/28/spawn = true
-properties/28/replication_mode = 1
-properties/29/path = NodePath("AnimationPlayer:playback_auto_capture_ease_type")
-properties/29/spawn = true
-properties/29/replication_mode = 1
-properties/30/path = NodePath("AnimationPlayer:playback_auto_capture_transition_type")
-properties/30/spawn = true
-properties/30/replication_mode = 1
-properties/31/path = NodePath("AnimationPlayer:playback_auto_capture_duration")
-properties/31/spawn = true
-properties/31/replication_mode = 1
-properties/32/path = NodePath("AnimationPlayer:playback_auto_capture")
-properties/32/spawn = true
-properties/32/replication_mode = 1
-properties/33/path = NodePath("AnimationPlayer:active")
-properties/33/spawn = true
-properties/33/replication_mode = 1
-properties/34/path = NodePath("AnimationPlayer:deterministic")
-properties/34/spawn = true
-properties/34/replication_mode = 1
-properties/35/path = NodePath("AnimationPlayer:reset_on_save")
-properties/35/spawn = true
-properties/35/replication_mode = 1
-properties/36/path = NodePath("AnimationPlayer:callback_mode_process")
-properties/36/spawn = true
-properties/36/replication_mode = 1
-properties/37/path = NodePath("AnimationPlayer:callback_mode_method")
-properties/37/spawn = true
-properties/37/replication_mode = 1
-properties/38/path = NodePath("AnimationPlayer:callback_mode_discrete")
-properties/38/spawn = true
-properties/38/replication_mode = 1
-properties/39/path = NodePath("AnimationPlayer:audio_max_polyphony")
-properties/39/spawn = true
-properties/39/replication_mode = 1
 
 [sub_resource type="Animation" id="Animation_55wjb"]
 length = 0.001
@@ -169,9 +44,11 @@ _data = {
 &"move": SubResource("Animation_e2dlq")
 }
 
-[node name="plataform_3" type="Path2D" groups=["persistent"]]
+[node name="plataform_3" type="Path2D"]
 script = ExtResource("1_h04up")
 loop = false
+speed = 1.0
+speed_scale = 0.5
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 rotates = false
@@ -190,17 +67,8 @@ texture = ExtResource("2_wtg0p")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
 shape = SubResource("RectangleShape2D_ylvgc")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="AnimatableBody2D"]
-position = Vector2(-11, -11)
-occluder = SubResource("OccluderPolygon2D_u4aut")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="AnimatableBody2D"]
-root_path = NodePath("../..")
-replication_config = SubResource("SceneReplicationConfig_3cx38")
-visibility_update_mode = 1
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 callback_mode_process = 0
 libraries = {
-"": SubResource("AnimationLibrary_7wg80")
+&"": SubResource("AnimationLibrary_7wg80")
 }

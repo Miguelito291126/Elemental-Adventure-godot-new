@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bobb12psnciuk"]
+[gd_scene load_steps=7 format=3 uid="uid://bobb12psnciuk"]
 
 [ext_resource type="Script" uid="uid://b6w65le2l8wnk" path="res://Scripts/chose_character.gd" id="1_hwby1"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_si5xw"]
+[ext_resource type="Texture2D" uid="uid://d3l2e26s0r3op" path="res://Sprites/Fire IDle.png" id="3_3s6gl"]
+[ext_resource type="Texture2D" uid="uid://bhtn0asm5ij01" path="res://Sprites/water idle.png" id="4_ecjs8"]
+[ext_resource type="Texture2D" uid="uid://dn2uwttahe5bw" path="res://Sprites/air idle.png" id="5_3j5dd"]
+[ext_resource type="Texture2D" uid="uid://bff040cb4af36" path="res://Sprites/earth idle.png" id="6_eongy"]
 
 [node name="Chose_Character" type="CanvasLayer"]
 layer = 2
@@ -16,20 +20,31 @@ grow_vertical = 2
 theme = ExtResource("1_si5xw")
 
 [node name="Label" type="Label" parent="."]
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -950.0
-offset_top = -456.0
 offset_right = 950.0
-offset_bottom = -356.0
+offset_bottom = 100.0
 grow_horizontal = 2
-grow_vertical = 2
 theme = ExtResource("1_si5xw")
 text = "Chose the character"
 horizontal_alignment = 1
+
+[node name="Play" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -129.0
+offset_top = -77.0
+offset_right = 129.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_si5xw")
+theme_override_font_sizes/font_size = 50
+text = "Play"
 
 [node name="fire" type="VBoxContainer" parent="."]
 offset_left = 378.0
@@ -39,11 +54,12 @@ offset_bottom = 571.0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="Label" type="Label" parent="fire"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Fire"
-horizontal_alignment = 1
+[node name="FireIdle" type="Sprite2D" parent="fire"]
+position = Vector2(126, 48)
+scale = Vector2(2.31818, 2.26563)
+texture = ExtResource("3_3s6gl")
+region_enabled = true
+region_rect = Rect2(0, 0, 66, 64)
 
 [node name="Button_fire" type="Button" parent="fire"]
 layout_mode = 2
@@ -62,12 +78,12 @@ grow_vertical = 0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="Label" type="Label" parent="water"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "water
-"
-horizontal_alignment = 1
+[node name="WaterIdle2" type="Sprite2D" parent="water"]
+position = Vector2(118, 88)
+scale = Vector2(2.31818, 2.26563)
+texture = ExtResource("4_ecjs8")
+region_enabled = true
+region_rect = Rect2(0, 0, 66, 64)
 
 [node name="Button_water" type="Button" parent="water"]
 layout_mode = 2
@@ -89,12 +105,12 @@ grow_vertical = 0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="Label" type="Label" parent="air"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "air
-"
-horizontal_alignment = 1
+[node name="AirIdle3" type="Sprite2D" parent="air"]
+position = Vector2(125, 88)
+scale = Vector2(2.31818, 2.26563)
+texture = ExtResource("5_3j5dd")
+region_enabled = true
+region_rect = Rect2(0, 0, 66, 64)
 
 [node name="Button_air" type="Button" parent="air"]
 layout_mode = 2
@@ -113,17 +129,19 @@ grow_horizontal = 0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="Label" type="Label" parent="earth"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "earth"
-horizontal_alignment = 1
+[node name="Earthidle4" type="Sprite2D" parent="earth"]
+position = Vector2(117, 50)
+scale = Vector2(2.31818, 2.26563)
+texture = ExtResource("6_eongy")
+region_enabled = true
+region_rect = Rect2(0, 0, 66, 64)
 
 [node name="Button_earth" type="Button" parent="earth"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="fire/Button_fire" to="." method="_on_button_fire_pressed"]
 [connection signal="pressed" from="water/Button_water" to="." method="_on_button_water_pressed"]
 [connection signal="pressed" from="air/Button_air" to="." method="_on_button_air_pressed"]

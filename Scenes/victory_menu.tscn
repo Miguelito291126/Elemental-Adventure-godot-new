@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpwro3crqbft3"]
+[gd_scene load_steps=5 format=3 uid="uid://dpwro3crqbft3"]
 
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_30eh2"]
 [ext_resource type="Script" uid="uid://de5lk8gslesp0" path="res://Scripts/Victory menu.gd" id="1_hcj18"]
+[ext_resource type="AudioStream" uid="uid://bwjqphxigam7v" path="res://sounds/win.wav" id="2_dffxu"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_lqoqo"]
-[ext_resource type="Script" uid="uid://c77tqvtvjxiyi" path="res://Scripts/Button.gd" id="3_y1f2y"]
-[ext_resource type="AudioStream" uid="uid://cnvsxqk4pvf7y" path="res://sounds/Victory Sound.wav" id="4_r03k4"]
 
 [node name="Victory menu" type="CanvasLayer"]
 process_mode = 3
@@ -14,9 +13,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Victory music" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("4_r03k4")
+stream = ExtResource("2_dffxu")
 autoplay = true
-bus = &"FX"
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 15
@@ -28,21 +26,17 @@ theme = ExtResource("1_30eh2")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 process_mode = 3
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -958.0
-offset_top = -539.0
-offset_right = 955.0
-offset_bottom = -221.0
+offset_left = -956.5
+offset_right = 956.5
+offset_bottom = 318.0
 grow_horizontal = 2
-grow_vertical = 2
 theme = ExtResource("1_30eh2")
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer2"]
+[node name="level" type="Label" parent="VBoxContainer2"]
 process_mode = 3
 layout_mode = 2
 theme = ExtResource("1_30eh2")
@@ -75,10 +69,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -198.0
-offset_top = -167.0
-offset_right = 170.0
-offset_bottom = -47.0
+offset_left = -184.0
+offset_top = -120.0
+offset_right = 184.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("1_30eh2")
@@ -90,7 +83,6 @@ theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "next
 "
-script = ExtResource("3_y1f2y")
 
 [node name="back" type="Button" parent="VBoxContainer"]
 process_mode = 3
