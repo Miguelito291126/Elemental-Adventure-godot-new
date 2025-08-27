@@ -9,6 +9,9 @@ func _ready() -> void:
 	mainmenu.visible = true
 	onlinemenu.visible = false
 	
+	LoadGameData()
+
+func LoadGameData():
 	var config = ConfigFile.new()
 	var err = config.load("user://config.cfg")
 	
@@ -28,7 +31,7 @@ func _ready() -> void:
 		$"Options/Volume 2".value = music
 		$Options/CheckButton.button_pressed = fullscreen
 	else:
-		prints("NOOOOOOOOOOOOOOOOOOOOOO")
+		prints("No se pudo acceder a la carpeta")
 
 
 func _on_play_pressed() -> void:

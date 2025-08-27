@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dv7ykiameqafh"]
+[gd_scene load_steps=3 format=3 uid="uid://b5nu1ldhvpals"]
 
 [ext_resource type="Texture2D" uid="uid://d0vyuyjrt36u6" path="res://Sprites/box.png" id="1_xkb4e"]
 
@@ -6,11 +6,10 @@
 radius = 98.2497
 
 [node name="Box" type="RigidBody2D" groups=["box"]]
-scale = Vector2(0.3, 0.3)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1.90735e-06, 0.499999)
-scale = Vector2(1.8125, 1.85938)
+position = Vector2(0, -6.77626e-21)
+scale = Vector2(0.90625, 0.921878)
 texture = ExtResource("1_xkb4e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

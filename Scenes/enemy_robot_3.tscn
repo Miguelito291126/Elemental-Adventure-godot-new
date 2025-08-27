@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://ct3pfn4ke0vqa"]
+[gd_scene load_steps=14 format=3 uid="uid://bitq27tb3qfqp"]
 
-[ext_resource type="Script" uid="uid://dxslqpfeh70jp" path="res://Scripts/enemy_robot_3.gd" id="1_g8808"]
+[ext_resource type="Script" path="res://Scripts/enemy_robot_3.gd" id="1_g8808"]
 [ext_resource type="Texture2D" uid="uid://b75py0udg551" path="res://Sprites/robot 3.png" id="2_g8808"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="3_g8808"]
 

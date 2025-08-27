@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dr8mt8st0qcio"]
+[gd_scene load_steps=22 format=3 uid="uid://bochpsoi1xhxm"]
 
 [ext_resource type="Script" uid="uid://1ypqd8c7hah3" path="res://Scripts/enemy_robot2.gd" id="1_m4iiy"]
 [ext_resource type="Texture2D" uid="uid://byi62drl0vjcq" path="res://Sprites/robot 2 idle.png" id="2_76gyl"]

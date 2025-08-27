@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://u7njcteddj8f"]
+[gd_scene load_steps=53 format=3 uid="uid://bq1rdenjeiex2"]
 
 [ext_resource type="Script" uid="uid://bfgf08on50p5h" path="res://Scripts/enemy_boss.gd" id="1_i6t57"]
 [ext_resource type="Texture2D" uid="uid://b68ttwomdstg7" path="res://Sprites/enemigo3_attack.png" id="2_et47u"]

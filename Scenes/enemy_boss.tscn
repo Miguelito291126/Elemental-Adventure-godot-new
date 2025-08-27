@@ -363,7 +363,7 @@ texture = ExtResource("2_a0vro")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kpjsb")
-animation = &"attack slime orange"
+animation = &"idle slime green"
 autoplay = "idle slime green"
 
 [node name="bulletpos" type="Node2D" parent="."]

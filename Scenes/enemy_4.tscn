@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://dh8e34v84a0b"]
+[gd_scene load_steps=51 format=3 uid="uid://c8n8a7b5co0hs"]
 
 [ext_resource type="Script" uid="uid://crlfygg0huuya" path="res://Scripts/enemy.gd" id="1_cwrhc"]
 [ext_resource type="Texture2D" uid="uid://ckrpj8xtrjmc7" path="res://Sprites/enemigo4_attack.png" id="2_3yuwu"]

@@ -1,14 +1,14 @@
-[gd_scene load_steps=11 format=4 uid="uid://1bc00b1e3m2n"]
+[gd_scene load_steps=11 format=4 uid="uid://ddas1y8tyk3cm"]
 
-[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_vpjpy"]
-[ext_resource type="TileSet" uid="uid://bii3ytfu8xp1f" path="res://water_lava.tres" id="2_nlfqy"]
-[ext_resource type="TileSet" uid="uid://c4h164cv78rlk" path="res://Earth.tres" id="4_87fio"]
-[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="4_dxstc"]
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_vpjpy"]
+[ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="2_nlfqy"]
+[ext_resource type="TileSet" uid="uid://gue125hihv1w" path="res://Earth.tres" id="4_87fio"]
+[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="4_dxstc"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="4_nlfqy"]
-[ext_resource type="PackedScene" uid="uid://dv7ykiameqafh" path="res://Scenes/box.tscn" id="5_87fio"]
+[ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="5_87fio"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="6_87tnr"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="7_38lld"]
-[ext_resource type="PackedScene" uid="uid://dr8mt8st0qcio" path="res://Scenes/enemy_robot_2.tscn" id="8_nlfqy"]
+[ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="8_nlfqy"]
 [ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="9_dxstc"]
 
 [node name="level_6" type="Node2D"]
@@ -41,82 +41,82 @@ position = Vector2(2539, -53)
 [node name="spawner" type="Marker2D" parent="."]
 position = Vector2(-860, -74)
 
-[node name="qdq1sqsq" parent="." instance=ExtResource("6_87tnr")]
+[node name="qdq1sqsq" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(-749, -71)
 
-[node name="qxqs1s1qs" parent="." instance=ExtResource("6_87tnr")]
+[node name="qxqs1s1qs" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(-664, -76)
 
-[node name="2ede2de2ed2" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ede2de2ed2" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(-581, -76)
 
-[node name="2eddd2ed" parent="." instance=ExtResource("6_87tnr")]
+[node name="2eddd2ed" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(-484, -78)
 
-[node name="2ed2de2d" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ed2de2d" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(-374, -76)
 
-[node name="2ef2e2" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e2" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(-374, -76)
 
-[node name="2ef2e3" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e3" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(44, -22)
 
-[node name="2ef2e4" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e4" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(130, -26)
 
-[node name="2ef2e5" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e5" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(196, -17)
 
-[node name="2ef2e6" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e6" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(528, 2)
 
-[node name="2ef2e7" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e7" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(612, -4)
 
-[node name="2ef2e8" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e8" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(702, -6)
 
-[node name="2ef2e9" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e9" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(796, -2)
 
-[node name="2ef2e10" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e10" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(871, 2)
 
-[node name="2ef2e11" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e11" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(952, -7)
 
-[node name="2ef2e12" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e12" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1025, -7)
 
-[node name="2ef2e13" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e13" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1102, -7)
 
-[node name="2ef2e14" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e14" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1190, -7)
 
-[node name="2ef2e15" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e15" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1269, -7)
 
-[node name="2ef2e16" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e16" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1353, -7)
 
-[node name="2ef2e17" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e17" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1445, -5)
 
-[node name="2ef2e18" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e18" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1863, -3)
 
-[node name="2ef2e19" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e19" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(1942, -1)
 
-[node name="2ef2e20" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e20" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(2006, -5)
 
-[node name="2ef2e21" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e21" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(2068, -11)
 
-[node name="2ef2e22" parent="." instance=ExtResource("6_87tnr")]
+[node name="2ef2e22" parent="." groups=["persistent"] instance=ExtResource("6_87tnr")]
 position = Vector2(2430, -60)
 
 [node name="2ed2d22" parent="." instance=ExtResource("7_38lld")]
@@ -142,7 +142,7 @@ color = Color(1, 0.647059, 0, 1)
 color_str = "Orange"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://dr8mt8st0qcio", "uid://ct3pfn4ke0vqa", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
 spawn_path = NodePath("..")
 
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

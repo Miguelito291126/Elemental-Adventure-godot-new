@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=4 uid="uid://dgnbppy6meuyf"]
 
-[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_chwpn"]
-[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="3_chwpn"]
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_chwpn"]
+[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="3_chwpn"]
 [ext_resource type="PackedScene" uid="uid://cwvchbvugybq8" path="res://Scenes/water.tscn" id="3_wrinw"]
 [ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="7_32dsa"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="9_wrinw"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="10_af3po"]
-[ext_resource type="PackedScene" uid="uid://dr8mt8st0qcio" path="res://Scenes/enemy_robot_2.tscn" id="11_uy8f0"]
-[ext_resource type="PackedScene" uid="uid://dv7ykiameqafh" path="res://Scenes/box.tscn" id="12_uy8f0"]
-[ext_resource type="PackedScene" uid="uid://ct3pfn4ke0vqa" path="res://Scenes/enemy_robot_3.tscn" id="13_6r07y"]
+[ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="11_uy8f0"]
+[ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="12_uy8f0"]
+[ext_resource type="PackedScene" uid="uid://bitq27tb3qfqp" path="res://Scenes/enemy_robot_3.tscn" id="13_6r07y"]
 
 [node name="level_1" type="Node2D"]
 script = ExtResource("1_chwpn")
@@ -25,116 +25,116 @@ tile_map_data = PackedByteArray("AACi/yEAAQABAAAAAACi/yIAAQABAAAAAACi/yMAAQABAAA
 [node name="wqxqxq" parent="." instance=ExtResource("7_32dsa")]
 position = Vector2(817, 8)
 
-[node name="wdcdqcq" parent="." instance=ExtResource("9_wrinw")]
+[node name="wdcdqcq" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(64, -48)
 
-[node name="wcqcdwqcq" parent="." instance=ExtResource("9_wrinw")]
+[node name="wcqcdwqcq" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(127, -48)
 
-[node name="wcdqcqc" parent="." instance=ExtResource("9_wrinw")]
+[node name="wcdqcqc" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(185, -48)
 
-[node name="wdedcqcxqc" parent="." instance=ExtResource("9_wrinw")]
+[node name="wdedcqcxqc" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(243, -47)
 
-[node name="wdcdqcdwqc" parent="." instance=ExtResource("9_wrinw")]
+[node name="wdcdqcdwqc" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(304, -50)
 
-[node name="wcqcqcq" parent="." instance=ExtResource("9_wrinw")]
+[node name="wcqcqcq" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(361, -47)
 
-[node name="ecqceqcq" parent="." instance=ExtResource("9_wrinw")]
+[node name="ecqceqcq" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(418, -45)
 
-[node name="wewewewd" parent="." instance=ExtResource("9_wrinw")]
+[node name="wewewewd" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 visible = false
 position = Vector2(480, -48)
 
-[node name="fweweede" parent="." instance=ExtResource("9_wrinw")]
+[node name="fweweede" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(556, -50)
 
-[node name="wwwew" parent="." instance=ExtResource("9_wrinw")]
+[node name="wwwew" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(811, 21)
 
-[node name="uwchxqygq" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1053, -32)
 
-[node name="uwchxqygq2" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq2" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-315, -41)
 
-[node name="uwchxqygq3" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq3" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-390, -44)
 
-[node name="uwchxqygq4" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq4" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-461, -43)
 
-[node name="uwchxqygq5" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq5" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-555, -41)
 
-[node name="uwchxqygq6" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq6" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-625, -41)
 
-[node name="uwchxqygq7" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq7" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-742, -40)
 
-[node name="uwchxqygq8" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq8" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-680, -40)
 
-[node name="uwchxqygq9" parent="." instance=ExtResource("9_wrinw")]
+[node name="uwchxqygq9" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(-805, -42)
 
-[node name="coin12" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin12" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1121, -29)
 
-[node name="coin13" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin13" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1200, -50)
 
-[node name="coin14" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin14" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1264, -53)
 
-[node name="coin15" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin15" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1332, -57)
 
-[node name="coin16" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin16" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1411, -54)
 
-[node name="coin17" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin17" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1493, -53)
 
-[node name="coin18" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin18" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1567, -55)
 
-[node name="coin19" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin19" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1651, -56)
 
-[node name="coin20" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin20" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1724, -59)
 
-[node name="coin21" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin21" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1808, -58)
 
-[node name="coin22" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin22" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1887, -59)
 
-[node name="coin23" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin23" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1959, -100)
 
-[node name="coin24" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin24" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2025, -143)
 
-[node name="coin25" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin25" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2151, -206)
 
-[node name="coin26" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin26" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2281, -160)
 
-[node name="coin27" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin27" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2361, -100)
 
-[node name="coin28" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin28" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2416, -75)
 
-[node name="coin29" parent="." instance=ExtResource("9_wrinw")]
+[node name="coin29" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2478, -54)
 
 [node name="dwcwecwq" parent="." instance=ExtResource("10_af3po")]
@@ -162,7 +162,7 @@ position = Vector2(712, 178)
 position = Vector2(922, 176)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://dr8mt8st0qcio", "uid://ct3pfn4ke0vqa", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://belcwwwg3jp18")
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png")
 spawn_path = NodePath("..")
 
 [connection signal="despawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_despawned"]
