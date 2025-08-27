@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="7_21vo3"]
 [ext_resource type="PackedScene" uid="uid://db4l4jracsxy" path="res://Scenes/enemy_boss.tscn" id="7_q24p2"]
 
-[node name="level_6" type="Node2D"]
+[node name="level_12" type="Node2D"]
 script = ExtResource("1_328q6")
 
 [node name="Lava" type="TileMapLayer" parent="." groups=["terrain", "water"]]

@@ -1,16 +1,16 @@
 [gd_scene load_steps=10 format=4 uid="uid://cc85ld1v6buta"]
 
-[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_7q7hj"]
-[ext_resource type="TileSet" uid="uid://bii3ytfu8xp1f" path="res://water_lava.tres" id="2_mtsaw"]
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_7q7hj"]
+[ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="2_mtsaw"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="3_7l3i1"]
-[ext_resource type="TileSet" uid="uid://c4h164cv78rlk" path="res://Earth.tres" id="4_mc0rf"]
-[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="5_e7ax8"]
-[ext_resource type="PackedScene" uid="uid://dv7ykiameqafh" path="res://Scenes/box.tscn" id="6_wf0fn"]
+[ext_resource type="TileSet" uid="uid://gue125hihv1w" path="res://Earth.tres" id="4_mc0rf"]
+[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="5_e7ax8"]
+[ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="6_wf0fn"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="7_68ofl"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="8_mpr0q"]
 [ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="10_2coi2"]
 
-[node name="level_6" type="Node2D"]
+[node name="level_11" type="Node2D"]
 script = ExtResource("1_7q7hj")
 
 [node name="Lava" type="TileMapLayer" parent="." groups=["terrain", "water"]]
@@ -128,7 +128,7 @@ position = Vector2(429, -108)
 position = Vector2(1986, -149)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://dr8mt8st0qcio", "uid://ct3pfn4ke0vqa", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
 spawn_path = NodePath("..")
 
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

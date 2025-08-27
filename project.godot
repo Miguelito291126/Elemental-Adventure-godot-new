@@ -45,7 +45,7 @@ window/icon="uid://ckt0eppr5lntw"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/better-terrain/plugin.cfg")
+enabled=PackedStringArray("res://addons/virtual_joystick/plugin.cfg")
 
 [global_group]
 

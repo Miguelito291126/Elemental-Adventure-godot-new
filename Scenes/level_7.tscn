@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="8_nlfqy"]
 [ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="9_dxstc"]
 
-[node name="level_6" type="Node2D"]
+[node name="level_7" type="Node2D"]
 script = ExtResource("1_vpjpy")
 
 [node name="Lava" type="TileMapLayer" parent="." groups=["terrain", "water"]]
