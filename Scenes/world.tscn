@@ -12,12 +12,12 @@
 
 [sub_resource type="Environment" id="Environment_0fj1v"]
 
-[node name="World" type="TileMapLayer"]
+[node name="World" type="TileMapLayer" groups=["terrain"]]
 tile_set = ExtResource("1_5v1tr")
 script = ExtResource("1_fo5ed")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0, 0, 0, 1)
+color = Color(0.310617, 0.310617, 0.310617, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0fj1v")
@@ -25,7 +25,7 @@ environment = SubResource("Environment_0fj1v")
 [node name="Background" type="ParallaxBackground" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background"]
-color = Color(0.190762, 0.190762, 0.190762, 1)
+color = Color(0.310617, 0.310617, 0.310617, 1)
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="Background"]
 motion_scale = Vector2(0, 0)
@@ -82,7 +82,7 @@ centered = false
 visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background2"]
-color = Color(0.190762, 0.190762, 0.190762, 1)
+color = Color(0.310617, 0.310617, 0.310617, 1)
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="Background2"]
 motion_scale = Vector2(0, 0)
@@ -118,7 +118,7 @@ centered = false
 visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background3"]
-color = Color(0.190762, 0.190762, 0.190762, 1)
+color = Color(0.310617, 0.310617, 0.310617, 1)
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="Background3"]
 motion_scale = Vector2(0, 0)

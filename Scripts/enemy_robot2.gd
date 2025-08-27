@@ -27,15 +27,15 @@ extends CharacterBody2D
 @export var enemy_id: String
 @export var death = false
 
-var path = "user://data.cfg"
+const PATH := "user://data.cfg"
+const DATA_SECTION := "data"
+const ID_SECTION := "ID"
 
 func _ready() -> void:
 	animator.play("robot 2 walk")
 	
 	$PointLight2D.color = color
 	
-	LoadGameData()
-
 		
 @rpc("any_peer", "call_local")
 func damage(damage):
@@ -86,46 +86,20 @@ func start_invincibility():
 @rpc("any_peer", "call_local")
 func kill():
 	death = !death
-	SaveGameData()
+	GameController.SavePersistentNodes()
+	GameController.SaveGameData()
 	queue_free()
 	
 func SaveGameData():
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return 
-	
-	
-	var config = ConfigFile.new()
-
-	if config.load(path) != OK:
-		print("Creando archivo nuevo de enemigos...")
-	
-	# GUARDAR salud = 0 para indicar que está muerto
-	config.set_value("data3", enemy_id, death)
-	config.save(path)
-	
-
-func LoadGameData():
-	
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return
-
-	var config = ConfigFile.new()
-	if config.load(path) == OK:
-		if config.has_section_key("data2", name + "_ID"):
-			enemy_id = config.get_value("data2", name + "_ID")
-		else:
-			enemy_id = str(randi())
-			config.set_value("data2",  name + "_ID", enemy_id)
-			config.save(path)
-			
-	
-		if config.get_value("data3", enemy_id, false) == true:
-			if GameController.IsNetwork:
-				remove_enemy.rpc()
-			else:
-				remove_enemy()
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"death" : death,
+		"health" : health
+	}
+	return save_dict
 	
 @rpc("any_peer", "call_local")
 func remove_enemy():

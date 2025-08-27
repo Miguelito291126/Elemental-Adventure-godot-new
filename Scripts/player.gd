@@ -10,10 +10,11 @@ extends CharacterBody2D
 
 @export var damagecount = 1     # Contador de tiempo
 
-var is_invincible: bool = false
-var invincibility_time := 1.5  # segundos de invencibilidad
+@export var is_invincible: bool = false
+@export var invincibility_time := 1.5  # segundos de invencibilidad
 
-
+const PATH := "user://data.cfg"
+const DATA_SECTION := "Players"
 
 @onready var animator = $AnimatedSprite2D
 @onready var bulletspawn = $bulletpos/bulletspawn
@@ -32,45 +33,48 @@ var invincibility_time := 1.5  # segundos de invencibilidad
 @onready var energys = $Hud/Energys/Label
 @onready var points = $Hud/Points/Label
 
+@export var id: String
+
+@export var ball_color: Color = Color.WHITE
+@export var fireball: bool = false
+
 func _enter_tree() -> void:
 	if GameController.IsNetwork:
 		set_multiplayer_authority(name.to_int())
+	
+	RespawnPos()
 	
 func _ready() -> void:
 	if GameController.IsNetwork:
 		camera.enabled = is_multiplayer_authority()
 		camera.visible = is_multiplayer_authority()
 		hud.visible = is_multiplayer_authority()
-		
+	
+		if !is_multiplayer_authority():
+			return
+			
 		print("Multiplayer ID:", multiplayer.get_unique_id())
 		print("Node name:", name)
 		print("is_multiplayer_authority():", is_multiplayer_authority())
 	
-		if !is_multiplayer_authority():
-			return
-		
-		
 	GameController.playernode = self
-		
+	
 	if GameController.character == "fire":
 		light.color = Color.ORANGE
+		ball_color = Color.ORANGE
+		fireball = true
 	elif GameController.character == "water":
 		light.color = Color.WHITE
+		ball_color = Color.BLUE
+		fireball = false
 	elif GameController.character == "air":
 		light.color = Color.WHITE
+		ball_color = Color.DIM_GRAY
+		fireball = false
 	elif GameController.character == "earth":
 		light.color = Color.WHITE
-	
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return 
-	
-	# Solo cargar datos si no vienes desde el menú
-	if GameController.character != "":
-		var config = ConfigFile.new()
-		if config.load("user://data.cfg") == OK:
-			health = config.get_value("data", "health", 3)
-		
+		ball_color = Color.SADDLE_BROWN
+		fireball = false
 	
 func _process(delta: float) -> void:
 	if GameController.IsNetwork:
@@ -119,9 +123,9 @@ func _physics_process(delta):
 
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and shoot_timer <= 0:
-
 		if GameController.IsNetwork:
-			shoot.rpc(direction_to_mouse)  # Si está conectado en red
+			if is_multiplayer_authority():
+				shoot.rpc(direction_to_mouse)  # Si está conectado en red
 		else:
 			shoot(direction_to_mouse)
 
@@ -148,6 +152,9 @@ func damage(damage):
 		return
 		
 	health -= damage
+	
+	GameController.SavePersistentNodes()
+	GameController.SaveGameData()
 		
 	if health <= 0:
 		if GameController.IsNetwork:
@@ -160,19 +167,16 @@ func damage(damage):
 		else:
 			start_invincibility()
 	
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return 
-	
-	var config = ConfigFile.new()
-	var path = "user://data.cfg"
-	config.load(path)
-	if health > 0:
-		config.set_value("data", "health", health)
-		config.save(path)
-	
-	
 
+func SaveGameData():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"health" : health
+	}
+	return save_dict
 
 @rpc("any_peer", "call_local")
 func start_invincibility():
@@ -205,17 +209,8 @@ func start_invincibility():
 @rpc("any_peer", "call_local")
 func healting(count):
 	health += count
-
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return 
-	
-	var config = ConfigFile.new()
-	var path = "user://data.cfg"
-	config.load(path)
-	if health > 0:
-		config.set_value("data", "health", health)
-		config.save(path)
+	GameController.SavePersistentNodes()
+	GameController.SaveGameData()
 		
 
 @rpc("any_peer", "call_local")
@@ -225,25 +220,10 @@ func shoot(direction):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
-	
-	
-	if GameController.character == "fire":
-		bullet.modulate = Color.ORANGE
-		bullet.get_node("PointLight2D").enabled = true
-		bullet.get_node("PointLight2D").color = Color.ORANGE
-		bullet.get_node("Fire").visible = true
-	elif GameController.character == "water":
-		bullet.modulate = Color.BLUE
-		bullet.get_node("PointLight2D").enabled = false
-		bullet.get_node("Fire").visible = false
-	elif GameController.character == "air":
-		bullet.modulate = Color.DIM_GRAY
-		bullet.get_node("PointLight2D").enabled = false
-		bullet.get_node("Fire").visible = false
-	elif GameController.character == "earth":
-		bullet.modulate = Color.SADDLE_BROWN
-		bullet.get_node("PointLight2D").enabled = false
-		bullet.get_node("Fire").visible = false
+	bullet.modulate = ball_color
+	bullet.get_node("PointLight2D").enabled = fireball
+	bullet.get_node("PointLight2D").color = ball_color
+	bullet.get_node("Fire").visible = fireball
 	
 	get_parent().add_child(bullet, true)
 	
@@ -251,22 +231,20 @@ func shoot(direction):
 func game_over():
 	health = 3
 	
+	RespawnPos()
+	
+	GameController.SavePersistentNodes()
+	GameController.SaveGameData()
+	
 	if GameController.IsNetwork:
 		GameController.LoadGameOverMenu.rpc()
 	else:
 		GameController.LoadGameOverMenu()
 	
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return 
-
-	var config = ConfigFile.new()
-	var path = "user://data.cfg"
-	config.load(path)
-	if health > 0:
-		config.set_value("data", "health", health)
-		config.save(path)
-		
+	
+	
+func RespawnPos():
+	global_position = GameController.spawner.global_position
 
 
 func _on_texture_button_pressed() -> void:
@@ -306,6 +284,22 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			damage(damagecount)
 		
 	elif body.is_in_group("water"):
+		if GameController.character == "water":
+			return 
+			
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)
+	elif body.is_in_group("lava"):
+		if GameController.character == "fire":
+			return 
+			
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)
+	elif body.is_in_group("acid"):
 		if GameController.IsNetwork:
 			damage.rpc(3)
 		else:

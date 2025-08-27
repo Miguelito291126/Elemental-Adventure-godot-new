@@ -1,43 +1,41 @@
 extends CharacterBody2D
 
-@export var health = 10
-@export var damagecount = 3
+@export var health := 10
+@export var damagecount := 3
+@export var color: Color
+@export var enemy_id: String
+@export var death := false
 
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")
 @onready var bulletspawn = $bulletpos/bulletspawn
 @onready var bulletpos = $bulletpos
-@onready var shoot_timer = $Timer  # Asegúrate de poner el nombre correcto del Timer
-@export var color: Color
+@onready var shoot_timer = $Timer
 @onready var animator = $AnimatedSprite2D
 
 var is_invincible: bool = false
-var invincibility_time := 1.5  # segundos de invencibilidad
+var invincibility_time := 1.5
 
-@export var enemy_id: String
-@export var death = false
-
-var path = "user://data.cfg"
+const PATH := "user://data.cfg"
+const DATA_SECTION := "data"
+const ID_SECTION := "ID"
 
 func _ready() -> void:
-	if color == Color.RED:
-		if !animator.is_playing():
-			animator.play("robot Idle")
-	elif color == Color.BLUE:
-		if !animator.is_playing():
-			animator.play("robot 3 Idle")
-			
-	$PointLight2D.color = color
-		
-	LoadGameData()
+	# Animación inicial según color
+	if color == Color.RED and !animator.is_playing():
+		animator.play("robot Idle")
+	elif color == Color.BLUE and !animator.is_playing():
+		animator.play("robot 3 Idle")
 
-		
+	$PointLight2D.color = color
+
+
 @rpc("any_peer", "call_local")
-func damage(damage):
+func damage(damage: int):
 	if is_invincible:
 		return
-		
+
 	health -= damage
-	
+
 	if GameController.IsNetwork:
 		if health <= 0:
 			kill.rpc()
@@ -49,23 +47,14 @@ func damage(damage):
 		else:
 			start_invincibility()
 
+
 @rpc("any_peer", "call_local")
 func start_invincibility():
 	is_invincible = true
-	var blink_timer := Timer.new()
-	blink_timer.wait_time = invincibility_time
-	blink_timer.one_shot = true
-	add_child(blink_timer)
-	blink_timer.start()
-	
 	var blink_time := 0.1
-	var elapsed := 0.0
 	var total_time := 0.0
-
-	# Guardar el color original
 	var original_modulate := Color.WHITE
 
-	# Efecto de parpadeo rojo-blanco
 	while total_time < invincibility_time:
 		modulate = Color.RED
 		await get_tree().create_timer(blink_time).timeout
@@ -73,82 +62,60 @@ func start_invincibility():
 		await get_tree().create_timer(blink_time).timeout
 		total_time += blink_time * 2
 
-	# Restaurar color original y terminar invencibilidad
 	modulate = original_modulate
 	is_invincible = false
-	
+
+
 @rpc("any_peer", "call_local")
 func kill():
-	death = !death
-	SaveGameData()
+	if death:
+		return
+	death = true
+	GameController.SavePersistentNodes()
+	GameController.SaveGameData()
 	queue_free()
-	
+
+
 func SaveGameData():
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return 
-	
-	
-	var config = ConfigFile.new()
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"death" : death,
+		"health" : health
+	}
+	return save_dict
 
-	if config.load(path) != OK:
-		print("Creando archivo nuevo de enemigos...")
-	config.set_value("data3", enemy_id, death)
-	config.save(path)
-	
-
-func LoadGameData():
-	
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return
-
-	var config = ConfigFile.new()
-	if config.load(path) == OK:
-		if config.has_section_key("data2", name + "_ID"):
-			enemy_id = config.get_value("data2", name + "_ID")
-		else:
-			enemy_id = str(randi())
-			config.set_value("data2",  name + "_ID", enemy_id)
-			config.save(path)
-			
-	
-		if config.get_value("data3", enemy_id, false) == true:
-			if GameController.IsNetwork:
-				remove_enemy.rpc()
-			else:
-				remove_enemy()
-	
 @rpc("any_peer", "call_local")
 func remove_enemy():
 	queue_free()
-	
+
+
 func _process(delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player_pos = players[0].global_position
-		var direction_to_player = (player_pos - global_position).normalized()
-		bulletpos.look_at(player_pos)  # Esto sigue siendo útil para apuntar el cañón
-		
-		# Voltear el sprite horizontalmente según la posición del jugador
-		if player_pos.x < global_position.x:
-			animator.flip_h = false
-		else:
-			animator.flip_h = true
+		bulletpos.look_at(player_pos)
+
+		# Voltear sprite según la posición del jugador
+		animator.flip_h = player_pos.x >= global_position.x
+
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 		shoot_timer.start()
-		
+
+
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		shoot_timer.stop()
 
+
 func _on_shoot_timer_timeout() -> void:
-	if GameController.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return
+	if GameController.IsNetwork and !get_tree().get_multiplayer().is_server():
+		return
 
 	var players = get_tree().get_nodes_in_group("player")
 	var closest_player = null
@@ -167,25 +134,26 @@ func _on_shoot_timer_timeout() -> void:
 		if GameController.IsNetwork:
 			shoot.rpc(direction_to_player)
 		else:
-			shoot(direction_to_player)	
+			shoot(direction_to_player)
+
 
 @rpc("any_peer", "call_local")
-func shoot(direction):
+func shoot(direction: Vector2):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
 	bullet.modulate = color
 	bullet.get_node("PointLight2D").color = color
-	
 	get_parent().add_child(bullet, true)
+
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if !area.is_in_group("bullet"):
 		return
-	
+
 	if GameController.IsNetwork:
-		damage.rpc( damagecount )
+		damage.rpc(damagecount)
 	else:
-		damage( damagecount )
-	
+		damage(damagecount)
+
 	area.queue_free()

@@ -83,7 +83,7 @@ properties/8/path = NodePath(".:collected")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
-[node name="energy" type="RigidBody2D" groups=["coins"]]
+[node name="energy" type="RigidBody2D" groups=["Persistent", "coins"]]
 texture_filter = 1
 scale = Vector2(1.5, 1.5)
 mass = 0.01

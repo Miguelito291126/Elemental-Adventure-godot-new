@@ -6,8 +6,5 @@ extends Area2D
 func _physics_process(delta):
 	position += direction * speed * delta
 
-
-
 func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("terrain") or body.is_in_group("water"):
-		queue_free()
+	queue_free()

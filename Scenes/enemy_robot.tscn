@@ -74,7 +74,7 @@ properties/9/path = NodePath(".:visible")
 properties/9/spawn = true
 properties/9/replication_mode = 1
 
-[node name="enemy_robot" type="CharacterBody2D" groups=["enemy"]]
+[node name="enemy_robot" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 script = ExtResource("1_28r5x")
 color = Color(1, 0, 0, 1)
 

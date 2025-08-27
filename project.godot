@@ -52,6 +52,9 @@ checkpoint=""
 box=""
 hearth=""
 terrain=""
+Persistent=""
+lava=""
+acid=""
 
 [importer_defaults]
 
@@ -132,11 +135,14 @@ jump0={
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+pointing/emulate_mouse_from_touch=false
 
 [layer_names]
 
+2d_physics/layer_1="None"
 2d_physics/layer_2="Water"
 2d_physics/layer_3="Lava"
+2d_physics/layer_4="Acid"
 
 [network]
 

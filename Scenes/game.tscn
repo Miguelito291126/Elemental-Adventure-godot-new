@@ -6,9 +6,8 @@
 [node name="Game" type="Node"]
 script = ExtResource("1_qxrlw")
 
-[node name="Main Menu" parent="." instance=ExtResource("2_wrm1d")]
-
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://dgnbppy6meuyf", "uid://bfai4yqm7rnh", "uid://cjivau07npbmc", "uid://dxiv2q73v4qcn", "uid://bokgn8fl071nk", "uid://m4n8efgap2eg", "uid://1bc00b1e3m2n", "uid://k0ippog63vid", "uid://c1smw52xrug7l", "uid://b7j80p2kilemx", "uid://cc85ld1v6buta", "uid://camifbm2wnkh0", "uid://v8uq1u8p3nxj", "uid://bobb12psnciuk", "uid://dj5hoawm4c8hc", "uid://dpwro3crqbft3")
+_spawnable_scenes = PackedStringArray("uid://dgnbppy6meuyf", "uid://bfai4yqm7rnh", "uid://cjivau07npbmc", "uid://dxiv2q73v4qcn", "uid://bokgn8fl071nk", "uid://m4n8efgap2eg", "uid://1bc00b1e3m2n", "uid://k0ippog63vid", "uid://c1smw52xrug7l", "uid://b7j80p2kilemx", "uid://cc85ld1v6buta", "uid://camifbm2wnkh0", "uid://v8uq1u8p3nxj", "uid://bobb12psnciuk", "uid://dj5hoawm4c8hc", "uid://dpwro3crqbft3", "uid://4axbsf22xjs4", "uid://bve47u27lduc7", "uid://0v4dp4sabnmc", "uid://cffkbl7bqiq3n", "uid://b6pb370sxmi3o", "uid://bygkggnkold6f", "uid://cxia4tcgmgcd7", "uid://obspa6t16uas")
 spawn_path = NodePath("..")
-spawn_limit = 1
+
+[node name="Main Menu" parent="." instance=ExtResource("2_wrm1d")]

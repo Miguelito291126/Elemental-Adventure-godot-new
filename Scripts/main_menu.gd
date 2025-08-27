@@ -46,11 +46,10 @@ func _on_option_pressed() -> void:
 
 
 func _on_delete_data_pressed() -> void:
-	var config = ConfigFile.new()
-	config.clear()
-	config.save("user://config.cfg")
-	config.save("user://data.cfg")
+	
+	GameController.DeleteData()
 	get_tree().quit()
+	
 
 
 func _on_exit_pressed() -> void:

@@ -348,7 +348,7 @@ properties/12/path = NodePath(".:visible")
 properties/12/spawn = true
 properties/12/replication_mode = 1
 
-[node name="enemy" type="CharacterBody2D" groups=["enemy"]]
+[node name="enemy" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_skb27")
 move_speed = 30
@@ -360,7 +360,7 @@ shape = SubResource("RectangleShape2D_r0gqy")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_3q7bq")
-animation = &"attack slime blue"
+animation = &"idle slime green"
 autoplay = "idle slime green"
 
 [node name="left_floor" type="RayCast2D" parent="."]

@@ -68,7 +68,7 @@ height = 64.7923
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
 size = Vector2(40, 48)
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" groups=["Persistent", "player"]]
 script = ExtResource("1_peqvs")
 gravity = 500
 
@@ -185,7 +185,7 @@ texture = ExtResource("10_tx1dd")
 texture_scale = 3.93
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 5
+collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["player"]]
 shape = SubResource("RectangleShape2D_tx1dd")

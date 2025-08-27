@@ -39,7 +39,7 @@ properties/8/path = NodePath(".:collected")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
-[node name="hearth" type="RigidBody2D" groups=["hearth"]]
+[node name="hearth" type="RigidBody2D" groups=["Persistent", "hearth"]]
 scale = Vector2(1.5, 1.5)
 mass = 0.01
 freeze = true
