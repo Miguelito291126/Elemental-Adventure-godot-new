@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwc1sfhou3cy2"]
+
+[ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="1_nbwm5"]
+[ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="2_erykr"]
+
+[node name="Lava" type="TileMapLayer" groups=["lava", "terrain"]]
+use_parent_material = true
+tile_set = ExtResource("1_nbwm5")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(128.498, 0.501961, 0, 1)
+range_layer_min = -100
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("2_erykr")
+texture_scale = 35.65

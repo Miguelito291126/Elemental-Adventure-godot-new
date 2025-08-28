@@ -33,6 +33,11 @@ func LoadGameData():
 	else:
 		prints("No se pudo acceder a la carpeta")
 
+func SaveGameData():
+	var config = ConfigFile.new()
+	var err = config.load("user://config.cfg")
+	if err == OK:
+		config.save("user://config.cfg")
 
 func _on_play_pressed() -> void:
 	GameController.LoadCharacterMenu()

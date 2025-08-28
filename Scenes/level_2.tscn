@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=4 uid="uid://bfai4yqm7rnh"]
 
-[ext_resource type="Script" path="res://Scripts/level.gd" id="1_42uki"]
+[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_42uki"]
 [ext_resource type="PackedScene" uid="uid://cwvchbvugybq8" path="res://Scenes/water.tscn" id="2_uhnj4"]
-[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="3_42uki"]
+[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="3_42uki"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="9_e2piv"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="10_ijtdf"]
 [ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="11_c5xoi"]
@@ -42,43 +42,33 @@ position = Vector2(-471, -58)
 
 [node name="wcwdcwc7" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(-78, -66)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc8" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(33, -71)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc9" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(163, -76)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc10" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(297, -88)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc11" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(453, -95)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc12" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(602, -88)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc13" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(1373, -60)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc14" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(1512, -69)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc15" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(1656, -69)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc16" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(1807, -67)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc17" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(1920, -65)

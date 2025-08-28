@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dta6yivprfdbo"]
-
-[ext_resource type="Texture2D" uid="uid://c45gcdl5erpan" path="res://Sprites/linght.png" id="1_wbkij"]
-[ext_resource type="Script" path="res://Scripts/PointLight2D.gd" id="2_8g3v0"]
-
-[node name="PointLight2D" type="PointLight2D"]
-range_layer_min = -1
-texture = ExtResource("1_wbkij")
-script = ExtResource("2_8g3v0")

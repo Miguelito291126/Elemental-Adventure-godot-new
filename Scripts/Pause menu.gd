@@ -11,7 +11,10 @@ func _ready() -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-	
+		
+	LoadGameData()
+		
+func LoadGameData():
 	var config = ConfigFile.new()
 	var err = config.load("user://config.cfg")
 	
@@ -31,19 +34,22 @@ func _ready() -> void:
 		$"Options/Volume 2".value = music
 		$Options/CheckButton.button_pressed = fullscreen
 	else:
-		prints("NOOOOOOOOOOOOOOOOOOOOOO")
-
+		prints("No se pudo acceder a la carpeta")
+		
+func SaveGameData():
+	var config = ConfigFile.new()
+	var err = config.load("user://config.cfg")
+	if err == OK:
+		config.save("user://config.cfg")
+		
 func _on_save_pressed() -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 		
-		if !get_tree().get_multiplayer().is_server():
-			return 
-		
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	config.save("user://config.cfg")
+	GameController.SaveGameData()
+	GameController.SavePersistentNodes()
+	SaveGameData()
 
 
 func _on_reset_player_pressed() -> void:

@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=4 uid="uid://5061mwxmfyt8"]
 
-[ext_resource type="Script" path="res://Scripts/level.gd" id="1_vu5tt"]
+[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_vu5tt"]
 [ext_resource type="PackedScene" uid="uid://cwvchbvugybq8" path="res://Scenes/water.tscn" id="2_rkygx"]
-[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="4_fdnf0"]
+[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="4_fdnf0"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="5_xcj7k"]
 [ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="6_c1tev"]
 [ext_resource type="PackedScene" uid="uid://cltjysjtxmawp" path="res://Scenes/plataform.tscn" id="7_ncld5"]

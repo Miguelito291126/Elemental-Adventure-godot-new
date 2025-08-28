@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ijwg6534n1v"]
+
+[ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="1_lva6t"]
+
+[node name="Acid" type="TileMapLayer" groups=["acid", "terrain"]]
+tile_set = ExtResource("1_lva6t")

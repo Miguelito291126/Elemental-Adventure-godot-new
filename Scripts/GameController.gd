@@ -188,6 +188,7 @@ func SaveGameData():
 		config.set_value(DATA_SECTION, "Points", points)
 		config.set_value(DATA_SECTION, "Level", level)
 		config.save(PATH)
+	
 		
 func LoadGameData():
 	var config = ConfigFile.new()
@@ -197,7 +198,7 @@ func LoadGameData():
 		level = config.get_value(DATA_SECTION, "Level", level)
 		
 		
-func LoadPersistentNodes():	
+func LoadPersistentNodes():
 	if not FileAccess.file_exists(PATH_2):
 		return # Error! We don't have a save to load.
 

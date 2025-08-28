@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=13 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
-[ext_resource type="Texture2D" uid="uid://cl42pdns3y0ig" path="res://Sprites/Controls/shaded-light/shadedLight33.png" id="4_8erm5"]
 [ext_resource type="AudioStream" uid="uid://o1g3wo248f04" path="res://sounds/jump.wav" id="5_3smsa"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
 [ext_resource type="AudioStream" uid="uid://drr2wubpf40ds" path="res://sounds/laserShoot.wav" id="6_8erm5"]
@@ -145,11 +144,6 @@ offset_left = -136.0
 offset_bottom = 136.0
 grow_horizontal = 0
 theme = ExtResource("5_ns770")
-texture_normal = ExtResource("4_8erm5")
-texture_pressed = ExtResource("4_8erm5")
-texture_hover = ExtResource("4_8erm5")
-texture_disabled = ExtResource("4_8erm5")
-texture_focused = ExtResource("4_8erm5")
 stretch_mode = 0
 
 [node name="Pause menu" parent="." instance=ExtResource("9_aviom")]
