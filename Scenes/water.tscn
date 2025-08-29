@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwvchbvugybq8"]
 
-[ext_resource type="TileSet" uid="uid://bii3ytfu8xp1f" path="res://water_lava.tres" id="1_gf5bf"]
+[ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="1_gf5bf"]
 
 [node name="Water" type="TileMapLayer" groups=["terrain", "water"]]
 tile_set = ExtResource("1_gf5bf")

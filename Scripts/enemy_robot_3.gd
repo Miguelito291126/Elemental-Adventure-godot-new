@@ -15,10 +15,6 @@ extends CharacterBody2D
 var is_invincible: bool = false
 var invincibility_time := 1.5
 
-const PATH := "user://data.cfg"
-const DATA_SECTION := "data"
-const ID_SECTION := "ID"
-
 func _ready() -> void:
 	# Animación inicial según color
 	if color == Color.RED and !animator.is_playing():
@@ -148,12 +144,8 @@ func shoot(direction: Vector2):
 
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
-	if !area.is_in_group("bullet"):
-		return
-
-	if GameController.IsNetwork:
-		damage.rpc(damagecount)
-	else:
-		damage(damagecount)
-
-	area.queue_free()
+	if area.is_in_group("bullet"):
+		if GameController.IsNetwork:
+			damage.rpc(damagecount)
+		else:
+			damage(damagecount)

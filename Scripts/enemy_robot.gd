@@ -10,15 +10,11 @@ extends CharacterBody2D
 @export var color: Color
 @onready var animator = $AnimatedSprite2D
 
-@export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
+var is_invincible: bool = false
+var invincibility_time := 1.5  # segundos de invencibilidad
 
 @export var enemy_id: String
 @export var death = false
-
-const PATH := "user://data.cfg"
-const DATA_SECTION := "data"
-const ID_SECTION := "ID"
 
 func _ready() -> void:
 	$PointLight2D.color = color
@@ -156,18 +152,14 @@ func shoot(direction):
 	bullet.modulate = color
 	bullet.get_node("PointLight2D").color = color
 	
-	get_parent().add_child(bullet,true)
+	get_parent().add_child(bullet, true)
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
-	if !area.is_in_group("bullet"):
-		return
-	
-	if GameController.IsNetwork:
-		damage.rpc( damagecount )
-	else:
-		damage( damagecount )
-	
-	area.queue_free()
+	if area.is_in_group("bullet"):
+		if GameController.IsNetwork:
+			damage.rpc( damagecount )
+		else:
+			damage( damagecount )
 
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:

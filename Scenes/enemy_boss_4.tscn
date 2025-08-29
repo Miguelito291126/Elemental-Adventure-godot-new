@@ -16,8 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://b3ytnmjryof2p" path="res://Sprites/enemigo2.png" id="14_dqnsj"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="15_6kpai"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0gqy"]
-size = Vector2(32, 17.7778)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ctv7p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
 atlas = ExtResource("3_0lshv")
@@ -306,11 +305,11 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k370a"]
+size = Vector2(32.8889, 20)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_a0vro"]
 radius = 117.806
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_e7bbx"]
-radius = 10.9949
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e7bbx"]
 properties/0/path = NodePath(".:health")
@@ -354,8 +353,7 @@ color = Color(0, 0, 1, 1)
 color_str = "Blue"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2.11928e-07)
-shape = SubResource("RectangleShape2D_r0gqy")
+shape = SubResource("CircleShape2D_ctv7p")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 enabled = false
@@ -363,6 +361,7 @@ texture = ExtResource("2_k370a")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+position = Vector2(-2.55556, -2.66667)
 sprite_frames = SubResource("SpriteFrames_kpjsb")
 animation = &"walk slime blue"
 autoplay = "walk slime blue"
@@ -374,17 +373,16 @@ position = Vector2(23.1111, 0)
 
 [node name="Timer" type="Timer" parent="." groups=["enemy"]]
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-0.333336, 1.38889)
-shape = SubResource("CircleShape2D_a0vro")
-
 [node name="Area2D2" type="Area2D" parent="."]
 position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-shape = SubResource("CircleShape2D_e7bbx")
+shape = SubResource("RectangleShape2D_k370a")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_a0vro")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -29.3333
@@ -397,7 +395,7 @@ show_percentage = false
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_e7bbx")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]
 [connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

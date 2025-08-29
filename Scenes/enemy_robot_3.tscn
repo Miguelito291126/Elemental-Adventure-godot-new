@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://bitq27tb3qfqp"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_robot_3.gd" id="1_g8808"]
+[ext_resource type="Script" uid="uid://dxslqpfeh70jp" path="res://Scripts/enemy_robot_3.gd" id="1_g8808"]
 [ext_resource type="Texture2D" uid="uid://b75py0udg551" path="res://Sprites/robot 3.png" id="2_g8808"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="3_g8808"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0gqy"]
-size = Vector2(32, 24.5556)
+[sub_resource type="CircleShape2D" id="CircleShape2D_virmk"]
+radius = 13.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_virmk"]
 atlas = ExtResource("2_g8808")
@@ -50,11 +50,11 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iorok"]
+size = Vector2(27, 26)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_g8808"]
 radius = 416.308
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_virmk"]
-radius = 8.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g8808"]
 properties/0/path = NodePath(".:health")
@@ -93,7 +93,7 @@ script = ExtResource("1_g8808")
 color = Color(0, 0, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_r0gqy")
+shape = SubResource("CircleShape2D_virmk")
 
 [node name="bulletpos" type="Node2D" parent="."]
 
@@ -109,16 +109,17 @@ frame_progress = 0.842725
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_g8808")
-
 [node name="Area2D2" type="Area2D" parent="."]
 position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-shape = SubResource("CircleShape2D_virmk")
+position = Vector2(-0.500004, 3.8147e-06)
+shape = SubResource("RectangleShape2D_iorok")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_g8808")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(0, 0, 1, 1)
@@ -129,6 +130,6 @@ texture_scale = 0.5
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_g8808")
 
+[connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
-[connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]

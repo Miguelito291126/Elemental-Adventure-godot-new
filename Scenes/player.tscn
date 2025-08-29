@@ -1,8 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=13 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
-[ext_resource type="Texture2D" uid="uid://cl42pdns3y0ig" path="res://Sprites/Controls/shaded-light/shadedLight33.png" id="4_8erm5"]
+<<<<<<< HEAD
+[ext_resource type="Texture2D" uid="uid://cl42pdns3y0ig" path="res://Sprites/Controls/shaded-light/shadedLight33.png" id="4_tx1dd"]
+=======
+>>>>>>> 6e94f03dc24a937cd30a2887eb46788ea18584ea
 [ext_resource type="AudioStream" uid="uid://o1g3wo248f04" path="res://sounds/jump.wav" id="5_3smsa"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
 [ext_resource type="AudioStream" uid="uid://drr2wubpf40ds" path="res://sounds/laserShoot.wav" id="6_8erm5"]
@@ -60,6 +63,24 @@ properties/14/replication_mode = 1
 properties/15/path = NodePath("bulletpos/bulletspawn:scale")
 properties/15/spawn = true
 properties/15/replication_mode = 1
+properties/16/path = NodePath(".:ball_color")
+properties/16/spawn = true
+properties/16/replication_mode = 1
+properties/17/path = NodePath(".:fireball")
+properties/17/spawn = true
+properties/17/replication_mode = 1
+properties/18/path = NodePath(".:is_shotting")
+properties/18/spawn = true
+properties/18/replication_mode = 1
+properties/19/path = NodePath(".:invincibility_time")
+properties/19/spawn = true
+properties/19/replication_mode = 1
+properties/20/path = NodePath(".:is_invincible")
+properties/20/spawn = true
+properties/20/replication_mode = 1
+properties/21/path = NodePath(".:modulate")
+properties/21/spawn = true
+properties/21/replication_mode = 1
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dy66o"]
 radius = 29.7705
@@ -145,11 +166,11 @@ offset_left = -136.0
 offset_bottom = 136.0
 grow_horizontal = 0
 theme = ExtResource("5_ns770")
-texture_normal = ExtResource("4_8erm5")
-texture_pressed = ExtResource("4_8erm5")
-texture_hover = ExtResource("4_8erm5")
-texture_disabled = ExtResource("4_8erm5")
-texture_focused = ExtResource("4_8erm5")
+texture_normal = ExtResource("4_tx1dd")
+texture_pressed = ExtResource("4_tx1dd")
+texture_hover = ExtResource("4_tx1dd")
+texture_disabled = ExtResource("4_tx1dd")
+texture_focused = ExtResource("4_tx1dd")
 stretch_mode = 0
 
 [node name="Pause menu" parent="." instance=ExtResource("9_aviom")]
@@ -176,7 +197,6 @@ stream = ExtResource("21_ctvyi")
 bus = &"SFX"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(8, -16)
 scale = Vector2(0.195313, 0.1875)
 range_layer_min = -100
 shadow_enabled = true

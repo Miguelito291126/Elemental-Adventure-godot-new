@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bdu31bphhcnjv" path="res://Sprites/robot 2 walk.png" id="4_t7d7l"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="5_76gyl"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0gqy"]
-size = Vector2(32, 32)
+[sub_resource type="CircleShape2D" id="CircleShape2D_76gyl"]
+radius = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h7g77"]
 atlas = ExtResource("2_76gyl")
@@ -104,8 +104,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_76gyl"]
-radius = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vd66"]
+size = Vector2(32, 34)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1vd66"]
 radius = 193.494
@@ -153,8 +153,8 @@ script = ExtResource("1_m4iiy")
 color = Color(0, 1, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4.76837e-07)
-shape = SubResource("RectangleShape2D_r0gqy")
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_76gyl")
 
 [node name="bulletpos" type="Node2D" parent="."]
 
@@ -197,7 +197,8 @@ target_position = Vector2(0, 21.3333)
 position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-shape = SubResource("CircleShape2D_76gyl")
+position = Vector2(-2, 3.8147e-06)
+shape = SubResource("RectangleShape2D_1vd66")
 
 [node name="Area2D" type="Area2D" parent="."]
 

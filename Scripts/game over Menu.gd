@@ -2,10 +2,12 @@ extends CanvasLayer
 
 
 func return_to_menu():
+	GameController.DeletePersistentNodes()
 	GameController.LoadMainMenu()
 
 # Botón volver al menú
 func _on_back_pressed() -> void:
+	GameController.DeletePersistentNodes()
 	GameController.LoadMainMenu()
 
 # Botón volver al nivel actual

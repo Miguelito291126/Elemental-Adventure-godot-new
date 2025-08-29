@@ -33,12 +33,9 @@ func _exit_tree() -> void:
 	get_tree().get_multiplayer().peer_disconnected.disconnect(MultiplayerPlayerRemover)
 
 func MultiplayerPlayerSpawner(id: int = 1):
-
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1).timeout
 	
 	GameController.assign_element_to_player(id)
-	
-	await get_tree().create_timer(1).timeout
 	
 	var player = player.instantiate()
 	player.global_position = spawnpoint.global_position
@@ -67,6 +64,8 @@ func SingleplayerPlayerSpawner():
 	add_child(playerinstanciate)
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
+	await get_tree().create_timer(1).timeout
+	
 	if node.is_in_group("player"):
 		print("Spawn Jugador con id:", node.name)
 		node.global_position = spawnpoint.global_position
@@ -74,5 +73,7 @@ func _on_multiplayer_spawner_spawned(node: Node) -> void:
 
 
 func _on_multiplayer_spawner_despawned(node: Node) -> void:
+	await get_tree().create_timer(1).timeout
+	
 	print("Despawneando Nodo:", node.name)
 	node.queue_free()

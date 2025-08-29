@@ -8,9 +8,6 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.points)
 
 func _on_back_pressed() -> void:
-	if GameController.IsNetwork:
-		if get_tree().get_multiplayer().is_server():
-			GameController.LoadMainMenu.rpc()
-	else:
-		GameController.LoadMainMenu()
+	GameController.DeleteData()
+	get_tree().quit()
 	

@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://dgnbppy6meuyf"]
 
-[ext_resource type="Script" path="res://Scripts/level.gd" id="1_chwpn"]
-[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="3_chwpn"]
+[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_chwpn"]
+[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="3_chwpn"]
 [ext_resource type="PackedScene" uid="uid://cwvchbvugybq8" path="res://Scenes/water.tscn" id="3_wrinw"]
 [ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="7_32dsa"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="9_wrinw"]

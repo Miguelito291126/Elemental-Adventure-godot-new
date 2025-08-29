@@ -10,11 +10,8 @@ extends CharacterBody2D
 
 @export var damagecount = 1     # Contador de tiempo
 
-@export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
-
-const PATH := "user://data.cfg"
-const DATA_SECTION := "Players"
+var is_invincible: bool = false
+var invincibility_time := 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
 @onready var bulletspawn = $bulletpos/bulletspawn
@@ -37,6 +34,7 @@ const DATA_SECTION := "Players"
 
 @export var ball_color: Color = Color.WHITE
 @export var fireball: bool = false
+@export var is_shotting = false
 
 func _enter_tree() -> void:
 	if GameController.IsNetwork:
@@ -112,24 +110,19 @@ func _physics_process(delta):
 	if Input.is_key_pressed(KEY_SPACE) and is_on_floor():
 		velocity.y = jump_force
 		jumpsounds.play()
-		
-	shoot_timer -= delta  # Reducir el tiempo restante
 	
 	var mouse_pos = get_global_mouse_position()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
 	var radius = 20.0  # puedes ajustar esto a tu gusto
 	bulletpos.global_position = global_position + direction_to_mouse * radius
 	bulletpos.look_at(mouse_pos)
-
 	
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and shoot_timer <= 0:
+	if Input.is_action_just_pressed("Shoot0") and not is_shotting:
 		if GameController.IsNetwork:
 			if is_multiplayer_authority():
 				shoot.rpc(direction_to_mouse)  # Si está conectado en red
 		else:
 			shoot(direction_to_mouse)
-
-		shoot_timer = shoot_cooldown  # Reiniciar el tiempo entre disparos
 
 	# ANIMACIONES según estado
 	if !is_on_floor():
@@ -215,6 +208,8 @@ func healting(count):
 
 @rpc("any_peer", "call_local")
 func shoot(direction):
+	is_shotting = true
+	
 	shootsounds.play()
 	
 	var bullet = bulletscene.instantiate()
@@ -226,6 +221,10 @@ func shoot(direction):
 	bullet.get_node("Fire").visible = fireball
 	
 	get_parent().add_child(bullet, true)
+	
+	await get_tree().create_timer(1).timeout
+	
+	is_shotting = false
 	
 @rpc("any_peer", "call_local")
 func game_over():

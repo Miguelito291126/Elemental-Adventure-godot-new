@@ -11,6 +11,7 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
 
 func _on_back_pressed() -> void:
+	GameController.DeletePersistentNodes()
 	GameController.LoadMainMenu()
 
 func _on_next_pressed() -> void:

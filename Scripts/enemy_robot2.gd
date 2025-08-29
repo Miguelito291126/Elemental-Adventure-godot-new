@@ -14,8 +14,8 @@ extends CharacterBody2D
 @export var is_shooting := false
 
 
-@export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
+var is_invincible: bool = false
+var invincibility_time := 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
 @onready var left_floor_check = $left_floor
@@ -26,10 +26,6 @@ extends CharacterBody2D
 
 @export var enemy_id: String
 @export var death = false
-
-const PATH := "user://data.cfg"
-const DATA_SECTION := "data"
-const ID_SECTION := "ID"
 
 func _ready() -> void:
 	animator.play("robot 2 walk")
@@ -199,15 +195,11 @@ func shoot(direction):
 	get_parent().add_child(bullet, true)
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
-	if !area.is_in_group("bullet"):
-		return
-	
-	if GameController.IsNetwork:
-		damage.rpc( damagecount )
-	else:
-		damage( damagecount )
-	
-	area.queue_free()
+	if area.is_in_group("bullet"):
+		if GameController.IsNetwork:
+			damage.rpc( damagecount )
+		else:
+			damage( damagecount )
 
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:

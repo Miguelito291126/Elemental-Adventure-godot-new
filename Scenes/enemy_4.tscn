@@ -15,8 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://d0vm765cr4nxo" path="res://Sprites/enemigo1.png" id="11_htgaa"]
 [ext_resource type="Texture2D" uid="uid://b3ytnmjryof2p" path="res://Sprites/enemigo2.png" id="13_fi7as"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0gqy"]
-size = Vector2(38, 21)
+[sub_resource type="CircleShape2D" id="CircleShape2D_3yuwu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
 atlas = ExtResource("2_3yuwu")
@@ -305,7 +304,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_m4x7e"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lb24c"]
+size = Vector2(32, 20)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_m4x7e"]
 properties/0/path = NodePath(".:health")
@@ -356,7 +356,7 @@ color = Color(0, 0, 1, 1)
 color_str = "Blue"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_r0gqy")
+shape = SubResource("CircleShape2D_3yuwu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -390,7 +390,8 @@ texture_scale = 0.29
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_m4x7e")
+position = Vector2(-2, 0)
+shape = SubResource("RectangleShape2D_lb24c")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_m4x7e")

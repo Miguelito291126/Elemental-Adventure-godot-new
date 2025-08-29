@@ -6,6 +6,7 @@
 radius = 98.2497
 
 [node name="Box" type="RigidBody2D" groups=["box"]]
+mass = 0.1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -6.77626e-21)
