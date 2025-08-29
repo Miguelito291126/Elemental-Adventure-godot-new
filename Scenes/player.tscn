@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=14 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
@@ -79,9 +79,8 @@ properties/21/path = NodePath(".:modulate")
 properties/21/spawn = true
 properties/21/replication_mode = 1
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dy66o"]
-radius = 29.7705
-height = 64.7923
+[sub_resource type="CircleShape2D" id="CircleShape2D_tx1dd"]
+radius = 37.6252
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
 size = Vector2(40, 48)
@@ -96,7 +95,7 @@ visibility_update_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.537445, 0.540188)
-shape = SubResource("CapsuleShape2D_dy66o")
+shape = SubResource("CircleShape2D_tx1dd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
