@@ -2,11 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://d0vyuyjrt36u6" path="res://Sprites/box.png" id="1_xkb4e"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_k1qxo"]
-radius = 98.2497
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xkb4e"]
+size = Vector2(36, 38)
 
 [node name="Box" type="RigidBody2D" groups=["box"]]
-mass = 0.1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -6.77626e-21)
@@ -14,9 +13,5 @@ scale = Vector2(0.90625, 0.921878)
 texture = ExtResource("1_xkb4e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_k1qxo")
-
-[node name="Area2D" type="Area2D" parent="." groups=["box"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_k1qxo")
+position = Vector2(3, -2)
+shape = SubResource("RectangleShape2D_xkb4e")

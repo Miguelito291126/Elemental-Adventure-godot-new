@@ -72,15 +72,12 @@ position = Vector2(1807, -67)
 
 [node name="wcwdcwc17" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(1920, -65)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc18" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(2045, -60)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc19" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(2161, -60)
-scale = Vector2(2.25, 2.25)
 
 [node name="wcwdcwc5" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(-367, -64)

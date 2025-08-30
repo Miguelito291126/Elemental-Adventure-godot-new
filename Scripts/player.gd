@@ -285,7 +285,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("water"):
 		if GameController.character == "water":
 			return 
-			
+		
+		is_invincible = false
+		
 		if GameController.IsNetwork:
 			damage.rpc(3)
 		else:
@@ -293,13 +295,22 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("lava"):
 		if GameController.character == "fire":
 			return 
-			
+		
+		is_invincible = false
+		
 		if GameController.IsNetwork:
 			damage.rpc(3)
 		else:
 			damage(3)
 	elif body.is_in_group("acid"):
+		is_invincible = false
+		
 		if GameController.IsNetwork:
 			damage.rpc(3)
 		else:
 			damage(3)
+	elif body.is_in_group("box"):
+		if GameController.IsNetwork:
+			GameController.getlevel.rpc()
+		else:
+			GameController.getlevel()

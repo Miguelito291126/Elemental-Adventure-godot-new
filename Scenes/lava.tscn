@@ -1,16 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwc1sfhou3cy2"]
+[gd_scene load_steps=4 format=3 uid="uid://dwc1sfhou3cy2"]
 
+[ext_resource type="Shader" uid="uid://ck10xa1yodseb" path="res://scroll.gdshader" id="1_erykr"]
 [ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="1_nbwm5"]
-[ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="2_erykr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t7utp"]
+shader = ExtResource("1_erykr")
+shader_parameter/tiling = Vector2(1, 1)
+shader_parameter/offset = Vector2(1, 0)
 
 [node name="Lava" type="TileMapLayer" groups=["lava", "terrain"]]
-use_parent_material = true
+material = SubResource("ShaderMaterial_t7utp")
 tile_set = ExtResource("1_nbwm5")
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(128.498, 0.501961, 0, 1)
-range_layer_min = -100
-shadow_enabled = true
-shadow_filter = 1
-texture = ExtResource("2_erykr")
-texture_scale = 35.65

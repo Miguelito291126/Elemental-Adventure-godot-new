@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chda8y1tj8hby"
-path="res://.godot/imported/hearth.png-5dcb7034017ad6e75d3179a7cfcedd51.ctex"
+uid="uid://bqg21xlyq2hqs"
+path="res://.godot/imported/acid_texture.png-b19a48441a2aba3e50f212723fcf3faa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/hearth.png"
-dest_files=["res://.godot/imported/hearth.png-5dcb7034017ad6e75d3179a7cfcedd51.ctex"]
+source_file="res://Sprites/acid_texture.png"
+dest_files=["res://.godot/imported/acid_texture.png-b19a48441a2aba3e50f212723fcf3faa.ctex"]
 
 [params]
 

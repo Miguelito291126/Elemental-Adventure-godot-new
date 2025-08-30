@@ -6,10 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="4_41mww"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cm52s"]
-radius = 10.0885
+radius = 9.41098
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p13cf"]
-size = Vector2(36, 38)
+size = Vector2(36, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qupd5"]
 atlas = ExtResource("2_4imes")
@@ -85,22 +85,25 @@ properties/8/replication_mode = 1
 
 [node name="energy" type="RigidBody2D" groups=["Persistent", "coins"]]
 texture_filter = 1
-scale = Vector2(1.5, 1.5)
 mass = 0.01
 freeze = true
 script = ExtResource("1_pgc38")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2.02128, 2.2)
 shape = SubResource("CircleShape2D_cm52s")
 disabled = true
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -1)
+scale = Vector2(2.02128, 2.2)
 shape = SubResource("RectangleShape2D_p13cf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.513, 0.5)
+position = Vector2(-0.499998, -1.43051e-06)
+scale = Vector2(1.14063, 1.3125)
 sprite_frames = SubResource("SpriteFrames_2p67g")
 animation = &"Coin"
 autoplay = "Coin"
