@@ -13,13 +13,10 @@ config_version=5
 config/name="Elemental Adventure"
 run/main_scene="uid://ck6cqfxuu22vs"
 config/features=PackedStringArray("4.4", "Forward Plus")
-boot_splash/bg_color=Color(1, 0, 1, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-boot_splash/image="uid://ckt0eppr5lntw"
 config/icon="uid://ckt0eppr5lntw"
-boot_splash/minimum_display_time=7
 
 [autoload]
 
