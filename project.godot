@@ -38,9 +38,6 @@ window/size/viewport_height=1080
 window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 window/handheld/orientation=4
-window/show_image=false
-window/fullsize=false
-window/icon="uid://ckt0eppr5lntw"
 
 [editor_plugins]
 
@@ -144,22 +141,12 @@ Shoot0={
 ]
 }
 
-[input_devices]
-
-pointing/emulate_touch_from_mouse=true
-pointing/emulate_mouse_from_touch=false
-
 [layer_names]
 
 2d_physics/layer_1="None"
 2d_physics/layer_2="Water"
 2d_physics/layer_3="Lava"
 2d_physics/layer_4="Acid"
-
-[network]
-
-limits/tcp/connect_timeout_seconds=100
-limits/packet_peer_stream/max_buffer_po2=100
 
 [rendering]
 

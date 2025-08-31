@@ -8,13 +8,13 @@ func _enter_tree() -> void:
 		set_multiplayer_authority(get_parent().name.to_int())
 	
 func _ready() -> void:
-	if GameController.IsNetwork:
-		if !is_multiplayer_authority():
-			return
-		
 	LoadGameData()
 		
 func LoadGameData():
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+			
 	var config = ConfigFile.new()
 	var err = config.load("user://config.cfg")
 	
@@ -37,18 +37,23 @@ func LoadGameData():
 		prints("No se pudo acceder a la carpeta")
 		
 func SaveGameData():
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+			
 	var config = ConfigFile.new()
-	var err = config.load("user://config.cfg")
-	if err == OK:
-		config.save("user://config.cfg")
-		
+	config.load("user://config.cfg")
+	config.save("user://config.cfg")
+	
+	GameController.SaveGameData()
+	GameController.SavePersistentNodes()
+	
 func _on_save_pressed() -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 		
-	GameController.SaveGameData()
-	GameController.SavePersistentNodes()
+
 	SaveGameData()
 
 
@@ -57,8 +62,7 @@ func _on_reset_player_pressed() -> void:
 		if !is_multiplayer_authority():
 			return
 
-	get_parent().global_position = GameController.spawner.global_position
-		
+	get_parent().RespawnPos()
 	
 
 func _on_return_pressed() -> void:
@@ -72,9 +76,11 @@ func _on_back_pressed() -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-			
-	GameController.DeletePersistentNodes()
-	GameController.LoadMainMenu()
+		
+		get_tree().get_multiplayer().multiplayer_peer.close()
+	else:
+		GameController.DeletePersistentNodes()
+		GameController.LoadMainMenu()
 
 
 

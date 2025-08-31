@@ -4,6 +4,9 @@ extends CanvasLayer
 @onready var score = $VBoxContainer2/score
 @onready var level = $VBoxContainer2/level
 
+func _enter_tree() -> void:
+	if GameController.IsNetwork:
+		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())
 
 func _ready() -> void:
 	level.text = str("You completed: ",  GameController.level - 1)
@@ -11,8 +14,14 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
 
 func _on_back_pressed() -> void:
-	GameController.DeletePersistentNodes()
-	GameController.LoadMainMenu()
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+		
+		get_tree().get_multiplayer().multiplayer_peer.close()
+	else:
+		GameController.DeletePersistentNodes()
+		GameController.LoadMainMenu()
 
 func _on_next_pressed() -> void:
 	if GameController.IsNetwork:

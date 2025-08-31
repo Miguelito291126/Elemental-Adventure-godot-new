@@ -86,10 +86,8 @@ speed = 2.0
 [node name="enemy_boss" parent="." instance=ExtResource("8_b33os")]
 position = Vector2(981, -112)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
-
-[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 
 [editable path="World"]

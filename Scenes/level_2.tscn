@@ -126,10 +126,8 @@ position = Vector2(1188, 351)
 [node name="wee2d2d" parent="." instance=ExtResource("13_vcilj")]
 position = Vector2(2355, 353)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png")
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
-
-[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 
 [editable path="Water"]

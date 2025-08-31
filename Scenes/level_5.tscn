@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=4 uid="uid://6srdd7e5a15j"]
 
-[ext_resource type="Script" path="res://Scripts/level.gd" id="1_r8l1h"]
+[ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_r8l1h"]
 [ext_resource type="PackedScene" uid="uid://cwvchbvugybq8" path="res://Scenes/water.tscn" id="2_gfyxx"]
-[ext_resource type="PackedScene" path="res://Scenes/world.tscn" id="4_wyrn7"]
+[ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="4_wyrn7"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="5_fckru"]
 [ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="6_76uda"]
 [ext_resource type="PackedScene" uid="uid://cltjysjtxmawp" path="res://Scenes/plataform.tscn" id="7_pied6"]
@@ -113,10 +113,8 @@ position = Vector2(870, 277)
 [node name="2edd2de12" parent="." instance=ExtResource("9_0tt3y")]
 position = Vector2(1162, 269)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
-
-[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 
 [editable path="World"]

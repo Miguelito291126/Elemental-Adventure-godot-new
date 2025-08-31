@@ -51,9 +51,9 @@ func _ready() -> void:
 		if !is_multiplayer_authority():
 			return
 			
-		print("Multiplayer ID:", multiplayer.get_unique_id())
-		print("Node name:", name)
-		print("is_multiplayer_authority():", is_multiplayer_authority())
+		GameController.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
+		GameController.print_role("Node name:" + name)
+		GameController.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
 	
 	GameController.playernode = self
 	
@@ -243,7 +243,7 @@ func game_over():
 	
 	
 func RespawnPos():
-	global_position = GameController.spawner.global_position
+	global_position = GameController.SpawnPoint.global_position
 
 
 func _on_texture_button_pressed() -> void:

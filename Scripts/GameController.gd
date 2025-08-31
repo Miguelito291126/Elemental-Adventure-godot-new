@@ -13,13 +13,14 @@ extends Node
 @export var port = 4444
 @export var ip = "localhost"
 var IsNetwork = false
-var IsMaster = true
-var IsInLevel = false
 
 var nodegame: Node
 var levelnode: Node2D
-var spawner: Node2D
+var SpawnPoint: Node2D
+var Multiplayerspawner: Array
 var playernode: Node2D
+
+var player_scene = preload("res://Scenes/player.tscn")
 
 var multiplayerpeer : MultiplayerPeer = OfflineMultiplayerPeer.new()
 var node_group = "Persistent"
@@ -30,14 +31,23 @@ const DATA_SECTION := "Results"
 
 func _ready() -> void:
 	LoadGameData()
+
+func _exit_tree() -> void:
+	if get_tree().get_multiplayer().is_server():
+		get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
+		get_tree().get_multiplayer().connected_to_server.disconnect(MultiplayerConnectionServerSucess)
+		get_tree().get_multiplayer().connection_failed.disconnect(MultiplayerConnectionFailed)
+		get_tree().get_multiplayer().peer_connected.disconnect(MultiplayerPlayerSpawner)
+		get_tree().get_multiplayer().peer_disconnected.disconnect(MultiplayerPlayerRemover)
+
 	
 func get_level_str() -> String:
 	return "level_%d" % level
 	
 @rpc("any_peer", "call_local")
 func assign_element(element: String):
-	GameController.character = element
-	print("Se te asignó el personaje:", element)
+	character = element
+	print_role("Se te asignó el personaje:" + element)
 
 @rpc("authority", "call_local")
 func assign_element_to_player(peer_id: int):
@@ -45,7 +55,7 @@ func assign_element_to_player(peer_id: int):
 		return  # Ya tiene asignado
 	
 	if available_elements.is_empty():
-		print("No hay más elementos disponibles.")
+		print_role("No hay más elementos disponibles.")
 		return
 	
 	var element = available_elements.pop_front()
@@ -56,7 +66,7 @@ func assign_element_to_player(peer_id: int):
 func Remove_Element_Assigned(id: int) -> void:
 	if assigned_elements.has(id):
 		var element = assigned_elements[id]
-		print("Liberando personaje '%s' del jugador ID %d" % [element, id])
+		print_role("Liberando personaje '%s' del jugador ID %d" % [element, id])
 		
 		# Devuelve el personaje a la lista
 		if not available_elements.has(element):
@@ -109,12 +119,10 @@ func getlevel():
 	
 @rpc("any_peer", "call_local")
 func LoadGameOverMenu():
-	IsInLevel = false
 	load_scene_in_game_node("res://Scenes/game_over_menu.tscn")
 	
 @rpc("any_peer", "call_local")
 func LoadVictoryMenu():
-	IsInLevel = false
 	
 	DeletePersistentNodes()
 	
@@ -125,22 +133,14 @@ func LoadVictoryMenu():
 	
 @rpc("any_peer", "call_local")
 func LoadMainMenu():
-	if IsNetwork:
-		IsNetwork = false
-		IsMaster = true
-		multiplayerpeer.close()
-	
-	IsInLevel = false
 	load_scene_in_game_node("res://Scenes/main_menu.tscn")
 	
 @rpc("any_peer", "call_local")
 func LoadCharacterMenu():
-	IsInLevel = false
 	load_scene_in_game_node("res://Scenes/chose_character.tscn")
 	
 @rpc("any_peer", "call_local")
 func load_level_scene():
-	IsInLevel = true
 	var scene_path = "res://Scenes/%s.tscn" % get_level_str()
 	load_scene_in_game_node(scene_path)
 	
@@ -155,24 +155,91 @@ func load_scene_in_game_node(scene_path: String) -> void:
 	var scene = load(scene_path).instantiate()
 	nodegame.add_child(scene)
 	
+func print_role(msg: String):
+	var is_server = get_tree().get_multiplayer().is_server()
+	
+	if is_server:
+		# Azul
+		print_rich("[color=blue][Servidor] " + msg + "[/color]")
+	else:
+		# Amarillo
+		print_rich("[color=yellow][Cliente] " + msg + "[/color]")
+
+
+
 func Play_MultiplayerServer():
+	get_tree().get_multiplayer().server_disconnected.connect(MultiplayerServerDisconnected)
+	get_tree().get_multiplayer().connected_to_server.connect(MultiplayerConnectionServerSucess)
+	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
+	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
+	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
+	
 	IsNetwork = true
-	IsMaster = true
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	multiplayerpeer.create_server(port, 4)
 	get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
 	
-	if !get_tree().get_multiplayer().is_server():
-		return
-			
-	LoadCharacterMenu()
+	if get_tree().get_multiplayer().is_server():
+		LoadCharacterMenu()
 	
 func Play_MultiplayerClient():
+	get_tree().get_multiplayer().server_disconnected.connect(MultiplayerServerDisconnected)
+	get_tree().get_multiplayer().connected_to_server.connect(MultiplayerConnectionServerSucess)
+	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
+	
 	IsNetwork = true
-	IsMaster = false
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	multiplayerpeer.create_client(ip, port)
 	get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
+		
+func MultiplayerPlayerSpawner(id: int = 1):
+	assign_element_to_player(id)
+	
+	var player = player_scene.instantiate()
+	player.name = str(id)
+	player.id = player.name
+	
+	if levelnode and is_instance_valid(levelnode):
+		levelnode.add_child(player, true)
+		print_role("jugador Spawneado con el ID:" + str(id))
+	else:
+		print_role("jugador no Spawneado")
+	
+
+func MultiplayerPlayerRemover(id: int = 1):
+	Remove_Element_Assigned(id)
+	
+	var player = get_node_or_null(str(id))
+	if player and is_instance_valid(player):
+		player.queue_free()
+		print_role("Jugador removido con el ID:" + str(id))
+		
+
+func MultiplayerConnectionFailed():
+	print_role("Failed to connect to server")
+	if IsNetwork:
+		IsNetwork = false
+	
+	LoadMainMenu()
+	
+func MultiplayerConnectionServerSucess():
+	print_role("Connected to server")
+	
+func MultiplayerServerDisconnected():
+	print_role("Disconnecting from server...")
+	
+	if IsNetwork:
+		IsNetwork = false
+		
+	LoadMainMenu()
+
+func SingleplayerPlayerSpawner():
+	var player = player_scene.instantiate()
+	if levelnode and is_instance_valid(levelnode):
+		levelnode.add_child(player, true)
+		print_role("jugador Spawneado")
+	else:
+		print_role("jugador no Spawneado")
 	
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -182,11 +249,11 @@ func _notification(what):
 	
 func SaveGameData():
 	var config = ConfigFile.new()
-	if config.load(PATH) == OK:
-		config.set_value(DATA_SECTION, "Coins", energys)
-		config.set_value(DATA_SECTION, "Points", points)
-		config.set_value(DATA_SECTION, "Level", level)
-		config.save(PATH)
+	config.load(PATH)
+	config.set_value(DATA_SECTION, "Coins", energys)
+	config.set_value(DATA_SECTION, "Points", points)
+	config.set_value(DATA_SECTION, "Level", level)
+	config.save(PATH)
 	
 		
 func LoadGameData():
@@ -221,7 +288,7 @@ func LoadPersistentNodes():
 		# Check if there is any error while parsing the JSON string, skip in case of failure.
 		var parse_result = json.parse(json_string)
 		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			print_role("JSON Parse Error: " + json.get_error_message() + " in " + json_string + " at line " + json.get_error_line())
 			continue
 
 		# Get the data from the JSON object.
@@ -253,12 +320,12 @@ func SavePersistentNodes():
 	for node in save_nodes:
 		# Check the node is an instanced scene so it can be instanced again during load.
 		if node.scene_file_path.is_empty():
-			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			print_role("persistent node '%s' is not an instanced scene, skipped" % node.name)
 			continue
 
 		# Check the node has a save function.
 		if !node.has_method("SaveGameData"):
-			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			print_role("persistent node '%s' is missing a save() function, skipped" % node.name)
 			continue
 
 		# Call the node's save function.
@@ -266,7 +333,7 @@ func SavePersistentNodes():
 		
 		# ⛔ Evitar guardar nulos
 		if node_data == null:
-			print("Node '%s' returned null on SaveGameData(), skipped" % node.name)
+			print_role("Node '%s' returned null on SaveGameData(), skipped" % node.name)
 			continue
 			
 		# JSON provides a static method to serialized JSON string.

@@ -48,7 +48,6 @@ position = Vector2(361, -47)
 position = Vector2(418, -45)
 
 [node name="wewewewd" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
-visible = false
 position = Vector2(480, -48)
 
 [node name="fweweede" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
@@ -162,9 +161,6 @@ position = Vector2(712, 178)
 [node name="wededede2d2e" parent="." instance=ExtResource("13_6r07y")]
 position = Vector2(922, 176)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png")
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
-
-[connection signal="despawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_despawned"]
-[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

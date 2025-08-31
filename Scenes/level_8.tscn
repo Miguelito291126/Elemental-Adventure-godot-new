@@ -131,9 +131,7 @@ color = Color(1, 0.647059, 0, 1)
 color_str = "Orange"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://db4l4jracsxy", "uid://dygyux7f2ntky", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll")
+_spawnable_scenes = PackedStringArray("uid://da61af5kfk5ik", "uid://cwdknm16foa4n", "uid://byf6qwb0xl16c", "uid://c8n8a7b5co0hs", "uid://db4l4jracsxy", "uid://bq1rdenjeiex2", "uid://fde5lwllg0uj", "uid://c1y4x3g5dyj6b", "uid://dygyux7f2ntky", "uid://bochpsoi1xhxm", "uid://bitq27tb3qfqp", "uid://tonkdrpt1uk3", "uid://betdnk2m31png", "uid://u6equn2extll", "uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
-
-[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 
 [editable path="World"]
