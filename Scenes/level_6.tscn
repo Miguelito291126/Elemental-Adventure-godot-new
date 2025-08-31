@@ -10,13 +10,13 @@
 
 [sub_resource type="Curve2D" id="Curve2D_546p8"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 683, 28, 0, 0, 0, 0, -19, -2)
+"points": PackedVector2Array(0, 0, 0, 0, 689, 42, 0, 0, 0, 0, 99, 42)
 }
 point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_vu5tt"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1548, 37, 0, 0, 0, 0, 2351, -16)
+"points": PackedVector2Array(0, 0, 0, 0, 1466, -2, 0, 0, 0, 0, 2396, -46)
 }
 point_count = 2
 
@@ -80,6 +80,7 @@ curve = SubResource("Curve2D_546p8")
 speed = 2.0
 
 [node name="plataform2" parent="." instance=ExtResource("7_ncld5")]
+position = Vector2(18, 41)
 curve = SubResource("Curve2D_vu5tt")
 speed = 2.0
 

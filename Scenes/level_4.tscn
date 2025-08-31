@@ -13,15 +13,15 @@
 
 [sub_resource type="Curve2D" id="Curve2D_54c2w"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 677, 67, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 17, 16, 0, 0, 0, 0, 20, 432, 0, 0, 0, 0, 720, 435, 0, 0, 0, 0, 716, 17, 0, 0, 0, 0, 18, 17)
 }
-point_count = 2
+point_count = 5
 
 [sub_resource type="Curve2D" id="Curve2D_3v663"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -742, 67, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, -660, -31, 0, 0, 0, 0, -657, 408, 0, 0, 0, 0, 42, 408, 0, 0, 0, 0, 61, -30, 0, 0, 0, 0, -659, -31)
 }
-point_count = 2
+point_count = 5
 
 [node name="level_4" type="Node2D"]
 script = ExtResource("1_7huqf")
@@ -107,7 +107,7 @@ curve = SubResource("Curve2D_54c2w")
 speed = 2.0
 
 [node name="plataform2" parent="." instance=ExtResource("7_b8ytw")]
-position = Vector2(2325, 2)
+position = Vector2(2241, 19)
 curve = SubResource("Curve2D_3v663")
 speed = 2.0
 

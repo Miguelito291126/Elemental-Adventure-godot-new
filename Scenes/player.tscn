@@ -72,6 +72,12 @@ properties/18/replication_mode = 1
 properties/19/path = NodePath(".:modulate")
 properties/19/spawn = true
 properties/19/replication_mode = 1
+properties/20/path = NodePath(".:is_invincible")
+properties/20/spawn = true
+properties/20/replication_mode = 1
+properties/21/path = NodePath(".:invincibility_time")
+properties/21/spawn = true
+properties/21/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tx1dd"]
 radius = 29.9998

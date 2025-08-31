@@ -14,8 +14,8 @@ extends CharacterBody2D
 @export var is_shooting := false
 
 
-var is_invincible: bool = false
-var invincibility_time := 1.5  # segundos de invencibilidad
+@export var is_invincible: bool = false
+@export var invincibility_time := 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
 @onready var left_floor_check = $left_floor
@@ -96,28 +96,6 @@ func SaveGameData():
 		"health" : health
 	}
 	return save_dict
-	
-@rpc("any_peer", "call_local")
-func remove_enemy():
-	queue_free()
-			
-			
-	
-func _process(delta: float) -> void:
-	if !is_shooting:
-		return 
-
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player_pos = players[0].global_position
-		var direction_to_player = (player_pos - global_position).normalized()
-		bulletpos.look_at(player_pos)  # Esto sigue siendo útil para apuntar el cañón
-		
-		# Voltear el sprite horizontalmente según la posición del jugador
-		if player_pos.x < global_position.x:
-			animator.flip_h = false
-		else:
-			animator.flip_h = true
 	
 
 func  _physics_process(delta: float) -> void:
@@ -204,7 +182,23 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if body.is_in_group("water"):
+		is_invincible = false
+		
 		if GameController.IsNetwork:
-			damage.rpc( 100 )
+			damage.rpc(3)
 		else:
-			damage( 100 )
+			damage(3)
+	elif body.is_in_group("lava"):
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)
+	elif body.is_in_group("acid"):
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)

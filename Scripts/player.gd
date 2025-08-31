@@ -10,8 +10,8 @@ extends CharacterBody2D
 
 @export var damagecount = 1     # Contador de tiempo
 
-var is_invincible: bool = false
-var invincibility_time := 1.5  # segundos de invencibilidad
+@export var is_invincible: bool = false
+@export var invincibility_time := 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
 @onready var bulletspawn = $bulletpos/bulletspawn

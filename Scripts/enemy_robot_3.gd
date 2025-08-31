@@ -12,8 +12,8 @@ extends CharacterBody2D
 @onready var shoot_timer = $Timer
 @onready var animator = $AnimatedSprite2D
 
-var is_invincible: bool = false
-var invincibility_time := 1.5
+@export var is_invincible: bool = false
+@export var invincibility_time := 1.5
 
 func _ready() -> void:
 	# Animación inicial según color
@@ -83,10 +83,6 @@ func SaveGameData():
 	}
 	return save_dict
 
-@rpc("any_peer", "call_local")
-func remove_enemy():
-	queue_free()
-
 
 func _process(delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("player")
@@ -149,3 +145,27 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 			damage.rpc(damagecount)
 		else:
 			damage(damagecount)
+
+
+func _on_area_2d_2_body_entered(body: Node2D) -> void:
+	if body.is_in_group("water"):
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)
+	elif body.is_in_group("lava"):
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)
+	elif body.is_in_group("acid"):
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)

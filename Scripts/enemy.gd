@@ -17,8 +17,8 @@ extends CharacterBody2D
 @onready var right_floor_check = $right_floor
 @onready var right_wall_check = $right_wall
 
-var is_invincible: bool = false
-var invincibility_time := 1.5  # segundos de invencibilidad
+@export var is_invincible: bool = false
+@export var invincibility_time := 1.5  # segundos de invencibilidad
 @export var death = false
 
 func _ready() -> void:
@@ -122,10 +122,6 @@ func SaveGameData():
 	}
 	return save_dict
 	
-@rpc("any_peer", "call_local")
-func remove_enemy():
-	queue_free()
-	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
 		if GameController.IsNetwork:
@@ -134,9 +130,32 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			damage( damagecount )
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+
+func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if body.is_in_group("water"):
+		if color_str == "Blue":
+			return
+ 
+		is_invincible = false
+		
 		if GameController.IsNetwork:
-			damage.rpc( 100 )
+			damage.rpc(3)
 		else:
-			damage( 100 )
+			damage(3)
+	elif body.is_in_group("lava"):
+		if color_str == "Orange":
+			return
+		
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)
+	elif body.is_in_group("acid"):
+		is_invincible = false
+		
+		if GameController.IsNetwork:
+			damage.rpc(3)
+		else:
+			damage(3)

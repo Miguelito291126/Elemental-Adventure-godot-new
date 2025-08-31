@@ -12,7 +12,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_vcilj"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 7, -15, 0, 0, 0, 0, 1415, -54)
+"points": PackedVector2Array(0, 0, 0, 0, 2, -55, 0, 0, 0, 0, 1475, -54)
 }
 point_count = 2
 
@@ -88,7 +88,7 @@ curve = SubResource("Curve2D_vcilj")
 speed = 2.0
 
 [node name="plataform2" parent="." instance=ExtResource("12_2awvy")]
-position = Vector2(942, 43)
+position = Vector2(946, 9)
 curve = SubResource("Curve2D_53xsp")
 speed = 2.0
 
