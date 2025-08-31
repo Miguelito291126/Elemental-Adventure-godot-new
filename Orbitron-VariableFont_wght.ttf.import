@@ -3,12 +3,11 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://x1oxhft2stw1"
-path="res://.godot/imported/Orbitron-VariableFont_wght.ttf-0bb3180e2dd0a0be6594354bb30b210a.fontdata"
+valid=false
 
 [deps]
 
 source_file="res://Orbitron-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/Orbitron-VariableFont_wght.ttf-0bb3180e2dd0a0be6594354bb30b210a.fontdata"]
 
 [params]
 
