@@ -22,7 +22,7 @@ var playernode: Node2D
 
 var player_scene = preload("res://Scenes/player.tscn")
 
-var multiplayerpeer : MultiplayerPeer = OfflineMultiplayerPeer.new()
+var multiplayerpeer : ENetMultiplayerPeer
 var node_group = "Persistent"
 	
 const PATH := "user://data.cfg"
@@ -30,15 +30,20 @@ const PATH_2 := "user://data_state.cfg"
 const DATA_SECTION := "Results"
 
 func _ready() -> void:
+	get_tree().get_multiplayer().server_disconnected.connect(MultiplayerServerDisconnected)
+	get_tree().get_multiplayer().connected_to_server.connect(MultiplayerConnectionServerSucess)
+	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
+	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
+	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
+	
 	LoadGameData()
 
 func _exit_tree() -> void:
-	if get_tree().get_multiplayer().is_server():
-		get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
-		get_tree().get_multiplayer().connected_to_server.disconnect(MultiplayerConnectionServerSucess)
-		get_tree().get_multiplayer().connection_failed.disconnect(MultiplayerConnectionFailed)
-		get_tree().get_multiplayer().peer_connected.disconnect(MultiplayerPlayerSpawner)
-		get_tree().get_multiplayer().peer_disconnected.disconnect(MultiplayerPlayerRemover)
+	get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
+	get_tree().get_multiplayer().connected_to_server.disconnect(MultiplayerConnectionServerSucess)
+	get_tree().get_multiplayer().connection_failed.disconnect(MultiplayerConnectionFailed)
+	get_tree().get_multiplayer().peer_connected.disconnect(MultiplayerPlayerSpawner)
+	get_tree().get_multiplayer().peer_disconnected.disconnect(MultiplayerPlayerRemover)
 
 	
 func get_level_str() -> String:
@@ -143,17 +148,28 @@ func LoadCharacterMenu():
 func load_level_scene():
 	var scene_path = "res://Scenes/%s.tscn" % get_level_str()
 	load_scene_in_game_node(scene_path)
-	
+
+@rpc("any_peer", "call_local")	
 func load_scene_in_game_node(scene_path: String) -> void:
 	# Solo elimina nodos con nombre que empieza por 'level_' o que coincidan con el nombre de la escena
 	for child in nodegame.get_children():
-		if child.name == "MultiplayerSpawner":
+		if child.name == "LevelSpawner" or child.name == "MultiplayerSpawner":
 			continue  # <- en lugar de return
 		
 		child.queue_free()
 	
 	var scene = load(scene_path).instantiate()
 	nodegame.add_child(scene)
+
+@rpc("any_peer", "call_local")
+func unload_scene_in_game_node() -> void:
+	# Solo elimina nodos con nombre que empieza por 'level_' o que coincidan con el nombre de la escena
+	for child in nodegame.get_children():
+		if child.name == "LevelSpawner" or child.name == "MultiplayerSpawner":
+			continue  # <- en lugar de return
+		
+		child.queue_free()
+	
 	
 func print_role(msg: String):
 	var is_server = get_tree().get_multiplayer().is_server()
@@ -168,12 +184,6 @@ func print_role(msg: String):
 
 
 func Play_MultiplayerServer():
-	get_tree().get_multiplayer().server_disconnected.connect(MultiplayerServerDisconnected)
-	get_tree().get_multiplayer().connected_to_server.connect(MultiplayerConnectionServerSucess)
-	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
-	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
-	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
-	
 	IsNetwork = true
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	multiplayerpeer.create_server(port, 4)
@@ -183,16 +193,17 @@ func Play_MultiplayerServer():
 		LoadCharacterMenu()
 	
 func Play_MultiplayerClient():
-	get_tree().get_multiplayer().server_disconnected.connect(MultiplayerServerDisconnected)
-	get_tree().get_multiplayer().connected_to_server.connect(MultiplayerConnectionServerSucess)
-	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
-	
 	IsNetwork = true
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	multiplayerpeer.create_client(ip, port)
 	get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
-		
+
 func MultiplayerPlayerSpawner(id: int = 1):
+
+	if not get_tree().get_multiplayer().is_server():
+		return
+	
+
 	assign_element_to_player(id)
 	
 	var player = player_scene.instantiate()
@@ -207,6 +218,9 @@ func MultiplayerPlayerSpawner(id: int = 1):
 	
 
 func MultiplayerPlayerRemover(id: int = 1):
+	if not get_tree().get_multiplayer().is_server():
+		return
+	
 	Remove_Element_Assigned(id)
 	
 	var player = get_node_or_null(str(id))

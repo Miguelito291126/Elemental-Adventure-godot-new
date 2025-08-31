@@ -12,6 +12,9 @@ func _ready() -> void:
 
 	if GameController.IsNetwork :
 		if get_tree().get_multiplayer().is_server():
+			for id in get_tree().get_multiplayer().get_peers():
+				GameController.MultiplayerPlayerSpawner(id)
+			
 			if not OS.has_feature("dedicated_server"):
 				GameController.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
 	else:

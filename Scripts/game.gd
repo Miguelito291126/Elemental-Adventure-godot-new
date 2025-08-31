@@ -1,7 +1,7 @@
 extends Node
 
-@onready var Multiplayerspawner = $MultiplayerSpawner
+@onready var LevelSpawner = $LevelSpawner
 
 func _ready() -> void:
 	GameController.nodegame = self
-	GameController.Multiplayerspawner.append(Multiplayerspawner)
+	GameController.Multiplayerspawner.append(LevelSpawner)

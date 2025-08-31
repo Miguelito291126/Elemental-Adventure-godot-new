@@ -6,8 +6,8 @@
 [node name="Game" type="Node"]
 script = ExtResource("1_qxrlw")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://dgnbppy6meuyf", "uid://bfai4yqm7rnh", "uid://dgjpb24htvrg0", "uid://dxiv2q73v4qcn", "uid://6srdd7e5a15j", "uid://v8uq1u8p3nxj", "uid://bobb12psnciuk", "uid://dj5hoawm4c8hc", "uid://dpwro3crqbft3")
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://dgnbppy6meuyf", "uid://bfai4yqm7rnh", "uid://dgjpb24htvrg0", "uid://dxiv2q73v4qcn", "uid://6srdd7e5a15j", "uid://5061mwxmfyt8", "uid://ddas1y8tyk3cm", "uid://ddq77y27v6hci", "uid://cfjjhunslhggq", "uid://vqdbhus3vyb0", "uid://cc85ld1v6buta", "uid://camifbm2wnkh0")
 spawn_path = NodePath("..")
 
 [node name="Main Menu" parent="." instance=ExtResource("2_wrm1d")]
