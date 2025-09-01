@@ -112,13 +112,19 @@ func _physics_process(delta):
 		# Movimiento lateral
 		velocity.x = direction.x * speed
 
-	shoot()
-	Jump()
 	Wall(delta)
 	Animations(direction)
 	flip(direction)
 
 	move_and_slide()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("jump0"):
+		Jump()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Shoot0") and not is_shotting:
+		shoot()
 
 func shoot():
 	var mouse_pos = get_global_mouse_position()
@@ -126,35 +132,33 @@ func shoot():
 	var radius = 20.0  # puedes ajustar esto a tu gusto
 	bulletpos.global_position = global_position + direction_to_mouse * radius
 	bulletpos.look_at(mouse_pos)
-	
-	if Input.is_action_just_pressed("Shoot0") and not is_shotting:
-		if GameController.IsNetwork:
-			if is_multiplayer_authority():
-				shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
-		else:
-			shoot_rpc(direction_to_mouse)
+
+	if GameController.IsNetwork:
+		if is_multiplayer_authority():
+			shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
+	else:
+		shoot_rpc(direction_to_mouse)
 
 func Jump():
-	# Saltar (solo si está en el suelo)
-	if Input.is_action_just_pressed("jump0"):
-		if is_on_floor() and !is_in_water_or_lava:
-			velocity.y = jump_force
+
+	if is_on_floor() and !is_in_water_or_lava:
+		velocity.y = jump_force
+		jumpsounds.play()
+	elif is_in_water_or_lava:
+		# Impulso hacia arriba estilo brazada
+		velocity.y = -speed * 0.8
+	elif Input.is_action_pressed("ui_right") and is_on_wall():
+		velocity.y = jump_force
+		velocity.x = -jump_wall_force
+
+		if not is_in_water_or_lava:
 			jumpsounds.play()
-		elif is_in_water_or_lava:
-			# Impulso hacia arriba estilo brazada
-			velocity.y = -speed * 0.8
-		elif Input.is_action_pressed("ui_right") and is_on_wall():
-			velocity.y = jump_force
-			velocity.x = -jump_wall_force
+	elif Input.is_action_pressed("ui_left") and is_on_wall():
+		velocity.y = jump_force
+		velocity.x = jump_wall_force
 
-			if not is_in_water_or_lava:
-				jumpsounds.play()
-		elif Input.is_action_pressed("ui_left") and is_on_wall():
-			velocity.y = jump_force
-			velocity.x = jump_wall_force
-
-			if not is_in_water_or_lava:
-				jumpsounds.play()
+		if not is_in_water_or_lava:
+			jumpsounds.play()
 
 
 func Wall(delta: float):

@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dj5hoawm4c8hc"]
+[gd_scene load_steps=4 format=3 uid="uid://dj5hoawm4c8hc"]
 
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_chnvv"]
 [ext_resource type="Script" uid="uid://cxw8khmyf2wub" path="res://Scripts/Super victory screen.gd" id="1_x1h5b"]
-[ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_6pc16"]
 [ext_resource type="AudioStream" uid="uid://bwjqphxigam7v" path="res://sounds/win.wav" id="2_6qwlf"]
 
 [node name="Super Victory menu" type="CanvasLayer"]
@@ -77,29 +76,17 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -184.0
-offset_top = -98.0
+offset_top = -59.0
 offset_right = 184.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("1_chnvv")
+alignment = 1
 
 [node name="back" type="Button" parent="VBoxContainer"]
 process_mode = 3
 layout_mode = 2
 theme = ExtResource("1_chnvv")
 text = "Exit"
-
-[node name="Credits" type="Label" parent="."]
-process_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -24.0
-offset_right = 456.0
-grow_vertical = 0
-theme = ExtResource("1_chnvv")
-theme_override_fonts/font = ExtResource("2_6pc16")
-theme_override_font_sizes/font_size = 24
-text = "make by Michael2911"
 
 [connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]

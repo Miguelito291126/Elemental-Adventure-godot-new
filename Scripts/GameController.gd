@@ -1,5 +1,7 @@
 extends Node
 
+@export var version = 8
+
 @export var level = 1
 @export var points = 0
 @export var energys = 0

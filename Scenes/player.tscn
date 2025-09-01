@@ -208,5 +208,3 @@ shape = SubResource("RectangleShape2D_tx1dd")
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
-
-[editable path="Pause menu"]

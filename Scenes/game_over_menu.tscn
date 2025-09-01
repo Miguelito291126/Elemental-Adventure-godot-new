@@ -71,18 +71,5 @@ theme = ExtResource("1_56oo4")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Back"
 
-[node name="Credits" type="Label" parent="."]
-process_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -24.0
-offset_right = 456.0
-grow_vertical = 0
-size_flags_horizontal = 0
-theme = ExtResource("1_56oo4")
-theme_override_font_sizes/font_size = 24
-text = "make by Michael2911"
-
 [connection signal="pressed" from="VBoxContainer/return" to="." method="_on_return_pressed"]
 [connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]

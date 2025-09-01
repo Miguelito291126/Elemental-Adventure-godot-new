@@ -3,12 +3,15 @@ extends CanvasLayer
 @onready var mainmenu = $"main menu"
 @onready var optionsmenu = $Options
 @onready var onlinemenu = $Multiplayer
+@onready var Version = $Version
 
 func _ready() -> void:
 	optionsmenu.visible = false
 	mainmenu.visible = true
 	onlinemenu.visible = false
-	
+
+	Version.text = "V" + str(GameController.version)
+
 	LoadGameData()
 
 func LoadGameData():

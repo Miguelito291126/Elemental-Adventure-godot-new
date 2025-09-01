@@ -18,19 +18,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4wsq5")
 
-[node name="Credits" type="Label" parent="."]
-process_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -24.0
-offset_right = 456.0
-grow_vertical = 0
-theme = ExtResource("1_4wsq5")
-theme_override_fonts/font = ExtResource("2_8qk3t")
-theme_override_font_sizes/font_size = 24
-text = "make by Michael2911"
-
 [node name="Title" type="Label" parent="."]
 process_mode = 3
 anchors_preset = 5
