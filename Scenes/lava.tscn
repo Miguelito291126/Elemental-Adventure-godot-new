@@ -1,13 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwc1sfhou3cy2"]
+[gd_scene load_steps=2 format=3 uid="uid://dwc1sfhou3cy2"]
 
-[ext_resource type="Shader" uid="uid://ck10xa1yodseb" path="res://scroll.gdshader" id="1_erykr"]
 [ext_resource type="TileSet" uid="uid://dks7etr01h6r7" path="res://water_lava.tres" id="1_nbwm5"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t7utp"]
-shader = ExtResource("1_erykr")
-shader_parameter/tiling = Vector2(1, 1)
-shader_parameter/offset = Vector2(1, 0)
-
 [node name="Lava" type="TileMapLayer" groups=["lava", "terrain"]]
-material = SubResource("ShaderMaterial_t7utp")
 tile_set = ExtResource("1_nbwm5")

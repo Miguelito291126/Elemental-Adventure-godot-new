@@ -104,6 +104,63 @@ position = Vector2(1493, -53)
 [node name="coin18" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1567, -55)
 
+[node name="coin36" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(-118, 262)
+
+[node name="coin37" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(48, 275)
+
+[node name="coin38" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(246, 266)
+
+[node name="coin39" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(372, 266)
+
+[node name="coin40" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(472, 269)
+
+[node name="coin41" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(632, 266)
+
+[node name="coin42" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(776, 263)
+
+[node name="coin43" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(949, 263)
+
+[node name="coin44" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(943, 1217)
+
+[node name="coin45" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(802, 1220)
+
+[node name="coin46" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(633, 1214)
+
+[node name="coin47" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(454, 1217)
+
+[node name="coin48" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(281, 1214)
+
+[node name="coin49" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(102, 1214)
+
+[node name="coin50" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(-58, 1217)
+
+[node name="coin51" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(-174, 1223)
+
+[node name="coin52" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(1980, 1154)
+
+[node name="coin53" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(2108, 1151)
+
+[node name="coin54" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(2236, 1154)
+
 [node name="coin19" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1651, -56)
 
@@ -119,10 +176,22 @@ position = Vector2(1887, -59)
 [node name="coin23" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(1959, -100)
 
+[node name="coin33" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(1992, 256)
+
+[node name="coin34" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(2240, 248)
+
+[node name="coin35" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(2120, 244)
+
 [node name="coin24" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2025, -143)
 
 [node name="coin25" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
+position = Vector2(2151, -206)
+
+[node name="coin32" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
 position = Vector2(2151, -206)
 
 [node name="coin30" parent="." groups=["persistent"] instance=ExtResource("9_wrinw")]
@@ -160,6 +229,21 @@ position = Vector2(268, 178)
 
 [node name="dqdqdqd" parent="." instance=ExtResource("13_6r07y")]
 position = Vector2(48, 176)
+
+[node name="dqdqdqd2" parent="." instance=ExtResource("13_6r07y")]
+position = Vector2(385, 180)
+
+[node name="dqdqdqd3" parent="." instance=ExtResource("13_6r07y")]
+position = Vector2(537, 180)
+
+[node name="dqdqdqd4" parent="." instance=ExtResource("13_6r07y")]
+position = Vector2(1966, 174)
+
+[node name="dqdqdqd5" parent="." instance=ExtResource("13_6r07y")]
+position = Vector2(2114, 171)
+
+[node name="dqdqdqd6" parent="." instance=ExtResource("13_6r07y")]
+position = Vector2(2248, 171)
 
 [node name="2ede22edde22ed" parent="." instance=ExtResource("13_6r07y")]
 position = Vector2(712, 178)

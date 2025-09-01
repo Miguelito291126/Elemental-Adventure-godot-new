@@ -14,6 +14,7 @@ extends CharacterBody2D
 
 @export var is_invincible: bool = false
 @export var invincibility_time := 1.5
+@export var gravity = 900
 
 func _ready() -> void:
 	# Animación inicial según color
@@ -84,7 +85,7 @@ func SaveGameData():
 	return save_dict
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player_pos = players[0].global_position
@@ -93,6 +94,8 @@ func _process(delta: float) -> void:
 		# Voltear sprite según la posición del jugador
 		animator.flip_h = player_pos.x >= global_position.x
 
+func _physics_process(delta: float) -> void:
+	velocity.y += gravity * delta
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -149,12 +152,7 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if body.is_in_group("water"):
-		is_invincible = false
-		
-		if GameController.IsNetwork:
-			damage.rpc(3)
-		else:
-			damage(3)
+		gravity *= -1
 	elif body.is_in_group("lava"):
 		is_invincible = false
 		
@@ -169,3 +167,8 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 			damage.rpc(3)
 		else:
 			damage(3)
+
+
+func _on_area_2d_2_body_exited(body:Node2D) -> void:
+	if body.is_in_group("water"):
+		gravity *= -1

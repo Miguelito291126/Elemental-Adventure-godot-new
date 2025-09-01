@@ -4,7 +4,7 @@ extends TileMapLayer
 @onready var lava = $Background2
 @onready var desert = $Background3
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if GameController.level >= 1 and  GameController.level <= 6:
 		lava.visible = false
 		desert.visible = false

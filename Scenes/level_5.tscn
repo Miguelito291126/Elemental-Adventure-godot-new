@@ -76,8 +76,74 @@ position = Vector2(1470, 370)
 [node name="2d1d2ds16" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
 position = Vector2(718, 374)
 
+[node name="2d1d2ds19" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(-189, 673)
+
+[node name="2d1d2ds20" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(-65, 664)
+
+[node name="2d1d2ds21" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(40, 660)
+
+[node name="2d1d2ds22" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(148, 678)
+
+[node name="2d1d2ds23" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(297, 680)
+
+[node name="2d1d2ds24" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(464, 676)
+
+[node name="2d1d2ds25" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(606, 676)
+
+[node name="2d1d2ds26" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(737, 674)
+
+[node name="2d1d2ds27" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(737, 674)
+
+[node name="2d1d2ds28" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(858, 678)
+
+[node name="2d1d2ds29" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(982, 669)
+
+[node name="2d1d2ds30" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1087, 665)
+
+[node name="2d1d2ds31" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1195, 683)
+
+[node name="2d1d2ds32" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1344, 685)
+
+[node name="2d1d2ds33" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1511, 681)
+
+[node name="2d1d2ds34" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1653, 681)
+
+[node name="2d1d2ds35" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1784, 679)
+
+[node name="2d1d2ds36" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1784, 679)
+
 [node name="2d1d2ds17" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
 position = Vector2(1961, 141)
+
+[node name="2d1d2ds37" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(1929, 681)
+
+[node name="2d1d2ds38" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(2067, 688)
+
+[node name="2d1d2ds39" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(2184, 689)
+
+[node name="2d1d2ds40" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
+position = Vector2(2306, 693)
 
 [node name="2d1d2ds18" parent="." groups=["persistent"] instance=ExtResource("5_fckru")]
 position = Vector2(2433, -72)
@@ -116,5 +182,3 @@ position = Vector2(1162, 269)
 [node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
-
-[editable path="World"]

@@ -15,9 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://b7a48ti3qw5bb" path="res://Sprites/enemigo4.png" id="10_kyyo5"]
 [ext_resource type="Texture2D" uid="uid://d0vm765cr4nxo" path="res://Sprites/enemigo1.png" id="11_s4211"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0bu25"]
-radius = 10.0222
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
 atlas = ExtResource("2_0bu25")
 region = Rect2(0, 0, 64, 64)
@@ -305,8 +302,10 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0bu25"]
+radius = 10.0222
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jdsjd"]
-size = Vector2(32, 20)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_m4x7e"]
 properties/0/path = NodePath(".:health")
@@ -356,14 +355,14 @@ move_speed = 30
 color = Color(1, 1, 0, 1)
 color_str = "Yellow"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_0bu25")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_u4e2e")
 animation = &"idle slime yellow"
 autoplay = "idle slime yellow"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0bu25")
 
 [node name="left_floor" type="RayCast2D" parent="."]
 position = Vector2(-16, 5.33333)
@@ -391,7 +390,6 @@ texture_scale = 0.29
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-2, 0)
 shape = SubResource("RectangleShape2D_jdsjd")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

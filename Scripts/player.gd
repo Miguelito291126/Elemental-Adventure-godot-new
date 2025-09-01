@@ -3,7 +3,13 @@ extends CharacterBody2D
 @export var health = 3
 @export var speed = 300  # Velocidad horizontal
 @export var jump_force = -400  # Fuerza del salto (valor negativo porque hacia arriba)
-@export var gravity = 900  # Valor positivo, gravedad hacia abajo
+@export var jump_wall_force = 100  # Fuerza del salto (valor negativo porque hacia arriba)
+@export var gravity = 980  # Valor positivo, gravedad hacia abajo
+
+@export var is_wall_sliding: bool = false
+@export var wall_gravity = 100  # Fuerza de gravedad en la pared
+
+@export var is_in_water_or_lava: bool = false
 
 @export var shoot_cooldown = 1.0  # Tiempo entre disparos (en segundos)
 @export var shoot_timer = 0.0     # Contador de tiempo
@@ -55,6 +61,7 @@ func _ready() -> void:
 		GameController.print_role("Node name:" + name)
 		GameController.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
 	
+	gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 	GameController.playernode = self
 	
 	if GameController.character == "fire":
@@ -74,7 +81,7 @@ func _ready() -> void:
 		ball_color = Color.SADDLE_BROWN
 		fireball = false
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
@@ -88,29 +95,62 @@ func _physics_process(delta):
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-		
-	# Aplicar gravedad
+
+	if is_in_water_or_lava:
+		gravity = -300
+	else:
+		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
 	velocity.y += gravity * delta
 
 	# Movimiento lateral
 	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").x
+	print(direction)
 	velocity.x = direction * speed
 
 	# Voltear sprite
 	animator.flip_h = direction < 0
 	
-	if direction != 0 and is_on_floor():
-		if !walksounds.playing:
+	if velocity.x != 0 and is_on_floor() :
+		if !walksounds.playing :
 			walksounds.play()
 	else:
 		if walksounds.playing:
 			walksounds.stop()
 
 	# Saltar (solo si está en el suelo)
-	if Input.is_key_pressed(KEY_SPACE) and is_on_floor():
-		velocity.y = jump_force
-		jumpsounds.play()
-	
+	if Input.is_action_just_pressed("jump0"):
+		if is_on_floor() or is_in_water_or_lava:
+			velocity.y = jump_force
+
+			if not is_in_water_or_lava:
+				jumpsounds.play()
+		elif Input.is_action_pressed("ui_right") and is_on_wall():
+			velocity.y = jump_force
+			velocity.x = -jump_wall_force
+
+			if not is_in_water_or_lava:
+				jumpsounds.play()
+		elif Input.is_action_pressed("ui_left") and is_on_wall():
+			velocity.y = jump_force
+			velocity.x = jump_wall_force
+
+			if not is_in_water_or_lava:
+				jumpsounds.play()
+
+
+	if is_on_wall() and !is_on_floor():
+		if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
+			is_wall_sliding = true
+		else:
+			is_wall_sliding = false
+	else:
+		is_wall_sliding = false
+
+	if is_wall_sliding:
+		velocity.y += (wall_gravity * delta)
+		velocity.y = min(velocity.y, wall_gravity)
+
 	var mouse_pos = get_global_mouse_position()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
 	var radius = 20.0  # puedes ajustar esto a tu gusto
@@ -139,12 +179,12 @@ func _physics_process(delta):
 
 @rpc("any_peer", "call_local")
 # Función para recibir daño
-func damage(damage):
+func damage(damage_count: float) -> void:
 	
 	if is_invincible:
 		return
 		
-	health -= damage
+	health -= damage_count
 	
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
@@ -181,7 +221,6 @@ func start_invincibility():
 	blink_timer.start()
 	
 	var blink_time := 0.1
-	var elapsed := 0.0
 	var total_time := 0.0
 
 	# Guardar el color original
@@ -283,6 +322,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			damage(damagecount)
 		
 	elif body.is_in_group("water"):
+		is_in_water_or_lava = true
+
 		if GameController.character == "water":
 			return 
 		
@@ -293,6 +334,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		else:
 			damage(3)
 	elif body.is_in_group("lava"):
+		is_in_water_or_lava = true
+
 		if GameController.character == "fire":
 			return 
 		
@@ -303,6 +346,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		else:
 			damage(3)
 	elif body.is_in_group("acid"):
+		is_in_water_or_lava = true
 		is_invincible = false
 		
 		if GameController.IsNetwork:
@@ -314,3 +358,12 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			GameController.getlevel.rpc()
 		else:
 			GameController.getlevel()
+
+
+func _on_area_2d_body_exited(body:Node2D) -> void:
+	if body.is_in_group("water"):
+		is_in_water_or_lava = false
+	elif body.is_in_group("lava"):
+		is_in_water_or_lava = false
+	elif body.is_in_group("acid"):
+		is_in_water_or_lava = false

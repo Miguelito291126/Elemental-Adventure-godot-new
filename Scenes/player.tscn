@@ -80,14 +80,13 @@ properties/21/spawn = true
 properties/21/replication_mode = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tx1dd"]
-radius = 29.9998
+radius = 31.6853
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
 size = Vector2(40, 48)
 
 [node name="player" type="CharacterBody2D" groups=["Persistent", "player"]]
 script = ExtResource("1_peqvs")
-gravity = 500
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tx1dd")
@@ -208,5 +207,6 @@ shape = SubResource("RectangleShape2D_tx1dd")
 [connection signal="pressed" from="Hud/TextureButton" to="." method="_on_texture_button_pressed"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 
 [editable path="Pause menu"]

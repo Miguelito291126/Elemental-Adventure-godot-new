@@ -45,7 +45,13 @@ position = Vector2(-656, -46)
 position = Vector2(-553, -50)
 
 [node name="2ede2de5" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
-position = Vector2(-460, -48)
+position = Vector2(-481, -51)
+
+[node name="2ede2de15" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(-168, -41)
+
+[node name="2ede2de16" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(109, -59)
 
 [node name="2ede2de6" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
 position = Vector2(-334, -46)
@@ -62,8 +68,83 @@ position = Vector2(614, -22)
 [node name="2ede2de13" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
 position = Vector2(12, -63)
 
+[node name="2ede2de17" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(200, -62)
+
+[node name="2ede2de18" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(319, -61)
+
+[node name="2ede2de19" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(410, -63)
+
+[node name="2ede2de20" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(515, -33)
+
 [node name="2ede2de14" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
-position = Vector2(2067, -65)
+position = Vector2(2095, -37)
+
+[node name="2ede2de25" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(2213, -42)
+
+[node name="2ede2de21" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1589, -15)
+
+[node name="2ede2de22" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1775, -27)
+
+[node name="2ede2de23" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(2329, -62)
+
+[node name="2ede2de26" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(2335, 1084)
+
+[node name="2ede2de27" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(2169, 1093)
+
+[node name="2ede2de28" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(2000, 1099)
+
+[node name="2ede2de30" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1622, 1104)
+
+[node name="2ede2de31" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1434, 1100)
+
+[node name="2ede2de32" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1250, 1109)
+
+[node name="2ede2de33" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1029, 1113)
+
+[node name="2ede2de34" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(712, 1121)
+
+[node name="2ede2de35" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(841, 1121)
+
+[node name="2ede2de36" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(553, 1117)
+
+[node name="2ede2de37" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(323, 1121)
+
+[node name="2ede2de38" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(-7, 1117)
+
+[node name="2ede2de39" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(152, 1117)
+
+[node name="2ede2de40" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(436, 1113)
+
+[node name="2ede2de41" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1125, 1109)
+
+[node name="2ede2de29" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1792, 1092)
+
+[node name="2ede2de24" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
+position = Vector2(1914, -35)
 
 [node name="2ede2de10" parent="." groups=["persistent"] instance=ExtResource("5_xcj7k")]
 position = Vector2(701, -25)

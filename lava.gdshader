@@ -1,4 +1,5 @@
 shader_type canvas_item;
+render_mode unshaded;
 
 uniform sampler2D water_texture;
 uniform vec2 texture_size; // tamaño en píxeles de la textura

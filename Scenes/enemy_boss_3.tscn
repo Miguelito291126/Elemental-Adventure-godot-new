@@ -16,8 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://b4rnajhno5ier" path="res://Sprites/enemigo3.png" id="13_s7tb1"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="15_jfvdu"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ry7m2"]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
 atlas = ExtResource("3_u786w")
 region = Rect2(0, 0, 64, 64)
@@ -305,8 +303,10 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ry7m2"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qk0si"]
-size = Vector2(32.2222, 20)
+size = Vector2(20.1111, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a0vro"]
 radius = 117.806
@@ -352,10 +352,6 @@ script = ExtResource("1_ry7m2")
 color = Color(1, 1, 0, 1)
 color_str = "Yellow"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2.11928e-07)
-shape = SubResource("CircleShape2D_ry7m2")
-
 [node name="PointLight2D" type="PointLight2D" parent="."]
 enabled = false
 texture = ExtResource("2_qk0si")
@@ -365,6 +361,10 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kpjsb")
 animation = &"idle slime yellow"
 autoplay = "idle slime yellow"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2.11928e-07)
+shape = SubResource("CircleShape2D_ry7m2")
 
 [node name="bulletpos" type="Node2D" parent="."]
 
@@ -377,7 +377,7 @@ position = Vector2(23.1111, 0)
 position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2(-1.88889, 0)
+position = Vector2(0.0555524, 0)
 shape = SubResource("RectangleShape2D_qk0si")
 
 [node name="Area2D" type="Area2D" parent="."]

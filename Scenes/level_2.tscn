@@ -85,6 +85,174 @@ position = Vector2(-367, -64)
 [node name="wcwdcwc6" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
 position = Vector2(-289, -58)
 
+[node name="wcwdcwc20" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(-136, 401)
+
+[node name="wcwdcwc21" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(-52, 397)
+
+[node name="wcwdcwc22" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(49, 397)
+
+[node name="wcwdcwc23" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(144, 397)
+
+[node name="wcwdcwc24" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(248, 391)
+
+[node name="wcwdcwc25" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(326, 397)
+
+[node name="wcwdcwc26" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(406, 404)
+
+[node name="wcwdcwc27" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(490, 400)
+
+[node name="wcwdcwc28" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(591, 400)
+
+[node name="wcwdcwc29" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(686, 400)
+
+[node name="wcwdcwc30" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(790, 394)
+
+[node name="wcwdcwc31" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(868, 400)
+
+[node name="wcwdcwc32" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(958, 399)
+
+[node name="wcwdcwc33" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1042, 395)
+
+[node name="wcwdcwc34" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1143, 395)
+
+[node name="wcwdcwc35" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1238, 395)
+
+[node name="wcwdcwc36" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1342, 389)
+
+[node name="wcwdcwc37" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1420, 395)
+
+[node name="wcwdcwc38" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1524, 390)
+
+[node name="wcwdcwc39" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1608, 386)
+
+[node name="wcwdcwc40" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1709, 386)
+
+[node name="wcwdcwc41" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1804, 386)
+
+[node name="wcwdcwc42" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1908, 380)
+
+[node name="wcwdcwc43" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1986, 386)
+
+[node name="wcwdcwc46" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2119, 631)
+
+[node name="wcwdcwc47" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2214, 631)
+
+[node name="wcwdcwc48" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2318, 625)
+
+[node name="wcwdcwc49" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2396, 631)
+
+[node name="wcwdcwc50" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2097, 398)
+
+[node name="wcwdcwc51" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2192, 398)
+
+[node name="wcwdcwc52" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2296, 392)
+
+[node name="wcwdcwc53" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2374, 398)
+
+[node name="wcwdcwc54" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1751, 635)
+
+[node name="wcwdcwc55" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1846, 635)
+
+[node name="wcwdcwc56" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1950, 629)
+
+[node name="wcwdcwc57" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(2028, 635)
+
+[node name="wcwdcwc58" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1377, 629)
+
+[node name="wcwdcwc59" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1472, 629)
+
+[node name="wcwdcwc60" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1576, 623)
+
+[node name="wcwdcwc61" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1654, 629)
+
+[node name="wcwdcwc62" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(995, 632)
+
+[node name="wcwdcwc63" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1090, 632)
+
+[node name="wcwdcwc64" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1194, 626)
+
+[node name="wcwdcwc65" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(1272, 632)
+
+[node name="wcwdcwc66" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(616, 626)
+
+[node name="wcwdcwc67" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(711, 626)
+
+[node name="wcwdcwc68" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(815, 620)
+
+[node name="wcwdcwc69" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(893, 626)
+
+[node name="wcwdcwc70" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(257, 629)
+
+[node name="wcwdcwc71" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(352, 629)
+
+[node name="wcwdcwc72" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(456, 623)
+
+[node name="wcwdcwc73" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(534, 629)
+
+[node name="wcwdcwc74" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(-108, 635)
+
+[node name="wcwdcwc75" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(-13, 635)
+
+[node name="wcwdcwc76" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(91, 629)
+
+[node name="wcwdcwc77" parent="." groups=["persistent"] instance=ExtResource("9_e2piv")]
+position = Vector2(169, 635)
+
 [node name="wcwcddwc" parent="." instance=ExtResource("10_ijtdf")]
 position = Vector2(269, -276)
 
@@ -106,25 +274,55 @@ curve = SubResource("Curve2D_vcilj")
 speed = 2.0
 
 [node name="edeede2d" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(-74, 348)
+position = Vector2(-78, 366)
 
 [node name="wdcqdedq" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(80, 352)
+position = Vector2(76, 370)
 
 [node name="ewedede" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(221, 351)
+position = Vector2(217, 369)
+
+[node name="edeede2d2" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(314, 373)
+
+[node name="wdcqdedq2" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(468, 377)
+
+[node name="ewedede2" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(609, 376)
+
+[node name="edeede2d3" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(1330, 361)
+
+[node name="wdcqdedq3" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(1484, 365)
+
+[node name="ewedede3" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(1625, 364)
+
+[node name="edeede2d4" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(1802, 366)
+
+[node name="wdcqdedq4" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(1956, 370)
+
+[node name="ewedede4" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(2097, 369)
 
 [node name="d2ededeed" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(797, 354)
+position = Vector2(799, 367)
 
 [node name="2eedde22de" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(983, 350)
+position = Vector2(985, 363)
 
 [node name="d2ed2d2ede2" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(1188, 351)
+position = Vector2(1190, 364)
 
 [node name="wee2d2d" parent="." instance=ExtResource("13_vcilj")]
-position = Vector2(2355, 353)
+position = Vector2(2364, 368)
+
+[node name="wee2d2d2" parent="." instance=ExtResource("13_vcilj")]
+position = Vector2(2224, 373)
 
 [node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")

@@ -16,8 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://b3ytnmjryof2p" path="res://Sprites/enemigo2.png" id="14_dqnsj"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="15_6kpai"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ctv7p"]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
 atlas = ExtResource("3_0lshv")
 region = Rect2(0, 0, 64, 64)
@@ -305,8 +303,10 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ctv7p"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k370a"]
-size = Vector2(32.8889, 20)
+size = Vector2(20.1111, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a0vro"]
 radius = 117.806
@@ -352,19 +352,19 @@ script = ExtResource("1_ctv7p")
 color = Color(0, 0, 1, 1)
 color_str = "Blue"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_ctv7p")
-
 [node name="PointLight2D" type="PointLight2D" parent="."]
 enabled = false
 texture = ExtResource("2_k370a")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-2.55556, -2.66667)
+position = Vector2(-6.11111, -2.77778)
 sprite_frames = SubResource("SpriteFrames_kpjsb")
 animation = &"walk slime blue"
 autoplay = "walk slime blue"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ctv7p")
 
 [node name="bulletpos" type="Node2D" parent="."]
 
@@ -377,6 +377,7 @@ position = Vector2(23.1111, 0)
 position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(0.0555518, 0)
 shape = SubResource("RectangleShape2D_k370a")
 
 [node name="Area2D" type="Area2D" parent="."]
