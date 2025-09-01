@@ -61,6 +61,7 @@ use_texture_padding = false
 5:0/0 = 0
 6:0/0 = 0
 6:0/0/material = SubResource("ShaderMaterial_yuiok")
+6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 7:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0

@@ -382,6 +382,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			damage.rpc(health)
 		else:
 			damage(health)
+		
 	elif body.is_in_group("box"):
 		if GameController.IsNetwork:
 			GameController.getlevel.rpc()
