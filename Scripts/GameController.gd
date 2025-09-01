@@ -3,14 +3,12 @@ extends Node
 @export var version = 8
 
 @export var level = 1
+@export var max_level = 24
 @export var points = 0
 @export var energys = 0
 @export var character = "fire"
 @export var available_elements = ["fire", "water", "air", "earth"]
 @export var assigned_elements = {}  # peer_id : "element"
-@export var valid_coin_ids = []
-@export var valid_hearths_ids = []
-@export var valid_enemies_ids = []
 
 @export var port = 4444
 @export var ip = "localhost"
@@ -59,7 +57,10 @@ func assign_element(element: String):
 @rpc("authority", "call_local")
 func assign_element_to_player(peer_id: int):
 	if peer_id in assigned_elements:
-		return  # Ya tiene asignado
+		# 👈 Ya tiene asignado antes, se reutiliza
+		var element = assigned_elements[peer_id]
+		assign_element.rpc_id(peer_id, element)
+		return
 	
 	if available_elements.is_empty():
 		print_role("No hay más elementos disponibles.")
@@ -69,17 +70,15 @@ func assign_element_to_player(peer_id: int):
 	assigned_elements[peer_id] = element
 	assign_element.rpc_id(peer_id, element)
 
+
 @rpc("authority", "call_local")
 func Remove_Element_Assigned(id: int) -> void:
 	if assigned_elements.has(id):
 		var element = assigned_elements[id]
-		print_role("Liberando personaje '%s' del jugador ID %d" % [element, id])
-		
-		# Devuelve el personaje a la lista
-		if not available_elements.has(element):
-			available_elements.append(element)
-		
-		assigned_elements.erase(id)
+		print_role("Jugador %d desconectado (personaje '%s' reservado)" % [id, element])
+		# 👈 No devolvemos el elemento a available_elements
+		# 👈 No borramos de assigned_elements
+
 		
 
 		
@@ -132,8 +131,8 @@ func LoadGameOverMenu():
 func LoadVictoryMenu():
 	
 	DeletePersistentNodes()
-	
-	if level < 24:
+
+	if level < max_level:
 		load_scene_in_game_node("res://Scenes/victory_menu.tscn")
 	else:
 		load_scene_in_game_node("res://Scenes/Super victory screen.tscn")
@@ -225,14 +224,22 @@ func MultiplayerPlayerRemover(id: int = 1):
 	
 	Remove_Element_Assigned(id)
 	
-	var player = get_node_or_null(str(id))
+	var player = null
+	if levelnode and is_instance_valid(levelnode):
+		player = levelnode.get_node_or_null(str(id))
+
 	if player and is_instance_valid(player):
 		player.queue_free()
 		print_role("Jugador removido con el ID:" + str(id))
-		
+	else:
+		print_role("Jugador No Valido Con el ID:" + str(id))
 
 func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
+
+	if multiplayerpeer:
+		multiplayerpeer = null
+
 	if IsNetwork:
 		IsNetwork = false
 	
@@ -244,6 +251,9 @@ func MultiplayerConnectionServerSucess():
 func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
 	
+	if multiplayerpeer:
+		multiplayerpeer = null
+
 	if IsNetwork:
 		IsNetwork = false
 		

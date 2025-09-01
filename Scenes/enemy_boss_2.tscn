@@ -366,6 +366,7 @@ color_str = "Orange"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 enabled = false
+range_layer_min = -100
 texture = ExtResource("2_l6qnw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

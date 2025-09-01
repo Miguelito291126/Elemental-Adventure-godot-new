@@ -7,7 +7,7 @@
 script = ExtResource("1_qxrlw")
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://dgnbppy6meuyf", "uid://bfai4yqm7rnh", "uid://dgjpb24htvrg0", "uid://dxiv2q73v4qcn", "uid://6srdd7e5a15j", "uid://5061mwxmfyt8", "uid://ddas1y8tyk3cm", "uid://ddq77y27v6hci", "uid://cfjjhunslhggq", "uid://vqdbhus3vyb0", "uid://cc85ld1v6buta", "uid://camifbm2wnkh0")
+_spawnable_scenes = PackedStringArray("uid://dgnbppy6meuyf", "uid://bfai4yqm7rnh", "uid://dgjpb24htvrg0", "uid://dxiv2q73v4qcn", "uid://6srdd7e5a15j", "uid://5061mwxmfyt8", "uid://ddas1y8tyk3cm", "uid://ddq77y27v6hci", "uid://cfjjhunslhggq", "uid://vqdbhus3vyb0", "uid://cc85ld1v6buta", "uid://camifbm2wnkh0", "uid://dccokiaxy3l5n", "uid://ctdlvogwavy8g", "uid://dfnni7m5lvw8g", "uid://bo067ffr3y13b", "uid://cnkba51bq2pkh", "uid://cgc1wyskkjb4a")
 spawn_path = NodePath("..")
 
 [node name="Main Menu" parent="." instance=ExtResource("2_wrm1d")]
