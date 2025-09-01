@@ -96,7 +96,7 @@ color = Color(1, 0.698039, 0, 1)
 color_str = "Orange"
 
 [node name="d2ede2ed" parent="." instance=ExtResource("8_mpr0q")]
-position = Vector2(429, -108)
+position = Vector2(555, -76)
 
 [node name="2d2d2d2e" parent="." instance=ExtResource("8_mpr0q")]
 position = Vector2(1986, -149)

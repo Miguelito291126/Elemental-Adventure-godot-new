@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://vqdbhus3vyb0"]
+[gd_scene load_steps=9 format=4 uid="uid://vqdbhus3vyb0"]
 
 [ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_j2suw"]
 [ext_resource type="PackedScene" uid="uid://dwc1sfhou3cy2" path="res://Scenes/lava.tscn" id="2_i7t2s"]
@@ -6,6 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="6_adv88"]
 [ext_resource type="PackedScene" uid="uid://cwdknm16foa4n" path="res://Scenes/enemy_2.tscn" id="6_i7t2s"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="7_61awp"]
+[ext_resource type="PackedScene" uid="uid://choeqgyk2lvq5" path="res://Scenes/plataform_2.tscn" id="7_pqfbu"]
+
+[sub_resource type="Curve2D" id="Curve2D_etsvn"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -326, 10, 0, 0, 0, 0, 453, 9)
+}
+point_count = 2
 
 [node name="level_10" type="Node2D"]
 script = ExtResource("1_j2suw")
@@ -58,3 +65,7 @@ position = Vector2(1292, 33)
 
 [node name="enemy4" parent="." instance=ExtResource("6_i7t2s")]
 position = Vector2(2053, 158)
+
+[node name="plataform_2" parent="." instance=ExtResource("7_pqfbu")]
+position = Vector2(755, 79)
+curve = SubResource("Curve2D_etsvn")

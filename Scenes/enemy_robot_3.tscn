@@ -81,6 +81,18 @@ properties/6/replication_mode = 1
 properties/7/path = NodePath(".:visible")
 properties/7/spawn = true
 properties/7/replication_mode = 1
+properties/8/path = NodePath("bulletpos:position")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("bulletpos:rotation")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath("bulletpos/bulletspawn:position")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath("bulletpos/bulletspawn:rotation")
+properties/11/spawn = true
+properties/11/replication_mode = 1
 
 [node name="enemy_robot_3" type="CharacterBody2D" groups=["Persistent", "acid", "enemy"]]
 script = ExtResource("1_g8808")
