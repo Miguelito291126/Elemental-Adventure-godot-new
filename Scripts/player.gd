@@ -109,8 +109,11 @@ func _physics_process(delta):
 	velocity.x = direction * speed
 
 	# Voltear sprite
-	animator.flip_h = direction < 0
-	
+	if direction < 0:
+		animator.flip_h = true
+	elif direction > 0:
+		animator.flip_h = false
+
 	if velocity.x != 0 and is_on_floor() :
 		if !walksounds.playing :
 			walksounds.play()

@@ -30,6 +30,7 @@ shader_parameter/texture_size = Vector2(128, 128)
 shader_parameter/direction = Vector2(1, 0)
 shader_parameter/speed = 0.5
 shader_parameter/tile_size = 16.0
+shader_parameter/Alpha = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_25ays"]
 shader = ExtResource("4_p8gdc")
