@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var speed = 300  # Velocidad horizontal
 @export var jump_force = -400  # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_wall_force = 100  # Fuerza del salto (valor negativo porque hacia arriba)
-@export var gravity = 980  # Valor positivo, gravedad hacia abajo
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var is_wall_sliding: bool = false
 @export var wall_gravity = 100  # Fuerza de gravedad en la pared
@@ -96,38 +96,53 @@ func _physics_process(delta):
 		if !is_multiplayer_authority():
 			return
 
+
+	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
 	if is_in_water_or_lava:
-		gravity = -300
+		# Gravedad muy reducida para simular flotación
+		gravity = 100  
+		velocity.y += gravity * delta
+		velocity = direction * (speed * 0.6)  # más lento que en tierra
 	else:
+		# Movimiento normal (ya lo tienes)
 		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+		velocity.y += gravity * delta
 
-	velocity.y += gravity * delta
+		# Movimiento lateral
+		velocity.x = direction.x * speed
 
-	# Movimiento lateral
-	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").x
-	print(direction)
-	velocity.x = direction * speed
+	shoot()
+	Jump()
+	Wall(delta)
+	Animations(direction)
+	flip(direction)
 
-	# Voltear sprite
-	if direction < 0:
-		animator.flip_h = true
-	elif direction > 0:
-		animator.flip_h = false
+	move_and_slide()
 
-	if velocity.x != 0 and is_on_floor() :
-		if !walksounds.playing :
-			walksounds.play()
-	else:
-		if walksounds.playing:
-			walksounds.stop()
+func shoot():
+	var mouse_pos = get_global_mouse_position()
+	var direction_to_mouse = (mouse_pos - global_position).normalized()
+	var radius = 20.0  # puedes ajustar esto a tu gusto
+	bulletpos.global_position = global_position + direction_to_mouse * radius
+	bulletpos.look_at(mouse_pos)
+	
+	if Input.is_action_just_pressed("Shoot0") and not is_shotting:
+		if GameController.IsNetwork:
+			if is_multiplayer_authority():
+				shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
+		else:
+			shoot_rpc(direction_to_mouse)
 
+func Jump():
 	# Saltar (solo si está en el suelo)
 	if Input.is_action_just_pressed("jump0"):
-		if is_on_floor() or is_in_water_or_lava:
+		if is_on_floor() and !is_in_water_or_lava:
 			velocity.y = jump_force
-
-			if not is_in_water_or_lava:
-				jumpsounds.play()
+			jumpsounds.play()
+		elif is_in_water_or_lava:
+			# Impulso hacia arriba estilo brazada
+			velocity.y = -speed * 0.8
 		elif Input.is_action_pressed("ui_right") and is_on_wall():
 			velocity.y = jump_force
 			velocity.x = -jump_wall_force
@@ -142,6 +157,7 @@ func _physics_process(delta):
 				jumpsounds.play()
 
 
+func Wall(delta: float):
 	if is_on_wall() and !is_on_floor():
 		if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
 			is_wall_sliding = true
@@ -154,35 +170,41 @@ func _physics_process(delta):
 		velocity.y += (wall_gravity * delta)
 		velocity.y = min(velocity.y, wall_gravity)
 
-	var mouse_pos = get_global_mouse_position()
-	var direction_to_mouse = (mouse_pos - global_position).normalized()
-	var radius = 20.0  # puedes ajustar esto a tu gusto
-	bulletpos.global_position = global_position + direction_to_mouse * radius
-	bulletpos.look_at(mouse_pos)
-	
-	if Input.is_action_just_pressed("Shoot0") and not is_shotting:
-		if GameController.IsNetwork:
-			if is_multiplayer_authority():
-				shoot.rpc(direction_to_mouse)  # Si está conectado en red
+func Animations(direction: Vector2):
+	if is_in_water_or_lava:
+		if direction != Vector2.ZERO:
+			animator.play("%s walk" % [GameController.character])
 		else:
-			shoot(direction_to_mouse)
-
-	# ANIMACIONES según estado
-	if !is_on_floor():
-		if velocity.y < 0:
-			animator.play("%s jump" % [GameController.character])  # Subiendo
-		else:
-			animator.play("%s fall" % [GameController.character])  # Bajando
-	elif direction != 0:
-		animator.play("%s walk" % [GameController.character])     # Caminando en suelo
+			animator.play("%s idle" % [GameController.character])
 	else:
-		animator.play("%s idle" % [GameController.character])     # Quieto en suelo
+		# Tu código de animaciones de suelo/aire
+		if !is_on_floor():
+			if velocity.y < 0:
+				animator.play("%s jump" % [GameController.character])
+			else:
+				animator.play("%s fall" % [GameController.character])
+		elif direction.x != 0:
+			animator.play("%s walk" % [GameController.character])
+		else:
+			animator.play("%s idle" % [GameController.character])
 
-	move_and_slide()
+func flip(direction: Vector2):
+	# Voltear sprite
+	if direction.x < 0:
+		animator.flip_h = true
+	elif direction.x > 0:
+		animator.flip_h = false
+
+	if velocity.x != 0 and is_on_floor() :
+		if !walksounds.playing :
+			walksounds.play()
+	else:
+		if walksounds.playing:
+			walksounds.stop()
 
 @rpc("any_peer", "call_local")
 # Función para recibir daño
-func damage(damage_count: float) -> void:
+func damage(damage_count: int) -> void:
 	
 	if is_invincible:
 		return
@@ -249,7 +271,7 @@ func healting(count):
 		
 
 @rpc("any_peer", "call_local")
-func shoot(direction):
+func shoot_rpc(direction):
 	is_shotting = true
 	
 	shootsounds.play()
@@ -333,9 +355,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("lava"):
 		is_in_water_or_lava = true
 
@@ -345,17 +367,17 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("acid"):
 		is_in_water_or_lava = true
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("box"):
 		if GameController.IsNetwork:
 			GameController.getlevel.rpc()

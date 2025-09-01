@@ -20,6 +20,7 @@ extends CharacterBody2D
 @export var is_invincible: bool = false
 @export var invincibility_time := 1.5  # segundos de invencibilidad
 @export var death = false
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready() -> void:
 	if color_str == "Green":
@@ -38,12 +39,9 @@ func _ready() -> void:
 func  _physics_process(delta: float) -> void:
 	# Movimiento horizontal
 	velocity.x = direction.x * move_speed
-		
-	# Gravedad
-	if not is_on_floor():
-		velocity.y += 400 * delta
-	else:
-		velocity.y = 0
+	velocity.y += gravity * delta
+
+	
 	# Si el raycast no detecta suelo → girar
 	# Detectar borde o pared para girar
 	if (not left_floor_check.is_colliding() or left_wall_check.is_colliding()):
@@ -58,12 +56,12 @@ func flip_direction():
 	scale.x *= -1
 
 @rpc("any_peer", "call_local")
-func damage(damage):
+func damage(damage_count: int):
 	if is_invincible:
 		return
-		
-	health -= damage
-	
+
+	health -= damage_count
+
 	if GameController.IsNetwork:
 		if health <= 0:
 			kill.rpc()
@@ -139,9 +137,9 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("lava"):
 		if color_str == "Orange":
 			return
@@ -149,13 +147,13 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)

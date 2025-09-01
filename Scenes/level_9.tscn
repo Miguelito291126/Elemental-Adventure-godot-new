@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://belcwwwg3jp18" path="res://Scenes/world.tscn" id="5_du3ub"]
 [ext_resource type="PackedScene" uid="uid://b5nu1ldhvpals" path="res://Scenes/box.tscn" id="6_six4e"]
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="7_x8min"]
+[ext_resource type="PackedScene" uid="uid://cwdknm16foa4n" path="res://Scenes/enemy_2.tscn" id="8_066uc"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="8_yeqya"]
 [ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="9_rrqm6"]
-[ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="10_chiqg"]
 
 [node name="level_9" type="Node2D"]
 script = ExtResource("1_basfb")
@@ -102,21 +102,6 @@ position = Vector2(-144, -91)
 [node name="2wdd2d2d2" parent="." instance=ExtResource("9_rrqm6")]
 position = Vector2(1383, 64)
 
-[node name="2qx1ex1" parent="." instance=ExtResource("10_chiqg")]
-position = Vector2(1026, 102)
-color = Color(1, 0.698039, 0, 1)
-color_str = "Orange"
-
-[node name="2qx1ex2" parent="." instance=ExtResource("10_chiqg")]
-position = Vector2(1926, 83)
-color = Color(1, 0.698039, 0, 1)
-color_str = "Orange"
-
-[node name="2ed2d2d" parent="." instance=ExtResource("10_chiqg")]
-position = Vector2(730, 77)
-color = Color(1, 0.698039, 0, 1)
-color_str = "Orange"
-
 [node name="e2ded1ed1ed" parent="." instance=ExtResource("9_rrqm6")]
 position = Vector2(2235, 1)
 
@@ -130,5 +115,10 @@ position = Vector2(1159, -111)
 _spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
 spawn_path = NodePath("..")
 
+[node name="enemy" parent="." instance=ExtResource("8_066uc")]
+position = Vector2(1972, 76)
+
+[node name="enemy2" parent="." instance=ExtResource("8_066uc")]
+position = Vector2(835, 60)
+
 [editable path="Lava"]
-[editable path="World"]

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://tonkdrpt1uk3" path="res://Scenes/energy.tscn" id="6_87tnr"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="7_38lld"]
 [ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="8_nlfqy"]
-[ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="9_dxstc"]
+[ext_resource type="PackedScene" uid="uid://cwdknm16foa4n" path="res://Scenes/enemy_2.tscn" id="8_vpjpy"]
 
 [node name="level_7" type="Node2D"]
 script = ExtResource("1_vpjpy")
@@ -183,18 +183,14 @@ position = Vector2(123, -3)
 [node name="2ed2ed2d2" parent="." instance=ExtResource("8_nlfqy")]
 position = Vector2(991, -19)
 
+[node name="enemy" parent="." instance=ExtResource("8_vpjpy")]
+position = Vector2(569, 27)
+
+[node name="enemy2" parent="." instance=ExtResource("8_vpjpy")]
+position = Vector2(1349, 5)
+
 [node name="2ede2d2d2d" parent="." instance=ExtResource("8_nlfqy")]
 position = Vector2(1986, -42)
-
-[node name="qxqqx" parent="." instance=ExtResource("9_dxstc")]
-position = Vector2(653, -8)
-color = Color(1, 0.647059, 0, 1)
-color_str = "Orange"
-
-[node name="qxqqx2" parent="." instance=ExtResource("9_dxstc")]
-position = Vector2(1323, -18)
-color = Color(1, 0.647059, 0, 1)
-color_str = "Orange"
 
 [node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")

@@ -14,7 +14,9 @@ extends CharacterBody2D
 
 @export var is_invincible: bool = false
 @export var invincibility_time := 1.5
-@export var gravity = 900
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+@export var is_in_water_or_lava: bool = false
 
 func _ready() -> void:
 	# Animación inicial según color
@@ -27,11 +29,11 @@ func _ready() -> void:
 
 
 @rpc("any_peer", "call_local")
-func damage(damage: int):
+func damage(damage_count: int):
 	if is_invincible:
 		return
 
-	health -= damage
+	health -= damage_count
 
 	if GameController.IsNetwork:
 		if health <= 0:
@@ -95,6 +97,11 @@ func _process(_delta: float) -> void:
 		animator.flip_h = player_pos.x >= global_position.x
 
 func _physics_process(delta: float) -> void:
+	if is_in_water_or_lava:
+		gravity = -300
+	else:
+		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
 	velocity.y += gravity * delta
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -152,23 +159,23 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if body.is_in_group("water"):
-		gravity *= -1
+		is_in_water_or_lava = true
 	elif body.is_in_group("lava"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 
 
 func _on_area_2d_2_body_exited(body:Node2D) -> void:
 	if body.is_in_group("water"):
-		gravity *= -1
+		is_in_water_or_lava = false

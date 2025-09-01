@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://db3e2ifo6g10k"]
+
+[ext_resource type="Script" uid="uid://doojc5isfvjst" path="res://Scripts/plataform.gd" id="1_fapok"]
+[ext_resource type="Texture2D" uid="uid://0irbpecuruqn" path="res://Sprites/plataform_4.png" id="2_fapok"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ylvgc"]
+size = Vector2(24.9971, 22.0945)
+
+[sub_resource type="Animation" id="Animation_55wjb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_e2dlq"]
+resource_name = "move"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(-1.56, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7wg80"]
+_data = {
+&"RESET": SubResource("Animation_55wjb"),
+&"move": SubResource("Animation_e2dlq")
+}
+
+[node name="plataform_3" type="Path2D"]
+script = ExtResource("1_fapok")
+loop = false
+speed = 1.0
+speed_scale = 0.5
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotates = false
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
+scale = Vector2(1.5, 1.5)
+remote_path = NodePath("../../AnimatableBody2D")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
+texture_filter = 1
+texture = ExtResource("2_fapok")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+shape = SubResource("RectangleShape2D_ylvgc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+callback_mode_process = 0
+libraries = {
+&"": SubResource("AnimationLibrary_7wg80")
+}

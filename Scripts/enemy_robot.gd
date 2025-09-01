@@ -28,12 +28,12 @@ func _ready() -> void:
 			
 		
 @rpc("any_peer", "call_local")
-func damage(damage):
+func damage(damage_count: int):
 	if is_invincible:
 		return
-		
-	health -= damage
-	
+
+	health -= damage_count
+
 	if GameController.IsNetwork:
 		if health <= 0:
 			kill.rpc()
@@ -55,7 +55,6 @@ func start_invincibility():
 	blink_timer.start()
 	
 	var blink_time := 0.1
-	var elapsed := 0.0
 	var total_time := 0.0
 
 	# Guardar el color original
@@ -91,11 +90,10 @@ func SaveGameData():
 	}
 	return save_dict
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player_pos = players[0].global_position
-		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)  # Esto sigue siendo útil para apuntar el cañón
 		
 		# Voltear el sprite horizontalmente según la posición del jugador
@@ -160,20 +158,20 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("lava"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)

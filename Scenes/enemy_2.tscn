@@ -381,8 +381,6 @@ position = Vector2(10.6667, 5.33333)
 target_position = Vector2(0, 21.3333)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-enabled = false
-color = Color(100, 66.851, 1, 1)
 texture = ExtResource("14_7ic5y")
 texture_scale = 0.29
 

@@ -20,6 +20,7 @@ extends CharacterBody2D
 
 @export var enemy_id: String
 @export var death = false
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready() -> void:
 	if color_str == "Green":
@@ -43,11 +44,11 @@ func _ready() -> void:
 
 
 @rpc("any_peer", "call_local")
-func damage(damage):
+func damage(damage_count: int):
 	if is_invincible:
 		return
-		
-	health -= damage
+
+	health -= damage_count
 	healthbar.value = health
 	
 	if GameController.IsNetwork:
@@ -97,15 +98,14 @@ func kill():
 	queue_free()
 
 func _physics_process(delta: float) -> void:
-	velocity.y += 400 * delta
+	velocity.y += gravity * delta
 	move_and_slide()
 
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player_pos = players[0].global_position
-		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)  # Esto sigue siendo útil para apuntar el cañón
 		
 
@@ -206,9 +206,9 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("lava"):
 		if color_str == "Orange":
 			return
@@ -216,13 +216,13 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
-			damage.rpc(3)
+			damage.rpc(health)
 		else:
-			damage(3)
+			damage(health)
