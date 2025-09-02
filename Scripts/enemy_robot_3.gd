@@ -146,6 +146,9 @@ func shoot(direction: Vector2):
 	bullet.direction = direction
 	bullet.modulate = color
 	bullet.get_node("PointLight2D").color = color
+	bullet.get_node("PointLight2D").enabled = true
+	bullet.get_node("Fire").visible = false
+	
 	get_parent().add_child(bullet, true)
 
 

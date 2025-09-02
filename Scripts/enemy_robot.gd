@@ -142,7 +142,9 @@ func shoot(direction):
 	bullet.direction = direction
 	bullet.modulate = color
 	bullet.get_node("PointLight2D").color = color
-	
+	bullet.get_node("PointLight2D").enabled = true
+	bullet.get_node("Fire").visible = false
+
 	get_parent().add_child(bullet, true)
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:

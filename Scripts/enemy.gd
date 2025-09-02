@@ -35,6 +35,7 @@ func _ready() -> void:
 	$PointLight2D.enabled = color_str == "Orange"
 	$PointLight2D.color = color
 	
+	
 
 func  _physics_process(delta: float) -> void:
 	# Movimiento horizontal
