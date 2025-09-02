@@ -3,7 +3,7 @@ extends Node
 @export var version = 8
 
 @export var level = 1
-@export var max_level = 24
+@export var max_level = 18
 @export var points = 0
 @export var energys = 0
 @export var character = "fire"
