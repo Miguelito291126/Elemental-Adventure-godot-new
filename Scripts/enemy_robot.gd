@@ -31,7 +31,7 @@ func _ready() -> void:
 func damage(damage_count: int):
 	if is_invincible:
 		return
-
+	damage
 	health -= damage_count
 
 	if GameController.IsNetwork:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=15 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
 [ext_resource type="AudioStream" uid="uid://drr2wubpf40ds" path="res://sounds/laserShoot.wav" id="6_8erm5"]
 [ext_resource type="PackedScene" uid="uid://y6bboatewubh" path="res://Scenes/pause_menu.tscn" id="9_aviom"]
+[ext_resource type="AudioStream" uid="uid://epn02skm7kuj" path="res://sounds/hitHurt.wav" id="10_gymyn"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="10_tx1dd"]
 [ext_resource type="PackedScene" uid="uid://ywyhxmenkfw" path="res://Scenes/mobilecontrolls.tscn" id="11_tb078"]
 [ext_resource type="AudioStream" uid="uid://b58fkkwav5ji4" path="res://sounds/Walk.wav" id="21_ctvyi"]
@@ -87,6 +88,7 @@ size = Vector2(40, 48)
 
 [node name="player" type="CharacterBody2D" groups=["Persistent", "player"]]
 script = ExtResource("1_peqvs")
+jump_force = -600
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tx1dd")
@@ -189,6 +191,10 @@ bus = &"SFX"
 
 [node name="WalkSounds" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("21_ctvyi")
+bus = &"SFX"
+
+[node name="DamageSounds" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_gymyn")
 bus = &"SFX"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]

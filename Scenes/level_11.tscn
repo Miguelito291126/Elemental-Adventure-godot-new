@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://cc85ld1v6buta"]
+[gd_scene load_steps=9 format=4 uid="uid://cc85ld1v6buta"]
 
 [ext_resource type="Script" uid="uid://dq4jieopyk5wd" path="res://Scripts/level.gd" id="1_7q7hj"]
 [ext_resource type="PackedScene" uid="uid://dwc1sfhou3cy2" path="res://Scenes/lava.tscn" id="2_50k2l"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://cwdknm16foa4n" path="res://Scenes/enemy_2.tscn" id="8_0saev"]
 [ext_resource type="PackedScene" uid="uid://dygyux7f2ntky" path="res://Scenes/enemy_robot.tscn" id="8_mpr0q"]
 [ext_resource type="PackedScene" uid="uid://bochpsoi1xhxm" path="res://Scenes/enemy_robot_2.tscn" id="9_7q7hj"]
-[ext_resource type="PackedScene" uid="uid://da61af5kfk5ik" path="res://Scenes/enemy.tscn" id="10_2coi2"]
 
 [node name="level_11" type="Node2D"]
 script = ExtResource("1_7q7hj")
@@ -85,16 +84,6 @@ position = Vector2(513, 71)
 [node name="energy14" parent="." instance=ExtResource("7_68ofl")]
 position = Vector2(339, 83)
 
-[node name="2ed2d2d4" parent="." instance=ExtResource("10_2coi2")]
-position = Vector2(2049, 90)
-color = Color(1, 0.698039, 0, 1)
-color_str = "Orange"
-
-[node name="2ed2d2d6" parent="." instance=ExtResource("10_2coi2")]
-position = Vector2(869, 80)
-color = Color(1, 0.698039, 0, 1)
-color_str = "Orange"
-
 [node name="d2ede2ed" parent="." instance=ExtResource("8_mpr0q")]
 position = Vector2(555, -76)
 
@@ -113,5 +102,11 @@ position = Vector2(486, 168)
 
 [node name="enemy_robot_2" parent="." instance=ExtResource("9_7q7hj")]
 position = Vector2(1303, 152)
+
+[node name="enemy2" parent="." instance=ExtResource("8_0saev")]
+position = Vector2(2012, 138)
+
+[node name="enemy3" parent="." instance=ExtResource("8_0saev")]
+position = Vector2(868, 173)
 
 [editable path="Lava"]

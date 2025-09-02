@@ -350,7 +350,6 @@ properties/12/replication_mode = 1
 [node name="enemy" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_q3cx2")
-move_speed = 30
 color = Color(1, 0.45098, 0, 1)
 color_str = "Orange"
 

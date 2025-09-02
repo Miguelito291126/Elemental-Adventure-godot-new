@@ -344,7 +344,6 @@ properties/10/replication_mode = 1
 [node name="enemy" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_skb27")
-move_speed = 30
 color = Color(0, 1, 0, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

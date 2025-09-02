@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @export var health = 3
 @export var speed = 300  # Velocidad horizontal
+@export var jump_count = 0 # Fuerza del salto (valor negativo porque hacia arriba)
+@export var jump_count_max = 1 # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_force = -400  # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_water_force = -200  # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_wall_force = 100  # Fuerza del salto (valor negativo porque hacia arriba)
@@ -28,6 +30,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")
 
 @onready var walksounds = $WalkSounds
+@onready var damagesounds = $DamageSounds
 @onready var shootsounds = $ShootSounds
 @onready var jumpsounds = $JumpSounds
 
@@ -99,13 +102,15 @@ func _physics_process(delta):
 		if !is_multiplayer_authority():
 			return
 
-
 	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
 	if is_in_water_or_lava:
 		velocity.y += gravity * delta * swim_gravity_factor
 	else:
 		velocity.y += gravity * delta
+		
+	if is_on_floor():
+		jump_count = 0
 
 	# Movimiento lateral
 	velocity.x = direction.x * speed
@@ -139,9 +144,10 @@ func shoot():
 
 func Jump():
 
-	if is_on_floor() and !is_in_water_or_lava:
+	if !is_in_water_or_lava and jump_count < jump_count_max:
 		velocity.y = jump_force
 		jumpsounds.play()
+		jump_count += 1
 	elif is_in_water_or_lava:
 		# Impulso hacia arriba estilo brazada
 		velocity.y += jump_water_force
@@ -207,7 +213,9 @@ func damage(damage_count: int) -> void:
 	
 	if is_invincible:
 		return
-		
+
+	damagesounds.play()
+
 	health -= damage_count
 	
 	GameController.SavePersistentNodes()

@@ -128,13 +128,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	
 		shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	
-		if color == Color.GREEN:
+		if color_str == "Green":
 			animator.play("attack slime green")
-		elif color == Color.BLUE:
+		elif color_str == "Blue":
 			animator.play("attack slime blue")
-		elif color == Color.YELLOW:
+		elif color_str == "Yellow":
 			animator.play("idle slime yellow")
-		elif color == Color.ORANGE:
+		elif color_str == "Orange":
 			animator.play("attack slime orange")
 			
 		shoot_timer.start()
@@ -143,13 +143,13 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		MusicManager.is_near_boss = false
 			
-		if color == Color.GREEN:
+		if color_str == "Green":
 			animator.play("idle slime green")
-		elif color == Color.BLUE:
+		elif color_str == "Blue":
 			animator.play("idle slime blue")
-		elif color == Color.YELLOW:
+		elif color_str == "Yellow":
 			animator.play("idle slime yellow")
-		elif color == Color.ORANGE:
+		elif color_str == "Orange":
 			animator.play("idle slime orange")
 				
 		shoot_timer.stop()
