@@ -6,9 +6,10 @@
 [ext_resource type="AudioStream" uid="uid://b0nq0yyery2gj" path="res://sounds/powerUp.wav" id="4_jgkh0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8cfbd"]
-radius = 7.0
+radius = 17.4642
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lx1vc"]
+size = Vector2(39, 38)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3nfkf"]
 properties/0/path = NodePath(".:freeze")
@@ -40,7 +41,6 @@ properties/8/spawn = true
 properties/8/replication_mode = 1
 
 [node name="hearth" type="RigidBody2D" groups=["Persistent", "hearth"]]
-scale = Vector2(1.5, 1.5)
 mass = 0.01
 freeze = true
 script = ExtResource("1_abea5")
@@ -55,8 +55,7 @@ disabled = true
 shape = SubResource("RectangleShape2D_lx1vc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 2.38419e-07)
-scale = Vector2(0.1875, 0.1875)
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_16pkc")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]

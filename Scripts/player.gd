@@ -298,7 +298,8 @@ func shoot_rpc(direction):
 	bullet.get_node("PointLight2D").enabled = is_fireball
 	bullet.get_node("PointLight2D").color = ball_color
 	bullet.get_node("Fire").visible = is_fireball
-	
+	bullet.fireball = is_fireball
+
 	get_parent().add_child(bullet, true)
 	
 	await get_tree().create_timer(1).timeout

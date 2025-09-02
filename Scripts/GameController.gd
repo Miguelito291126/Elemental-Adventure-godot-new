@@ -27,6 +27,7 @@ var node_group = "Persistent"
 	
 const PATH := "user://data.cfg"
 const PATH_2 := "user://data_state.cfg"
+const PATH_3 := "user://config.cfg"
 const DATA_SECTION := "Results"
 
 func _ready() -> void:
@@ -373,9 +374,12 @@ func DeletePersistentNodes():
 		DirAccess.remove_absolute(PATH_2)
 		
 func DeleteData():
-	var config = ConfigFile.new()
-	config.clear()
-	config.save("user://config.cfg")
-	config.save("user://data.cfg")
-	
-	DeletePersistentNodes()
+	if FileAccess.file_exists(PATH):
+		DirAccess.remove_absolute(PATH)
+		
+	if FileAccess.file_exists(PATH_2):
+		DirAccess.remove_absolute(PATH_2)
+
+	if FileAccess.file_exists(PATH_3):
+		DirAccess.remove_absolute(PATH_3)
+

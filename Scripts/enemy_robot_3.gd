@@ -14,9 +14,6 @@ extends CharacterBody2D
 
 @export var is_invincible: bool = false
 @export var invincibility_time := 1.5
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-@export var is_in_water_or_lava: bool = false
 
 func _ready() -> void:
 	# Animación inicial según color
@@ -67,9 +64,22 @@ func start_invincibility():
 
 @rpc("any_peer", "call_local")
 func kill():
-	if death:
-		return
-	death = true
+	death = !death
+
+	# Posición donde aparecerán los objetos (cerca del jugador)
+	var drop_position = global_position + Vector2(randf_range(-16,16), randf_range(-16,16))
+
+	# Decidir aleatoriamente qué soltar
+	var drop_chance = randi() % 2  # 0 o 1
+	if drop_chance == 0:
+		var coin = preload("res://scenes/energy.tscn").instantiate()
+		coin.global_position = drop_position
+		get_parent().add_child(coin)
+	else:
+		var health = preload("res://scenes/hearth.tscn").instantiate()
+		health.global_position = drop_position
+		get_parent().add_child(health)
+
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
 	queue_free()
@@ -95,14 +105,6 @@ func _process(_delta: float) -> void:
 
 		# Voltear sprite según la posición del jugador
 		animator.flip_h = player_pos.x >= global_position.x
-
-func _physics_process(delta: float) -> void:
-	if is_in_water_or_lava:
-		gravity = -300
-	else:
-		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-	velocity.y += gravity * delta
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -148,8 +150,10 @@ func shoot(direction: Vector2):
 	bullet.get_node("PointLight2D").color = color
 	bullet.get_node("PointLight2D").enabled = true
 	bullet.get_node("Fire").visible = false
-	
+	bullet.fireball = false
+
 	get_parent().add_child(bullet, true)
+
 
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
@@ -161,9 +165,7 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
-	if body.is_in_group("water"):
-		is_in_water_or_lava = true
-	elif body.is_in_group("lava"):
+	if body.is_in_group("lava"):
 		is_invincible = false
 		
 		if GameController.IsNetwork:
@@ -179,6 +181,5 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 			damage(health)
 
 
-func _on_area_2d_2_body_exited(body:Node2D) -> void:
-	if body.is_in_group("water"):
-		is_in_water_or_lava = false
+func _on_area_2d_2_body_exited(_body:Node2D) -> void:
+	pass

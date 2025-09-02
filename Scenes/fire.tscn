@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0ymo1xchweis"]
+
+[ext_resource type="Texture2D" uid="uid://3usd28eag56h" path="res://Sprites/fire Particle.png" id="1_6cgax"]
+
+[sub_resource type="Curve" id="Curve_nvcuk"]
+_data = [Vector2(0.0037037, 0.238177), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Fire" type="CPUParticles2D"]
+amount = 70
+texture = ExtResource("1_6cgax")
+fixed_fps = 30
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 15.0
+direction = Vector2(0, 0)
+gravity = Vector2(0, -98)
+scale_amount_curve = SubResource("Curve_nvcuk")

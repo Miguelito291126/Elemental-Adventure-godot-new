@@ -10,6 +10,8 @@ extends CharacterBody2D
 @export var color: Color
 @export var color_str = "Green"
 
+@onready var firescene = preload("res://Scenes/fire.tscn")
+
 @onready var animator = $AnimatedSprite2D
 @onready var left_floor_check = $left_floor
 @onready var left_wall_check = $left_wall
@@ -21,6 +23,8 @@ extends CharacterBody2D
 @export var invincibility_time := 1.5  # segundos de invencibilidad
 @export var death = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+@export var is_burning: bool = false
 
 func _ready() -> void:
 	if color_str == "Green":
@@ -105,7 +109,22 @@ func start_invincibility():
 	
 @rpc("any_peer", "call_local")
 func kill():
-	death = death
+	death = !death
+	
+	# Posición donde aparecerán los objetos (cerca del jugador)
+	var drop_position = global_position + Vector2(randf_range(-16,16), randf_range(-16,16))
+
+	# Decidir aleatoriamente qué soltar
+	var drop_chance = randi() % 2  # 0 o 1
+	if drop_chance == 0:
+		var coin = preload("res://scenes/energy.tscn").instantiate()
+		coin.global_position = drop_position
+		get_parent().add_child(coin)
+	else:
+		var health = preload("res://scenes/hearth.tscn").instantiate()
+		health.global_position = drop_position
+		get_parent().add_child(health)
+
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
 	queue_free()
@@ -120,6 +139,30 @@ func SaveGameData():
 		"health" : health
 	}
 	return save_dict
+
+func burn():
+	if is_burning:
+		return
+
+	is_burning = true
+
+	var fire = firescene.instantiate()
+	fire.position = Vector2.ZERO  # se queda en el centro del nodo actual
+	add_child(fire)
+
+	# se quema durante 10 segundos
+	for i in range(10): # 10 ticks (1 daño por segundo)
+		if not is_burning:
+			break
+		
+		await get_tree().create_timer(1.0).timeout
+		if GameController.IsNetwork:
+			damage.rpc( damagecount )
+		else:
+			damage( damagecount )
+
+	is_burning = false	
+	fire.queue_free()
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
@@ -127,6 +170,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			damage.rpc( damagecount )
 		else:
 			damage( damagecount )
+
+		if area.fireball and color_str != "Orange":
+			burn()
 
 
 

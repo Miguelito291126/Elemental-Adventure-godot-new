@@ -56,7 +56,6 @@ func _on_option_pressed() -> void:
 
 
 func _on_delete_data_pressed() -> void:
-	
 	GameController.DeleteData()
 	get_tree().quit()
 	
