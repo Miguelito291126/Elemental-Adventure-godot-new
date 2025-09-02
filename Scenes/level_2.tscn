@@ -271,7 +271,6 @@ position = Vector2(2539, -53)
 [node name="plataform" parent="." instance=ExtResource("12_ait6c")]
 position = Vector2(942, 43)
 curve = SubResource("Curve2D_vcilj")
-speed = 2.0
 
 [node name="edeede2d" parent="." instance=ExtResource("13_vcilj")]
 position = Vector2(-78, 366)

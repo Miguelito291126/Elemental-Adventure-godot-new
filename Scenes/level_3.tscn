@@ -223,12 +223,10 @@ position = Vector2(2539, -53)
 [node name="plataform" parent="." instance=ExtResource("12_2awvy")]
 position = Vector2(942, 43)
 curve = SubResource("Curve2D_vcilj")
-speed = 2.0
 
 [node name="plataform2" parent="." instance=ExtResource("12_2awvy")]
 position = Vector2(946, 9)
 curve = SubResource("Curve2D_53xsp")
-speed = 2.0
 
 [node name="wdecceq" parent="." instance=ExtResource("9_8jhox")]
 position = Vector2(747, -230)

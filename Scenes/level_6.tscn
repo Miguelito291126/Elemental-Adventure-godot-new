@@ -158,12 +158,10 @@ position = Vector2(1385, -25)
 [node name="plataform" parent="." instance=ExtResource("7_ncld5")]
 position = Vector2(-217, 7)
 curve = SubResource("Curve2D_546p8")
-speed = 2.0
 
 [node name="plataform2" parent="." instance=ExtResource("7_ncld5")]
 position = Vector2(18, 41)
 curve = SubResource("Curve2D_vu5tt")
-speed = 2.0
 
 [node name="enemy_boss" parent="." instance=ExtResource("8_b33os")]
 position = Vector2(981, -112)
