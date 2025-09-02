@@ -3,8 +3,11 @@ extends CharacterBody2D
 @export var health = 3
 @export var speed = 300  # Velocidad horizontal
 @export var jump_force = -400  # Fuerza del salto (valor negativo porque hacia arriba)
+@export var jump_water_force = -200  # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_wall_force = 100  # Fuerza del salto (valor negativo porque hacia arriba)
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+@export var swim_gravity_factor = 0.25
 
 @export var is_wall_sliding: bool = false
 @export var wall_gravity = 100  # Fuerza de gravedad en la pared
@@ -100,17 +103,12 @@ func _physics_process(delta):
 	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
 	if is_in_water_or_lava:
-		# Gravedad muy reducida para simular flotación
-		gravity = 100  
-		velocity.y += gravity * delta
-		velocity = direction * (speed * 0.6)  # más lento que en tierra
+		velocity.y += gravity * delta * swim_gravity_factor
 	else:
-		# Movimiento normal (ya lo tienes)
-		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		velocity.y += gravity * delta
 
-		# Movimiento lateral
-		velocity.x = direction.x * speed
+	# Movimiento lateral
+	velocity.x = direction.x * speed
 
 	Wall(delta)
 	Animations(direction)
@@ -146,7 +144,7 @@ func Jump():
 		jumpsounds.play()
 	elif is_in_water_or_lava:
 		# Impulso hacia arriba estilo brazada
-		velocity.y = -speed * 0.8
+		velocity.y += jump_water_force
 	elif Input.is_action_pressed("ui_right") and is_on_wall():
 		velocity.y = jump_force
 		velocity.x = -jump_wall_force
@@ -176,10 +174,7 @@ func Wall(delta: float):
 
 func Animations(direction: Vector2):
 	if is_in_water_or_lava:
-		if direction != Vector2.ZERO:
-			animator.play("%s walk" % [GameController.character])
-		else:
-			animator.play("%s idle" % [GameController.character])
+		animator.play("%s swim" % [GameController.character])
 	else:
 		# Tu código de animaciones de suelo/aire
 		if !is_on_floor():

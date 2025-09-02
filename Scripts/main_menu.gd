@@ -38,9 +38,8 @@ func LoadGameData():
 
 func SaveGameData():
 	var config = ConfigFile.new()
-	var err = config.load("user://config.cfg")
-	if err == OK:
-		config.save("user://config.cfg")
+	config.load("user://config.cfg")
+	config.save("user://config.cfg")
 
 func _on_play_pressed() -> void:
 	GameController.LoadCharacterMenu()

@@ -11,6 +11,9 @@ func return_to_menu():
 # Botón volver al menú
 func _on_back_pressed() -> void:
 	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+			
 		GameController.multiplayerpeer.close()
 	else:
 		GameController.DeletePersistentNodes()

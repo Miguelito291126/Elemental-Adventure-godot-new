@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=45 format=3 uid="uid://cswkaimcwce0g"]
+[gd_resource type="SpriteFrames" load_steps=51 format=3 uid="uid://cswkaimcwce0g"]
 
 [ext_resource type="Texture2D" uid="uid://bc5u0xmvsjgcc" path="res://Sprites/air jump.png" id="1_k1v0k"]
 [ext_resource type="Texture2D" uid="uid://dn2uwttahe5bw" path="res://Sprites/air idle.png" id="2_8rnlj"]
@@ -8,10 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://bocc2mirsx48o" path="res://Sprites/earth walk.png" id="6_ocews"]
 [ext_resource type="Texture2D" uid="uid://bvi0omxm6df8s" path="res://Sprites/fire jump.png" id="7_4qw5r"]
 [ext_resource type="Texture2D" uid="uid://d3l2e26s0r3op" path="res://Sprites/Fire IDle.png" id="8_0pvi7"]
+[ext_resource type="Texture2D" uid="uid://d1k4bw4acrxki" path="res://Sprites/Fire swim.png" id="9_0be81"]
 [ext_resource type="Texture2D" uid="uid://clbynqy13ftyy" path="res://Sprites/Fire Walk.png" id="9_4addw"]
 [ext_resource type="Texture2D" uid="uid://couliinx2knw1" path="res://Sprites/water jump.png" id="10_qkcd0"]
 [ext_resource type="Texture2D" uid="uid://bhtn0asm5ij01" path="res://Sprites/water idle.png" id="11_vcbav"]
 [ext_resource type="Texture2D" uid="uid://n7bbluihv0n0" path="res://Sprites/water walk.png" id="12_syddp"]
+[ext_resource type="Texture2D" uid="uid://c1qt0p0l00oul" path="res://Sprites/water swim.png" id="13_4mp07"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_slodb"]
 atlas = ExtResource("1_k1v0k")
@@ -93,6 +95,14 @@ region = Rect2(0, 0, 64, 64)
 atlas = ExtResource("7_4qw5r")
 region = Rect2(0, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_e663s"]
+atlas = ExtResource("9_0be81")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocews"]
+atlas = ExtResource("9_0be81")
+region = Rect2(64, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_yhyok"]
 atlas = ExtResource("9_4addw")
 region = Rect2(192, 0, 64, 64)
@@ -124,6 +134,14 @@ region = Rect2(64, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hh4xs"]
 atlas = ExtResource("10_qkcd0")
 region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qw5r"]
+atlas = ExtResource("13_4mp07")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pvi7"]
+atlas = ExtResource("13_4mp07")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mo2i6"]
 atlas = ExtResource("12_syddp")
@@ -160,7 +178,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"air idle",
-"speed": 2.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -204,7 +222,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"earth idle",
-"speed": 2.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -248,7 +266,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"fire idle",
-"speed": 2.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -257,6 +275,17 @@ animations = [{
 "loop": true,
 "name": &"fire jump",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e663s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ocews")
+}],
+"loop": true,
+"name": &"fire swim",
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -292,7 +321,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"water idle",
-"speed": 2.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -301,6 +330,17 @@ animations = [{
 "loop": true,
 "name": &"water jump",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qw5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pvi7")
+}],
+"loop": true,
+"name": &"water swim",
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,

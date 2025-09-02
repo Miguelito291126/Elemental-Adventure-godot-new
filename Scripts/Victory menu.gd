@@ -15,6 +15,9 @@ func _ready() -> void:
 
 func _on_back_pressed() -> void:
 	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+			
 		GameController.multiplayerpeer.close()
 	else:
 		GameController.DeletePersistentNodes()
