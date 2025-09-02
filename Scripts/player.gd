@@ -121,14 +121,22 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump0"):
-		Jump()
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Teclado / mando para disparar
 	if event.is_action_pressed("Shoot0") and not is_shotting:
 		shoot()
+		get_viewport().set_input_as_handled()
 
+	# Teclado / mando para saltar
+	if event.is_action_pressed("jump0"):
+		Jump()
+		get_viewport().set_input_as_handled()
+
+
+
+
+	
 func shoot():
 	var mouse_pos = get_global_mouse_position()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
@@ -400,3 +408,5 @@ func _on_area_2d_body_exited(body:Node2D) -> void:
 		is_in_water_or_lava = false
 	elif body.is_in_group("acid"):
 		is_in_water_or_lava = false
+
+

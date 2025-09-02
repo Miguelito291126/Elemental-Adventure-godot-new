@@ -1,15 +1,16 @@
-[gd_scene load_steps=15 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=16 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
 [ext_resource type="Texture2D" uid="uid://cl42pdns3y0ig" path="res://Sprites/Controls/shaded-light/shadedLight33.png" id="4_tx1dd"]
 [ext_resource type="AudioStream" uid="uid://o1g3wo248f04" path="res://sounds/jump.wav" id="5_3smsa"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
+[ext_resource type="Texture2D" uid="uid://njcjwnjn467m" path="res://Sprites/Controls/shaded-light/shadedLight26.png" id="5_ukyrk"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="6_7dp3o"]
 [ext_resource type="AudioStream" uid="uid://drr2wubpf40ds" path="res://sounds/laserShoot.wav" id="6_8erm5"]
 [ext_resource type="PackedScene" uid="uid://y6bboatewubh" path="res://Scenes/pause_menu.tscn" id="9_aviom"]
 [ext_resource type="AudioStream" uid="uid://epn02skm7kuj" path="res://sounds/hitHurt.wav" id="10_gymyn"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="10_tx1dd"]
-[ext_resource type="PackedScene" uid="uid://ywyhxmenkfw" path="res://Scenes/mobilecontrolls.tscn" id="11_tb078"]
 [ext_resource type="AudioStream" uid="uid://b58fkkwav5ji4" path="res://sounds/Walk.wav" id="21_ctvyi"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tx1dd"]
@@ -170,10 +171,39 @@ texture_disabled = ExtResource("4_tx1dd")
 texture_focused = ExtResource("4_tx1dd")
 stretch_mode = 0
 
-[node name="Pause menu" parent="." instance=ExtResource("9_aviom")]
-visible = false
+[node name="Control" type="Control" parent="Hud"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -416.0
+offset_top = -380.0
+offset_right = -336.0
+offset_bottom = -300.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(3.145, 3.145)
 
-[node name="Mobilecontrolls" parent="." instance=ExtResource("11_tb078")]
+[node name="Jump" type="TouchScreenButton" parent="Hud/Control"]
+modulate = Color(0.415686, 0, 0.415686, 1)
+texture_normal = ExtResource("5_ukyrk")
+texture_pressed = ExtResource("5_ukyrk")
+action = "jump0"
+visibility_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Virtual Joystick" parent="Hud" instance=ExtResource("6_7dp3o")]
+modulate = Color(0.415686, 0, 0.415686, 1)
+offset_left = 176.0
+offset_top = -440.0
+offset_right = 476.0
+offset_bottom = -160.0
+scale = Vector2(1.495, 1.495)
+visibility_mode = 1
+
+[node name="Pause menu" parent="." instance=ExtResource("9_aviom")]
 visible = false
 
 [node name="bulletpos" type="Node2D" parent="."]
