@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=17 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
 [ext_resource type="Texture2D" uid="uid://cl42pdns3y0ig" path="res://Sprites/Controls/shaded-light/shadedLight33.png" id="4_tx1dd"]
 [ext_resource type="AudioStream" uid="uid://o1g3wo248f04" path="res://sounds/jump.wav" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://djygm6wp34b1d" path="res://Scripts/jump_button.gd" id="5_7dp3o"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
 [ext_resource type="Texture2D" uid="uid://njcjwnjn467m" path="res://Sprites/Controls/shaded-light/shadedLight26.png" id="5_ukyrk"]
 [ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="6_7dp3o"]
@@ -171,7 +172,7 @@ texture_disabled = ExtResource("4_tx1dd")
 texture_focused = ExtResource("4_tx1dd")
 stretch_mode = 0
 
-[node name="Control" type="Control" parent="Hud"]
+[node name="JumpButton" type="Control" parent="Hud"]
 layout_mode = 3
 anchors_preset = 3
 anchor_left = 1.0
@@ -185,8 +186,9 @@ offset_bottom = -300.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(3.145, 3.145)
+script = ExtResource("5_7dp3o")
 
-[node name="Jump" type="TouchScreenButton" parent="Hud/Control"]
+[node name="Jump" type="TouchScreenButton" parent="Hud/JumpButton"]
 modulate = Color(0.415686, 0, 0.415686, 1)
 texture_normal = ExtResource("5_ukyrk")
 texture_pressed = ExtResource("5_ukyrk")
