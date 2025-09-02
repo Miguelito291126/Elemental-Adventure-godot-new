@@ -117,17 +117,18 @@ func kill():
 	# Decidir aleatoriamente qué soltar
 	var drop_chance = randi() % 2  # 0 o 1
 	if drop_chance == 0:
-		var coin = preload("res://scenes/energy.tscn").instantiate()
+		var coin = load("res://scenes/energy.tscn").instantiate()
 		coin.global_position = drop_position
 		get_parent().add_child(coin)
 	else:
-		var health = preload("res://scenes/hearth.tscn").instantiate()
+		var health = load("res://scenes/hearth.tscn").instantiate()
 		health.global_position = drop_position
 		get_parent().add_child(health)
 
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
 	queue_free()
+
 	
 func SaveGameData():
 	var save_dict = {

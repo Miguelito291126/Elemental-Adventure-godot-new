@@ -110,7 +110,7 @@ position = Vector2(40, 0)
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_3q7bq")
 animation = &"robot 3 Idle"
-frame_progress = 0.96769
+frame_progress = 0.700314
 
 [node name="Timer" type="Timer" parent="."]
 
