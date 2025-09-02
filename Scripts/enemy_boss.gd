@@ -15,7 +15,7 @@ extends CharacterBody2D
 @export var color_str = "Green"
 
 @export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
+@export var invincibility_time = 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
 
@@ -110,7 +110,7 @@ func kill():
 		var health = preload("res://scenes/hearth.tscn").instantiate()
 		health.global_position = drop_position
 		get_parent().add_child(health)
-		
+
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
 	queue_free()
@@ -239,11 +239,11 @@ func burn():
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
 		if GameController.IsNetwork:
-			damage.rpc( damagecount )
+			damage.rpc(damagecount)
 		else:
-			damage( damagecount )
+			damage(damagecount)
 
-		if area.fireball:
+		if area.fireball and color_str != "Orange":
 			burn()
 
 

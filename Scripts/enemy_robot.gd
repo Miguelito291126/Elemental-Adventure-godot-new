@@ -12,7 +12,7 @@ extends CharacterBody2D
 @onready var animator = $AnimatedSprite2D
 
 @export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
+@export var invincibility_time = 1.5  # segundos de invencibilidad
 
 @export var enemy_id: String
 @export var death = false

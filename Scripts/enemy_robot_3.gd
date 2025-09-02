@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
-@export var health := 10
-@export var damagecount := 3
+@export var health = 10
+@export var damagecount = 3
 @export var color: Color
 @export var enemy_id: String
-@export var death := false
+@export var death = false
 
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")
 @onready var bulletspawn = $bulletpos/bulletspawn
@@ -13,7 +13,7 @@ extends CharacterBody2D
 @onready var animator = $AnimatedSprite2D
 
 @export var is_invincible: bool = false
-@export var invincibility_time := 1.5
+@export var invincibility_time = 1.5
 
 func _ready() -> void:
 	# Animación inicial según color

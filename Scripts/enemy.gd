@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var health = 10
 @export var damagecount = 3
 
-@export var move_speed := 50
+@export var move_speed = 50
 @export var direction = Vector2.LEFT
 
 @export var enemy_id: String
@@ -20,7 +20,7 @@ extends CharacterBody2D
 @onready var right_wall_check = $right_wall
 
 @export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
+@export var invincibility_time = 1.5  # segundos de invencibilidad
 @export var death = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -110,7 +110,7 @@ func start_invincibility():
 @rpc("any_peer", "call_local")
 func kill():
 	death = !death
-	
+
 	# Posición donde aparecerán los objetos (cerca del jugador)
 	var drop_position = global_position + Vector2(randf_range(-16,16), randf_range(-16,16))
 

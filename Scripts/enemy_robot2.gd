@@ -10,13 +10,13 @@ extends CharacterBody2D
 @onready var shoot_timer = $Timer  # Asegúrate de poner el nombre correcto del Timer
 @export var color: Color
 @export var direction = Vector2.LEFT
-@export var move_speed := 50
+@export var move_speed = 50
 
-@export var is_shooting := false
+@export var is_shooting = false
 
 
 @export var is_invincible: bool = false
-@export var invincibility_time := 1.5  # segundos de invencibilidad
+@export var invincibility_time = 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
 @onready var left_floor_check = $left_floor
@@ -100,7 +100,7 @@ func kill():
 		var health = preload("res://scenes/hearth.tscn").instantiate()
 		health.global_position = drop_position
 		get_parent().add_child(health)
-		
+
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
 	queue_free()
@@ -222,8 +222,7 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 			damage.rpc( damagecount )
 		else:
 			damage( damagecount )
-
-		
+	
 		if area.fireball:
 			burn()
 

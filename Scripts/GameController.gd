@@ -268,12 +268,7 @@ func SingleplayerPlayerSpawner():
 	else:
 		print_role("jugador no Spawneado")
 	
-func _notification(what):
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		SavePersistentNodes()
-		SaveGameData()
-	
-	
+
 func SaveGameData():
 	var config = ConfigFile.new()
 	config.load(PATH)
@@ -376,7 +371,7 @@ func DeletePersistentNodes():
 func DeleteData():
 	if FileAccess.file_exists(PATH):
 		DirAccess.remove_absolute(PATH)
-		
+
 	if FileAccess.file_exists(PATH_2):
 		DirAccess.remove_absolute(PATH_2)
 
