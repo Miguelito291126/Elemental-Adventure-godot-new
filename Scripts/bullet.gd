@@ -5,10 +5,6 @@ extends Area2D
 @onready var bullet_fire = $Fire
 @onready var bullet_light = $PointLight2D
 
-func _ready() -> void:
-	bullet_fire.visible = false
-	bullet_light.enabled = false
-
 func _physics_process(delta):
 	position += direction * speed * delta
 

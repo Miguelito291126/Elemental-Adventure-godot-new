@@ -45,7 +45,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var id: String
 
 @export var ball_color: Color = Color.WHITE
-@export var fireball: bool = false
+@export var is_fireball = false
 @export var is_shotting = false
 
 func _enter_tree() -> void:
@@ -73,20 +73,20 @@ func _ready() -> void:
 	if GameController.character == "fire":
 		light.color = Color.ORANGE
 		ball_color = Color.ORANGE
-		fireball = true
+		is_fireball = true
 	elif GameController.character == "water":
 		light.color = Color.WHITE
 		ball_color = Color.BLUE
-		fireball = false
+		is_fireball = false
 	elif GameController.character == "air":
 		light.color = Color.WHITE
 		ball_color = Color.DIM_GRAY
-		fireball = false
+		is_fireball = false
 	elif GameController.character == "earth":
 		light.color = Color.WHITE
 		ball_color = Color.SADDLE_BROWN
-		fireball = false
-	
+		is_fireball = false
+
 func _process(_delta: float) -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
@@ -295,9 +295,9 @@ func shoot_rpc(direction):
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
 	bullet.modulate = ball_color
-	bullet.get_node("PointLight2D").enabled = fireball
+	bullet.get_node("PointLight2D").enabled = is_fireball
 	bullet.get_node("PointLight2D").color = ball_color
-	bullet.get_node("Fire").visible = fireball
+	bullet.get_node("Fire").visible = is_fireball
 	
 	get_parent().add_child(bullet, true)
 	
