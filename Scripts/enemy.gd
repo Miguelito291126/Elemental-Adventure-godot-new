@@ -120,9 +120,9 @@ func kill():
 		coin.global_position = drop_position
 		get_parent().add_child(coin)
 	else:
-		var heart = load("res://scenes/heart.tscn").instantiate()
-		heart.global_position = drop_position
-		get_parent().add_child(heart)
+		var hearth = load("res://scenes/hearth.tscn").instantiate()
+		hearth.global_position = drop_position
+		get_parent().add_child(hearth)
 
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()

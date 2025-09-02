@@ -81,7 +81,6 @@ func kill():
 
 	# Posición donde aparecerán los objetos (cerca del jugador)
 	var drop_position = global_position
-
 	# Decidir aleatoriamente qué soltar
 	var drop_chance = randi() % 2  # 0 o 1
 	if drop_chance == 0:
@@ -89,9 +88,9 @@ func kill():
 		coin.global_position = drop_position
 		get_parent().add_child(coin)
 	else:
-		var heart = load("res://scenes/heart.tscn").instantiate()
-		heart.global_position = drop_position
-		get_parent().add_child(heart)
+		var hearth = load("res://scenes/hearth.tscn").instantiate()
+		hearth.global_position = drop_position
+		get_parent().add_child(hearth)
 
 	GameController.SavePersistentNodes()
 	GameController.SaveGameData()
