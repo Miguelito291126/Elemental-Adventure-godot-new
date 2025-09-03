@@ -11,6 +11,9 @@ func _ready() -> void:
 	GameController.LoadPersistentNodes()
 
 	if GameController.IsNetwork :
+		
+		GameController.print_role("Nivel Iniciado")
+
 		if get_tree().get_multiplayer().is_server():
 			for id in get_tree().get_multiplayer().get_peers():
 				GameController.MultiplayerPlayerSpawner(id)

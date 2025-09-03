@@ -123,6 +123,10 @@ func _physics_process(delta):
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+
 	# Teclado / mando para disparar
 	if event.is_action_pressed("Shoot0") and not is_shotting:
 		shoot()
@@ -138,6 +142,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	
 func shoot():
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+
 	var mouse_pos = get_global_mouse_position()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
 	var radius = 20.0  # puedes ajustar esto a tu gusto
@@ -151,6 +159,9 @@ func shoot():
 		shoot_rpc(direction_to_mouse)
 
 func Jump():
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
 
 	if !is_in_water_or_lava and jump_count < jump_count_max:
 		velocity.y = jump_force
@@ -174,6 +185,10 @@ func Jump():
 
 
 func Wall(delta: float):
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+
 	if is_on_wall() and !is_on_floor():
 		if Input.is_action_pressed("ui_right") or Input.is_action_pressed("ui_left"):
 			is_wall_sliding = true
@@ -187,6 +202,10 @@ func Wall(delta: float):
 		velocity.y = min(velocity.y, wall_gravity)
 
 func Animations(direction: Vector2):
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+
 	if is_in_water_or_lava:
 		animator.play("%s swim" % [GameController.character])
 	else:
@@ -202,6 +221,10 @@ func Animations(direction: Vector2):
 			animator.play("%s idle" % [GameController.character])
 
 func flip(direction: Vector2):
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+			
 	# Voltear sprite
 	if direction.x < 0:
 		animator.flip_h = true

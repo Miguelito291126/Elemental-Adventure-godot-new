@@ -36,12 +36,16 @@ func _ready() -> void:
 	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
 	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
 	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
-
-	if OS.has_feature("dedicated_server"):
-		Play_MultiplayerServer()
 	
 	LoadGameData()
 
+	if OS.has_feature("dedicated_server"):
+		print_role("Iniciando servidor dedicado...")
+		
+		await get_tree().create_timer(2).timeout
+
+		Play_MultiplayerServer()
+		
 func _exit_tree() -> void:
 	get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
 	get_tree().get_multiplayer().connected_to_server.disconnect(MultiplayerConnectionServerSucess)
@@ -191,17 +195,30 @@ func print_role(msg: String):
 func Play_MultiplayerServer():
 	IsNetwork = true
 	multiplayerpeer = ENetMultiplayerPeer.new()
-	multiplayerpeer.create_server(port, 4)
-	get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
-	
-	if get_tree().get_multiplayer().is_server():
-		LoadCharacterMenu()
-	
+	var error = multiplayerpeer.create_server(port, 4)
+	if error == OK:
+		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
+		
+		if get_tree().get_multiplayer().is_server():
+			if OS.has_feature("dedicated_server"):
+				print_role("Servidor dedicado iniciado.")
+
+				await get_tree().create_timer(2).timeout
+
+				load_level_scene()
+			else:
+				LoadCharacterMenu()
+	else:
+		print_role("Error al iniciar el servidor.")
+
 func Play_MultiplayerClient():
 	IsNetwork = true
 	multiplayerpeer = ENetMultiplayerPeer.new()
-	multiplayerpeer.create_client(ip, port)
-	get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
+	var error =  multiplayerpeer.create_client(ip, port)
+	if error == OK:
+		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
+	else:
+		print_role("Error al iniciar el cliente.")
 
 func MultiplayerPlayerSpawner(id: int = 1):
 
