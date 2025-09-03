@@ -12,6 +12,15 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.points)
 
 func _on_back_pressed() -> void:
-	GameController.DeleteData()
-	get_tree().quit()
+	
+
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+			
+		GameController.DeleteData()
+		GameController.multiplayerpeer.close()
+	else:
+		GameController.DeleteData()
+		GameController.LoadMainMenu()
 	

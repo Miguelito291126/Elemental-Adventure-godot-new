@@ -244,6 +244,8 @@ func MultiplayerConnectionFailed():
 	if IsNetwork:
 		IsNetwork = false
 	
+	DeletePersistentNodes()	
+	
 	LoadMainMenu()
 	
 func MultiplayerConnectionServerSucess():
@@ -257,6 +259,8 @@ func MultiplayerServerDisconnected():
 
 	if IsNetwork:
 		IsNetwork = false
+
+	DeletePersistentNodes()	
 		
 	LoadMainMenu()
 
