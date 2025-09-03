@@ -36,6 +36,9 @@ func _ready() -> void:
 	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
 	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
 	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
+
+	if OS.has_feature("dedicated_server"):
+		Play_MultiplayerServer()
 	
 	LoadGameData()
 
