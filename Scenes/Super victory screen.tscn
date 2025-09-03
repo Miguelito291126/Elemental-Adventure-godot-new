@@ -23,7 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_chnvv")
 
-[node name="Label" type="Label" parent="."]
+[node name="level" type="Label" parent="."]
 process_mode = 3
 anchors_preset = 5
 anchor_left = 0.5

@@ -9,7 +9,7 @@ func _enter_tree() -> void:
 		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())
 
 func _ready() -> void:
-	level.text = str("You completed: ",  GameController.level - 1)
+	level.text = str("You completed level: ",  GameController.level - 1)
 	score.text = str("Score: ",  GameController.points)
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
 
