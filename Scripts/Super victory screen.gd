@@ -20,8 +20,10 @@ func _on_back_pressed() -> void:
 			return
 
 		GameController.DeleteResources()
+		GameController.DeletePersistentNodes()
 		GameController.multiplayerpeer.close()
 	else:
 		GameController.DeleteResources()
+		GameController.DeletePersistentNodes()
 		GameController.LoadMainMenu()
 	

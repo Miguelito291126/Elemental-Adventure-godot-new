@@ -140,9 +140,6 @@ func LoadVictoryMenu():
 	
 @rpc("any_peer", "call_local")
 func LoadMainMenu():
-	
-	DeletePersistentNodes()
-
 	load_scene_in_game_node("res://Scenes/main_menu.tscn")
 	
 @rpc("any_peer", "call_local")
@@ -247,7 +244,6 @@ func MultiplayerConnectionFailed():
 	if IsNetwork:
 		IsNetwork = false
 	
-	DeletePersistentNodes()	
 
 	LoadMainMenu()
 	
@@ -262,8 +258,6 @@ func MultiplayerServerDisconnected():
 
 	if IsNetwork:
 		IsNetwork = false
-
-	DeletePersistentNodes()	
 		
 	LoadMainMenu()
 
