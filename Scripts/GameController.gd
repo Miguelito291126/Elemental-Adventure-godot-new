@@ -1,6 +1,6 @@
 extends Node
 
-@export var version = 8
+@export var version = 9.5
 
 @export var level = 1
 @export var max_level = 18
