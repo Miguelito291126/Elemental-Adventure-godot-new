@@ -1,6 +1,6 @@
 extends Node
 
-@export var version = 10
+@export var version = 10.1
 
 @export var level = 1
 @export var max_level = 18
@@ -291,6 +291,9 @@ func SingleplayerPlayerSpawner():
 	
 
 func SaveGameData():
+	if not get_tree().get_multiplayer().is_server():
+		return
+
 	var config = ConfigFile.new()
 	config.load(PATH)
 	config.set_value(DATA_SECTION, "Coins", energys)
@@ -300,6 +303,9 @@ func SaveGameData():
 	
 		
 func LoadGameData():
+	if not get_tree().get_multiplayer().is_server():
+		return
+
 	var config = ConfigFile.new()
 	if config.load(PATH) == OK:
 		energys = config.get_value(DATA_SECTION, "Coins", energys)
@@ -308,6 +314,9 @@ func LoadGameData():
 		
 		
 func LoadPersistentNodes():
+	if not get_tree().get_multiplayer().is_server():
+		return
+
 	if not FileAccess.file_exists(PATH_2):
 		return # Error! We don't have a save to load.
 
@@ -358,6 +367,9 @@ func LoadPersistentNodes():
 
 		
 func SavePersistentNodes():
+	if not get_tree().get_multiplayer().is_server():
+		return
+		
 	var save_file = FileAccess.open(PATH_2, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for node in save_nodes:
@@ -404,4 +416,3 @@ func DeleteData():
 	DeleteConfig()
 
 	
-
