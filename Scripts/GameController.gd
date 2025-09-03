@@ -1,6 +1,6 @@
 extends Node
 
-@export var version = 9.5
+@export var version = 10
 
 @export var level = 1
 @export var max_level = 18
@@ -45,7 +45,7 @@ func _ready() -> void:
 		await get_tree().create_timer(2).timeout
 
 		Play_MultiplayerServer()
-		
+
 func _exit_tree() -> void:
 	get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
 	get_tree().get_multiplayer().connected_to_server.disconnect(MultiplayerConnectionServerSucess)
