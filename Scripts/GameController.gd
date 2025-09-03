@@ -314,9 +314,6 @@ func LoadGameData():
 		
 		
 func LoadPersistentNodes():
-	if not get_tree().get_multiplayer().is_server():
-		return
-
 	if not FileAccess.file_exists(PATH_2):
 		return # Error! We don't have a save to load.
 
@@ -327,6 +324,9 @@ func LoadPersistentNodes():
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for i in save_nodes:
 		i.queue_free()
+
+	if not get_tree().get_multiplayer().is_server():
+		return
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.
@@ -369,7 +369,7 @@ func LoadPersistentNodes():
 func SavePersistentNodes():
 	if not get_tree().get_multiplayer().is_server():
 		return
-		
+
 	var save_file = FileAccess.open(PATH_2, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for node in save_nodes:
