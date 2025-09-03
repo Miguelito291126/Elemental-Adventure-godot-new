@@ -18,10 +18,10 @@ func _on_back_pressed() -> void:
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-			
-		GameController.DeleteData()
+
+		GameController.DeleteResources()
 		GameController.multiplayerpeer.close()
 	else:
-		GameController.DeleteData()
+		GameController.DeleteResources()
 		GameController.LoadMainMenu()
 	

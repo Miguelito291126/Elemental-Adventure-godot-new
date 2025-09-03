@@ -140,6 +140,9 @@ func LoadVictoryMenu():
 	
 @rpc("any_peer", "call_local")
 func LoadMainMenu():
+	
+	DeletePersistentNodes()
+
 	load_scene_in_game_node("res://Scenes/main_menu.tscn")
 	
 @rpc("any_peer", "call_local")
@@ -245,7 +248,7 @@ func MultiplayerConnectionFailed():
 		IsNetwork = false
 	
 	DeletePersistentNodes()	
-	
+
 	LoadMainMenu()
 	
 func MultiplayerConnectionServerSucess():
@@ -368,17 +371,23 @@ func SavePersistentNodes():
 		# Store the save dictionary as a new line in the save file.
 		save_file.store_line(json_string)
 
-func DeletePersistentNodes():
-	if FileAccess.file_exists(PATH_2):
-		DirAccess.remove_absolute(PATH_2)
-		
-func DeleteData():
+func DeleteResources():
 	if FileAccess.file_exists(PATH):
 		DirAccess.remove_absolute(PATH)
 
+func DeletePersistentNodes():
 	if FileAccess.file_exists(PATH_2):
 		DirAccess.remove_absolute(PATH_2)
 
+
+func DeleteConfig():
 	if FileAccess.file_exists(PATH_3):
 		DirAccess.remove_absolute(PATH_3)
+		
+func DeleteData():
+	DeleteResources()
+	DeletePersistentNodes()
+	DeleteConfig()
+
+	
 

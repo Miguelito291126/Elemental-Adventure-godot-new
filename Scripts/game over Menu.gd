@@ -16,7 +16,6 @@ func _on_back_pressed() -> void:
 			
 		GameController.multiplayerpeer.close()
 	else:
-		GameController.DeletePersistentNodes()
 		GameController.LoadMainMenu()
 
 # Botón volver al nivel actual
