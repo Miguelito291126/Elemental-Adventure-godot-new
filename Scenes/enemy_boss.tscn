@@ -358,6 +358,18 @@ properties/13/replication_mode = 1
 properties/14/path = NodePath("bulletpos/bulletspawn:rotation")
 properties/14/spawn = true
 properties/14/replication_mode = 1
+properties/15/path = NodePath(".:position")
+properties/15/spawn = true
+properties/15/replication_mode = 1
+properties/16/path = NodePath(".:rotation")
+properties/16/spawn = true
+properties/16/replication_mode = 1
+properties/17/path = NodePath("AnimatedSprite2D:flip_h")
+properties/17/spawn = true
+properties/17/replication_mode = 1
+properties/18/path = NodePath(".:scale")
+properties/18/spawn = true
+properties/18/replication_mode = 1
 
 [node name="enemy_boss" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 scale = Vector2(9, 9)
@@ -366,6 +378,7 @@ color = Color(0, 1, 0, 1)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 enabled = false
+shadow_enabled = true
 texture = ExtResource("2_a0vro")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

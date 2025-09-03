@@ -306,7 +306,7 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7523r"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_m4x7e"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q3cx2"]
 properties/0/path = NodePath(".:health")
 properties/0/spawn = true
 properties/0/replication_mode = 1
@@ -328,24 +328,30 @@ properties/5/replication_mode = 1
 properties/6/path = NodePath(".:color_str")
 properties/6/spawn = true
 properties/6/replication_mode = 1
-properties/7/path = NodePath(".:is_invincible")
+properties/7/path = NodePath("AnimatedSprite2D:animation")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath(".:invincibility_time")
+properties/8/path = NodePath("AnimatedSprite2D:frame")
 properties/8/spawn = true
 properties/8/replication_mode = 1
-properties/9/path = NodePath("AnimatedSprite2D:animation")
+properties/9/path = NodePath("PointLight2D:color")
 properties/9/spawn = true
 properties/9/replication_mode = 1
-properties/10/path = NodePath("AnimatedSprite2D:frame")
+properties/10/path = NodePath(".:visible")
 properties/10/spawn = true
 properties/10/replication_mode = 1
-properties/11/path = NodePath("PointLight2D:color")
+properties/11/path = NodePath("AnimatedSprite2D:flip_h")
 properties/11/spawn = true
 properties/11/replication_mode = 1
-properties/12/path = NodePath(".:visible")
+properties/12/path = NodePath(".:position")
 properties/12/spawn = true
 properties/12/replication_mode = 1
+properties/13/path = NodePath(".:rotation")
+properties/13/spawn = true
+properties/13/replication_mode = 1
+properties/14/path = NodePath(".:scale")
+properties/14/spawn = true
+properties/14/replication_mode = 1
 
 [node name="enemy" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 scale = Vector2(1.5, 1.5)
@@ -382,6 +388,7 @@ target_position = Vector2(0, 21.3333)
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(1, 0.654902, 0, 1)
 range_layer_min = -100
+shadow_enabled = true
 texture = ExtResource("14_7ic5y")
 texture_scale = 0.29
 
@@ -391,7 +398,7 @@ texture_scale = 0.29
 shape = SubResource("RectangleShape2D_7523r")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_m4x7e")
+replication_config = SubResource("SceneReplicationConfig_q3cx2")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

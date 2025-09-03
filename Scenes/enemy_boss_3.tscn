@@ -311,7 +311,7 @@ size = Vector2(20.1111, 20)
 [sub_resource type="CircleShape2D" id="CircleShape2D_a0vro"]
 radius = 117.806
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e7bbx"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ry7m2"]
 properties/0/path = NodePath(".:health")
 properties/0/spawn = true
 properties/0/replication_mode = 1
@@ -348,15 +348,27 @@ properties/10/replication_mode = 1
 properties/11/path = NodePath("bulletpos:position")
 properties/11/spawn = true
 properties/11/replication_mode = 1
-properties/12/path = NodePath("bulletpos:rotation")
+properties/12/path = NodePath("bulletpos/bulletspawn:position")
 properties/12/spawn = true
 properties/12/replication_mode = 1
-properties/13/path = NodePath("bulletpos/bulletspawn:position")
+properties/13/path = NodePath("bulletpos:rotation")
 properties/13/spawn = true
 properties/13/replication_mode = 1
 properties/14/path = NodePath("bulletpos/bulletspawn:rotation")
 properties/14/spawn = true
 properties/14/replication_mode = 1
+properties/15/path = NodePath(".:position")
+properties/15/spawn = true
+properties/15/replication_mode = 1
+properties/16/path = NodePath(".:rotation")
+properties/16/spawn = true
+properties/16/replication_mode = 1
+properties/17/path = NodePath("AnimatedSprite2D:flip_h")
+properties/17/spawn = true
+properties/17/replication_mode = 1
+properties/18/path = NodePath(".:scale")
+properties/18/spawn = true
+properties/18/replication_mode = 1
 
 [node name="enemy_boss" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 scale = Vector2(9, 9)
@@ -367,6 +379,7 @@ color_str = "Yellow"
 [node name="PointLight2D" type="PointLight2D" parent="."]
 enabled = false
 range_layer_min = -100
+shadow_enabled = true
 texture = ExtResource("2_qk0si")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -408,7 +421,7 @@ theme = ExtResource("15_jfvdu")
 show_percentage = false
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_e7bbx")
+replication_config = SubResource("SceneReplicationConfig_ry7m2")
 
 [connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]
 [connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]

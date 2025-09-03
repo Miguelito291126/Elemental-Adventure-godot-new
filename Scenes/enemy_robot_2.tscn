@@ -159,6 +159,18 @@ properties/14/replication_mode = 1
 properties/15/path = NodePath("bulletpos/bulletspawn:rotation")
 properties/15/spawn = true
 properties/15/replication_mode = 1
+properties/16/path = NodePath(".:position")
+properties/16/spawn = true
+properties/16/replication_mode = 1
+properties/17/path = NodePath(".:rotation")
+properties/17/spawn = true
+properties/17/replication_mode = 1
+properties/18/path = NodePath(".:scale")
+properties/18/spawn = true
+properties/18/replication_mode = 1
+properties/19/path = NodePath("AnimatedSprite2D:flip_h")
+properties/19/spawn = true
+properties/19/replication_mode = 1
 
 [node name="enemy_robot_2" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 script = ExtResource("1_m4iiy")
@@ -185,6 +197,7 @@ flip_h = true
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(0, 1, 0, 1)
 range_layer_min = -100
+shadow_enabled = true
 texture = ExtResource("5_76gyl")
 texture_scale = 0.5
 
