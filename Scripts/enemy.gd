@@ -116,11 +116,11 @@ func kill():
 	# Decidir aleatoriamente qué soltar
 	var drop_chance = randi() % 2  # 0 o 1
 	if drop_chance == 0:
-		var coin = load("res://scenes/energy.tscn").instantiate()
+		var coin = load("res://Scenes/energy.tscn").instantiate()
 		coin.global_position = drop_position
 		get_parent().add_child(coin)
 	else:
-		var hearth = load("res://scenes/hearth.tscn").instantiate()
+		var hearth = load("res://Scenes/hearth.tscn").instantiate()
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)
 

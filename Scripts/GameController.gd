@@ -133,7 +133,7 @@ func LoadVictoryMenu():
 	
 	DeletePersistentNodes()
 
-	if level < max_level:
+	if level <= max_level:
 		load_scene_in_game_node("res://Scenes/victory_menu.tscn")
 	else:
 		load_scene_in_game_node("res://Scenes/Super victory screen.tscn")
