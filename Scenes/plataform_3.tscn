@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ddbba7cpls6he"]
+[gd_scene load_steps=8 format=3 uid="uid://ddbba7cpls6he"]
 
 [ext_resource type="Script" uid="uid://doojc5isfvjst" path="res://Scripts/plataform.gd" id="1_h04up"]
 [ext_resource type="Texture2D" uid="uid://k2hy7cu1gn86" path="res://Sprites/plataform_3.png" id="2_wtg0p"]
@@ -44,6 +44,20 @@ _data = {
 &"move": SubResource("Animation_e2dlq")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ag32s"]
+properties/0/path = NodePath("AnimatableBody2D:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatableBody2D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("PathFollow2D:progress")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("PathFollow2D:progress_ratio")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
 [node name="plataform_3" type="Path2D"]
 script = ExtResource("1_h04up")
 loop = false
@@ -72,3 +86,6 @@ callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_7wg80")
 }
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ag32s")

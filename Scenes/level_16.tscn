@@ -36,10 +36,6 @@ position = Vector2(3040, -29)
 [node name="spawner" type="Marker2D" parent="."]
 position = Vector2(-1093, -45)
 
-[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
-spawn_path = NodePath("..")
-
 [node name="plataform_3" parent="." instance=ExtResource("9_omrdd")]
 position = Vector2(1921, 183)
 curve = SubResource("Curve2D_4t1g2")
@@ -95,3 +91,7 @@ position = Vector2(70, -105)
 
 [node name="enemy_robot3" parent="." instance=ExtResource("8_o8dvg")]
 position = Vector2(2047, -84)
+
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://cwdknm16foa4n", "uid://byf6qwb0xl16c", "uid://c8n8a7b5co0hs", "uid://dygyux7f2ntky", "uid://bochpsoi1xhxm", "uid://bitq27tb3qfqp", "uid://db4l4jracsxy", "uid://bq1rdenjeiex2", "uid://fde5lwllg0uj", "uid://c1y4x3g5dyj6b", "uid://betdnk2m31png", "uid://tonkdrpt1uk3", "uid://u6equn2extll")
+spawn_path = NodePath("..")

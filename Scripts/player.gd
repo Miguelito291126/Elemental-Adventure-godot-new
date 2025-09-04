@@ -224,7 +224,7 @@ func flip(direction: Vector2):
 	if GameController.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-			
+
 	# Voltear sprite
 	if direction.x < 0:
 		animator.flip_h = true
@@ -262,17 +262,6 @@ func damage(damage_count: int) -> void:
 			start_invincibility.rpc()
 		else:
 			start_invincibility()
-	
-
-func SaveGameData():
-	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Vector2 is not supported by JSON
-		"pos_y" : position.y,
-		"health" : health
-	}
-	return save_dict
 
 @rpc("any_peer", "call_local")
 func start_invincibility():

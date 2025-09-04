@@ -179,5 +179,5 @@ position = Vector2(870, 277)
 position = Vector2(1162, 269)
 
 [node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://cwdknm16foa4n", "uid://byf6qwb0xl16c", "uid://c8n8a7b5co0hs", "uid://dygyux7f2ntky", "uid://bochpsoi1xhxm", "uid://bitq27tb3qfqp", "uid://db4l4jracsxy", "uid://bq1rdenjeiex2", "uid://fde5lwllg0uj", "uid://c1y4x3g5dyj6b", "uid://betdnk2m31png", "uid://tonkdrpt1uk3", "uid://u6equn2extll")
 spawn_path = NodePath("..")

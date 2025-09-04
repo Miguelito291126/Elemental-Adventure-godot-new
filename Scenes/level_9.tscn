@@ -111,14 +111,14 @@ position = Vector2(1841, -138)
 [node name="2d1d2d" parent="." instance=ExtResource("8_yeqya")]
 position = Vector2(1159, -111)
 
-[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy")
-spawn_path = NodePath("..")
-
 [node name="enemy" parent="." instance=ExtResource("8_066uc")]
 position = Vector2(1972, 76)
 
 [node name="enemy2" parent="." instance=ExtResource("8_066uc")]
 position = Vector2(835, 60)
+
+[node name="PlayersSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cohx7ukuvlihy", "uid://da61af5kfk5ik", "uid://cwdknm16foa4n", "uid://byf6qwb0xl16c", "uid://c8n8a7b5co0hs", "uid://dygyux7f2ntky", "uid://bochpsoi1xhxm", "uid://bitq27tb3qfqp", "uid://db4l4jracsxy", "uid://bq1rdenjeiex2", "uid://fde5lwllg0uj", "uid://c1y4x3g5dyj6b", "uid://betdnk2m31png", "uid://tonkdrpt1uk3", "uid://u6equn2extll")
+spawn_path = NodePath("..")
 
 [editable path="Lava"]

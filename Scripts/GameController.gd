@@ -66,8 +66,8 @@ func assign_element(element: String):
 func assign_element_to_player(peer_id: int):
 	if peer_id in assigned_elements:
 		# 👈 Ya tiene asignado antes, se reutiliza
-		var element = assigned_elements[peer_id]
-		assign_element.rpc_id(peer_id, element)
+		var assigned_element = assigned_elements[peer_id]
+		assign_element.rpc_id(peer_id, assigned_element)
 		return
 	
 	if available_elements.is_empty():
@@ -83,16 +83,14 @@ func assign_element_to_player(peer_id: int):
 func Remove_Element_Assigned(id: int) -> void:
 	if assigned_elements.has(id):
 		var element = assigned_elements[id]
-		print_role("Jugador %d desconectado (personaje '%s' reservado)" % [id, element])
-		# 👈 No devolvemos el elemento a available_elements
-		# 👈 No borramos de assigned_elements
-
+		assigned_elements.erase(id)
+		print_role("Jugador %d desconectado (personaje '%s' eliminado)" % [id, element])
 		
 
 		
 
-	
-	
+
+
 @rpc("any_peer", "call_local")
 func getcoin():
 	energys += 1
@@ -225,9 +223,8 @@ func MultiplayerPlayerSpawner(id: int = 1):
 	if not get_tree().get_multiplayer().is_server():
 		return
 	
-
 	assign_element_to_player(id)
-	
+
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	player.id = player.name
@@ -237,6 +234,8 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		print_role("jugador Spawneado con el ID:" + str(id))
 	else:
 		print_role("jugador no Spawneado")
+
+	LoadPersistentNodes()
 	
 
 func MultiplayerPlayerRemover(id: int = 1):
@@ -314,6 +313,10 @@ func LoadGameData():
 		
 		
 func LoadPersistentNodes():
+
+	if not get_tree().get_multiplayer().is_server():
+		return
+
 	if not FileAccess.file_exists(PATH_2):
 		return # Error! We don't have a save to load.
 
@@ -321,12 +324,12 @@ func LoadPersistentNodes():
 	# during loading. This will vary wildly depending on the needs of a
 	# project, so take care with this step.
 	# For our example, we will accomplish this by deleting saveable objects.
-	var save_nodes = get_tree().get_nodes_in_group(node_group)
-	for i in save_nodes:
-		i.queue_free()
 
-	if not get_tree().get_multiplayer().is_server():
-		return
+	# 🔹 Limpiar nodos persistentes existentes (solo una vez al inicio)
+	if IsNetwork:
+		DeleteNodes.rpc()
+	else:
+		DeleteNodes()
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.
@@ -350,22 +353,30 @@ func LoadPersistentNodes():
 		if (node_data.has("collected") and node_data["collected"] == true) \
 		or (node_data.has("death") and node_data["death"] == true):
 			continue
-			
-		if node_data["filename"].ends_with("player.tscn"):
+
+
+		_create_persistent_node(node_data)
+
+@rpc("authority", "call_local")
+func DeleteNodes():
+	var save_nodes = get_tree().get_nodes_in_group(node_group)
+	for i in save_nodes:
+		i.queue_free()
+
+@rpc("authority", "call_local") # clientes y servidor pueden llamar, pero se ejecuta local
+func _create_persistent_node(node_data: Dictionary):
+	if not node_data.has("filename"):
+		return
+
+	var new_object = load(node_data["filename"]).instantiate()
+	get_node(node_data["parent"]).add_child(new_object, true)
+	new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+
+	for i in node_data.keys():
+		if i in ["filename", "parent", "pos_x", "pos_y"]:
 			continue
+		new_object.set(i, node_data[i])
 
-		# Firstly, we need to create the object and add it to the tree and set its position.
-		var new_object = load(node_data["filename"]).instantiate()
-		get_node(node_data["parent"]).add_child(new_object, true)
-		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-
-		# Now we set the remaining variables.
-		for i in node_data.keys():
-			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
-				continue
-			new_object.set(i, node_data[i])
-
-		
 func SavePersistentNodes():
 	if not get_tree().get_multiplayer().is_server():
 		return
@@ -373,29 +384,15 @@ func SavePersistentNodes():
 	var save_file = FileAccess.open(PATH_2, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for node in save_nodes:
-		# Check the node is an instanced scene so it can be instanced again during load.
-		if node.scene_file_path.is_empty():
-			print_role("persistent node '%s' is not an instanced scene, skipped" % node.name)
+		if node.scene_file_path.is_empty() or !node.has_method("SaveGameData"):
 			continue
-
-		# Check the node has a save function.
-		if !node.has_method("SaveGameData"):
-			print_role("persistent node '%s' is missing a save() function, skipped" % node.name)
-			continue
-
-		# Call the node's save function.
-		var node_data = node.call("SaveGameData")
 		
-		# ⛔ Evitar guardar nulos
+		var node_data = node.call("SaveGameData")
 		if node_data == null:
-			print_role("Node '%s' returned null on SaveGameData(), skipped" % node.name)
 			continue
-			
-		# JSON provides a static method to serialized JSON string.
-		var json_string = JSON.stringify(node_data)
+		
+		save_file.store_line(JSON.stringify(node_data))
 
-		# Store the save dictionary as a new line in the save file.
-		save_file.store_line(json_string)
 
 func DeleteResources():
 	if FileAccess.file_exists(PATH):

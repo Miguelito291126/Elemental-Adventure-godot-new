@@ -88,7 +88,7 @@ radius = 31.6853
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
 size = Vector2(40, 48)
 
-[node name="player" type="CharacterBody2D" groups=["Persistent", "player"]]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_peqvs")
 jump_force = -600
 
