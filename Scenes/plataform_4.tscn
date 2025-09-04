@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://0irbpecuruqn" path="res://Sprites/plataform_4.png" id="2_fapok"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylvgc"]
-size = Vector2(24.9971, 22.0945)
+size = Vector2(23.8319, 22.0945)
 
 [sub_resource type="Animation" id="Animation_55wjb"]
 length = 0.001
@@ -79,6 +79,7 @@ texture_filter = 1
 texture = ExtResource("2_fapok")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(-0.582609, 0)
 shape = SubResource("RectangleShape2D_ylvgc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
