@@ -150,7 +150,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		elif color_str == "Blue":
 			animator.play("attack slime blue")
 		elif color_str == "Yellow":
-			animator.play("idle slime yellow")
+			animator.play("attack slime yellow")
 		elif color_str == "Orange":
 			animator.play("attack slime orange")
 			
