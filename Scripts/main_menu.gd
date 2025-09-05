@@ -112,6 +112,7 @@ func _on_port_text_changed(new_text: String) -> void:
 	GameController.port = new_text.to_int()
 	GameController.listener_port = GameController.port - 1
 	GameController.broadcaster_port = GameController.port + 1
+	GameController.SetUp()
 
 func _on_play_multiplayer_pressed() -> void:
 	GameController.Play_MultiplayerServer()
