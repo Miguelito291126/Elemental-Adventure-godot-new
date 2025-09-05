@@ -4,6 +4,7 @@ extends Control
 var currentinfo: PackedScene = preload("res://Scenes/server_info.tscn")
 
 func _ready():
+	GameController.SetUp()
 	GameController.serverbrowser = self
 
 func _process(_delta):
@@ -31,3 +32,5 @@ func _process(_delta):
 		currentinfo2.ip_Change = serverip
 		currentinfo2.port_Change = str(serverport)
 		$List.add_child(currentinfo2)
+
+

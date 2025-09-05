@@ -60,7 +60,6 @@ func _ready() -> void:
 	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
 	
 	LoadGameData()
-	SetUp()
 
 	if OS.has_feature("dedicated_server"):
 
@@ -311,7 +310,8 @@ func MultiplayerConnectionFailed():
 
 	if IsNetwork:
 		IsNetwork = false
-	
+
+	CloseUp()
 
 	LoadMainMenu()
 	
@@ -326,6 +326,8 @@ func MultiplayerServerDisconnected():
 
 	if IsNetwork:
 		IsNetwork = false
+
+	CloseUp()
 		
 	LoadMainMenu()
 
@@ -351,7 +353,7 @@ func SetUpBroadcast(Name: String,) -> void:
 		broadcasttime.start()
 
 func CloseUp():
-
+	
 	if listener != null:
 		listener.close()
 
@@ -360,6 +362,8 @@ func CloseUp():
 
 	if broadcaster != null:
 		broadcaster.close()
+
+	print("Closed broadcaster and listener")
 
 func SetUp():
 	listener = PacketPeerUDP.new()

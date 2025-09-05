@@ -15,6 +15,7 @@ func _ready() -> void:
 	serverbrowsermenu.visible = false
 
 	Version.text = "V" + str(GameController.version)
+	
 
 	LoadGameData()
 

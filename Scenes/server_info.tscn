@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_0u8ji"]
 
 [node name="server_info" type="HBoxContainer"]
-offset_right = 1049.0
+offset_right = 636.0
 offset_bottom = 58.0
 alignment = 1
 script = ExtResource("1_0u8ji")
@@ -22,6 +22,7 @@ text = "Playercount - "
 
 [node name="Join" type="Button" parent="."]
 layout_mode = 2
+size_flags_horizontal = 4
 theme = ExtResource("1_14t2t")
 theme_override_fonts/font = ExtResource("2_0u8ji")
 text = "Join"

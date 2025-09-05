@@ -57,10 +57,11 @@ func _enter_tree() -> void:
 	
 func _ready() -> void:
 	if GameController.IsNetwork:
+		username.visible = true
 		camera.enabled = is_multiplayer_authority()
 		camera.visible = is_multiplayer_authority()
 		hud.visible = is_multiplayer_authority()
-		username.visible = is_multiplayer_authority()
+
 	
 		if !is_multiplayer_authority():
 			return
