@@ -4,8 +4,7 @@ extends Node
 @onready var musiclevel = $MusicLevel
 @onready var musicmainmenu = $MusicMainMenu
 
-var Failed to connect to server
- = ""
+var last_scene_name = ""
 var is_near_boss = false
 
 func _process(_delta: float) -> void:

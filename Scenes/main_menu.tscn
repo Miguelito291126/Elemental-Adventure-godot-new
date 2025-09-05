@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bq8c11xjf1nct"]
+[gd_scene load_steps=7 format=3 uid="uid://bq8c11xjf1nct"]
 
 [ext_resource type="Script" uid="uid://bfhjoptvad3x0" path="res://Scripts/main_menu.gd" id="1_2vk4l"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_f10x6"]
 [ext_resource type="Texture2D" uid="uid://48wvoyua3q5h" path="res://Sprites/fire.png" id="3_cp0ys"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="3_his25"]
 [ext_resource type="Script" uid="uid://cw0rkwhlsa4te" path="res://Scripts/ServerBrowser.gd" id="5_n45e2"]
-[ext_resource type="PackedScene" uid="uid://eackecrfc2be" path="res://Scenes/server_info.tscn" id="6_opfnp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opfnp"]
 bg_color = Color(0.296219, 0.00016776, 0.345215, 1)
@@ -223,12 +222,9 @@ script = ExtResource("5_n45e2")
 
 [node name="List" type="HBoxContainer" parent="MultiplayerList/ServerBrowser"]
 layout_mode = 1
-offset_right = 1049.0
-offset_bottom = 58.0
+offset_right = 617.0
+offset_bottom = 334.0
 alignment = 1
-
-[node name="server_info" parent="MultiplayerList/ServerBrowser/List" instance=ExtResource("6_opfnp")]
-layout_mode = 2
 
 [node name="Back3" type="Button" parent="MultiplayerList"]
 layout_mode = 2

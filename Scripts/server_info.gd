@@ -1,10 +1,10 @@
 extends HBoxContainer
 
-var Ip_Change = ""
-var Port_Change = ""
+var ip_Change = ""
+var port_Change = ""
 
 func _on_join_pressed() -> void:
-	GameController.port = int(Port_Change)
-	GameController.ip = Ip_Change
-	print("Joining " + Ip_Change + ":" + Port_Change)
+	GameController.port = int(port_Change)
+	GameController.ip = ip_Change
+	print("Joining " + ip_Change + ":" + port_Change)
 	GameController.Play_MultiplayerClient()

@@ -1,6 +1,7 @@
 extends Node
 
-@export var version = 10.2
+var version = ProjectSettings.get_setting("application/config/version")
+
 
 @export var level = 1
 @export var max_level = 18
@@ -17,12 +18,12 @@ extends Node
 var broadcaster: PacketPeerUDP
 var listener: PacketPeerUDP
 
-@export var port = 5354
+@export var port = 4444
 @export var broadcaster_ip = "255.255.255.255"
 @export var ip = "localhost"
 
-@export var listener_port = 5355
-@export var broadcaster_port = 5356
+@export var listener_port = 4443
+@export var broadcaster_port = 4445
 
 @export var roominfo = {
 	"name": "",
