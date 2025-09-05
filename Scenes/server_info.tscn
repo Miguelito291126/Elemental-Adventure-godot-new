@@ -5,8 +5,8 @@
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_0u8ji"]
 
 [node name="server_info" type="HBoxContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1049.0
+offset_bottom = 58.0
 alignment = 1
 script = ExtResource("1_0u8ji")
 
@@ -14,16 +14,6 @@ script = ExtResource("1_0u8ji")
 layout_mode = 2
 theme = ExtResource("1_14t2t")
 text = "Name - "
-
-[node name="IP" type="Label" parent="."]
-layout_mode = 2
-theme = ExtResource("1_14t2t")
-text = "Ip - "
-
-[node name="Port" type="Label" parent="."]
-layout_mode = 2
-theme = ExtResource("1_14t2t")
-text = "Port - "
 
 [node name="PlayerCount" type="Label" parent="."]
 layout_mode = 2

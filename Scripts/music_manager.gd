@@ -4,10 +4,11 @@ extends Node
 @onready var musiclevel = $MusicLevel
 @onready var musicmainmenu = $MusicMainMenu
 
-var last_scene_name = ""
+var Failed to connect to server
+ = ""
 var is_near_boss = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var main_scene = get_tree().current_scene
 	if main_scene == null:
 		return
@@ -24,7 +25,6 @@ func _process(delta: float) -> void:
 	# Usar subscene_name si existe
 	if subscene_name != "":
 		current_scene_name = subscene_name
-
 
 	# Solo si cambió de escena
 	if current_scene_name != last_scene_name:

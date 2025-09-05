@@ -7,6 +7,8 @@ extends CanvasLayer
 @onready var Version = $Version
 
 func _ready() -> void:
+	GameController.mainmenu = self
+	
 	optionsmenu.visible = false
 	mainmenu.visible = true
 	onlinemenu.visible = false
@@ -45,7 +47,6 @@ func SaveGameData():
 
 func _on_play_pressed() -> void:
 	GameController.LoadCharacterMenu()
-
 
 func _on_online_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
@@ -112,11 +113,9 @@ func _on_port_text_changed(new_text: String) -> void:
 
 func _on_play_multiplayer_pressed() -> void:
 	GameController.Play_MultiplayerServer()
-	GameController.SetUpBroadcast(GameController.Username)
 
 func _on_play_multiplayer_client_pressed() -> void:
 	GameController.Play_MultiplayerClient()
-	self.queue_free()
 
 
 func _on_back_2_pressed() -> void:

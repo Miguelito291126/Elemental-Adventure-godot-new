@@ -203,12 +203,17 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -279.0
 offset_top = -153.0
-offset_right = 588.0
+offset_right = 347.0
 offset_bottom = 267.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_f10x6")
 alignment = 1
+
+[node name="Label" type="Label" parent="MultiplayerList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Bound to lisen bradcast: true"
 
 [node name="ServerBrowser" type="Panel" parent="MultiplayerList"]
 layout_mode = 2
@@ -216,12 +221,11 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_opfnp")
 script = ExtResource("5_n45e2")
 
-[node name="Timer" type="Timer" parent="MultiplayerList/ServerBrowser"]
-
 [node name="List" type="HBoxContainer" parent="MultiplayerList/ServerBrowser"]
-layout_mode = 2
-offset_right = 866.0
+layout_mode = 1
+offset_right = 1049.0
 offset_bottom = 58.0
+alignment = 1
 
 [node name="server_info" parent="MultiplayerList/ServerBrowser/List" instance=ExtResource("6_opfnp")]
 layout_mode = 2
@@ -295,7 +299,6 @@ text = "Back"
 [connection signal="pressed" from="Multiplayer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
 [connection signal="pressed" from="Multiplayer/OnlineList" to="." method="_on_online_list_pressed"]
 [connection signal="pressed" from="Multiplayer/Back2" to="." method="_on_back_2_pressed"]
-[connection signal="timeout" from="MultiplayerList/ServerBrowser/Timer" to="MultiplayerList/ServerBrowser" method="_on_timer_timeout"]
 [connection signal="pressed" from="MultiplayerList/Back3" to="." method="_on_back_3_pressed"]
 [connection signal="value_changed" from="Options/Volume" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="Options/Volume 2" to="." method="_on_volume_2_value_changed"]

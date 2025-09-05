@@ -17,26 +17,28 @@ extends Node
 var broadcaster: PacketPeerUDP
 var listener: PacketPeerUDP
 
-@export var port = 4444
+@export var port = 5354
 @export var broadcaster_ip = "255.255.255.255"
 @export var ip = "localhost"
 
-var listener_port = port + 1
-var broadcaster_port = port + 2
+@export var listener_port = 5355
+@export var broadcaster_port = 5356
 
 @export var roominfo = {
-    "name": "Miguel's Room",
-    "playersCount": 0,
+	"name": "",
+	"playerscount": 0,
 }
 
-var IsNetwork = false
+@onready var broadcasttime = $ServerBrowserTime
 
+var IsNetwork = false
 
 var nodegame: Node
 var levelnode: Node2D
 var SpawnPoint: Node2D
 var Multiplayerspawner: Array
 var playernode: Node2D
+var mainmenu: CanvasLayer
 var serverbrowser: Control
 
 var player_scene = preload("res://Scenes/player.tscn")
@@ -57,20 +59,31 @@ func _ready() -> void:
 	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
 	
 	LoadGameData()
+	SetUp()
 
 	if OS.has_feature("dedicated_server"):
+
+		var args = OS.get_cmdline_user_args()
+		for arg in args:
+			var key_value = arg.rsplit("=")
+			match key_value[0]:
+				"port":
+					port = key_value[1].to_int()
+					listener_port = key_value[1].to_int() + 1
+					broadcaster_port = key_value[1].to_int() + 2
+
+		print("port:", port)
+		print("ip:", ip)
+		
 		print_role("Iniciando servidor dedicado...")
 		
 		await get_tree().create_timer(2).timeout
 
 		Play_MultiplayerServer()
 
-	listener = PacketPeerUDP.new()
-	var ok = listener.bind(listener_port)
-	if ok == OK:
-		print("all correct to port: " + str(listener_port) + " :D")
-	else:
-		print("failed to port D:")
+	
+
+
 		
 
 func _exit_tree() -> void:
@@ -79,6 +92,8 @@ func _exit_tree() -> void:
 	get_tree().get_multiplayer().connection_failed.disconnect(MultiplayerConnectionFailed)
 	get_tree().get_multiplayer().peer_connected.disconnect(MultiplayerPlayerSpawner)
 	get_tree().get_multiplayer().peer_disconnected.disconnect(MultiplayerPlayerRemover)
+
+	CloseUp()
 
 	
 func get_level_str() -> String:
@@ -201,7 +216,7 @@ func unload_scene_in_game_node() -> void:
 	for child in nodegame.get_children():
 		if child.name == "LevelSpawner" or child.name == "MultiplayerSpawner":
 			continue  # <- en lugar de return
-		
+
 		child.queue_free()
 	
 	
@@ -229,9 +244,11 @@ func Play_MultiplayerServer():
 				print_role("Servidor dedicado iniciado.")
 
 				await get_tree().create_timer(2).timeout
-
+				
+				SetUpBroadcast(Username)
 				load_level_scene()
 			else:
+				SetUpBroadcast(Username)
 				LoadCharacterMenu()
 	else:
 		print_role("Error al iniciar el servidor.")
@@ -242,6 +259,7 @@ func Play_MultiplayerClient():
 	var error =  multiplayerpeer.create_client(ip, port)
 	if error == OK:
 		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
+		unload_scene_in_game_node()
 	else:
 		print_role("Error al iniciar el cliente.")
 
@@ -310,8 +328,8 @@ func MultiplayerServerDisconnected():
 	LoadMainMenu()
 
 func SetUpBroadcast(Name: String,) -> void:
-	roominfo["name"] = Name
-	roominfo["playersCount"] = Players.size()
+	roominfo.name = Name
+	roominfo.playerscount = Players.size()
 
 	broadcaster = PacketPeerUDP.new()
 	broadcaster.set_broadcast_enabled(true)
@@ -319,12 +337,42 @@ func SetUpBroadcast(Name: String,) -> void:
 
 	var ok = broadcaster.bind(broadcaster_port)
 	if ok == OK:
-		print("all correct to port: " + str(broadcaster_port) + " :D")
+		print("all correct to port broadcaster: " + str(broadcaster_port) + " :D")
+		if serverbrowser:
+			serverbrowser.label.text = "Broadcasting on port: " + str(broadcaster_port)
 	else:
-		print("failed to port D:")
+		print("failed to port broadcaster: " + str(broadcaster_port) + " D:")
+		if serverbrowser:
+			serverbrowser.label.text = "Failed to start broadcaster"
 
-	serverbrowser.broadcasttime.start()
-		
+	if broadcasttime != null:
+		broadcasttime.start()
+
+func CloseUp():
+
+	if listener != null:
+		listener.close()
+
+	if broadcasttime != null:
+		broadcasttime.stop()
+
+	if broadcaster != null:
+		broadcaster.close()
+
+func SetUp():
+	listener = PacketPeerUDP.new()
+	var ok = listener.bind(listener_port)
+	if ok == OK:
+		print("all correct to port listener: " + str(listener_port) + " :D")
+		await get_tree().create_timer(1).timeout
+		if serverbrowser:
+			serverbrowser.label.text = "Listener on port: " + str(listener_port)
+	else:
+		print("failed to port listener: " + str(listener_port) + " D:")
+		await get_tree().create_timer(1).timeout
+		if serverbrowser:
+			serverbrowser.label.text = "Failed to start listener"
+
 func SingleplayerPlayerSpawner():
 	var player = player_scene.instantiate()
 	if levelnode and is_instance_valid(levelnode):
@@ -457,4 +505,9 @@ func DeleteData():
 	DeletePersistentNodes()
 	DeleteConfig()
 
-	
+func _on_server_browser_time_timeout() -> void:
+	roominfo.playerscount = Players.size()
+	var data = JSON.stringify(roominfo)
+	var packet = data.to_ascii_buffer()
+	if broadcaster != null:
+		broadcaster.put_packet(packet)
