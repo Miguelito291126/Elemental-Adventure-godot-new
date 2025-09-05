@@ -22,8 +22,8 @@ var listener: PacketPeerUDP
 @export var broadcaster_ip = "255.255.255.255"
 @export var ip = "localhost"
 
-@export var listener_port = 4443
-@export var broadcaster_port = 4445
+@export var listener_port =  port - 1
+@export var broadcaster_port =  port + 1
 
 @export var roominfo = {
 	"name": "",
@@ -259,8 +259,9 @@ func Play_MultiplayerClient():
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	var error =  multiplayerpeer.create_client(ip, port)
 	if error == OK:
-		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
 		unload_scene_in_game_node()
+		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
+
 	else:
 		print_role("Error al iniciar el cliente.")
 
