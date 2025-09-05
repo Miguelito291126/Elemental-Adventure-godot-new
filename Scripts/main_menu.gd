@@ -3,12 +3,14 @@ extends CanvasLayer
 @onready var mainmenu = $"main menu"
 @onready var optionsmenu = $Options
 @onready var onlinemenu = $Multiplayer
+@onready var serverbrowsermenu = $MultiplayerList
 @onready var Version = $Version
 
 func _ready() -> void:
 	optionsmenu.visible = false
 	mainmenu.visible = true
 	onlinemenu.visible = false
+	serverbrowsermenu.visible = false
 
 	Version.text = "V" + str(GameController.version)
 
@@ -110,6 +112,7 @@ func _on_port_text_changed(new_text: String) -> void:
 
 func _on_play_multiplayer_pressed() -> void:
 	GameController.Play_MultiplayerServer()
+	GameController.SetUpBroadcast(GameController.Username)
 
 func _on_play_multiplayer_client_pressed() -> void:
 	GameController.Play_MultiplayerClient()
@@ -119,3 +122,16 @@ func _on_play_multiplayer_client_pressed() -> void:
 func _on_back_2_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
 	onlinemenu.visible = !onlinemenu.visible
+
+
+func _on_name_text_changed(new_text:String) -> void:
+	GameController.Username = new_text
+
+func _on_online_list_pressed() -> void:
+	onlinemenu.visible = !onlinemenu.visible
+	serverbrowsermenu.visible = !serverbrowsermenu.visible
+
+
+func _on_back_3_pressed() -> void:
+	onlinemenu.visible = !onlinemenu.visible
+	serverbrowsermenu.visible = !serverbrowsermenu.visible

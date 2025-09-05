@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://bq8c11xjf1nct"]
+[gd_scene load_steps=8 format=3 uid="uid://bq8c11xjf1nct"]
 
 [ext_resource type="Script" uid="uid://bfhjoptvad3x0" path="res://Scripts/main_menu.gd" id="1_2vk4l"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_f10x6"]
 [ext_resource type="Texture2D" uid="uid://48wvoyua3q5h" path="res://Sprites/fire.png" id="3_cp0ys"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="3_his25"]
+[ext_resource type="Script" uid="uid://cw0rkwhlsa4te" path="res://Scripts/ServerBrowser.gd" id="5_n45e2"]
+[ext_resource type="PackedScene" uid="uid://eackecrfc2be" path="res://Scenes/server_info.tscn" id="6_opfnp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opfnp"]
+bg_color = Color(0.296219, 0.00016776, 0.345215, 1)
 
 [node name="Main Menu" type="CanvasLayer"]
 layer = 2
@@ -86,6 +91,7 @@ text = "V8"
 horizontal_alignment = 2
 
 [node name="main menu" type="VBoxContainer" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -140,6 +146,14 @@ grow_vertical = 2
 theme = ExtResource("1_f10x6")
 alignment = 1
 
+[node name="NameLabel" type="Label" parent="Multiplayer"]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="Name" type="LineEdit" parent="Multiplayer"]
+layout_mode = 2
+
 [node name="IPLabel" type="Label" parent="Multiplayer"]
 layout_mode = 2
 text = "IP"
@@ -171,7 +185,48 @@ theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Join"
 
+[node name="OnlineList" type="Button" parent="Multiplayer"]
+layout_mode = 2
+text = "Multiplayer List"
+
 [node name="Back2" type="Button" parent="Multiplayer"]
+layout_mode = 2
+theme = ExtResource("1_f10x6")
+theme_override_fonts/font = ExtResource("3_his25")
+text = "Back"
+
+[node name="MultiplayerList" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -279.0
+offset_top = -153.0
+offset_right = 588.0
+offset_bottom = 267.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_f10x6")
+alignment = 1
+
+[node name="ServerBrowser" type="Panel" parent="MultiplayerList"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_opfnp")
+script = ExtResource("5_n45e2")
+
+[node name="Timer" type="Timer" parent="MultiplayerList/ServerBrowser"]
+
+[node name="List" type="HBoxContainer" parent="MultiplayerList/ServerBrowser"]
+layout_mode = 2
+offset_right = 866.0
+offset_bottom = 58.0
+
+[node name="server_info" parent="MultiplayerList/ServerBrowser/List" instance=ExtResource("6_opfnp")]
+layout_mode = 2
+
+[node name="Back3" type="Button" parent="MultiplayerList"]
 layout_mode = 2
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
@@ -233,11 +288,15 @@ text = "Back"
 [connection signal="pressed" from="main menu/Online" to="." method="_on_online_pressed"]
 [connection signal="pressed" from="main menu/option" to="." method="_on_option_pressed"]
 [connection signal="pressed" from="main menu/exit" to="." method="_on_exit_pressed"]
+[connection signal="text_changed" from="Multiplayer/Name" to="." method="_on_name_text_changed"]
 [connection signal="text_changed" from="Multiplayer/IP" to="." method="_on_ip_text_changed"]
 [connection signal="text_changed" from="Multiplayer/Port" to="." method="_on_port_text_changed"]
 [connection signal="pressed" from="Multiplayer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
 [connection signal="pressed" from="Multiplayer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
+[connection signal="pressed" from="Multiplayer/OnlineList" to="." method="_on_online_list_pressed"]
 [connection signal="pressed" from="Multiplayer/Back2" to="." method="_on_back_2_pressed"]
+[connection signal="timeout" from="MultiplayerList/ServerBrowser/Timer" to="MultiplayerList/ServerBrowser" method="_on_timer_timeout"]
+[connection signal="pressed" from="MultiplayerList/Back3" to="." method="_on_back_3_pressed"]
 [connection signal="value_changed" from="Options/Volume" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="Options/Volume 2" to="." method="_on_volume_2_value_changed"]
 [connection signal="toggled" from="Options/CheckButton" to="." method="_on_check_button_toggled"]

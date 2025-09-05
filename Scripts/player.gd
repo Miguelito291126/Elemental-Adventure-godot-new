@@ -41,6 +41,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var lifes = $Hud/Lifes/Label
 @onready var energys = $Hud/Energys/Label
 @onready var points = $Hud/Points/Label
+@onready var username = $Username
 
 @export var id: String
 
@@ -59,10 +60,12 @@ func _ready() -> void:
 		camera.enabled = is_multiplayer_authority()
 		camera.visible = is_multiplayer_authority()
 		hud.visible = is_multiplayer_authority()
+		username.visible = is_multiplayer_authority()
 	
 		if !is_multiplayer_authority():
 			return
-			
+
+		username.text = GameController.Username
 		GameController.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
 		GameController.print_role("Node name:" + name)
 		GameController.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))

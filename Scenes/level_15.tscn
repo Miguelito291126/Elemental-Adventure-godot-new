@@ -16,7 +16,7 @@ _data = {
 }
 point_count = 2
 
-[node name="level_13" type="Node2D"]
+[node name="level_15" type="Node2D"]
 script = ExtResource("1_0tht5")
 
 [node name="Acid" parent="." instance=ExtResource("2_v5tm6")]

@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://eackecrfc2be"]
+
+[ext_resource type="Script" uid="uid://b11wicl7mbtqo" path="res://Scripts/server_info.gd" id="1_0u8ji"]
+[ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_14t2t"]
+[ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_0u8ji"]
+
+[node name="server_info" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+script = ExtResource("1_0u8ji")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("1_14t2t")
+text = "Name - "
+
+[node name="IP" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("1_14t2t")
+text = "Ip - "
+
+[node name="Port" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("1_14t2t")
+text = "Port - "
+
+[node name="PlayerCount" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("1_14t2t")
+text = "Playercount - "
+
+[node name="Join" type="Button" parent="."]
+layout_mode = 2
+theme = ExtResource("1_14t2t")
+theme_override_fonts/font = ExtResource("2_0u8ji")
+text = "Join"
+
+[connection signal="pressed" from="Join" to="." method="_on_join_pressed"]

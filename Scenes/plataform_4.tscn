@@ -1,10 +1,33 @@
-[gd_scene load_steps=8 format=3 uid="uid://db3e2ifo6g10k"]
+[gd_scene load_steps=9 format=3 uid="uid://db3e2ifo6g10k"]
 
 [ext_resource type="Script" uid="uid://doojc5isfvjst" path="res://Scripts/plataform.gd" id="1_fapok"]
 [ext_resource type="Texture2D" uid="uid://0irbpecuruqn" path="res://Sprites/plataform_4.png" id="2_fapok"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylvgc"]
 size = Vector2(23.8319, 22.0945)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fapok"]
+polygon = PackedVector2Array(22.6667, 0, 1.90735e-06, 0, 1.90735e-06, 22, 22.6667, 22)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fapok"]
+properties/0/path = NodePath("AnimatableBody2D:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatableBody2D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("PathFollow2D:progress")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("PathFollow2D:progress_ratio")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("PathFollow2D/RemoteTransform2D:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("PathFollow2D/RemoteTransform2D:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="Animation" id="Animation_55wjb"]
 length = 0.001
@@ -44,21 +67,7 @@ _data = {
 &"move": SubResource("Animation_e2dlq")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fapok"]
-properties/0/path = NodePath("AnimatableBody2D:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("AnimatableBody2D:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath("PathFollow2D:progress")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("PathFollow2D:progress_ratio")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-
-[node name="plataform_3" type="Path2D"]
+[node name="plataform_4" type="Path2D"]
 script = ExtResource("1_fapok")
 loop = false
 speed = 1.0
@@ -82,11 +91,16 @@ texture = ExtResource("2_fapok")
 position = Vector2(-0.582609, 0)
 shape = SubResource("RectangleShape2D_ylvgc")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="AnimatableBody2D"]
+position = Vector2(-12, -11.3333)
+occluder = SubResource("OccluderPolygon2D_fapok")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="AnimatableBody2D"]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_fapok")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_7wg80")
 }
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_fapok")

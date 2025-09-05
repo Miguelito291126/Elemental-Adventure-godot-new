@@ -10,15 +10,34 @@ extends Node
 @export var available_elements = ["fire", "water", "air", "earth"]
 @export var assigned_elements = {}  # peer_id : "element"
 
+@export var Username = "Player"
+@export var Players: Array = []
+
+
+var broadcaster: PacketPeerUDP
+var listener: PacketPeerUDP
+
 @export var port = 4444
+@export var broadcaster_ip = "255.255.255.255"
 @export var ip = "localhost"
+
+var listener_port = port + 1
+var broadcaster_port = port + 2
+
+@export var roominfo = {
+    "name": "Miguel's Room",
+    "playersCount": 0,
+}
+
 var IsNetwork = false
+
 
 var nodegame: Node
 var levelnode: Node2D
 var SpawnPoint: Node2D
 var Multiplayerspawner: Array
 var playernode: Node2D
+var serverbrowser: Control
 
 var player_scene = preload("res://Scenes/player.tscn")
 
@@ -45,6 +64,14 @@ func _ready() -> void:
 		await get_tree().create_timer(2).timeout
 
 		Play_MultiplayerServer()
+
+	listener = PacketPeerUDP.new()
+	var ok = listener.bind(listener_port)
+	if ok == OK:
+		print("all correct to port: " + str(listener_port) + " :D")
+	else:
+		print("failed to port D:")
+		
 
 func _exit_tree() -> void:
 	get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
@@ -224,6 +251,7 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		return
 	
 	assign_element_to_player(id)
+	Players.append(id)
 
 	var player = player_scene.instantiate()
 	player.name = str(id)
@@ -243,6 +271,7 @@ func MultiplayerPlayerRemover(id: int = 1):
 		return
 	
 	Remove_Element_Assigned(id)
+	Players.erase(id)
 	
 	var player = null
 	if levelnode and is_instance_valid(levelnode):
@@ -280,6 +309,22 @@ func MultiplayerServerDisconnected():
 		
 	LoadMainMenu()
 
+func SetUpBroadcast(Name: String,) -> void:
+	roominfo["name"] = Name
+	roominfo["playersCount"] = Players.size()
+
+	broadcaster = PacketPeerUDP.new()
+	broadcaster.set_broadcast_enabled(true)
+	broadcaster.set_dest_address(broadcaster_ip, listener_port)
+
+	var ok = broadcaster.bind(broadcaster_port)
+	if ok == OK:
+		print("all correct to port: " + str(broadcaster_port) + " :D")
+	else:
+		print("failed to port D:")
+
+	serverbrowser.broadcasttime.start()
+		
 func SingleplayerPlayerSpawner():
 	var player = player_scene.instantiate()
 	if levelnode and is_instance_valid(levelnode):
