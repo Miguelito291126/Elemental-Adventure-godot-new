@@ -16,7 +16,6 @@ func _ready() -> void:
 
 	Version.text = "V" + str(GameController.version)
 	
-
 	LoadGameData()
 
 func LoadGameData():

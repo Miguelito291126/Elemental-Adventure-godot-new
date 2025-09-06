@@ -71,9 +71,17 @@ func _ready() -> void:
 		GameController.print_role("Node name:" + name)
 		GameController.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
 	
-	gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 	GameController.playernode = self
-	
+
+func _process(_delta: float) -> void:
+	if GameController.IsNetwork:
+		if !is_multiplayer_authority():
+			return
+		
+	lifes.text = "Lifes: " + str(health)
+	energys.text = "Energys: " + str(GameController.energys)
+	points.text = "Points: " + str(GameController.points)
+
 	if GameController.character == "fire":
 		light.color = Color.ORANGE
 		ball_color = Color.ORANGE
@@ -90,15 +98,6 @@ func _ready() -> void:
 		light.color = Color.WHITE
 		ball_color = Color.SADDLE_BROWN
 		is_fireball = false
-
-func _process(_delta: float) -> void:
-	if GameController.IsNetwork:
-		if !is_multiplayer_authority():
-			return
-		
-	lifes.text = "Lifes: " + str(health)
-	energys.text = "Energys: " + str(GameController.energys)
-	points.text = "Points: " + str(GameController.points)
 
 func _physics_process(delta):
 	

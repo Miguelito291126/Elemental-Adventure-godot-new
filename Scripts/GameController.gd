@@ -9,10 +9,9 @@ var version = ProjectSettings.get_setting("application/config/version")
 @export var energys = 0
 @export var character = "fire"
 @export var available_elements = ["fire", "water", "air", "earth"]
-@export var assigned_elements = {}  # peer_id : "element"
 
 @export var Username = "Player"
-@export var Players: Array = []
+@export var Players_Nodes: Dictionary = {}
 
 
 var broadcaster: PacketPeerUDP
@@ -81,10 +80,7 @@ func _ready() -> void:
 
 		Play_MultiplayerServer()
 
-	
 
-
-		
 
 func _exit_tree() -> void:
 	get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
@@ -105,32 +101,26 @@ func assign_element(element: String):
 	print_role("Se te asignó el personaje:" + element)
 
 @rpc("authority", "call_local")
-func assign_element_to_player(peer_id: int):
-	if peer_id in assigned_elements:
-		# 👈 Ya tiene asignado antes, se reutiliza
-		var assigned_element = assigned_elements[peer_id]
-		assign_element.rpc_id(peer_id, assigned_element)
-		return
-	
-	if available_elements.is_empty():
-		print_role("No hay más elementos disponibles.")
-		return
-	
-	var element = available_elements.pop_front()
-	assigned_elements[peer_id] = element
-	assign_element.rpc_id(peer_id, element)
+func assign_element_to_player(id: int) -> void:
+	# Determinar el "número de jugador" según cuántos ya hay en la sala
+	var player_number = Players_Nodes.size() + 1  # +1 porque el jugador que entra aún no está agregado
 
+	var select_character: String
+	match player_number:
+		1:
+			select_character = "fire"
+		2:
+			select_character = "water"
+		3:
+			select_character = "air"
+		4:
+			select_character = "earth"
+		_:
+			select_character = available_elements[randi() % available_elements.size()]
 
-@rpc("authority", "call_local")
-func Remove_Element_Assigned(id: int) -> void:
-	if assigned_elements.has(id):
-		var element = assigned_elements[id]
-		assigned_elements.erase(id)
-		print_role("Jugador %d desconectado (personaje '%s' eliminado)" % [id, element])
-		
-
-		
-
+	# Asignar al jugador que acaba de unirse
+	assign_element.rpc_id(id, select_character)
+	print_role("Jugador %d asignado con éxito el personaje: %s" % [player_number, select_character])
 
 
 @rpc("any_peer", "call_local")
@@ -269,8 +259,6 @@ func MultiplayerPlayerSpawner(id: int = 1):
 	if not get_tree().get_multiplayer().is_server():
 		return
 	
-	assign_element_to_player(id)
-	Players.append(id)
 
 	var player = player_scene.instantiate()
 	player.name = str(id)
@@ -278,9 +266,10 @@ func MultiplayerPlayerSpawner(id: int = 1):
 	
 	if levelnode and is_instance_valid(levelnode):
 		levelnode.add_child(player, true)
-		print_role("jugador Spawneado con el ID:" + str(id))
-	else:
-		print_role("jugador no Spawneado")
+		assign_element_to_player(id)
+		Sync_Players_Nodes.rpc()
+		print_role("Jugador spawneado con el ID:" + str(id))
+
 
 	LoadPersistentNodes()
 	
@@ -289,19 +278,23 @@ func MultiplayerPlayerRemover(id: int = 1):
 	if not get_tree().get_multiplayer().is_server():
 		return
 	
-	Remove_Element_Assigned(id)
-	Players.erase(id)
-	
-	var player = null
-	if levelnode and is_instance_valid(levelnode):
-		player = levelnode.get_node_or_null(str(id))
 
-	if player and is_instance_valid(player):
+	var player = Players_Nodes[id]
+	if is_instance_valid(player):
 		player.queue_free()
+		Sync_Players_Nodes.rpc()
 		print_role("Jugador removido con el ID:" + str(id))
-	else:
-		print_role("Jugador No Valido Con el ID:" + str(id))
 
+
+
+@rpc("any_peer", "call_local")
+func Sync_Players_Nodes():
+	Players_Nodes.clear()
+
+	for player in get_tree().get_nodes_in_group("player"):
+		Players_Nodes[player.name.to_int()] = player
+
+	
 func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
 
@@ -310,6 +303,8 @@ func MultiplayerConnectionFailed():
 
 	if IsNetwork:
 		IsNetwork = false
+
+	Players_Nodes.clear()
 
 	CloseUp()
 
@@ -327,13 +322,15 @@ func MultiplayerServerDisconnected():
 	if IsNetwork:
 		IsNetwork = false
 
+	Players_Nodes.clear()
+
 	CloseUp()
 		
 	LoadMainMenu()
 
 func SetUpBroadcast(Name: String,) -> void:
 	roominfo.name = Name
-	roominfo.playerscount = Players.size()
+	roominfo.playerscount = Players_Nodes.size()
 
 	broadcaster = PacketPeerUDP.new()
 	broadcaster.set_broadcast_enabled(true)
@@ -512,7 +509,7 @@ func DeleteData():
 	DeleteConfig()
 
 func _on_server_browser_time_timeout() -> void:
-	roominfo.playerscount = Players.size()
+	roominfo.playerscount = Players_Nodes.size()
 	var data = JSON.stringify(roominfo)
 	var packet = data.to_ascii_buffer()
 	if broadcaster != null:
