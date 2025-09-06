@@ -9,6 +9,8 @@ var version = ProjectSettings.get_setting("application/config/version")
 @export var energys = 0
 @export var character = "fire"
 @export var available_elements = ["fire", "water", "air", "earth"]
+@export var assigned_characters: Dictionary = {}
+
 
 @export var Username = "Player"
 @export var Players_Nodes: Dictionary = {}
@@ -102,26 +104,42 @@ func assign_element(element: String):
 
 @rpc("authority", "call_local")
 func assign_element_to_player(id: int) -> void:
-	# Determinar el "número de jugador" según cuántos ya hay en la sala
-	var player_number = Players_Nodes.size() + 1  # +1 porque el jugador que entra aún no está agregado
+	# Si ya tiene un personaje asignado, reutilizarlo
+	if assigned_characters.has(id):
+		assign_element.rpc_id(id, assigned_characters[id])
+		return
 
-	var select_character: String
-	match player_number:
-		1:
-			select_character = "fire"
-		2:
-			select_character = "water"
-		3:
-			select_character = "air"
-		4:
-			select_character = "earth"
-		_:
-			select_character = available_elements[randi() % available_elements.size()]
+	# Determinar el primer personaje libre (manteniendo el orden: fire, water, air, earth)
+	var used := []
+	for v in assigned_characters.values():
+		used.append(v)
 
-	# Asignar al jugador que acaba de unirse
+	var select_character: String = ""
+	for e in available_elements:
+		if e in used:
+			continue
+		select_character = e
+		break
+
+	# Si por alguna razón ya están todos usados (más de 4 jugadores),
+	# asignamos el siguiente de forma cíclica (o aleatoria si prefieres)
+	if select_character == "":
+		select_character = available_elements[randi() % available_elements.size()]
+
+	assigned_characters[id] = select_character
 	assign_element.rpc_id(id, select_character)
+
+	# Mensaje para debug (mostrar el "número de jugador" según el orden actual)
+	var player_number := used.size() + 1
 	print_role("Jugador %d asignado con éxito el personaje: %s" % [player_number, select_character])
 
+
+func remove_element_from_player(id: int) -> void:
+	if assigned_characters.has(id):
+		assigned_characters.erase(id)
+		print_role("Jugador con ID: %d ha sido eliminado de la lista de personajes asignados." % id)
+	else:
+		print_role("Jugador con ID: %d no tenía un personaje asignado." % id)
 
 @rpc("any_peer", "call_local")
 func getcoin():
@@ -269,6 +287,10 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		assign_element_to_player(id)
 		Sync_Players_Nodes.rpc()
 		print_role("Jugador spawneado con el ID:" + str(id))
+	else:
+		Sync_Players_Nodes.rpc()
+		print_role("Jugador no spawneado con el ID:" + str(id))
+		
 
 
 	LoadPersistentNodes()
@@ -282,8 +304,17 @@ func MultiplayerPlayerRemover(id: int = 1):
 	var player = Players_Nodes[id]
 	if is_instance_valid(player):
 		player.queue_free()
+
+		await player.tree_exited
+
+		remove_element_from_player(id)
+		
 		Sync_Players_Nodes.rpc()
 		print_role("Jugador removido con el ID:" + str(id))
+	else:
+		Sync_Players_Nodes.rpc()
+		print_role("El jugador con ID: " + str(id) + " no se encuentra en el juego.")
+		
 
 
 
