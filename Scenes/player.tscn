@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=22 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
@@ -85,6 +85,33 @@ properties/22/path = NodePath("Username:text")
 properties/22/spawn = true
 properties/22/replication_mode = 1
 
+[sub_resource type="Curve" id="Curve_ukyrk"]
+_data = [Vector2(0.00424628, 1), 0.0, 0.0, 0, 0, Vector2(0.878981, 0.107029), -1.04798, -1.04798, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ukyrk"]
+curve = SubResource("Curve_ukyrk")
+
+[sub_resource type="Gradient" id="Gradient_ukyrk"]
+offsets = PackedFloat32Array(0.435955, 0.579775)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7dp3o"]
+gradient = SubResource("Gradient_ukyrk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ukyrk"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(500, 1, 1)
+gravity = Vector3(45, 98, 0)
+scale_max = 4.0
+color_initial_ramp = SubResource("GradientTexture1D_7dp3o")
+alpha_curve = SubResource("CurveTexture_ukyrk")
+turbulence_enabled = true
+turbulence_noise_speed_random = 0.0
+turbulence_influence_min = 0.02
+turbulence_influence_max = 0.08
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_tx1dd"]
 radius = 31.6853
 
@@ -97,6 +124,13 @@ jump_force = -600
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_tx1dd")
+
+[node name="Snow" type="GPUParticles2D" parent="."]
+position = Vector2(0, -272)
+amount = 200
+lifetime = 10.0
+preprocess = 30.0
+process_material = SubResource("ParticleProcessMaterial_ukyrk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.537445, 0.540188)

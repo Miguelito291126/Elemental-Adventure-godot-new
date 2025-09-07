@@ -42,6 +42,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var energys = $Hud/Energys/Label
 @onready var points = $Hud/Points/Label
 @onready var username = $Username
+@onready var snow = $Snow
 
 @export var id: String
 
@@ -98,6 +99,11 @@ func _process(_delta: float) -> void:
 		light.color = Color.WHITE
 		ball_color = Color.SADDLE_BROWN
 		is_fireball = false
+
+	if GameController.level > 18 and GameController.level <= 24:
+		snow.emitting = true
+	else:
+		snow.emitting = false
 
 func _physics_process(delta):
 	

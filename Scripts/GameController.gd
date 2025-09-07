@@ -4,7 +4,7 @@ var version = ProjectSettings.get_setting("application/config/version")
 
 
 @export var level = 1
-@export var max_level = 18
+@export var max_level = 24
 @export var points = 0
 @export var energys = 0
 @export var character = "fire"

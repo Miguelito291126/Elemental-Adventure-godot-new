@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0ymo1xchweis"]
+[gd_scene load_steps=4 format=3 uid="uid://c0ymo1xchweis"]
 
 [ext_resource type="Texture2D" uid="uid://3usd28eag56h" path="res://Sprites/fire Particle.png" id="1_6cgax"]
+[ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="2_yr3ur"]
 
 [sub_resource type="Curve" id="Curve_nvcuk"]
 _data = [Vector2(0.0037037, 0.238177), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -16,3 +17,9 @@ emission_sphere_radius = 15.0
 direction = Vector2(0, 0)
 gravity = Vector2(0, -98)
 scale_amount_curve = SubResource("Curve_nvcuk")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.54902, 0, 1)
+range_layer_min = -100
+shadow_enabled = true
+texture = ExtResource("2_yr3ur")
