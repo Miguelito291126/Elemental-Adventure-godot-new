@@ -1,22 +1,13 @@
 extends RigidBody2D
-
-@export var coin_id: String
 @export var collected := false
-
 @onready var coinsound = $"coin sound"
 
-const PATH := "user://data.cfg"
-const DATA_SECTION := "data"
-const ID_SECTION := "ID"
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if !body.is_in_group("player"):
-		return
-		
-	if GameController.IsNetwork:
-		hide_coin.rpc()
-	else:
-		hide_coin()
+	if body.is_in_group("player"):	
+		if GameController.IsNetwork:
+			hide_coin.rpc()
+		else:
+			hide_coin()
 
 func SaveGameData():
 	var save_dict = {

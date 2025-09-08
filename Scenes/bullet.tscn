@@ -65,7 +65,6 @@ texture = ExtResource("2_t1plx")
 scale = Vector2(0.258, 0.2)
 range_layer_min = -100
 shadow_enabled = true
-shadow_filter = 1
 shadow_filter_smooth = 3.0
 texture = ExtResource("3_ycag2")
 

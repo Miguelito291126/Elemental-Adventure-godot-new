@@ -6,7 +6,7 @@ extends TileMapLayer
 @onready var snow = $Background4
 
 func _process(_delta: float) -> void:
-	if GameController.level >= 1 and  GameController.level <= 6:
+	if GameController.level > 0 and  GameController.level <= 6:
 		lava.visible = false
 		desert.visible = false
 		destrolledeearth.visible = true

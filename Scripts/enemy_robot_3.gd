@@ -3,7 +3,6 @@ extends CharacterBody2D
 @export var health = 10
 @export var damagecount = 3
 @export var color: Color
-@export var enemy_id: String
 @export var death = false
 
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")

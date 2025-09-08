@@ -6,7 +6,6 @@ extends CharacterBody2D
 @export var move_speed = 50
 @export var direction = Vector2.LEFT
 
-@export var enemy_id: String
 @export var color: Color
 @export var color_str = "Green"
 

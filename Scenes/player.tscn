@@ -311,7 +311,6 @@ bus = &"SFX"
 scale = Vector2(0.195313, 0.1875)
 range_layer_min = -100
 shadow_enabled = true
-shadow_filter = 1
 texture = ExtResource("10_tx1dd")
 texture_scale = 3.93
 

@@ -25,7 +25,6 @@ extends CharacterBody2D
 @onready var right_floor_check = $right_floor
 @onready var right_wall_check = $right_wall
 
-@export var enemy_id: String
 @export var death = false
 
 @export var is_burning: bool = false

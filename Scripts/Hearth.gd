@@ -1,13 +1,6 @@
 extends RigidBody2D
-
-@export var hearth_id: String
 @export var collected := false
-
 @onready var hearthsound = $"hearth sound"
-
-const PATH := "user://data.cfg"
-const DATA_SECTION := "data"
-const ID_SECTION := "ID"
 
 func SaveGameData():
 	var save_dict = {
@@ -20,13 +13,11 @@ func SaveGameData():
 	return save_dict
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if !body.is_in_group("player"):
-		return
-
-	if GameController.IsNetwork:
-		hide_hearth.rpc(body)
-	else:
-		hide_hearth(body)
+	if body.is_in_group("player"):
+		if GameController.IsNetwork:
+			hide_hearth.rpc(body)
+		else:
+			hide_hearth(body)
 
 
 @rpc("any_peer", "call_local")

@@ -18,8 +18,6 @@ extends CharacterBody2D
 @export var invincibility_time = 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
-
-@export var enemy_id: String
 @export var death = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
