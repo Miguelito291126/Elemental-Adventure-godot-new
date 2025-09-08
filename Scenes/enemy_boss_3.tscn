@@ -387,6 +387,8 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kpjsb")
 animation = &"idle slime yellow"
 autoplay = "idle slime yellow"
+frame = 1
+frame_progress = 0.16398
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2.11928e-07)
@@ -400,16 +402,13 @@ position = Vector2(23.1111, 0)
 [node name="Timer" type="Timer" parent="." groups=["enemy"]]
 
 [node name="Area2D2" type="Area2D" parent="."]
-position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2(0.0555524, 0)
 shape = SubResource("RectangleShape2D_qk0si")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-0.333336, 1.38889)
 shape = SubResource("CircleShape2D_a0vro")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]

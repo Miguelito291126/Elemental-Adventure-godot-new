@@ -377,7 +377,7 @@ color = Color(1, 0.501961, 0, 1)
 color_str = "Orange"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-enabled = false
+color = Color(1, 0.654902, 0, 1)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("2_l6qnw")
@@ -400,16 +400,13 @@ position = Vector2(23.1111, 0)
 [node name="Timer" type="Timer" parent="." groups=["enemy"]]
 
 [node name="Area2D2" type="Area2D" parent="."]
-position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2(-0.0555597, 0.0555577)
 shape = SubResource("RectangleShape2D_l6qnw")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-0.333336, 1.38889)
 shape = SubResource("CircleShape2D_a0vro")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]

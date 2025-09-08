@@ -126,10 +126,8 @@ texture_scale = 0.5
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Area2D2" type="Area2D" parent="."]
-position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2(1.5, 0.500004)
 shape = SubResource("RectangleShape2D_45k6c")
 
 [node name="Area2D" type="Area2D" parent="."]

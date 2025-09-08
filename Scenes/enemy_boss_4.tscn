@@ -384,10 +384,10 @@ texture = ExtResource("2_k370a")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-6.11111, -2.77778)
 sprite_frames = SubResource("SpriteFrames_kpjsb")
-animation = &"walk slime blue"
-autoplay = "walk slime blue"
+animation = &"idle slime blue"
+autoplay = "idle slime blue"
+frame_progress = 0.686181
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ctv7p")
@@ -400,10 +400,8 @@ position = Vector2(23.1111, 0)
 [node name="Timer" type="Timer" parent="." groups=["enemy"]]
 
 [node name="Area2D2" type="Area2D" parent="."]
-position = Vector2(3.8147e-06, -3.8147e-06)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2(0.0555518, 0)
 shape = SubResource("RectangleShape2D_k370a")
 
 [node name="Area2D" type="Area2D" parent="."]
