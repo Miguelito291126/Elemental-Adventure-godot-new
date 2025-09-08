@@ -43,6 +43,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var points = $Hud/Points/Label
 @onready var username = $Username
 @onready var snow = $Snow
+@onready var ash = $Ash
 
 @export var id: String
 
@@ -100,10 +101,16 @@ func _process(_delta: float) -> void:
 		ball_color = Color.SADDLE_BROWN
 		is_fireball = false
 
-	if GameController.level > 18 and GameController.level <= 24:
+
+	if GameController.level > 6 and GameController.level <= 12:
+		snow.emitting = false
+		ash.emitting = true
+	elif GameController.level > 18 and GameController.level <= 24:
 		snow.emitting = true
+		ash.emitting = false
 	else:
 		snow.emitting = false
+		ash.emitting = false
 
 func _physics_process(delta):
 	
@@ -289,14 +296,14 @@ func start_invincibility():
 
 	# Efecto de parpadeo rojo-blanco
 	while total_time < invincibility_time:
-		modulate = Color.RED
+		animator.modulate = Color.RED
 		await get_tree().create_timer(blink_time).timeout
-		modulate = Color.WHITE
+		animator.modulate = Color.WHITE
 		await get_tree().create_timer(blink_time).timeout
 		total_time += blink_time * 2
 
 	# Restaurar color original y terminar invencibilidad
-	modulate = original_modulate
+	animator.modulate = original_modulate
 	is_invincible = false
 
 @rpc("any_peer", "call_local")
@@ -315,13 +322,13 @@ func shoot_rpc(direction):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
-	bullet.modulate = ball_color
-	bullet.get_node("PointLight2D").enabled = is_fireball
-	bullet.get_node("PointLight2D").color = ball_color
-	bullet.get_node("Fire").visible = is_fireball
-	bullet.fireball = is_fireball
-
 	get_parent().add_child(bullet, true)
+
+	bullet.bullet_sprite.modulate = ball_color
+	bullet.bullet_light.color = ball_color
+	bullet.bullet_light.enabled = is_fireball
+	bullet.bullet_fire.visible = is_fireball
+	bullet.fireball = is_fireball
 	
 	await get_tree().create_timer(1).timeout
 	
@@ -430,5 +437,3 @@ func _on_area_2d_body_exited(body:Node2D) -> void:
 		is_in_water_or_lava = false
 	elif body.is_in_group("acid"):
 		is_in_water_or_lava = false
-
-

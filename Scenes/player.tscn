@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene load_steps=23 format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
@@ -111,6 +111,26 @@ turbulence_enabled = true
 turbulence_noise_speed_random = 0.0
 turbulence_influence_min = 0.02
 turbulence_influence_max = 0.08
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+collision_use_scale = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7dp3o"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(500, 1, 1)
+gravity = Vector3(45, 98, 0)
+scale_max = 4.0
+color = Color(0.597176, 0.597176, 0.597176, 1)
+turbulence_enabled = true
+turbulence_noise_speed_random = 0.0
+turbulence_influence_min = 0.02
+turbulence_influence_max = 0.08
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+collision_use_scale = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tx1dd"]
 radius = 31.6853
@@ -131,6 +151,13 @@ amount = 200
 lifetime = 10.0
 preprocess = 30.0
 process_material = SubResource("ParticleProcessMaterial_ukyrk")
+
+[node name="Ash" type="GPUParticles2D" parent="."]
+position = Vector2(0, -272)
+amount = 200
+lifetime = 10.0
+preprocess = 30.0
+process_material = SubResource("ParticleProcessMaterial_7dp3o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.537445, 0.540188)

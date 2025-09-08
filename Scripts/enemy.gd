@@ -89,7 +89,6 @@ func start_invincibility():
 	blink_timer.start()
 	
 	var blink_time := 0.1
-	var elapsed := 0.0
 	var total_time := 0.0
 
 	# Guardar el color original
@@ -97,14 +96,14 @@ func start_invincibility():
 
 	# Efecto de parpadeo rojo-blanco
 	while total_time < invincibility_time:
-		modulate = Color.RED
+		animator.modulate = Color.RED
 		await get_tree().create_timer(blink_time).timeout
-		modulate = Color.WHITE
+		animator.modulate = Color.WHITE
 		await get_tree().create_timer(blink_time).timeout
 		total_time += blink_time * 2
 
 	# Restaurar color original y terminar invencibilidad
-	modulate = original_modulate
+	animator.modulate = original_modulate
 	is_invincible = false
 	
 @rpc("any_peer", "call_local")

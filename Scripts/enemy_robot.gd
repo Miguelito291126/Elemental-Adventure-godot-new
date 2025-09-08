@@ -65,14 +65,14 @@ func start_invincibility():
 
 	# Efecto de parpadeo rojo-blanco
 	while total_time < invincibility_time:
-		modulate = Color.RED
+		animator.modulate = Color.RED
 		await get_tree().create_timer(blink_time).timeout
-		modulate = Color.WHITE
+		animator.modulate = Color.WHITE
 		await get_tree().create_timer(blink_time).timeout
 		total_time += blink_time * 2
 
 	# Restaurar color original y terminar invencibilidad
-	modulate = original_modulate
+	animator.modulate = original_modulate
 	is_invincible = false
 	
 @rpc("any_peer", "call_local")
@@ -158,13 +158,15 @@ func shoot(direction):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
-	bullet.modulate = color
-	bullet.get_node("PointLight2D").color = color
-	bullet.get_node("PointLight2D").enabled = true
-	bullet.get_node("Fire").visible = false
 	bullet.fireball = false
 
 	get_parent().add_child(bullet, true)
+
+	bullet.bullet_sprite.modulate = color
+	bullet.bullet_light.color = color
+	bullet.bullet_light.enabled = true
+	bullet.bullet_fire.visible = false
+	
 
 func burn():
 	if is_burning:

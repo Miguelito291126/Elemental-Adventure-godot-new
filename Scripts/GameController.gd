@@ -229,7 +229,7 @@ func unload_scene_in_game_node() -> void:
 	
 	
 func print_role(msg: String):
-	var is_server = get_tree().get_multiplayer().is_server()
+	var is_server = get_tree().get_multiplayer().is_server() and IsNetwork
 	
 	if is_server:
 		# Azul
@@ -274,8 +274,9 @@ func Play_MultiplayerClient():
 
 func MultiplayerPlayerSpawner(id: int = 1):
 
-	if not get_tree().get_multiplayer().is_server():
-		return
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
 	
 
 	var player = player_scene.instantiate()
@@ -297,8 +298,9 @@ func MultiplayerPlayerSpawner(id: int = 1):
 	
 
 func MultiplayerPlayerRemover(id: int = 1):
-	if not get_tree().get_multiplayer().is_server():
-		return
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
 	
 
 	var player = Players_Nodes[id]
@@ -417,8 +419,9 @@ func SingleplayerPlayerSpawner():
 	
 
 func SaveGameData():
-	if not get_tree().get_multiplayer().is_server():
-		return
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
 
 	var config = ConfigFile.new()
 	config.load(PATH)
@@ -429,8 +432,9 @@ func SaveGameData():
 	
 		
 func LoadGameData():
-	if not get_tree().get_multiplayer().is_server():
-		return
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
 
 	var config = ConfigFile.new()
 	if config.load(PATH) == OK:
@@ -440,9 +444,9 @@ func LoadGameData():
 		
 		
 func LoadPersistentNodes():
-
-	if not get_tree().get_multiplayer().is_server():
-		return
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
 
 	if not FileAccess.file_exists(PATH_2):
 		return # Error! We don't have a save to load.
@@ -505,8 +509,9 @@ func _create_persistent_node(node_data: Dictionary):
 		new_object.set(i, node_data[i])
 
 func SavePersistentNodes():
-	if not get_tree().get_multiplayer().is_server():
-		return
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
 
 	var save_file = FileAccess.open(PATH_2, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)

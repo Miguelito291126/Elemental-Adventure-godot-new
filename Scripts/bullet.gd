@@ -4,6 +4,7 @@ extends Area2D
 @export var direction = Vector2.RIGHT
 @onready var bullet_fire = $Fire
 @onready var bullet_light = $PointLight2D
+@onready var bullet_sprite = $Sprite2D
 @export var fireball: bool = false
 
 func _physics_process(delta):

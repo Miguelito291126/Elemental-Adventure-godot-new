@@ -12,6 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://5j0ttfbw6wfn" path="res://Sprites/Background floor 4.png" id="10_0fj1v"]
 
 [sub_resource type="Environment" id="Environment_0fj1v"]
+background_mode = 3
+glow_enabled = true
+fog_enabled = true
+adjustment_enabled = true
 
 [node name="World" type="TileMapLayer" groups=["terrain"]]
 tile_set = ExtResource("1_5v1tr")
@@ -33,7 +37,6 @@ motion_scale = Vector2(0, 0)
 motion_mirroring = Vector2(1920, 1080)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer3"]
-position = Vector2(-69.5, -89.5)
 scale = Vector2(1.00677, 1.00463)
 texture = ExtResource("2_5ukr8")
 centered = false
@@ -168,7 +171,6 @@ texture = ExtResource("8_5v1tr")
 centered = false
 
 [node name="Background4" type="ParallaxBackground" parent="."]
-visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background4"]
 color = Color(0.310617, 0.310617, 0.310617, 1)
@@ -209,11 +211,11 @@ motion_scale = Vector2(0.3, 0.3)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background4/ParallaxLayer"]
-position = Vector2(1188, 225)
+position = Vector2(1417, 158)
 texture = ExtResource("5_5v1tr")
 centered = false
 
 [node name="Sprite2D2" type="Sprite2D" parent="Background4/ParallaxLayer"]
-position = Vector2(322, 296)
+position = Vector2(305, 91)
 texture = ExtResource("5_5v1tr")
 centered = false
