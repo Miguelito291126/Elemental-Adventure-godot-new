@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Elemental Adventure"
-config/version="10.4"
+config/version="10.4.1"
 run/main_scene="uid://ck6cqfxuu22vs"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/show_image=false
