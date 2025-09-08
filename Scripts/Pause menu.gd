@@ -78,7 +78,6 @@ func _on_back_pressed() -> void:
 			return
 		GameController.multiplayerpeer.close()
 	else:
-		GameController.DeletePersistentNodes()
 		GameController.LoadMainMenu()
 
 
