@@ -72,7 +72,12 @@ func _ready() -> void:
 		GameController.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
 		GameController.print_role("Node name:" + name)
 		GameController.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
-	
+	else:
+		username.visible = false
+		camera.enabled = true
+		camera.visible = true
+		hud.visible = true
+		
 	GameController.playernode = self
 
 func _process(_delta: float) -> void:
