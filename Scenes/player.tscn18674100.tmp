@@ -84,12 +84,6 @@ properties/21/replication_mode = 1
 properties/22/path = NodePath("Username:text")
 properties/22/spawn = true
 properties/22/replication_mode = 1
-properties/23/path = NodePath("Snow:emitting")
-properties/23/spawn = true
-properties/23/replication_mode = 1
-properties/24/path = NodePath("Ash:emitting")
-properties/24/spawn = true
-properties/24/replication_mode = 1
 
 [sub_resource type="Curve" id="Curve_ukyrk"]
 _data = [Vector2(0.00424628, 1), 0.0, 0.0, 0, 0, Vector2(0.878981, 0.107029), -1.04798, -1.04798, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -153,7 +147,6 @@ replication_config = SubResource("SceneReplicationConfig_tx1dd")
 
 [node name="Snow" type="GPUParticles2D" parent="."]
 position = Vector2(0, -272)
-emitting = false
 amount = 200
 lifetime = 10.0
 preprocess = 30.0
@@ -161,7 +154,6 @@ process_material = SubResource("ParticleProcessMaterial_ukyrk")
 
 [node name="Ash" type="GPUParticles2D" parent="."]
 position = Vector2(0, -272)
-emitting = false
 amount = 200
 lifetime = 10.0
 preprocess = 30.0

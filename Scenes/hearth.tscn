@@ -30,15 +30,12 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath(".:visible")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath(".:hearth_id")
+properties/6/path = NodePath(".:linear_velocity")
 properties/6/spawn = true
 properties/6/replication_mode = 1
-properties/7/path = NodePath(".:linear_velocity")
+properties/7/path = NodePath(".:collected")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath(".:collected")
-properties/8/spawn = true
-properties/8/replication_mode = 1
 
 [node name="hearth" type="RigidBody2D" groups=["Persistent", "hearth"]]
 mass = 0.01
