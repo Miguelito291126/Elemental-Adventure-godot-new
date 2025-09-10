@@ -52,13 +52,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var is_shotting = false
 
 func _enter_tree() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		set_multiplayer_authority(name.to_int())
 	
 	RespawnPos()
 	
 func _ready() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		username.visible = true
 		camera.enabled = is_multiplayer_authority()
 		camera.visible = is_multiplayer_authority()
@@ -68,10 +68,10 @@ func _ready() -> void:
 		if !is_multiplayer_authority():
 			return
 
-		username.text = GameController.Username
-		GameController.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
-		GameController.print_role("Node name:" + name)
-		GameController.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
+		username.text = Network.Username
+		Network.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
+		Network.print_role("Node name:" + name)
+		Network.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
 	else:
 		username.visible = false
 		camera.enabled = true
@@ -81,7 +81,7 @@ func _ready() -> void:
 	GameController.playernode = self
 
 func _process(_delta: float) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 		
@@ -89,19 +89,19 @@ func _process(_delta: float) -> void:
 	energys.text = "Energys: " + str(GameController.energys)
 	points.text = "Points: " + str(GameController.points)
 
-	if GameController.character == "fire":
+	if Network.character == "fire":
 		light.color = Color.ORANGE
 		ball_color = Color.ORANGE
 		is_fireball = true
-	elif GameController.character == "water":
+	elif Network.character == "water":
 		light.color = Color.WHITE
 		ball_color = Color.BLUE
 		is_fireball = false
-	elif GameController.character == "air":
+	elif Network.character == "air":
 		light.color = Color.WHITE
 		ball_color = Color.DIM_GRAY
 		is_fireball = false
-	elif GameController.character == "earth":
+	elif Network.character == "earth":
 		light.color = Color.WHITE
 		ball_color = Color.SADDLE_BROWN
 		is_fireball = false
@@ -119,7 +119,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta):
 	
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -144,7 +144,7 @@ func _physics_process(delta):
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -163,7 +163,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	
 func shoot():
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -173,14 +173,14 @@ func shoot():
 	bulletpos.global_position = global_position + direction_to_mouse * radius
 	bulletpos.look_at(mouse_pos)
 
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if is_multiplayer_authority():
 			shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
 	else:
 		shoot_rpc(direction_to_mouse)
 
 func Jump():
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -206,7 +206,7 @@ func Jump():
 
 
 func Wall(delta: float):
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -223,26 +223,26 @@ func Wall(delta: float):
 		velocity.y = min(velocity.y, wall_gravity)
 
 func Animations(direction: Vector2):
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
 	if is_in_water_or_lava:
-		animator.play("%s swim" % [GameController.character])
+		animator.play("%s swim" % [Network.character])
 	else:
 		# Tu código de animaciones de suelo/aire
 		if !is_on_floor():
 			if velocity.y < 0:
-				animator.play("%s jump" % [GameController.character])
+				animator.play("%s jump" % [Network.character])
 			else:
-				animator.play("%s fall" % [GameController.character])
+				animator.play("%s fall" % [Network.character])
 		elif direction.x != 0:
-			animator.play("%s walk" % [GameController.character])
+			animator.play("%s walk" % [Network.character])
 		else:
-			animator.play("%s idle" % [GameController.character])
+			animator.play("%s idle" % [Network.character])
 
 func flip(direction: Vector2):
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -269,17 +269,17 @@ func damage(damage_count: int) -> void:
 	damagesounds.play()
 
 	health -= damage_count
-	
-	GameController.SavePersistentNodes()
-	GameController.SaveGameData()
-		
+
+	GameData.SavePersistentNodes()
+	GameData.SaveGameData()
+
 	if health <= 0:
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			game_over.rpc()
 		else:
 			game_over()
 	else:
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			start_invincibility.rpc()
 		else:
 			start_invincibility()
@@ -314,9 +314,9 @@ func start_invincibility():
 @rpc("any_peer", "call_local")
 func healting(count):
 	health += count
-	GameController.SavePersistentNodes()
-	GameController.SaveGameData()
-		
+	GameData.SavePersistentNodes()
+	GameData.SaveGameData()
+
 
 @rpc("any_peer", "call_local")
 func shoot_rpc(direction):
@@ -338,6 +338,11 @@ func shoot_rpc(direction):
 	await get_tree().create_timer(1).timeout
 	
 	is_shotting = false
+
+
+@rpc("any_peer", "call_local")
+func unload_level_scene():
+	UnloadScene.unload_scene(GameController.levelnode)
 	
 @rpc("any_peer", "call_local")
 func game_over():
@@ -345,13 +350,13 @@ func game_over():
 	
 	RespawnPos()
 	
-	GameController.SavePersistentNodes()
-	GameController.SaveGameData()
-	
-	if GameController.IsNetwork:
-		GameController.LoadGameOverMenu.rpc()
+	GameData.SavePersistentNodes()
+	GameData.SaveGameData()
+
+	if Network.IsNetwork:
+		unload_level_scene.rpc()
 	else:
-		GameController.LoadGameOverMenu()
+		LoadScene.LoadGameOverMenu(GameController.levelnode)
 	
 	
 	
@@ -360,37 +365,37 @@ func RespawnPos():
 
 
 func _on_texture_button_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 			
 	pausemenu.visible = !pausemenu.visible
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 		
 	if area.is_in_group("bullet"):
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(damagecount)
 		else:
 			damage(damagecount)
 		
 		area.queue_free()
 	elif area.is_in_group("box"):
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			GameController.getlevel.rpc()
 		else:
 			GameController.getlevel()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 	
 	if body.is_in_group("enemy"):
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(damagecount)
 		else:
 			damage(damagecount)
@@ -398,24 +403,24 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("water"):
 		is_in_water_or_lava = true
 
-		if GameController.character == "water":
+		if Network.character == "water":
 			return 
 		
 		is_invincible = false
 		
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(health)
 		else:
 			damage(health)
 	elif body.is_in_group("lava"):
 		is_in_water_or_lava = true
 
-		if GameController.character == "fire":
+		if Network.character == "fire":
 			return 
 		
 		is_invincible = false
 		
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(health)
 		else:
 			damage(health)
@@ -423,13 +428,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		is_in_water_or_lava = true
 		is_invincible = false
 		
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(health)
 		else:
 			damage(health)
 		
 	elif body.is_in_group("box"):
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			GameController.getlevel.rpc()
 		else:
 			GameController.getlevel()

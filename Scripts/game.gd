@@ -4,4 +4,6 @@ extends Node
 
 func _ready() -> void:
 	GameController.nodegame = self
-	GameController.Multiplayerspawner.append(LevelSpawner)
+	Network.Multiplayerspawner.append(LevelSpawner)
+
+	LoadScene.LoadMainMenu(null)

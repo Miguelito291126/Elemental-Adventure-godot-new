@@ -4,14 +4,14 @@ extends Control
 var currentinfo: PackedScene = preload("res://Scenes/server_info.tscn")
 
 func _ready():
-	GameController.SetUp()
-	GameController.serverbrowser = self
+	Network.SetUp()
+	Network.serverbrowser = self
 
 func _process(_delta):
-	if GameController.listener.get_available_packet_count() > 0:
-		var serverip = GameController.listener.get_packet_ip()
-		var serverport = GameController.listener.get_packet_port()
-		var bytes = GameController.listener.get_packet()
+	if Network.listener.get_available_packet_count() > 0:
+		var serverip = Network.listener.get_packet_ip()
+		var serverport = Network.listener.get_packet_port()
+		var bytes = Network.listener.get_packet()
 		var data = bytes.get_string_from_ascii()
 		var roominfo = JSON.parse_string(data)
 
@@ -34,4 +34,3 @@ func _process(_delta):
 		$List.add_child(currentinfo2)
 
 		
-

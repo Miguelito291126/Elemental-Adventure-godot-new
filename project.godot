@@ -23,8 +23,12 @@ config/icon="uid://ckt0eppr5lntw"
 
 [autoload]
 
-GameController="*res://Scenes/gamecontroller.tscn"
+LoadScene="*res://Scripts/LoadScene.gd"
+UnloadScene="*res://Scripts/UnloadScene.gd"
+GameController="*res://Scenes/globals.tscn"
+Network="*res://Scenes/network.tscn"
 MusicManager="*res://Scenes/Music Manager.tscn"
+GameData="*res://Scripts/GameData.gd"
 
 [debug]
 

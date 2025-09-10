@@ -14,7 +14,7 @@ func SaveGameData():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			hide_hearth.rpc(body)
 		else:
 			hide_hearth(body)
@@ -29,7 +29,7 @@ func hide_hearth(body: Node2D):
 		hearthsound.play()
 		visible = false
 		collected = true
-		GameController.SavePersistentNodes()
-		GameController.SaveGameData()
+		GameData.SavePersistentNodes()
+		GameData.SaveGameData()
 		await hearthsound.finished
 		queue_free()

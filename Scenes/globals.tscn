@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://4oi48rlcwsbq"]
 
-[ext_resource type="Script" uid="uid://bks4mlacrog6c" path="res://Scripts/GameController.gd" id="1_iumql"]
+[ext_resource type="Script" uid="uid://bks4mlacrog6c" path="res://Scripts/GameController.gd" id="1_uq25s"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iumql"]
 properties/0/path = NodePath(".:level")
@@ -14,13 +14,7 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [node name="GameController" type="Node"]
-script = ExtResource("1_iumql")
-broadcaster_ip = "192.168.1.255"
+script = ExtResource("1_uq25s")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_iumql")
-
-[node name="ServerBrowserTime" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="ServerBrowserTime" to="." method="_on_server_browser_time_timeout"]

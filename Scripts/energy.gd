@@ -4,7 +4,7 @@ extends RigidBody2D
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):	
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			hide_coin.rpc()
 		else:
 			hide_coin()
@@ -27,7 +27,7 @@ func hide_coin():
 		GameController.getcoin()
 		visible = false
 		collected = true
-		GameController.SavePersistentNodes()
-		GameController.SaveGameData()
+		GameData.SavePersistentNodes()
+		GameData.SaveGameData()
 		await coinsound.finished
 		queue_free()

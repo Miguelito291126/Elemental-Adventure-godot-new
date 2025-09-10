@@ -6,24 +6,25 @@ extends CanvasLayer
 
 
 func _enter_tree() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())
 	
 func _ready() -> void:
+	GameController.victory_menu = self
+	
 	level.text = str("You completed level: ",  GameController.level - 1, " you WON!!")
 	score.text = str("Score: ",  GameController.points)
 	energys.text = str("Energys: ", GameController.energys)
 
 func _on_back_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
-		GameController.DeleteResources()
-		GameController.DeletePersistentNodes()
-		GameController.multiplayerpeer.close()
+		GameData.DeleteResources()
+		GameData.DeletePersistentNodes()
+		Network.multiplayerpeer.close()
 	else:
-		GameController.DeleteResources()
-		GameController.DeletePersistentNodes()
-		GameController.LoadMainMenu()
-	
+		GameData.DeleteResources()
+		GameData.DeletePersistentNodes()
+		LoadScene.LoadMainMenu(self)

@@ -5,28 +5,34 @@ extends CanvasLayer
 @onready var level = $VBoxContainer2/level
 
 func _enter_tree() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())
 
 func _ready() -> void:
+	GameController.victory_menu = self
+
 	level.text = str("You completed level: ",  GameController.level - 1)
 	score.text = str("Score: ",  GameController.points)
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
 
 func _on_back_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
-		GameController.multiplayerpeer.close()
+		Network.multiplayerpeer.close()
 	else:
-		GameController.LoadMainMenu()
+		LoadScene.LoadMainMenu(self)
+
+@rpc("any_peer", "call_local")
+func unload_current_scene():
+	UnloadScene.unload_scene(self)
 
 func _on_next_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
-		GameController.load_level_scene.rpc()
+		unload_current_scene.rpc()
 	else:
-		GameController.load_level_scene()
+		LoadScene.load_level_scene(self)

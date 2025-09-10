@@ -1,35 +1,32 @@
 extends CanvasLayer
 
 func _enter_tree() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())
 
-func return_to_menu():
-	if GameController.IsNetwork:
-		if !is_multiplayer_authority():
-			return
-			
-		GameController.multiplayerpeer.close()
-	else:
-		GameController.LoadMainMenu()
+func _ready() -> void:
+	GameController.game_over_menu = self
 
 # Botón volver al menú
 func _on_back_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 			
-		GameController.multiplayerpeer.close()
+		Network.multiplayerpeer.close()
 	else:
-		GameController.LoadMainMenu()
+		LoadScene.LoadMainMenu(self)
+
+@rpc("any_peer", "call_local")
+func unload_current_scene():
+	UnloadScene.unload_scene(self)
 
 # Botón volver al nivel actual
 func _on_return_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-
-
-		GameController.load_level_scene.rpc()
+		
+		unload_current_scene.rpc()
 	else:
-		GameController.load_level_scene()
+		LoadScene.load_level_scene(self)

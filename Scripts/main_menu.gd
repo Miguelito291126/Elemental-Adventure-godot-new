@@ -7,8 +7,7 @@ extends CanvasLayer
 @onready var Version = $Version
 
 func _ready() -> void:
-	GameController.mainmenu = self
-	
+	GameController.main_menu = self
 	optionsmenu.visible = false
 	mainmenu.visible = true
 	onlinemenu.visible = false
@@ -46,7 +45,7 @@ func SaveGameData():
 	config.save("user://config.cfg")
 
 func _on_play_pressed() -> void:
-	GameController.LoadCharacterMenu()
+	LoadScene.LoadCharacterMenu(self)
 
 func _on_online_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
@@ -59,7 +58,7 @@ func _on_option_pressed() -> void:
 
 
 func _on_delete_data_pressed() -> void:
-	GameController.DeleteData()
+	GameData.DeleteData()
 	get_tree().quit()
 	
 
@@ -109,16 +108,16 @@ func _on_ip_text_changed(new_text: String) -> void:
 	GameController.ip = new_text
 	
 func _on_port_text_changed(new_text: String) -> void:
-	GameController.port = new_text.to_int()
-	GameController.listener_port = GameController.port - 1
-	GameController.broadcaster_port = GameController.port + 1
-	GameController.SetUp()
+	Network.port = new_text.to_int()
+	Network.listener_port = Network.port - 1
+	Network.broadcaster_port = Network.port + 1
+	Network.SetUp()
 
 func _on_play_multiplayer_pressed() -> void:
-	GameController.Play_MultiplayerServer()
+	Network.Play_MultiplayerServer()
 
 func _on_play_multiplayer_client_pressed() -> void:
-	GameController.Play_MultiplayerClient()
+	Network.Play_MultiplayerClient()
 
 
 func _on_back_2_pressed() -> void:
@@ -127,7 +126,7 @@ func _on_back_2_pressed() -> void:
 
 
 func _on_name_text_changed(new_text:String) -> void:
-	GameController.Username = new_text
+	Network.Username = new_text
 
 func _on_online_list_pressed() -> void:
 	onlinemenu.visible = !onlinemenu.visible

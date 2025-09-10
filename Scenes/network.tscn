@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddafrdp4nl350"]
+
+[ext_resource type="Script" uid="uid://cgk1ed6yypmkn" path="res://Scripts/Network.gd" id="1_pmqco"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iumql"]
+
+[node name="Network" type="Node"]
+script = ExtResource("1_pmqco")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_iumql")
+
+[node name="ServerBrowserTime" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="ServerBrowserTime" to="." method="_on_server_browser_time_timeout"]

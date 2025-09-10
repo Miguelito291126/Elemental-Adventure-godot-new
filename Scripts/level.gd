@@ -6,19 +6,19 @@ extends Node2D
 func _ready() -> void:
 	GameController.levelnode = self
 	GameController.SpawnPoint = spawnpoint
-	GameController.Multiplayerspawner.append(Playersspawner)
+	Network.Multiplayerspawner.append(Playersspawner)
 	
-	GameController.LoadPersistentNodes()
+	GameData.LoadPersistentNodes()
 
-	if GameController.IsNetwork :
-		
-		GameController.print_role("Nivel Iniciado")
+	if Network.IsNetwork :
+
+		Network.print_role("Nivel Iniciado")
 
 		if get_tree().get_multiplayer().is_server():
 			for id in get_tree().get_multiplayer().get_peers():
-				GameController.MultiplayerPlayerSpawner(id)
-			
+				Network.MultiplayerPlayerSpawner(id)
+
 			if not OS.has_feature("dedicated_server"):
-				GameController.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
+				Network.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
 	else:
 		GameController.SingleplayerPlayerSpawner()

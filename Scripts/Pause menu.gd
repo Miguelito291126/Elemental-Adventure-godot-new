@@ -4,14 +4,15 @@ extends CanvasLayer
 @onready var pause_menu = $Options
 
 func _enter_tree() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		set_multiplayer_authority(get_parent().name.to_int())
 	
 func _ready() -> void:
+	GameController.pause_menu = self
 	LoadGameData()
 		
 func LoadGameData():
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 			
@@ -37,19 +38,19 @@ func LoadGameData():
 		prints("No se pudo acceder a la carpeta")
 		
 func SaveGameData():
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 			
 	var config = ConfigFile.new()
 	config.load("user://config.cfg")
 	config.save("user://config.cfg")
-	
-	GameController.SaveGameData()
-	GameController.SavePersistentNodes()
+
+	GameData.SaveGameData()
+	GameData.SavePersistentNodes()
 	
 func _on_save_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 		
@@ -58,7 +59,7 @@ func _on_save_pressed() -> void:
 
 
 func _on_reset_player_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -66,24 +67,24 @@ func _on_reset_player_pressed() -> void:
 	
 
 func _on_return_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 		
 	visible = !visible
 
 func _on_back_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-		GameController.multiplayerpeer.close()
+		Network.multiplayerpeer.close()
 	else:
-		GameController.LoadMainMenu()
+		LoadScene.LoadMainMenu(GameController.levelnode)
 
 
 
 func _on_back_pause_menu_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 
@@ -92,7 +93,7 @@ func _on_back_pause_menu_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 			
@@ -102,7 +103,7 @@ func _on_settings_pressed() -> void:
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 	
@@ -118,7 +119,7 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 
 
 func _on_volume_value_changed(value: float) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 	
@@ -132,7 +133,7 @@ func _on_volume_value_changed(value: float) -> void:
 
 
 func _on_volume_2_value_changed(value: float) -> void:
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
 	

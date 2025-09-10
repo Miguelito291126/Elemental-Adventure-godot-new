@@ -31,7 +31,7 @@ func damage(damage_count: int):
 
 	health -= damage_count
 
-	if GameController.IsNetwork:
+	if Network.IsNetwork:
 		if health <= 0:
 			kill.rpc()
 		else:
@@ -77,8 +77,8 @@ func kill():
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)
 
-	GameController.SavePersistentNodes()
-	GameController.SaveGameData()
+	GameData.SavePersistentNodes()
+	GameData.SaveGameData()
 	queue_free()
 
 
@@ -115,7 +115,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 
 func _on_shoot_timer_timeout() -> void:
-	if GameController.IsNetwork and !get_tree().get_multiplayer().is_server():
+	if Network.IsNetwork and !get_tree().get_multiplayer().is_server():
 		return
 
 	var players = get_tree().get_nodes_in_group("player")
@@ -132,7 +132,7 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			shoot.rpc(direction_to_player)
 		else:
 			shoot(direction_to_player)
@@ -156,7 +156,7 @@ func shoot(direction: Vector2):
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(damagecount)
 		else:
 			damage(damagecount)
@@ -166,14 +166,14 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if body.is_in_group("lava"):
 		is_invincible = false
 		
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(health)
 		else:
 			damage(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
 		
-		if GameController.IsNetwork:
+		if Network.IsNetwork:
 			damage.rpc(health)
 		else:
 			damage(health)
