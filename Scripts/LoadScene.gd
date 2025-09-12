@@ -103,29 +103,26 @@ func _process(_delta):
 func get_level_str() -> String:
 	return "level_%d" % GameController.level
 
-@rpc("any_peer", "call_local")
 func LoadGameOverMenu(current_scene = null):
 	LoadScene.load_scene(current_scene, "res://Scenes/game_over_menu.tscn")
 
-@rpc("any_peer", "call_local")
 func LoadVictoryMenu(current_scene = null):
-	
 	GameData.DeletePersistentNodes()
-
+	
 	if GameController.level <= GameController.max_level:
 		LoadScene.load_scene(current_scene, "res://Scenes/victory_menu.tscn")
 	else:
 		LoadScene.load_scene(current_scene, "res://Scenes/Super victory screen.tscn")
 
-@rpc("any_peer", "call_local")
+
 func LoadMainMenu(current_scene = null):
 	LoadScene.load_scene(current_scene, "res://Scenes/main_menu.tscn")
 
-@rpc("any_peer", "call_local")
+
 func LoadCharacterMenu(current_scene = null):
 	LoadScene.load_scene(current_scene, "res://Scenes/chose_character.tscn")
 
-@rpc("any_peer", "call_local")
+
 func load_level_scene(current_scene = null):
 	var scene_path = "res://Scenes/%s.tscn" % get_level_str()
 	LoadScene.load_scene(current_scene, scene_path)

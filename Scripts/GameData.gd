@@ -91,9 +91,12 @@ func _create_persistent_node(node_data: Dictionary):
 	if not node_data.has("filename"):
 		return
 
+	var parent_node = get_node(node_data["parent"])
 	var new_object = load(node_data["filename"]).instantiate()
-	get_node(node_data["parent"]).add_child(new_object, true)
-	new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+
+	if is_instance_valid(new_object) and is_instance_valid(parent_node):
+		parent_node.add_child(new_object, true)
+		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
 	for i in node_data.keys():
 		if i in ["filename", "parent", "pos_x", "pos_y"]:

@@ -3,6 +3,21 @@
 [ext_resource type="Script" uid="uid://cgk1ed6yypmkn" path="res://Scripts/Network.gd" id="1_pmqco"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iumql"]
+properties/0/path = NodePath(".:Username")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:Players_Nodes")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:available_elements")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:assigned_characters")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:roominfo")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [node name="Network" type="Node"]
 script = ExtResource("1_pmqco")

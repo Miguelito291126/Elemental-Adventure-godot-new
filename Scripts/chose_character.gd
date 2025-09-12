@@ -9,18 +9,18 @@ func _ready():
 
 
 func _on_button_fire_pressed() -> void:
-	GameController.character = "fire"
+	Network.character = "fire"
 
 
 func _on_button_water_pressed() -> void:
-	GameController.character = "water"
+	Network.character = "water"
 
 
 func _on_button_air_pressed() -> void:
-	GameController.character = "air"
+	Network.character = "air"
 
 func _on_button_earth_pressed() -> void:
-	GameController.character = "earth"
+	Network.character = "earth"
 
 
 func _on_play_pressed() -> void:

@@ -341,8 +341,8 @@ func shoot_rpc(direction):
 
 
 @rpc("any_peer", "call_local")
-func unload_level_scene():
-	UnloadScene.unload_scene(GameController.levelnode)
+func load_gameover_scene():
+	LoadScene.LoadGameOverMenu(GameController.levelnode)
 	
 @rpc("any_peer", "call_local")
 func game_over():
@@ -354,7 +354,7 @@ func game_over():
 	GameData.SaveGameData()
 
 	if Network.IsNetwork:
-		unload_level_scene.rpc()
+		load_gameover_scene.rpc()
 	else:
 		LoadScene.LoadGameOverMenu(GameController.levelnode)
 	

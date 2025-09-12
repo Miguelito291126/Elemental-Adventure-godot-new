@@ -18,15 +18,15 @@ func _on_back_pressed() -> void:
 		LoadScene.LoadMainMenu(self)
 
 @rpc("any_peer", "call_local")
-func unload_current_scene():
-	UnloadScene.unload_scene(self)
+func load_level_scene():
+	LoadScene.load_level_scene(self)
 
 # Botón volver al nivel actual
 func _on_return_pressed() -> void:
 	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
-		
-		unload_current_scene.rpc()
+
+		load_level_scene.rpc()
 	else:
 		LoadScene.load_level_scene(self)

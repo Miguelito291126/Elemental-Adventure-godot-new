@@ -51,7 +51,7 @@ func _ready() -> void:
 					broadcaster_port = key_value[1].to_int() + 2
 
 		print("port:", port)
-		print("ip:", ip)
+		print("ip:","ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
 		
 		print_role("Iniciando servidor dedicado...")
 		
@@ -115,14 +115,17 @@ func remove_element_from_player(id: int) -> void:
 		print_role("Jugador con ID: %d no tenía un personaje asignado." % id)
 
 func print_role(msg: String):
-	var is_server = get_tree().get_multiplayer().is_server() and IsNetwork
-	
-	if is_server:
-		# Azul
-		print_rich("[color=blue][Servidor] " + msg + "[/color]")
+	if IsNetwork:
+		var is_server = get_tree().get_multiplayer().is_server() 
+		
+		if is_server:
+			# Azul
+			print_rich("[color=blue][Servidor] " + msg + "[/color]")
+		else:
+			# Amarillo
+			print_rich("[color=yellow][Cliente] " + msg + "[/color]")
 	else:
-		# Amarillo
-		print_rich("[color=yellow][Cliente] " + msg + "[/color]")
+		print(msg)
 
 
 

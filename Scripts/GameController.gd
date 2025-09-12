@@ -43,15 +43,18 @@ func getpoint():
 	GameData.SaveGameData()
 
 @rpc("any_peer", "call_local")
+func load_victory_scene():
+	LoadScene.LoadVictoryMenu(GameController.levelnode)
+	
+@rpc("any_peer", "call_local")
 func getlevel():
 	level += 1
 
-	GameData.SavePersistentNodes()
+	GameData.DeletePersistentNodes()
 	GameData.SaveGameData()
 
-
 	if Network.IsNetwork:
-		LoadScene.LoadVictoryMenu.rpc(GameController.levelnode)
+		load_victory_scene.rpc()
 	else:
 		LoadScene.LoadVictoryMenu(GameController.levelnode)
 	
