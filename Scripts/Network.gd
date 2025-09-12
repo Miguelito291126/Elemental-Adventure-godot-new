@@ -115,6 +115,9 @@ func remove_element_from_player(id: int) -> void:
 		print_role("Jugador con ID: %d no tenía un personaje asignado." % id)
 
 func print_role(msg: String):
+	
+	print(IsNetwork)
+
 	if IsNetwork:
 		var is_server = get_tree().get_multiplayer().is_server() 
 		

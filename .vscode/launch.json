@@ -4,6 +4,7 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "GDScript: Launch Project",
             "type": "godot",
@@ -12,8 +13,6 @@
             "debug_collisions": false,
             "debug_paths": false,
             "debug_navigation": false,
-            "port": 6007,
-            "debugServer": 6006,
             "additional_options": ""
         }
     ]

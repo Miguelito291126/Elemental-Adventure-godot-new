@@ -105,7 +105,7 @@ func _on_volume_2_value_changed(value: float) -> void:
 
 
 func _on_ip_text_changed(new_text: String) -> void:
-	GameController.ip = new_text
+	Network.ip = new_text
 	
 func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
