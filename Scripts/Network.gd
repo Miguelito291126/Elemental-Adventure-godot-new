@@ -22,6 +22,8 @@ var listener: PacketPeerUDP
 var serverbrowser: Control
 var multiplayerpeer : ENetMultiplayerPeer
 
+var queue_free_nodes: Array = []
+
 var IsNetwork = false
 
 var Multiplayerspawner: Array
@@ -50,8 +52,8 @@ func _ready() -> void:
 					listener_port = key_value[1].to_int() + 1
 					broadcaster_port = key_value[1].to_int() + 2
 
-		print("port:", port)
-		print("ip:","ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
+		print_role("port:" + str(port))
+		print_role("ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
 		
 		print_role("Iniciando servidor dedicado...")
 		
@@ -115,9 +117,6 @@ func remove_element_from_player(id: int) -> void:
 		print_role("Jugador con ID: %d no tenía un personaje asignado." % id)
 
 func print_role(msg: String):
-	
-	print(IsNetwork)
-
 	if IsNetwork:
 		var is_server = get_tree().get_multiplayer().is_server() 
 		
@@ -128,7 +127,7 @@ func print_role(msg: String):
 			# Amarillo
 			print_rich("[color=yellow][Cliente] " + msg + "[/color]")
 	else:
-		print(msg)
+		print( msg )
 
 
 
@@ -157,7 +156,7 @@ func Play_MultiplayerClient():
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	var error =  multiplayerpeer.create_client(ip, port)
 	if error == OK:
-		print("Conectado al servidor...")
+		print_role("Conectado al servidor...")
 		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
 		if not get_tree().get_multiplayer().is_server():
 			IsNetwork = true
@@ -173,22 +172,19 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		if not get_tree().get_multiplayer().is_server():
 			return
 	
-
-	var player = player_scene.instantiate()
-	player.name = str(id)
-	player.id = player.name
-
 	if GameController.levelnode and is_instance_valid(GameController.levelnode):
+		var player = player_scene.instantiate()
+		player.name = str(id)
+		player.id = player.name
 		GameController.levelnode.add_child(player, true)
 		assign_element_to_player(id)
 		Sync_Players_Nodes.rpc()
+		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
 		print_role("Jugador spawneado con el ID:" + str(id))
 	else:
 		Sync_Players_Nodes.rpc()
+		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
 		print_role("Jugador no spawneado con el ID:" + str(id))
-		
-
-	GameData.LoadPersistentNodes()
 
 
 func MultiplayerPlayerRemover(id: int = 1):
@@ -282,11 +278,11 @@ func SetUpBroadcast(Name: String,) -> void:
 
 	var ok = broadcaster.bind(broadcaster_port)
 	if ok == OK:
-		print("all correct to port broadcaster: " + str(broadcaster_port) + " :D")
+		print_role("all correct to port broadcaster: " + str(broadcaster_port) + " :D")
 		if is_instance_valid(serverbrowser) and serverbrowser != null:
 			serverbrowser.label.text = "Broadcasting on port: " + str(broadcaster_port)
 	else:
-		print("failed to port broadcaster: " + str(broadcaster_port) + " D:")
+		print_role("failed to port broadcaster: " + str(broadcaster_port) + " D:")
 		if is_instance_valid(serverbrowser) and serverbrowser != null:
 			serverbrowser.label.text = "Failed to start broadcaster"
 
@@ -304,18 +300,18 @@ func CloseUp():
 	if broadcaster != null:
 		broadcaster.close()
 
-	print("Closed broadcaster and listener")
+	print_role("Closed broadcaster and listener")
 
 func SetUp():
 	listener = PacketPeerUDP.new()
 	var ok = listener.bind(listener_port)
 	if ok == OK:
-		print("all correct to port listener: " + str(listener_port) + " :D")
+		print_role("all correct to port listener: " + str(listener_port) + " :D")
 		await get_tree().create_timer(1).timeout
 		if serverbrowser:
 			serverbrowser.label.text = "Listener on port: " + str(listener_port)
 	else:
-		print("failed to port listener: " + str(listener_port) + " D:")
+		print_role("failed to port listener: " + str(listener_port) + " D:")
 		await get_tree().create_timer(1).timeout
 		if serverbrowser:
 			serverbrowser.label.text = "Failed to start listener"
@@ -326,3 +322,45 @@ func _on_server_browser_time_timeout() -> void:
 	var packet = data.to_ascii_buffer()
 	if broadcaster != null:
 		broadcaster.put_packet(packet)
+
+@rpc("authority", "call_local")
+func sync_queue_free_nodes(nodes: Array):
+	for node_path in nodes:
+		var node = get_tree().get_current_scene().get_node_or_null(node_path)
+		if node:
+			# Enemigos
+			if node.is_in_group("enemy") and not node.death:
+				node.queue_free()
+			# Monedas
+			elif node.is_in_group("coins") and not node.collected:
+				node.queue_free()
+			# Corazones
+			elif node.is_in_group("hearth") and not node.collected:
+				node.queue_free()
+			else:
+				print_role("Nodo ya procesado o no válido: " + str(node_path))
+
+func add_queue_free_nodes(Name: String):
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
+
+	if not queue_free_nodes.has(Name):
+		queue_free_nodes.append(Name)
+
+
+func remove_queue_free_nodes(Name: String):
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
+
+	if queue_free_nodes.has(Name):
+		queue_free_nodes.erase(Name)
+
+func remove_all_queue_free_nodes():
+	if IsNetwork:
+		if not get_tree().get_multiplayer().is_server():
+			return
+
+	for i in queue_free_nodes:
+		remove_queue_free_nodes(i)

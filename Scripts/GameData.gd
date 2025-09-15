@@ -49,10 +49,10 @@ func LoadPersistentNodes():
 	# For our example, we will accomplish this by deleting saveable objects.
 
 	# 🔹 Limpiar nodos persistentes existentes (solo una vez al inicio)
-	if Network.IsNetwork:
-		DeleteNodes.rpc()
-	else:
-		DeleteNodes()
+	var save_nodes = get_tree().get_nodes_in_group(node_group)
+	for i in save_nodes:
+		Network.add_queue_free_nodes(i.get_path())
+		i.queue_free()
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.
@@ -77,31 +77,21 @@ func LoadPersistentNodes():
 		or (node_data.has("death") and node_data["death"] == true):
 			continue
 
+		if not node_data.has("filename"):
+			return
 
-		_create_persistent_node(node_data)
+		var parent_node = get_node(node_data["parent"])
+		var new_object = load(node_data["filename"]).instantiate()
 
-@rpc("authority", "call_local")
-func DeleteNodes():
-	var save_nodes = get_tree().get_nodes_in_group(node_group)
-	for i in save_nodes:
-		i.queue_free()
+		if is_instance_valid(new_object) and is_instance_valid(parent_node):
+			parent_node.add_child(new_object, true)
+			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
-@rpc("authority", "call_local") # clientes y servidor pueden llamar, pero se ejecuta local
-func _create_persistent_node(node_data: Dictionary):
-	if not node_data.has("filename"):
-		return
+		for i in node_data.keys():
+			if i in ["filename", "parent", "pos_x", "pos_y"]:
+				continue
+			new_object.set(i, node_data[i])
 
-	var parent_node = get_node(node_data["parent"])
-	var new_object = load(node_data["filename"]).instantiate()
-
-	if is_instance_valid(new_object) and is_instance_valid(parent_node):
-		parent_node.add_child(new_object, true)
-		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-
-	for i in node_data.keys():
-		if i in ["filename", "parent", "pos_x", "pos_y"]:
-			continue
-		new_object.set(i, node_data[i])
 
 func SavePersistentNodes():
 	if Network.IsNetwork:

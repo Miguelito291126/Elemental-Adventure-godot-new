@@ -51,6 +51,7 @@ func getlevel():
 	level += 1
 
 	GameData.DeletePersistentNodes()
+	Network.remove_all_queue_free_nodes()
 	GameData.SaveGameData()
 
 	if Network.IsNetwork:
@@ -61,8 +62,8 @@ func getlevel():
 
 
 func SingleplayerPlayerSpawner():
-	var player = player_scene.instantiate()
 	if levelnode and is_instance_valid(levelnode):
+		var player = player_scene.instantiate()
 		levelnode.add_child(player, true)
 		Network.print_role("jugador Spawneado")
 	else:

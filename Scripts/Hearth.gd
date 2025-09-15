@@ -31,5 +31,8 @@ func hide_hearth(body: Node2D):
 		collected = true
 		GameData.SavePersistentNodes()
 		GameData.SaveGameData()
+		
+		Network.add_queue_free_nodes(self.get_path())
+		
 		await hearthsound.finished
 		queue_free()

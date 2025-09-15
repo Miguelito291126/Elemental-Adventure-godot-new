@@ -79,6 +79,9 @@ func kill():
 
 	GameData.SavePersistentNodes()
 	GameData.SaveGameData()
+
+	Network.add_queue_free_nodes(self.get_path())
+
 	queue_free()
 
 

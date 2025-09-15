@@ -48,7 +48,7 @@ func _process(_delta):
 	match load_status:
 		0,2:
 			set_process(false)
-			print("failed to load")
+			Network.print_role("failed to load")
 			return
 		1:
 			emit_signal("progress_changed", progress[0] * 100)

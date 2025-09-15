@@ -59,7 +59,7 @@ func load_scene(current_scene = null, next_scene = null):
 	if current_scene != null and is_instance_valid(current_scene):
 		current_scene.queue_free()
 	else:
-		print("No current scene to free")
+		Network.print_role("No current scene to free")
 
 	if GAME_SCENE.has(scene_path):
 		scene_path = GAME_SCENE[scene_path]
@@ -68,7 +68,7 @@ func load_scene(current_scene = null, next_scene = null):
 	
 	var loader_next_scene = ResourceLoader.load_threaded_request(scene_path, "", use_sub_theads)
 	if loader_next_scene == OK:
-		print("is ok")
+		Network.print_role("is ok")
 		set_process(true)
 
 
@@ -76,17 +76,17 @@ func _process(_delta):
 	var load_status = ResourceLoader.load_threaded_get_status(scene_path, progress)
 	match load_status:
 		0:
-			print("failed to load: invalid resource")
+			Network.print_role("failed to load: invalid resource")
 			set_process(false)
 			return
 		2:
-			print("failed to load")
+			Network.print_role("failed to load")
 			set_process(false)
 			return
 		1:
 			emit_signal("progress_changed", progress[0] * 100)
 		3:
-			print("Completed")
+			Network.print_role("Completed")
 			
 			if scene_path == "res://Scenes/game.tscn":
 				return

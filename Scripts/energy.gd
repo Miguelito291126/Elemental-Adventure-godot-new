@@ -29,5 +29,8 @@ func hide_coin():
 		collected = true
 		GameData.SavePersistentNodes()
 		GameData.SaveGameData()
+
+		Network.add_queue_free_nodes(self.get_path())
+
 		await coinsound.finished
 		queue_free()

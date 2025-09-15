@@ -15,7 +15,7 @@ func _process(_delta):
 		var data = bytes.get_string_from_ascii()
 		var roominfo = JSON.parse_string(data)
 
-		print("Server Info: " + data)
+		Network.print_role("Server Info: " + data)
 		
 		for i in $List.get_children():
 			if i.name == roominfo.name:
