@@ -11,11 +11,6 @@ layer = 2
 script = ExtResource("1_i0b3j")
 metadata/_edit_use_anchors_ = true
 
-[node name="Death music" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("2_eqaa1")
-autoplay = true
-
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,52 +19,61 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_56oo4")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="Panel"]
 process_mode = 3
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -1105.0
-offset_top = 3.0
-offset_right = -5.0
-offset_bottom = 206.0
+offset_left = -550.0
+offset_right = 550.0
+offset_bottom = 203.0
 grow_horizontal = 2
-scale = Vector2(2, 2)
+size_flags_vertical = 3
 theme = ExtResource("1_56oo4")
 theme_override_fonts/font = ExtResource("2_xqlid")
+theme_override_font_sizes/font_size = 100
 text = "You Dead...
 Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 process_mode = 3
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -274.0
-offset_top = 126.0
-offset_right = 274.0
-offset_bottom = 326.0
+offset_left = -550.0
+offset_top = -170.875
+offset_right = 550.0
+offset_bottom = 170.875
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_56oo4")
 
-[node name="return" type="Button" parent="VBoxContainer"]
+[node name="return" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("1_56oo4")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Return"
 
-[node name="back" type="Button" parent="VBoxContainer"]
+[node name="back" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("1_56oo4")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Back"
 
-[connection signal="pressed" from="VBoxContainer/return" to="." method="_on_return_pressed"]
-[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]
+[node name="Death music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("2_eqaa1")
+autoplay = true
+
+[connection signal="pressed" from="Panel/VBoxContainer/return" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]

@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-@onready var energys = $VBoxContainer2/energys
-@onready var score = $VBoxContainer2/score
-@onready var level = $VBoxContainer2/level
+@onready var energys = $Panel/VBoxContainer2/energys
+@onready var score = $Panel/VBoxContainer2/score
+@onready var level = $Panel/VBoxContainer2/level
 
 func _enter_tree() -> void:
 	if Network.IsNetwork:

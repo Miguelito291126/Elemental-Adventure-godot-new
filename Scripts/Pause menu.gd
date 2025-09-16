@@ -1,7 +1,10 @@
 extends CanvasLayer
 
-@onready var main_menu = $"Pause menu"
-@onready var pause_menu = $Options
+@onready var main_menu = $"Panel/Pause menu"
+@onready var pause_menu = $Panel/Options
+@onready var volume = $Panel/Options/Volume
+@onready var volume2 = $"Panel/Options/Volume 2"
+@onready var fullscreen = $Panel/Options/CheckButton
 
 func _enter_tree() -> void:
 	if Network.IsNetwork:
@@ -31,9 +34,9 @@ func LoadGameData():
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			
-		$Options/Volume.value = sfx
-		$"Options/Volume 2".value = music
-		$Options/CheckButton.button_pressed = fullscreen
+		self.volume.value = sfx
+		self.volume2.value = music
+		self.fullscreen.button_pressed = fullscreen
 	else:
 		prints("No se pudo acceder a la carpeta")
 		

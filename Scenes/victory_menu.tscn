@@ -24,8 +24,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_30eh2")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
 process_mode = 3
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -36,9 +37,10 @@ grow_horizontal = 2
 theme = ExtResource("1_30eh2")
 alignment = 1
 
-[node name="level" type="Label" parent="VBoxContainer2"]
+[node name="level" type="Label" parent="Panel/VBoxContainer2"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("1_30eh2")
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "you Completed Level: 
@@ -46,50 +48,56 @@ level_1 !!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="energys" type="Label" parent="VBoxContainer2"]
+[node name="energys" type="Label" parent="Panel/VBoxContainer2"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "energys balls:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="score" type="Label" parent="VBoxContainer2"]
+[node name="score" type="Label" parent="Panel/VBoxContainer2"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "Score:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 process_mode = 3
-anchors_preset = 7
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -184.0
-offset_top = -120.0
-offset_right = 184.0
+anchor_bottom = 0.5
+offset_left = -419.0
+offset_top = -151.5
+offset_right = 419.0
+offset_bottom = 151.5
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 theme = ExtResource("1_30eh2")
 
-[node name="next" type="Button" parent="VBoxContainer"]
+[node name="next" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "next
 "
 
-[node name="back" type="Button" parent="VBoxContainer"]
+[node name="back" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "Back"
 
-[connection signal="pressed" from="VBoxContainer/next" to="." method="_on_next_pressed"]
-[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]

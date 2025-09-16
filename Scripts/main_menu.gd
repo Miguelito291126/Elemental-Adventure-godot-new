@@ -1,10 +1,16 @@
 extends CanvasLayer
 
-@onready var mainmenu = $"main menu"
-@onready var optionsmenu = $Options
-@onready var onlinemenu = $Multiplayer
-@onready var serverbrowsermenu = $MultiplayerList
-@onready var Version = $Version
+@onready var mainmenu = $"Panel/main menu"
+@onready var optionsmenu = $Panel/Options
+@onready var volume = $Panel/Options/Volume
+@onready var volume2 = $"Panel/Options/Volume 2"
+@onready var fullscreen = $Panel/Options/CheckButton
+@onready var onlinemenu = $Panel/Multiplayer
+@onready var serverbrowsermenu = $Panel/MultiplayerList
+@onready var username_line = $Panel/Multiplayer/Name
+@onready var ip_line = $Panel/Multiplayer/IP
+@onready var port_line = $Panel/Multiplayer/Port
+@onready var Version = $Panel/Version
 
 func _ready() -> void:
 	GameController.main_menu = self
@@ -13,9 +19,15 @@ func _ready() -> void:
 	onlinemenu.visible = false
 	serverbrowsermenu.visible = false
 
-	Version.text = "V" + str(GameController.version)
-	
 	LoadGameData()
+
+	Version.text = "V" + str(GameController.version)
+	username_line = Network.Username
+	ip_line.text = Network.ip
+	port_line.text = str(Network.port)
+	
+	
+
 
 func LoadGameData():
 	var config = ConfigFile.new()
@@ -33,9 +45,9 @@ func LoadGameData():
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			
-		$Options/Volume.value = sfx
-		$"Options/Volume 2".value = music
-		$Options/CheckButton.button_pressed = fullscreen
+		self.volume.value = sfx
+		self.volume2.value = music
+		self.fullscreen.button_pressed = fullscreen
 	else:
 		prints("No se pudo acceder a la carpeta")
 
