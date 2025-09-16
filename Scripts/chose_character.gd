@@ -1,11 +1,16 @@
 extends CanvasLayer
 
+@onready var fire_button = $fire/Button_fire
+@onready var water_button = $water/Button_water
+@onready var air_button = $air/Button_air
+@onready var earth_button = $earth/Button_earth
+
 func _ready():
 	if Network.IsNetwork:
-		$fire/Button_fire.disabled = true
-		$water/Button_water.disabled = true
-		$air/Button_air.disabled = true
-		$earth/Button_earth.disabled = true
+		fire_button.disabled = true
+		water_button.disabled = true
+		air_button.disabled = true
+		earth_button.disabled = true
 
 
 func _on_button_fire_pressed() -> void:
@@ -29,3 +34,10 @@ func _on_play_pressed() -> void:
 			LoadScene.load_level_scene(self)
 	else:
 		LoadScene.load_level_scene(self)
+
+
+func _on_exit_pressed() -> void:
+	if Network.IsNetwork:
+		Network.multiplayerpeer.close()
+	else:
+		LoadScene.LoadMainMenu(self)

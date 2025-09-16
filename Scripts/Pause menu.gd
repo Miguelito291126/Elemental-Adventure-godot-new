@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@onready var main_menu = $"Panel/Pause menu"
-@onready var pause_menu = $Panel/Options
+@onready var pause_menu = $"Panel/Pause menu"
+@onready var optionsmenu = $Panel/Options
 @onready var volume = $Panel/Options/Volume
 @onready var volume2 = $"Panel/Options/Volume 2"
 @onready var fullscreen = $Panel/Options/CheckButton
@@ -12,6 +12,10 @@ func _enter_tree() -> void:
 	
 func _ready() -> void:
 	GameController.pause_menu = self
+
+	pause_menu.visible = true
+	optionsmenu.visible = false
+
 	LoadGameData()
 		
 func LoadGameData():
@@ -91,8 +95,8 @@ func _on_back_pause_menu_pressed() -> void:
 		if !is_multiplayer_authority():
 			return
 
+	optionsmenu.visible = !optionsmenu.visible
 	pause_menu.visible = !pause_menu.visible
-	main_menu.visible = !main_menu.visible
 
 
 func _on_settings_pressed() -> void:
@@ -101,8 +105,8 @@ func _on_settings_pressed() -> void:
 			return
 			
 	
+	optionsmenu.visible = !optionsmenu.visible
 	pause_menu.visible = !pause_menu.visible
-	main_menu.visible = !main_menu.visible
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:

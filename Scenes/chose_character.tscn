@@ -19,130 +19,144 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_si5xw")
 
-[node name="Label" type="Label" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -950.0
-offset_right = 950.0
-offset_bottom = 100.0
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 144.0
 grow_horizontal = 2
 theme = ExtResource("1_si5xw")
 text = "Chose the character"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Play" type="Button" parent="."]
-anchors_preset = 7
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -129.0
-offset_top = -77.0
-offset_right = 129.0
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -60.0
+offset_right = 144.0
+offset_bottom = 60.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("1_si5xw")
 theme_override_font_sizes/font_size = 50
 text = "Play"
 
-[node name="fire" type="VBoxContainer" parent="."]
-offset_left = 378.0
-offset_top = 288.0
-offset_right = 636.0
-offset_bottom = 571.0
+[node name="Exit" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_si5xw")
+theme_override_font_sizes/font_size = 50
+text = "Exit
+"
+
+[node name="fire" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 168.0
+offset_right = 634.0
+offset_bottom = 426.0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="FireIdle" type="Sprite2D" parent="fire"]
-position = Vector2(126, 48)
-scale = Vector2(2.31818, 2.26563)
-texture = ExtResource("3_3s6gl")
-region_enabled = true
-region_rect = Rect2(0, 0, 66, 64)
-
-[node name="Button_fire" type="Button" parent="fire"]
+[node name="FireIdle" type="TextureRect" parent="Panel/fire"]
 layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_3s6gl")
+
+[node name="Button_fire" type="Button" parent="Panel/fire"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
-[node name="water" type="VBoxContainer" parent="."]
+[node name="water" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 378.0
-offset_top = -480.0
-offset_right = 636.0
-offset_bottom = -125.0
+offset_left = 384.0
+offset_top = -384.0
+offset_right = 642.0
+offset_bottom = -126.0
 grow_vertical = 0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="WaterIdle2" type="Sprite2D" parent="water"]
-position = Vector2(118, 88)
-scale = Vector2(2.31818, 2.26563)
-texture = ExtResource("4_ecjs8")
-region_enabled = true
-region_rect = Rect2(0, 0, 66, 64)
-
-[node name="Button_water" type="Button" parent="water"]
+[node name="WaterIdle2" type="TextureRect" parent="Panel/water"]
 layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_ecjs8")
+
+[node name="Button_water" type="Button" parent="Panel/water"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
-[node name="air" type="VBoxContainer" parent="."]
+[node name="air" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -637.0
-offset_top = -480.0
-offset_right = -379.0
-offset_bottom = -125.0
+offset_left = -632.0
+offset_top = -392.0
+offset_right = -374.0
+offset_bottom = -134.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="AirIdle3" type="Sprite2D" parent="air"]
-position = Vector2(125, 88)
-scale = Vector2(2.31818, 2.26563)
-texture = ExtResource("5_3j5dd")
-region_enabled = true
-region_rect = Rect2(0, 0, 66, 64)
-
-[node name="Button_air" type="Button" parent="air"]
+[node name="AirIdle3" type="TextureRect" parent="Panel/air"]
 layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("5_3j5dd")
+
+[node name="Button_air" type="Button" parent="Panel/air"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
-[node name="earth" type="VBoxContainer" parent="."]
+[node name="earth" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -637.0
-offset_top = 302.0
-offset_right = -379.0
-offset_bottom = 585.0
+offset_left = -640.0
+offset_top = 208.0
+offset_right = -382.0
+offset_bottom = 466.0
 grow_horizontal = 0
 theme = ExtResource("1_si5xw")
 alignment = 1
 
-[node name="Earthidle4" type="Sprite2D" parent="earth"]
-position = Vector2(117, 50)
-scale = Vector2(2.31818, 2.26563)
-texture = ExtResource("6_eongy")
-region_enabled = true
-region_rect = Rect2(0, 0, 66, 64)
-
-[node name="Button_earth" type="Button" parent="earth"]
+[node name="Earthidle4" type="TextureRect" parent="Panel/earth"]
 layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("6_eongy")
+
+[node name="Button_earth" type="Button" parent="Panel/earth"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
-[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="fire/Button_fire" to="." method="_on_button_fire_pressed"]
-[connection signal="pressed" from="water/Button_water" to="." method="_on_button_water_pressed"]
-[connection signal="pressed" from="air/Button_air" to="." method="_on_button_air_pressed"]
-[connection signal="pressed" from="earth/Button_earth" to="." method="_on_button_earth_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Panel/fire/Button_fire" to="." method="_on_button_fire_pressed"]
+[connection signal="pressed" from="Panel/water/Button_water" to="." method="_on_button_water_pressed"]
+[connection signal="pressed" from="Panel/air/Button_air" to="." method="_on_button_air_pressed"]
+[connection signal="pressed" from="Panel/earth/Button_earth" to="." method="_on_button_earth_pressed"]
