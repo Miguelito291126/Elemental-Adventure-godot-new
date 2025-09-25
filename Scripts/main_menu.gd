@@ -10,7 +10,9 @@ extends CanvasLayer
 @onready var username_line = $Panel/Multiplayer/Name
 @onready var ip_line = $Panel/Multiplayer/IP
 @onready var port_line = $Panel/Multiplayer/Port
-@onready var Version = $Panel/Version
+@onready var version = $Panel/Version
+@onready var credits = $Panel/Credits
+@onready var tittle = $"Panel/main menu/Title/Tittle"
 
 func _ready() -> void:
 	GameController.main_menu = self
@@ -21,10 +23,15 @@ func _ready() -> void:
 
 	LoadGameData()
 
-	Version.text = "V" + str(GameController.version)
 	username_line = Network.Username
 	ip_line.text = Network.ip
 	port_line.text = str(Network.port)
+
+	version.text = "V" + GameController.version
+	credits.text = "By " + GameController.credits
+	tittle.text = GameController.gamename
+
+	Network.SetUpLisener()
 	
 	
 
@@ -123,7 +130,7 @@ func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
 	Network.listener_port = Network.port - 1
 	Network.broadcaster_port = Network.port + 1
-	Network.SetUp()
+	Network.SetUpLisener()
 
 func _on_play_multiplayer_pressed() -> void:
 	Network.Play_MultiplayerServer()

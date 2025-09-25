@@ -1,6 +1,6 @@
 extends Node
 
-@export var Username = "Player"
+@export var Username: String
 @export var Players_Nodes: Dictionary = {}
 
 var player_scene = preload("res://Scenes/player.tscn")
@@ -14,7 +14,7 @@ var listener: PacketPeerUDP
 
 @export var port = 4444
 @export var broadcaster_ip = "255.255.255.255"
-@export var ip = "localhost"
+@export var ip: String
 
 @export var listener_port =  port - 1
 @export var broadcaster_port =  port + 1
@@ -302,7 +302,7 @@ func CloseUp():
 
 	print_role("Closed broadcaster and listener")
 
-func SetUp():
+func SetUpLisener():
 	listener = PacketPeerUDP.new()
 	var ok = listener.bind(listener_port)
 	if ok == OK:
