@@ -28,6 +28,7 @@ func _process(_delta):
 				i.get_node("PlayerCount").text = str(roominfo.playerscount) + " /"
 				i.ip_Change = serverip
 				i.port_Change = str(serverport)
+				i.last_seen = now
 				return
 
 		var currentinfo2 = currentinfo.instantiate()
@@ -36,6 +37,7 @@ func _process(_delta):
 		currentinfo2.get_node("PlayerCount").text = str(roominfo.playerscount) + " / "
 		currentinfo2.ip_Change = serverip
 		currentinfo2.port_Change = str(serverport)
+		currentinfo2.last_seen = now
 		list.add_child(currentinfo2)
 
 		

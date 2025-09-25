@@ -2,6 +2,7 @@ extends HBoxContainer
 
 var ip_Change = ""
 var port_Change = ""
+var last_seen: int
 
 func _on_join_pressed() -> void:
 	Network.port = port_Change.to_int() - 1
