@@ -1,9 +1,9 @@
 extends CanvasLayer
 
-@onready var fire_button = $fire/Button_fire
-@onready var water_button = $water/Button_water
-@onready var air_button = $air/Button_air
-@onready var earth_button = $earth/Button_earth
+@onready var fire_button = $Panel/fire/Button_fire
+@onready var water_button = $Panel/water/Button_water
+@onready var air_button = $Panel/air/Button_air
+@onready var earth_button = $Panel/earth/Button_earth
 
 func _ready():
 	if Network.IsNetwork:
