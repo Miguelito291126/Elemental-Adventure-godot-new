@@ -44,13 +44,14 @@ func _ready() -> void:
 	if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 
 		var args = OS.get_cmdline_user_args()
-		for arg in args:
-			var key_value = arg.rsplit("=")
-			match key_value[0]:
+		for i in range(args.size()):
+			match args[i]:
 				"--port", "port", "-p", "p":
-					Network.port = key_value[1].to_int()
-					Network.listener_port = Network.port + 1
-					Network.broadcaster_port = Network.port - 1
+					if i + 1 < args.size():
+						Network.port = args[i + 1].to_int()
+						Network.listener_port = Network.port + 1
+						Network.broadcaster_port = Network.port - 1
+
 
 		Network.print_role("port:" + str(Network.port))
 		Network.print_role("ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
@@ -138,7 +139,7 @@ func Play_MultiplayerServer():
 		if get_tree().get_multiplayer().is_server():
 			IsNetwork = true
 
-			if OS.has_feature("dedicated_server"):
+			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 				print_role("Servidor dedicado iniciado.")
 
 				await get_tree().create_timer(2).timeout

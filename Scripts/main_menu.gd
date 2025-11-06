@@ -31,7 +31,7 @@ func _ready() -> void:
 	credits.text = "By " + GameController.credits
 	tittle.text = GameController.gamename
 
-	Network.SetUpListener()
+	Network.SetUpLisener()
 
 
 func LoadGameData():
