@@ -47,7 +47,7 @@ func _ready() -> void:
 		for arg in args:
 			var key_value = arg.rsplit("=")
 			match key_value[0]:
-				"port":
+				"--port", "port":
 					port = key_value[1].to_int()
 					listener_port = key_value[1].to_int() + 1
 					broadcaster_port = key_value[1].to_int() + 2
