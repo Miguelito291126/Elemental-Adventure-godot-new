@@ -41,26 +41,25 @@ func _ready() -> void:
 	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
 	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
 
-	if OS.has_feature("dedicated_server"):
+	if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 
 		var args = OS.get_cmdline_user_args()
 		for arg in args:
 			var key_value = arg.rsplit("=")
 			match key_value[0]:
-				"--port", "port":
-					port = key_value[1].to_int()
-					listener_port = key_value[1].to_int() + 1
-					broadcaster_port = key_value[1].to_int() + 2
+				"--port", "port", "-p", "p":
+					Network.port = key_value[1].to_int()
+					Network.listener_port = Network.port + 1
+					Network.broadcaster_port = Network.port - 1
 
-		print_role("port:" + str(port))
-		print_role("ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
+		Network.print_role("port:" + str(Network.port))
+		Network.print_role("ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
 		
-		print_role("Iniciando servidor dedicado...")
+		Network.print_role("Iniciando servidor dedicado...")
 		
 		await get_tree().create_timer(2).timeout
 
-		Play_MultiplayerServer()
-
+		Network.Play_MultiplayerServer()
 
 
 func _exit_tree() -> void:

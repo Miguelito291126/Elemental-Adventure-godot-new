@@ -31,9 +31,7 @@ func _ready() -> void:
 	credits.text = "By " + GameController.credits
 	tittle.text = GameController.gamename
 
-	Network.SetUpLisener()
-	
-	
+	Network.SetUpListener()
 
 
 func LoadGameData():
@@ -128,8 +126,8 @@ func _on_ip_text_changed(new_text: String) -> void:
 	
 func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
-	Network.listener_port = Network.port - 1
-	Network.broadcaster_port = Network.port + 1
+	Network.listener_port = Network.port + 1
+	Network.broadcaster_port = Network.port - 1
 	Network.SetUpLisener()
 
 func _on_play_multiplayer_pressed() -> void:
