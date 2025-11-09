@@ -378,6 +378,7 @@ color = Color(1, 0.654902, 0, 1)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("2_l6qnw")
+texture_scale = 0.3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
