@@ -150,9 +150,9 @@ shape = SubResource("CircleShape2D_tx1dd")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = ExtResource("2_svkx8")
-animation = &"water swim"
+animation = &"earth swim"
 autoplay = "fire idle"
-frame_progress = 0.43648
+frame_progress = 0.020783031
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)

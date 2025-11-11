@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://dks7etr01h6r7"]
+[gd_resource type="TileSet" load_steps=16 format=3 uid="uid://dks7etr01h6r7"]
 
 [ext_resource type="Texture2D" uid="uid://c8f3iqa4xr6kc" path="res://Sprites/textures2.png" id="1_4mhin"]
 [ext_resource type="Shader" uid="uid://c1867ob1lak5m" path="res://water.gdshader" id="2_3chll"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bdhrecvhsks8a" path="res://Sprites/lava_texture.png" id="4_ii62d"]
 [ext_resource type="Shader" uid="uid://ck10xa1yodseb" path="res://lava.gdshader" id="4_p8gdc"]
 [ext_resource type="Texture2D" uid="uid://bqg21xlyq2hqs" path="res://Sprites/acid_texture.png" id="5_p8gdc"]
+[ext_resource type="Shader" uid="uid://b6eerva4n3iv" path="res://mud.gdshader" id="7_ii62d"]
+[ext_resource type="Texture2D" uid="uid://dcicgtha3w3kc" path="res://Sprites/mud_texture.png.png" id="8_p8gdc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xrdnt"]
 texture = ExtResource("1_4mhin")
@@ -48,6 +50,14 @@ shader_parameter/direction = Vector2(1, 0)
 shader_parameter/speed = 0.5
 shader_parameter/tile_size = 16.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8gdc"]
+shader = ExtResource("7_ii62d")
+shader_parameter/mood_texture = ExtResource("8_p8gdc")
+shader_parameter/texture_size = Vector2(128, 128)
+shader_parameter/direction = Vector2(1, 0)
+shader_parameter/speed = 0.5
+shader_parameter/tile_size = 16.0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wrinw"]
 texture = ExtResource("2_ylu6i")
 use_texture_padding = false
@@ -63,6 +73,8 @@ use_texture_padding = false
 6:0/0/material = SubResource("ShaderMaterial_yuiok")
 6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 7:0/0 = 0
+7:0/0/material = SubResource("ShaderMaterial_p8gdc")
+7:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0

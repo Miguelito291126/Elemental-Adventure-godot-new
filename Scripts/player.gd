@@ -432,6 +432,18 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			damage.rpc(health)
 		else:
 			damage(health)
+
+	elif body.is_in_group("mud"):
+		is_in_water_or_lava = true
+		is_invincible = false
+
+		if Network.character == "earth":
+			return 
+		
+		if Network.IsNetwork:
+			damage.rpc(health)
+		else:
+			damage(health)
 		
 	elif body.is_in_group("box"):
 		if Network.IsNetwork:
@@ -446,4 +458,6 @@ func _on_area_2d_body_exited(body:Node2D) -> void:
 	elif body.is_in_group("lava"):
 		is_in_water_or_lava = false
 	elif body.is_in_group("acid"):
+		is_in_water_or_lava = false
+	elif body.is_in_group("mud"):
 		is_in_water_or_lava = false

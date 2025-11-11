@@ -280,3 +280,10 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 			damage.rpc(health)
 		else:
 			damage(health)
+	elif body.is_in_group("mud"):
+		is_invincible = false
+		
+		if Network.IsNetwork:
+			damage.rpc(health)
+		else:
+			damage(health)
