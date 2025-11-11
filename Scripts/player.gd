@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var speed = 300  # Velocidad horizontal
 @export var jump_count = 0 # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_count_max = 1 # Fuerza del salto (valor negativo porque hacia arriba)
+@export var jump_count_max_air_element = 2 # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_force = -400  # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_water_force = -200  # Fuerza del salto (valor negativo porque hacia arriba)
 @export var jump_wall_force = 100  # Fuerza del salto (valor negativo porque hacia arriba)
@@ -188,6 +189,11 @@ func Jump():
 		velocity.y = jump_force
 		jumpsounds.play()
 		jump_count += 1
+	elif !is_in_water_or_lava and jump_count < jump_count_max_air_element and Network.character == "air":
+		velocity.y = jump_force
+		jumpsounds.play()
+		jump_count += 1
+
 	elif is_in_water_or_lava:
 		# Impulso hacia arriba estilo brazada
 		velocity.y += jump_water_force

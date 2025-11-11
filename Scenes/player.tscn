@@ -152,7 +152,7 @@ texture_filter = 1
 sprite_frames = ExtResource("2_svkx8")
 animation = &"earth swim"
 autoplay = "fire idle"
-frame_progress = 0.020783031
+frame_progress = 0.06921761
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
