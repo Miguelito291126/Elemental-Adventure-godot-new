@@ -15,10 +15,12 @@ func _ready() -> void:
 		Network.print_role("Nivel Iniciado")
 
 		if get_tree().get_multiplayer().is_server():
+			if not OS.has_feature("dedicated_server"):
+				Network.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
+
 			for id in get_tree().get_multiplayer().get_peers():
 				Network.MultiplayerPlayerSpawner(id)
 
-			if not OS.has_feature("dedicated_server"):
-				Network.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
+
 	else:
 		GameController.SingleplayerPlayerSpawner()
