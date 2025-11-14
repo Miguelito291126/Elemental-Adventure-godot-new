@@ -41,7 +41,7 @@ func _ready() -> void:
 	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
 	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
 
-	if OS.has_feature("dedicated_server"):
+	if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 
 		var args = OS.get_cmdline_user_args()
 
