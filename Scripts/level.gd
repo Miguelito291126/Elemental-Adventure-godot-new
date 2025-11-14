@@ -18,7 +18,7 @@ func _ready() -> void:
 			for id in get_tree().get_multiplayer().get_peers():
 				Network.MultiplayerPlayerSpawner(id)
 
-			if not OS.has_feature("dedicated_server") or not "s" in OS.get_cmdline_user_args() or not "server" in OS.get_cmdline_user_args():
+			if not OS.has_feature("dedicated_server"):
 				Network.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
 	else:
 		GameController.SingleplayerPlayerSpawner()
