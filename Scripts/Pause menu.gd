@@ -84,6 +84,11 @@ func _on_return_pressed() -> void:
 		get_tree().paused = visible
 
 func _on_back_pressed() -> void:
+	visible = !visible
+	
+	if not Network.IsNetwork:
+		get_tree().paused = visible
+
 	if Network.IsNetwork:
 		if !is_multiplayer_authority():
 			return
