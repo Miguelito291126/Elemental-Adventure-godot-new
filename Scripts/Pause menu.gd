@@ -79,6 +79,9 @@ func _on_return_pressed() -> void:
 			return
 		
 	visible = !visible
+	
+	if not Network.IsNetwork:
+		get_tree().paused = visible
 
 func _on_back_pressed() -> void:
 	if Network.IsNetwork:
