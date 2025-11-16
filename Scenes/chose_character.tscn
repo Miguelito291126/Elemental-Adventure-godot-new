@@ -7,11 +7,17 @@
 [ext_resource type="Texture2D" uid="uid://dn2uwttahe5bw" path="res://Sprites/air idle.png" id="5_3j5dd"]
 [ext_resource type="Texture2D" uid="uid://bff040cb4af36" path="res://Sprites/earth idle.png" id="6_eongy"]
 
-[node name="Chose_Character" type="CanvasLayer"]
-layer = 2
+[node name="Chose_Character" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_hwby1")
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

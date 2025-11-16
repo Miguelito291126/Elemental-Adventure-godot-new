@@ -1,28 +1,29 @@
 [gd_scene load_steps=5 format=3 uid="uid://dpwro3crqbft3"]
 
-[ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_30eh2"]
+[ext_resource type="Theme" uid="uid://bl13wvd8w8glk" path="res://Elemental Adventure victory.tres" id="1_dffxu"]
 [ext_resource type="Script" uid="uid://de5lk8gslesp0" path="res://Scripts/Victory menu.gd" id="1_hcj18"]
 [ext_resource type="AudioStream" uid="uid://bwjqphxigam7v" path="res://sounds/win.wav" id="2_dffxu"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_lqoqo"]
 
-[node name="Victory menu" type="CanvasLayer"]
+[node name="Victory menu" type="Control"]
 process_mode = 3
-layer = 2
-script = ExtResource("1_hcj18")
-metadata/_edit_use_anchors_ = true
-
-[node name="Victory music" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("2_dffxu")
-autoplay = true
-
-[node name="Panel" type="Panel" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_30eh2")
+theme = ExtResource("1_dffxu")
+script = ExtResource("1_hcj18")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_dffxu")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
 process_mode = 3
@@ -34,14 +35,14 @@ offset_left = -956.5
 offset_right = 956.5
 offset_bottom = 318.0
 grow_horizontal = 2
-theme = ExtResource("1_30eh2")
+theme = ExtResource("1_dffxu")
 alignment = 1
 
 [node name="level" type="Label" parent="Panel/VBoxContainer2"]
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_30eh2")
+theme = ExtResource("1_dffxu")
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "you Completed Level: 
 level_1 !!"
@@ -52,6 +53,7 @@ vertical_alignment = 1
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("1_dffxu")
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "energys balls:0"
 horizontal_alignment = 1
@@ -61,6 +63,7 @@ vertical_alignment = 1
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("1_dffxu")
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "Score:0"
 horizontal_alignment = 1
@@ -80,7 +83,7 @@ offset_right = 419.0
 offset_bottom = 151.5
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_30eh2")
+theme = ExtResource("1_dffxu")
 
 [node name="next" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
@@ -98,6 +101,11 @@ size_flags_vertical = 3
 theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "Back"
+
+[node name="Victory music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("2_dffxu")
+autoplay = true
 
 [connection signal="pressed" from="Panel/VBoxContainer/next" to="." method="_on_next_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]

@@ -1,40 +1,73 @@
-[gd_scene load_steps=5 format=3 uid="uid://v8uq1u8p3nxj"]
+[gd_scene load_steps=6 format=3 uid="uid://v8uq1u8p3nxj"]
 
-[ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_56oo4"]
+[ext_resource type="Theme" uid="uid://p8633tbpyfve" path="res://Elemental Adventure death theme.tres" id="1_eqaa1"]
 [ext_resource type="Script" uid="uid://b6264exh1ntmu" path="res://Scripts/game over Menu.gd" id="1_i0b3j"]
 [ext_resource type="AudioStream" uid="uid://bofmlupe81xjl" path="res://sounds/game over.wav" id="2_eqaa1"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_xqlid"]
+[ext_resource type="Theme" uid="uid://bl13wvd8w8glk" path="res://Elemental Adventure victory.tres" id="3_q2job"]
 
-[node name="Death Menu" type="CanvasLayer"]
+[node name="Death Menu" type="Control"]
 process_mode = 3
-layer = 2
-script = ExtResource("1_i0b3j")
-metadata/_edit_use_anchors_ = true
-
-[node name="Panel" type="Panel" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_56oo4")
+theme = ExtResource("1_eqaa1")
+script = ExtResource("1_i0b3j")
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_eqaa1")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
 process_mode = 3
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -550.0
-offset_right = 550.0
-offset_bottom = 203.0
+offset_left = -956.5
+offset_right = 956.5
+offset_bottom = 318.0
 grow_horizontal = 2
+theme = ExtResource("3_q2job")
+alignment = 1
+
+[node name="Title" type="Label" parent="Panel/VBoxContainer2"]
+process_mode = 3
+layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_56oo4")
+theme = ExtResource("1_eqaa1")
 theme_override_fonts/font = ExtResource("2_xqlid")
 theme_override_font_sizes/font_size = 100
 text = "You Dead...
 Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="energys" type="Label" parent="Panel/VBoxContainer2"]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_q2job")
+theme_override_fonts/font = ExtResource("2_xqlid")
+text = "energys balls:0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="score" type="Label" parent="Panel/VBoxContainer2"]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_q2job")
+theme_override_fonts/font = ExtResource("2_xqlid")
+text = "Score:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -52,13 +85,13 @@ offset_right = 550.0
 offset_bottom = 170.875
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_56oo4")
+theme = ExtResource("1_eqaa1")
 
 [node name="return" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_56oo4")
+theme = ExtResource("1_eqaa1")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Return"
 
@@ -66,7 +99,7 @@ text = "Return"
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_56oo4")
+theme = ExtResource("1_eqaa1")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Back"
 

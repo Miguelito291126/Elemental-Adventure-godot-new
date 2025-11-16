@@ -376,6 +376,9 @@ func _on_texture_button_pressed() -> void:
 			return
 			
 	pausemenu.visible = !pausemenu.visible
+
+	if not Network.IsNetwork:
+		get_tree().paused = pausemenu.visible
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if Network.IsNetwork:

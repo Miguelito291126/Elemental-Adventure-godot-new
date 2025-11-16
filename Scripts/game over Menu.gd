@@ -1,4 +1,8 @@
-extends CanvasLayer
+extends Control
+
+@onready var energys = $Panel/VBoxContainer2/energys
+@onready var score = $Panel/VBoxContainer2/score
+
 
 func _enter_tree() -> void:
 	if Network.IsNetwork:
@@ -6,6 +10,9 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	GameController.game_over_menu = self
+
+	score.text = str("Score: ",  GameController.points)
+	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
 
 # Botón volver al menú
 func _on_back_pressed() -> void:

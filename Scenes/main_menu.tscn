@@ -9,11 +9,17 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opfnp"]
 bg_color = Color(0.296219, 0.00016776, 0.345215, 1)
 
-[node name="Main Menu" type="CanvasLayer"]
-layer = 2
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_2vk4l")
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

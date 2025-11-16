@@ -1,22 +1,28 @@
 [gd_scene load_steps=4 format=3 uid="uid://dj5hoawm4c8hc"]
 
-[ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_chnvv"]
+[ext_resource type="Theme" uid="uid://bl13wvd8w8glk" path="res://Elemental Adventure victory.tres" id="1_gtgab"]
 [ext_resource type="Script" uid="uid://cxw8khmyf2wub" path="res://Scripts/Super victory screen.gd" id="1_x1h5b"]
 [ext_resource type="AudioStream" uid="uid://bwjqphxigam7v" path="res://sounds/win.wav" id="2_6qwlf"]
 
-[node name="Super Victory menu" type="CanvasLayer"]
+[node name="Super Victory menu" type="Control"]
 process_mode = 3
-layer = 2
-script = ExtResource("1_x1h5b")
-metadata/_edit_use_anchors_ = true
-
-[node name="Panel" type="Panel" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_chnvv")
+theme = ExtResource("1_gtgab")
+script = ExtResource("1_x1h5b")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gtgab")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
 process_mode = 3
@@ -28,13 +34,13 @@ offset_left = -750.0
 offset_right = 750.0
 offset_bottom = 264.0
 grow_horizontal = 2
-theme = ExtResource("1_chnvv")
+theme = ExtResource("1_gtgab")
 
 [node name="level" type="Label" parent="Panel/VBoxContainer2"]
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_chnvv")
+theme = ExtResource("1_gtgab")
 text = "you won!!
 Thank to play this!!"
 horizontal_alignment = 1
@@ -44,6 +50,7 @@ vertical_alignment = 1
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("1_gtgab")
 text = "energys balls:0"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -52,7 +59,7 @@ vertical_alignment = 1
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_chnvv")
+theme = ExtResource("1_gtgab")
 text = "Score:0"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -71,14 +78,14 @@ offset_right = 296.0
 offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_chnvv")
+theme = ExtResource("1_gtgab")
 alignment = 1
 
 [node name="back" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_chnvv")
+theme = ExtResource("1_gtgab")
 text = "Exit"
 
 [node name="Victory music" type="AudioStreamPlayer" parent="."]

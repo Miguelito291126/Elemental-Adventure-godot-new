@@ -13,10 +13,10 @@ var nodegame: Node
 var levelnode: Node2D
 var SpawnPoint: Node2D
 var playernode: Node2D
-var main_menu: CanvasLayer
-var game_over_menu: CanvasLayer
+var main_menu: Control
+var game_over_menu: Control
 var pause_menu: CanvasLayer
-var victory_menu: CanvasLayer
+var victory_menu: Control
 
 
 var player_scene = preload("res://Scenes/player.tscn")

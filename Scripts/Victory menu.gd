@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 @onready var energys = $Panel/VBoxContainer2/energys
 @onready var score = $Panel/VBoxContainer2/score

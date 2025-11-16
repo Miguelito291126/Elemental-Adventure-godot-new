@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 @onready var fire_button = $Panel/fire/Button_fire
 @onready var water_button = $Panel/water/Button_water

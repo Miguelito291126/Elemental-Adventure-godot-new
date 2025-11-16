@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 @onready var mainmenu = $"Panel/main menu"
 @onready var optionsmenu = $Panel/Options
@@ -32,6 +32,29 @@ func _ready() -> void:
 	tittle.text = GameController.gamename
 
 	Network.SetUpLisener()
+
+	if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
+
+		var args = OS.get_cmdline_user_args()
+
+		for i in range(args.size()):
+			Network.print_role("args: " + args[i])
+			match args[i]:
+				"--port", "port", "-p", "p":
+					if i + 1 < args.size():
+						Network.port = args[i + 1].to_int()
+						Network.listener_port = Network.port + 1
+						Network.broadcaster_port = Network.port - 1
+
+
+		Network.print_role("port:" + str(Network.port))
+		Network.print_role("ip:" + IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4))
+
+		Network.print_role("Iniciando servidor dedicado...")
+
+		await get_tree().create_timer(2).timeout
+
+		Network.Play_MultiplayerServer()
 
 
 func LoadGameData():
