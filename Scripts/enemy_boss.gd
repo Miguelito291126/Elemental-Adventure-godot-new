@@ -108,8 +108,8 @@ func kill():
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)
 
-	GameData.SavePersistentNodes()
-	GameData.SaveGameData()
+	GamePersistentData.SavePersistentNodes()
+	GameController.GameData.SaveGameData()
 
 	Network.add_queue_free_nodes(self.get_path())
 	

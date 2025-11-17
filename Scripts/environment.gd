@@ -5,6 +5,8 @@ extends TileMapLayer
 @onready var desert = $Background3
 @onready var snow = $Background4
 
+@export var GameData: DataResource = DataResource.LoadGameData()
+
 func _process(_delta: float) -> void:
 	if GameController.level > 0 and  GameController.level <= 6:
 		lava.visible = false

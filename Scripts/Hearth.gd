@@ -2,6 +2,8 @@ extends RigidBody2D
 @export var collected := false
 @onready var hearthsound = $"hearth sound"
 
+@export var GameData: DataResource = DataResource.LoadGameData()
+
 func SaveGameData():
 	var save_dict = {
 		"filename" : get_scene_file_path(),
@@ -29,7 +31,7 @@ func hide_hearth(body: Node2D):
 		hearthsound.play()
 		visible = false
 		collected = true
-		GameData.SavePersistentNodes()
+		GamePersistentData.SavePersistentNodes()
 		GameData.SaveGameData()
 		
 		Network.add_queue_free_nodes(self.get_path())

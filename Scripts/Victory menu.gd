@@ -4,6 +4,8 @@ extends Control
 @onready var score = $Panel/VBoxContainer2/score
 @onready var level = $Panel/VBoxContainer2/level
 
+@export var GameData: DataResource = DataResource.LoadGameData()
+
 func _enter_tree() -> void:
 	if Network.IsNetwork:
 		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())

@@ -14,6 +14,8 @@ extends Control
 @onready var credits = $Panel/Credits
 @onready var tittle = $"Panel/main menu/Title/Tittle"
 
+@export var GameData: DataResource = DataResource.LoadGameData()
+
 func _ready() -> void:
 	GameController.main_menu = self
 	optionsmenu.visible = false
@@ -62,27 +64,22 @@ func LoadGameData():
 	var err = config.load("user://config.cfg")
 	
 	if err == OK:
-		var music = config.get_value("config", "music volume", 1.0)
-		var sfx = config.get_value("config", "sfx volume", 1.0)
-		var fullscreen = config.get_value("config", "fullscreen", true)
 
-		AudioServer.set_bus_volume_db(1, linear_to_db(music))
-		AudioServer.set_bus_volume_db(2, linear_to_db(sfx))
-		if fullscreen == true:
+		self.volume.value = GameData.sfx
+		self.volume2.value = GameData.music
+		self.fullscreen.button_pressed = GameData.fullscreen
+
+		AudioServer.set_bus_volume_db(1, linear_to_db(GameData.music))
+		AudioServer.set_bus_volume_db(2, linear_to_db(GameData.sfx))
+		if GameData.fullscreen == true:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			
-		self.volume.value = sfx
-		self.volume2.value = music
-		self.fullscreen.button_pressed = fullscreen
+
 	else:
 		prints("No se pudo acceder a la carpeta")
 
-func SaveGameData():
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	config.save("user://config.cfg")
 
 func _on_play_pressed() -> void:
 	LoadScene.LoadCharacterMenu(self)
@@ -113,35 +110,27 @@ func _on_back_pressed() -> void:
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	
 	if toggled_on == true:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	config.set_value("config", "fullscreen", toggled_on)
-	config.save("user://config.cfg")
+
+	GameData.fullscreen = toggled_on
+	GameData.SaveGameData()
 
 
 func _on_h_slider_value_changed(value: float) -> void:
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	
 	var volume_index = 2 # SFX
 	AudioServer.set_bus_volume_db(volume_index, linear_to_db(value))
-	config.set_value("config", "sfx volume", value)
-	config.save("user://config.cfg")
+	GameData.sfx = value
+	GameData.SaveGameData()
 
 
 func _on_volume_2_value_changed(value: float) -> void:
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	
 	var volume_index = 1
 	AudioServer.set_bus_volume_db( volume_index, linear_to_db(value))
-	config.set_value("config", "music volume", value)
-	config.save("user://config.cfg")
+	GameData.music = value
+	GameData.SaveGameData()
 
 
 func _on_ip_text_changed(new_text: String) -> void:

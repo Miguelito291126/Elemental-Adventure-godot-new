@@ -104,6 +104,8 @@ func start_invincibility():
 	# Restaurar color original y terminar invencibilidad
 	animator.modulate = original_modulate
 	is_invincible = false
+
+@export var GameData: DataResource = DataResource.LoadGameData()
 	
 @rpc("any_peer", "call_local")
 func kill():
@@ -122,7 +124,7 @@ func kill():
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)
 
-	GameData.SavePersistentNodes()
+	GamePersistentData.SavePersistentNodes()
 	GameData.SaveGameData()
 	Network.add_queue_free_nodes(self.get_path())
 

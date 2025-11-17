@@ -4,6 +4,7 @@ extends Control
 @onready var score = $Panel/VBoxContainer2/score
 @onready var level = $Panel/VBoxContainer2/level
 
+@export var GameData: DataResource = DataResource.LoadGameData()
 
 func _enter_tree() -> void:
 	if Network.IsNetwork:
@@ -21,10 +22,10 @@ func _on_back_pressed() -> void:
 		if !is_multiplayer_authority():
 			return
 
-		GameData.DeleteResources()
-		GameData.DeletePersistentNodes()
+		GameData.DeleteResource()
+		GamePersistentData.DeletePersistentNodes()
 		Network.multiplayerpeer.close()
 	else:
-		GameData.DeleteResources()
-		GameData.DeletePersistentNodes()
+		GameData.DeleteResource()
+		GamePersistentData.DeletePersistentNodes()
 		LoadScene.LoadMainMenu(self)

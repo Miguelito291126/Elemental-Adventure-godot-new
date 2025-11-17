@@ -28,6 +28,8 @@ var IsNetwork = false
 
 var Multiplayerspawner: Array
 
+@export var GameData: DataResource = DataResource.LoadGameData()
+
 @export var roominfo = {
 	"name": "",
 	"playerscount": 0,

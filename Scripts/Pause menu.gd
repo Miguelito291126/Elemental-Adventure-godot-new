@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var volume2 = $"Panel/Options/Volume 2"
 @onready var fullscreen = $Panel/Options/CheckButton
 
+@export var GameData: DataResource = DataResource.LoadGameData()
+
 func _enter_tree() -> void:
 	if Network.IsNetwork:
 		set_multiplayer_authority(get_parent().name.to_int())
@@ -27,20 +29,16 @@ func LoadGameData():
 	var err = config.load("user://config.cfg")
 	
 	if err == OK:
-		var music = config.get_value("config", "music volume", 1.0)
-		var sfx = config.get_value("config", "sfx volume", 1.0)
-		var fullscreen = config.get_value("config", "fullscreen", true)
+		self.volume.value = GameData.sfx
+		self.volume2.value = GameData.music
+		self.fullscreen.button_pressed = GameData.fullscreen
 
-		AudioServer.set_bus_volume_db(1, linear_to_db(music))
-		AudioServer.set_bus_volume_db(2, linear_to_db(sfx))
-		if fullscreen == true:
+		AudioServer.set_bus_volume_db(1, linear_to_db(GameData.music))
+		AudioServer.set_bus_volume_db(2, linear_to_db(GameData.sfx))
+		if GameData.fullscreen == true:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			
-		self.volume.value = sfx
-		self.volume2.value = music
-		self.fullscreen.button_pressed = fullscreen
 	else:
 		prints("No se pudo acceder a la carpeta")
 		
@@ -49,12 +47,8 @@ func SaveGameData():
 		if !is_multiplayer_authority():
 			return
 			
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	config.save("user://config.cfg")
-
-	GameData.SaveGameData()
-	GameData.SavePersistentNodes()
+	GameController.GameData.SaveGameData()
+	GamePersistentData.SavePersistentNodes()
 	
 func _on_save_pressed() -> void:
 	if Network.IsNetwork:
