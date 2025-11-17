@@ -14,8 +14,6 @@ extends Control
 @onready var credits = $Panel/Credits
 @onready var tittle = $"Panel/main menu/Title/Tittle"
 
-@export var GameData: DataResource = DataResource.LoadGameData()
-
 func _ready() -> void:
 	GameController.main_menu = self
 	optionsmenu.visible = false
@@ -60,25 +58,21 @@ func _ready() -> void:
 
 
 func LoadGameData():
-	var config = ConfigFile.new()
-	var err = config.load("user://config.cfg")
-	
-	if err == OK:
 
-		self.volume.value = GameData.sfx
-		self.volume2.value = GameData.music
-		self.fullscreen.button_pressed = GameData.fullscreen
 
-		AudioServer.set_bus_volume_db(1, linear_to_db(GameData.music))
-		AudioServer.set_bus_volume_db(2, linear_to_db(GameData.sfx))
-		if GameData.fullscreen == true:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			
+	self.volume.value = GameController.GameData.sfx
+	self.volume2.value = GameController.GameData.music
+	self.fullscreen.button_pressed = GameController.GameData.fullscreen
 
+	AudioServer.set_bus_volume_db(1, linear_to_db(GameController.GameData.music))
+	AudioServer.set_bus_volume_db(2, linear_to_db(GameController.GameData.sfx))
+	if GameController.GameData.fullscreen == true:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
-		prints("No se pudo acceder a la carpeta")
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		
+
+
 
 
 func _on_play_pressed() -> void:
@@ -95,7 +89,7 @@ func _on_option_pressed() -> void:
 
 
 func _on_delete_data_pressed() -> void:
-	GameData.DeleteData()
+	GameController.GameData.DeleteData()
 	get_tree().quit()
 	
 
@@ -115,22 +109,22 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
-	GameData.fullscreen = toggled_on
-	GameData.SaveGameData()
+	GameController.GameData.fullscreen = toggled_on
+	GameController.GameData.SaveGameData()
 
 
 func _on_h_slider_value_changed(value: float) -> void:
 	var volume_index = 2 # SFX
 	AudioServer.set_bus_volume_db(volume_index, linear_to_db(value))
-	GameData.sfx = value
-	GameData.SaveGameData()
+	GameController.GameData.sfx = value
+	GameController.GameData.SaveGameData()
 
 
 func _on_volume_2_value_changed(value: float) -> void:
 	var volume_index = 1
 	AudioServer.set_bus_volume_db( volume_index, linear_to_db(value))
-	GameData.music = value
-	GameData.SaveGameData()
+	GameController.GameData.music = value
+	GameController.GameData.SaveGameData()
 
 
 func _on_ip_text_changed(new_text: String) -> void:

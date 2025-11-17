@@ -31,4 +31,5 @@ func DeleteResource():
 		DirAccess.remove_absolute(path)
 		
 func DeleteData():
+	GamePersistentData.DeletePersistentNodes()
 	DeleteResource()

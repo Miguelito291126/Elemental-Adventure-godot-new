@@ -3,8 +3,6 @@ extends Control
 @onready var energys = $Panel/VBoxContainer2/energys
 @onready var score = $Panel/VBoxContainer2/score
 
-@export var GameData: DataResource = DataResource.LoadGameData()
-
 func _enter_tree() -> void:
 	if Network.IsNetwork:
 		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())

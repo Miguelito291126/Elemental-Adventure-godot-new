@@ -3,8 +3,6 @@ extends Node2D
 @onready var spawnpoint = $spawner
 @onready var Playersspawner = $PlayersSpawner
 
-@export var GameData: DataResource = DataResource.LoadGameData()
-
 func _ready() -> void:
 	GameController.levelnode = self
 	GameController.SpawnPoint = spawnpoint

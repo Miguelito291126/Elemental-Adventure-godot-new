@@ -2,8 +2,6 @@ extends RigidBody2D
 @export var collected := false
 @onready var coinsound = $"coin sound"
 
-@export var GameData: DataResource = DataResource.LoadGameData()
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):	
 		if Network.IsNetwork:
@@ -30,7 +28,7 @@ func hide_coin():
 		visible = false
 		collected = true
 		GamePersistentData.SavePersistentNodes()
-		GameData.SaveGameData()
+		GameController.GameData.SaveGameData()
 
 		Network.add_queue_free_nodes(self.get_path())
 

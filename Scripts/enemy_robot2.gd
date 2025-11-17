@@ -82,8 +82,6 @@ func start_invincibility():
 	animator.modulate = original_modulate
 	is_invincible = false
 
-@export var GameData: DataResource = DataResource.LoadGameData()
-	
 @rpc("any_peer", "call_local")
 func kill():
 	death = !death
@@ -102,7 +100,7 @@ func kill():
 		get_parent().add_child(hearth)
 
 	GamePersistentData.SavePersistentNodes()
-	GameData.SaveGameData()
+	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(self.get_path())
 		
 	queue_free()

@@ -52,9 +52,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var is_fireball = false
 @export var is_shotting = false
 
-@export var GameData: DataResource = DataResource.LoadGameData()
-	
-
 func _enter_tree() -> void:
 	if Network.IsNetwork:
 		set_multiplayer_authority(name.to_int())
@@ -280,7 +277,7 @@ func damage(damage_count: int) -> void:
 	health -= damage_count
 
 	GamePersistentData.SavePersistentNodes()
-	GameData.SaveGameData()
+	GameController.GameData.SaveGameData()
 
 	if health <= 0:
 		if Network.IsNetwork:
@@ -361,7 +358,7 @@ func game_over():
 	RespawnPos()
 	
 	GamePersistentData.SavePersistentNodes()
-	GameData.SaveGameData()
+	GameController.GameData.SaveGameData()
 
 	if Network.IsNetwork:
 		load_gameover_scene.rpc()
