@@ -6,9 +6,9 @@ const PATH := "user://data_state.cfg"
 const DATA_SECTION := "Results"
 
 func LoadPersistentNodes():
-	if Network.IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
+
+	if not multiplayer.is_server():
+		return
 
 	if not FileAccess.file_exists(PATH):
 		return # Error! We don't have a save to load.
@@ -64,9 +64,8 @@ func LoadPersistentNodes():
 
 
 func SavePersistentNodes():
-	if Network.IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
+	if not multiplayer.is_server():
+		return
 
 	var save_file = FileAccess.open(PATH, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)

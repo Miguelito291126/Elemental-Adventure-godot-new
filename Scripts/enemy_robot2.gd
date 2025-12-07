@@ -44,16 +44,11 @@ func damage(damage_count: int):
 
 	health -= damage_count
 
-	if Network.IsNetwork:
-		if health <= 0:
-			kill.rpc()
-		else:
-			start_invincibility.rpc()
+	if health <= 0:
+		kill.rpc()
 	else:
-		if health <= 0:
-			kill()
-		else:
-			start_invincibility()
+		start_invincibility.rpc()
+
 
 @rpc("any_peer", "call_local")
 func start_invincibility():
@@ -157,9 +152,9 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		shoot_timer.stop()
 
 func _on_shoot_timer_timeout() -> void:
-	if Network.IsNetwork:
-		if !get_tree().get_multiplayer().is_server():
-			return
+
+	if !multiplayer.is_server():
+		return
 
 	var players = get_tree().get_nodes_in_group("player")
 	var closest_player = null
@@ -175,10 +170,7 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		if Network.IsNetwork:
-			shoot.rpc(direction_to_player)
-		else:
-			shoot(direction_to_player)	
+		shoot.rpc(direction_to_player)
 
 @rpc("any_peer", "call_local")
 func shoot(direction):
@@ -210,20 +202,15 @@ func burn():
 			break
 		
 		await get_tree().create_timer(1.0).timeout
-		if Network.IsNetwork:
-			damage.rpc( damagecount )
-		else:
-			damage( damagecount )
+		damage.rpc( damagecount )
 
 	is_burning = false	
 	fire.queue_free()
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
-		if Network.IsNetwork:
-			damage.rpc( damagecount )
-		else:
-			damage( damagecount )
+
+		damage.rpc( damagecount )
 	
 		if area.fireball:
 			burn()
@@ -232,29 +219,15 @@ func _on_area_2d_2_area_entered(area: Area2D) -> void:
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if body.is_in_group("water"):
 		is_invincible = false
-		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
 	elif body.is_in_group("lava"):
 		is_invincible = false
-		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
-		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
+
 	elif body.is_in_group("mud"):
 		is_invincible = false
-		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
+

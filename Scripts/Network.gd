@@ -20,12 +20,9 @@ var listener: PacketPeerUDP
 @export var broadcaster_port =  port + 1
 
 var serverbrowser: Control
-var multiplayerpeer : ENetMultiplayerPeer
+var multiplayerpeer
 
 var queue_free_nodes: Array = []
-
-var IsNetwork = false
-
 var Multiplayerspawner: Array
 
 @export var roominfo = {
@@ -35,19 +32,22 @@ var Multiplayerspawner: Array
 
 @onready var broadcasttime = $ServerBrowserTime
 func _ready() -> void:
-	get_tree().get_multiplayer().server_disconnected.connect(MultiplayerServerDisconnected)
-	get_tree().get_multiplayer().connected_to_server.connect(MultiplayerConnectionServerSucess)
-	get_tree().get_multiplayer().connection_failed.connect(MultiplayerConnectionFailed)
-	get_tree().get_multiplayer().peer_connected.connect(MultiplayerPlayerSpawner)
-	get_tree().get_multiplayer().peer_disconnected.connect(MultiplayerPlayerRemover)
+	multiplayer.server_disconnected.connect(MultiplayerServerDisconnected)
+	multiplayer.connected_to_server.connect(MultiplayerConnectionServerSucess)
+	multiplayer.connection_failed.connect(MultiplayerConnectionFailed)
+	multiplayer.peer_connected.connect(MultiplayerPlayerSpawner)
+	multiplayer.peer_disconnected.connect(MultiplayerPlayerRemover)
+
+	multiplayerpeer = OfflineMultiplayerPeer.new()
+	multiplayer.multiplayer_peer = multiplayerpeer
 
 
 func _exit_tree() -> void:
-	get_tree().get_multiplayer().server_disconnected.disconnect(MultiplayerServerDisconnected)
-	get_tree().get_multiplayer().connected_to_server.disconnect(MultiplayerConnectionServerSucess)
-	get_tree().get_multiplayer().connection_failed.disconnect(MultiplayerConnectionFailed)
-	get_tree().get_multiplayer().peer_connected.disconnect(MultiplayerPlayerSpawner)
-	get_tree().get_multiplayer().peer_disconnected.disconnect(MultiplayerPlayerRemover)
+	multiplayer.server_disconnected.disconnect(MultiplayerServerDisconnected)
+	multiplayer.connected_to_server.disconnect(MultiplayerConnectionServerSucess)
+	multiplayer.connection_failed.disconnect(MultiplayerConnectionFailed)
+	multiplayer.peer_connected.disconnect(MultiplayerPlayerSpawner)
+	multiplayer.peer_disconnected.disconnect(MultiplayerPlayerRemover)
 
 	CloseUp()
 
@@ -96,28 +96,49 @@ func remove_element_from_player(id: int) -> void:
 		print_role("Jugador con ID: %d no tenía un personaje asignado." % id)
 
 func print_role(msg: String):
-	if IsNetwork:
-		var is_server = get_tree().get_multiplayer().is_server() 
-		
-		if is_server:
-			# Azul
-			print_rich("[color=blue][Servidor] " + msg + "[/color]")
-		else:
-			# Amarillo
-			print_rich("[color=yellow][Cliente] " + msg + "[/color]")
-	else:
-		print( msg )
+	var peer = multiplayer.multiplayer_peer
+	
+	if peer == null \
+	or peer is OfflineMultiplayerPeer \
+	or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		print(msg)
+		return
 
+
+	var is_server = multiplayer.is_server() 
+	
+	if is_server:
+		# Azul
+		print_rich("[color=blue][Servidor] " + msg + "[/color]")
+	else:
+		# Amarillo
+		print_rich("[color=yellow][Cliente] " + msg + "[/color]")
+
+
+func close_conection():
+	var peer = multiplayer.multiplayer_peer
+
+	# Si no hay peer o está desconectado o es offline → volver al menú
+	if peer == null \
+	or peer is OfflineMultiplayerPeer \
+	or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		get_tree().paused = false
+		LoadScene.LoadMainMenu(GameController.levelnode)
+		return
+
+	# Si está conectado → cerrar conexión
+	peer.close()
+	multiplayerpeer.close()
+
+	print(peer.get_class())
 
 
 func Play_MultiplayerServer():
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	var error = multiplayerpeer.create_server(port, 4)
 	if error == OK:
-		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
-		if get_tree().get_multiplayer().is_server():
-			IsNetwork = true
-
+		multiplayer.multiplayer_peer = multiplayerpeer
+		if multiplayer.is_server():
 			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 				print_role("Servidor dedicado iniciado.")
 
@@ -136,9 +157,8 @@ func Play_MultiplayerClient():
 	var error =  multiplayerpeer.create_client(ip, port)
 	if error == OK:
 		print_role("Conectado al servidor...")
-		get_tree().get_multiplayer().multiplayer_peer = multiplayerpeer
-		if not get_tree().get_multiplayer().is_server():
-			IsNetwork = true
+		multiplayer.multiplayer_peer = multiplayerpeer
+		if not multiplayer.is_server():
 			print_role("Cliente iniciado.")
 			UnloadScene.unload_scene(GameController.main_menu)
 
@@ -146,11 +166,6 @@ func Play_MultiplayerClient():
 		print_role("Error al iniciar el cliente.")
 
 func MultiplayerPlayerSpawner(id: int = 1):
-
-	if IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
-	
 	if GameController.levelnode and is_instance_valid(GameController.levelnode):
 		var player = player_scene.instantiate()
 		player.name = str(id)
@@ -166,12 +181,7 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		print_role("Jugador no spawneado con el ID:" + str(id))
 
 
-func MultiplayerPlayerRemover(id: int = 1):
-	if IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
-	
-
+func MultiplayerPlayerRemover(id: int = 1): 
 	var player = Players_Nodes[id]
 	if is_instance_valid(player):
 		player.queue_free()
@@ -200,15 +210,12 @@ func Sync_Players_Nodes():
 func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
 
-	if multiplayerpeer:
-		multiplayerpeer = null
-
-	if IsNetwork:
-		IsNetwork = false
-
 	Players_Nodes.clear()
 
 	CloseUp()
+
+	multiplayerpeer = OfflineMultiplayerPeer.new()
+	multiplayer.multiplayer_peer = multiplayerpeer
 
 	if GameController.levelnode and is_instance_valid(GameController.levelnode):
 		LoadScene.LoadMainMenu(GameController.levelnode)
@@ -227,15 +234,12 @@ func MultiplayerConnectionServerSucess():
 func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
 	
-	if multiplayerpeer:
-		multiplayerpeer = null
-
-	if IsNetwork:
-		IsNetwork = false
-
 	Players_Nodes.clear()
 
 	CloseUp()
+
+	multiplayerpeer = OfflineMultiplayerPeer.new()
+	multiplayer.multiplayer_peer = multiplayerpeer
 
 	if is_instance_valid(GameController.levelnode):
 		LoadScene.LoadMainMenu(GameController.levelnode)
@@ -320,26 +324,26 @@ func sync_queue_free_nodes(nodes: Array):
 				print_role("Nodo ya procesado o no válido: " + str(node_path))
 
 func add_queue_free_nodes(Name: String):
-	if IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
+
+	if not multiplayer.is_server():
+		return
 
 	if not queue_free_nodes.has(Name):
 		queue_free_nodes.append(Name)
 
 
 func remove_queue_free_nodes(Name: String):
-	if IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
+
+	if not multiplayer.is_server():
+		return
 
 	if queue_free_nodes.has(Name):
 		queue_free_nodes.erase(Name)
 
 func remove_all_queue_free_nodes():
-	if IsNetwork:
-		if not get_tree().get_multiplayer().is_server():
-			return
+
+	if not multiplayer.is_server():
+		return
 
 	for i in queue_free_nodes:
 		remove_queue_free_nodes(i)

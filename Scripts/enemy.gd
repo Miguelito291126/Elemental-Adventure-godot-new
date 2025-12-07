@@ -66,16 +66,11 @@ func damage(damage_count: int):
 
 	health -= damage_count
 
-	if Network.IsNetwork:
-		if health <= 0:
-			kill.rpc()
-		else:
-			start_invincibility.rpc()
+	if health <= 0:
+		kill.rpc()
 	else:
-		if health <= 0:
-			kill()
-		else:
-			start_invincibility()
+		start_invincibility.rpc()
+
 
 
 @rpc("any_peer", "call_local")
@@ -126,7 +121,7 @@ func kill():
 	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(self.get_path())
 
-	if Network.IsNetwork and get_tree().get_multiplayer().is_server():
+	if multiplayer.is_server():
 		Network.queue_free_nodes.append(self.get_path())
 
 	queue_free()
@@ -159,21 +154,15 @@ func burn():
 			break
 		
 		await get_tree().create_timer(1.0).timeout
-		if Network.IsNetwork:
-			damage.rpc( damagecount )
-		else:
-			damage( damagecount )
+		damage.rpc( damagecount )
+
 
 	is_burning = false	
 	fire.queue_free()
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
-		if Network.IsNetwork:
-			damage.rpc( damagecount )
-		else:
-			damage( damagecount )
-
+		damage.rpc( damagecount )
 		if area.fireball and color_str != "Orange":
 			burn()
 
@@ -186,34 +175,22 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
  
 		is_invincible = false
 		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
 	elif body.is_in_group("lava"):
 		if color_str == "Orange":
 			return
 		
 		is_invincible = false
 		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
 	elif body.is_in_group("acid"):
 		is_invincible = false
 		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
 
 	elif body.is_in_group("mud"):
 		is_invincible = false
 		
-		if Network.IsNetwork:
-			damage.rpc(health)
-		else:
-			damage(health)
+		damage.rpc(health)
 
 

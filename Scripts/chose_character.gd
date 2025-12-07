@@ -6,11 +6,15 @@ extends Control
 @onready var earth_button = $Panel/earth/Button_earth
 
 func _ready():
-	if Network.IsNetwork:
-		fire_button.disabled = true
-		water_button.disabled = true
-		air_button.disabled = true
-		earth_button.disabled = true
+	if multiplayer.multiplayer_peer == null \
+	or multiplayer.multiplayer_peer is OfflineMultiplayerPeer \
+	or multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		return
+		
+	fire_button.disabled = true
+	water_button.disabled = true
+	air_button.disabled = true
+	earth_button.disabled = true
 
 
 func _on_button_fire_pressed() -> void:
@@ -29,15 +33,11 @@ func _on_button_earth_pressed() -> void:
 
 
 func _on_play_pressed() -> void:
-	if Network.IsNetwork:
-		if multiplayer.is_server():  # Solo el MasterClient puede hacer esto
-			LoadScene.load_level_scene(self)
-	else:
+	if multiplayer.is_server():  # Solo el MasterClient puede hacer esto
 		LoadScene.load_level_scene(self)
 
 
+
 func _on_exit_pressed() -> void:
-	if Network.IsNetwork:
-		Network.multiplayerpeer.close()
-	else:
-		LoadScene.LoadMainMenu(self)
+	Network.close_conection()
+

@@ -14,10 +14,8 @@ func SaveGameData():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		if Network.IsNetwork:
-			hide_hearth.rpc(body)
-		else:
-			hide_hearth(body)
+		hide_hearth.rpc(body)
+
 
 
 @rpc("any_peer", "call_local")

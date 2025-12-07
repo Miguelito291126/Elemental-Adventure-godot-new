@@ -5,9 +5,8 @@ extends Control
 @onready var level = $Panel/VBoxContainer2/level
 
 func _enter_tree() -> void:
-	if Network.IsNetwork:
-		set_multiplayer_authority(get_tree().get_multiplayer().get_unique_id())
-	
+	set_multiplayer_authority(multiplayer.get_unique_id())
+
 func _ready() -> void:
 	GameController.victory_menu = self
 	
@@ -16,14 +15,10 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.energys)
 
 func _on_back_pressed() -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 
-		GameController.GameData.DeleteResource()
-		GamePersistentData.DeletePersistentNodes()
-		Network.multiplayerpeer.close()
-	else:
-		GameController.GameData.DeleteResource()
-		GamePersistentData.DeletePersistentNodes()
-		LoadScene.LoadMainMenu(self)
+	GameController.GameData.DeleteResource()
+	GamePersistentData.DeletePersistentNodes()
+	Network.close_conection()
+

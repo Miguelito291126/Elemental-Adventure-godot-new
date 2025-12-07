@@ -68,7 +68,7 @@ func load_scene(current_scene = null, next_scene = null):
 	
 	var loader_next_scene = ResourceLoader.load_threaded_request(scene_path, "", use_sub_theads)
 	if loader_next_scene == OK:
-		Network.print_role("is ok")
+		Network.print_role("loading...")
 		set_process(true)
 
 

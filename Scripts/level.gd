@@ -10,17 +10,14 @@ func _ready() -> void:
 	
 	GamePersistentData.LoadPersistentNodes()
 
-	if Network.IsNetwork :
+	Network.print_role("Nivel Iniciado")
 
-		Network.print_role("Nivel Iniciado")
+	if multiplayer.is_server():
+		if not OS.has_feature("dedicated_server"):
+			Network.MultiplayerPlayerSpawner(multiplayer.get_unique_id())
 
-		if get_tree().get_multiplayer().is_server():
-			if not OS.has_feature("dedicated_server"):
-				Network.MultiplayerPlayerSpawner(get_tree().get_multiplayer().get_unique_id())
-
-			for id in get_tree().get_multiplayer().get_peers():
-				Network.MultiplayerPlayerSpawner(id)
+		for id in multiplayer.get_peers():
+			Network.MultiplayerPlayerSpawner(id)
 
 
-	else:
-		GameController.SingleplayerPlayerSpawner()
+

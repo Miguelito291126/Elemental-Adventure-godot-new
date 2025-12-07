@@ -31,6 +31,7 @@ func unload_scene(current_scene = null):
 
 	var loader_next_scene = ResourceLoader.load_threaded_request(scene_path, "", use_sub_theads)
 	if loader_next_scene == OK:
+		Network.print_role("Unloading...")
 		set_process(true)
 
 
@@ -46,9 +47,13 @@ func clear_nodegame_except_spawner():
 func _process(_delta):
 	var load_status = ResourceLoader.load_threaded_get_status(scene_path, progress)
 	match load_status:
-		0,2:
+		0:
+			Network.print_role("failed to load: invalid resource")
 			set_process(false)
+			return
+		2:
 			Network.print_role("failed to load")
+			set_process(false)
 			return
 		1:
 			emit_signal("progress_changed", progress[0] * 100)

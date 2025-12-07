@@ -8,9 +8,8 @@ extends CanvasLayer
 
 
 func _enter_tree() -> void:
-	if Network.IsNetwork:
-		set_multiplayer_authority(get_parent().name.to_int())
-	
+	set_multiplayer_authority(get_parent().name.to_int())
+
 func _ready() -> void:
 	GameController.pause_menu = self
 
@@ -20,9 +19,8 @@ func _ready() -> void:
 	LoadGameData()
 		
 func LoadGameData():
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 			
 	self.volume.value = GameController.GameData.sfx
 	self.volume2.value = GameController.GameData.music
@@ -37,78 +35,73 @@ func LoadGameData():
 
 		
 func SaveGameData():
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
-			
+	if !is_multiplayer_authority():
+		return
+		
 	GameController.GameData.SaveGameData()
 	GamePersistentData.SavePersistentNodes()
 	
 func _on_save_pressed() -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 		
 
 	SaveGameData()
 
 
 func _on_reset_player_pressed() -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 
 	get_parent().RespawnPos()
 	
 
 func _on_return_pressed() -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 		
-	visible = !visible
-	
-	if not Network.IsNetwork:
-		get_tree().paused = visible
+	pause()
 
 func _on_back_pressed() -> void:
+	pause()
+
+	if !is_multiplayer_authority():
+		return
+
+	Network.close_conection()
+
+
+func pause():
+	if !is_multiplayer_authority():
+		return
+			
 	visible = !visible
 	
-	if not Network.IsNetwork:
+	if multiplayer.multiplayer_peer == null \
+	or multiplayer.multiplayer_peer is OfflineMultiplayerPeer \
+	or multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		get_tree().paused = visible
 
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
-		Network.multiplayerpeer.close()
-	else:
-		LoadScene.LoadMainMenu(GameController.levelnode)
-
-
-
 func _on_back_pause_menu_pressed() -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 
 	optionsmenu.visible = !optionsmenu.visible
 	pause_menu.visible = !pause_menu.visible
 
 
+
 func _on_settings_pressed() -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 			
-	
 	optionsmenu.visible = !optionsmenu.visible
 	pause_menu.visible = !pause_menu.visible
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 	
 	var config = ConfigFile.new()
 	config.load("user://config.cfg")
@@ -122,10 +115,9 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 
 
 func _on_volume_value_changed(value: float) -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
-	
+	if !is_multiplayer_authority():
+		return
+
 	var config = ConfigFile.new()
 	config.load("user://config.cfg")
 	
@@ -136,9 +128,8 @@ func _on_volume_value_changed(value: float) -> void:
 
 
 func _on_volume_2_value_changed(value: float) -> void:
-	if Network.IsNetwork:
-		if !is_multiplayer_authority():
-			return
+	if !is_multiplayer_authority():
+		return
 	
 	var config = ConfigFile.new()
 	config.load("user://config.cfg")

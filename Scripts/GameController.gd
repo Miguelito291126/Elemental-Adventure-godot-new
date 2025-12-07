@@ -34,10 +34,8 @@ func getcoin():
 	GamePersistentData.SavePersistentNodes()
 	GameData.SaveGameData()
 	
-	if Network.IsNetwork:
-		getpoint.rpc()
-	else:
-		getpoint()
+	getpoint.rpc()
+
 		
 	
 
@@ -59,11 +57,9 @@ func getlevel():
 	GamePersistentData.DeletePersistentNodes()
 	Network.remove_all_queue_free_nodes()
 	GameData.SaveGameData()
+	
+	load_victory_scene.rpc()
 
-	if Network.IsNetwork:
-		load_victory_scene.rpc()
-	else:
-		LoadScene.LoadVictoryMenu(levelnode)
 	
 
 
