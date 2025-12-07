@@ -37,7 +37,6 @@ func _on_play_pressed() -> void:
 		LoadScene.load_level_scene(self)
 
 
-
 func _on_exit_pressed() -> void:
 	Network.close_conection()
 
