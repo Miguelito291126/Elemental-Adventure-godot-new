@@ -59,14 +59,3 @@ func getlevel():
 	GameData.SaveGameData()
 	
 	load_victory_scene.rpc()
-
-	
-
-
-func SingleplayerPlayerSpawner():
-	if levelnode and is_instance_valid(levelnode):
-		var player = player_scene.instantiate()
-		levelnode.add_child(player, true)
-		Network.print_role("jugador Spawneado")
-	else:
-		Network.print_role("jugador no Spawneado")

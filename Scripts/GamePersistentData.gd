@@ -22,7 +22,7 @@ func LoadPersistentNodes():
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for i in save_nodes:
 		Network.add_queue_free_nodes(i.get_path())
-		i.queue_free()
+		Network.remove_node_synced.rpc(i.get_path())
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.

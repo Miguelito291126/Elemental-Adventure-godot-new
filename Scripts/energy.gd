@@ -31,4 +31,4 @@ func hide_coin():
 		Network.add_queue_free_nodes(self.get_path())
 
 		await coinsound.finished
-		queue_free()
+		Network.remove_node_synced.rpc(get_path())

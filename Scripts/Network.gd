@@ -306,7 +306,7 @@ func _on_server_browser_time_timeout() -> void:
 	if broadcaster != null:
 		broadcaster.put_packet(packet)
 
-@rpc("authority", "call_local")
+@rpc("any_peer", "call_local")
 func sync_queue_free_nodes(nodes: Array):
 	for node_path in nodes:
 		var node = get_tree().get_current_scene().get_node_or_null(node_path)
@@ -320,8 +320,17 @@ func sync_queue_free_nodes(nodes: Array):
 			# Corazones
 			elif node.is_in_group("hearth") and not node.collected:
 				node.queue_free()
-			else:
-				print_role("Nodo ya procesado o no válido: " + str(node_path))
+		else:
+			# Log más claro para debugging
+			print_role("Nodo no encontrado: " + str(node_path))
+
+@rpc("any_peer", "call_local")
+func remove_node_synced(node_path: String):
+	var node = get_tree().get_current_scene().get_node_or_null(node_path)
+	if node and is_instance_valid(node):
+		node.queue_free()
+		print_role("Nodo eliminado sincronizado: " + node_path)
+
 
 func add_queue_free_nodes(Name: String):
 

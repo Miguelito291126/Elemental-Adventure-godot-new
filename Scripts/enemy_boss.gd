@@ -39,7 +39,9 @@ func _ready() -> void:
 		
 	$PointLight2D.enabled = color_str == "Orange"
 	$PointLight2D.color = color
-	
+
+	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
+
 	healthbar.max_value = health
 	healthbar.value = health
 
@@ -94,14 +96,16 @@ func kill():
 	var drop_position = global_position
 	# Decidir aleatoriamente qué soltar
 	var drop_chance = randi() % 2  # 0 o 1
-	if drop_chance == 0:
-		var coin = load("res://Scenes/energy.tscn").instantiate()
-		coin.global_position = drop_position
-		get_parent().add_child(coin)
-	else:
-		var hearth = load("res://Scenes/hearth.tscn").instantiate()
-		hearth.global_position = drop_position
-		get_parent().add_child(hearth)
+	
+	if multiplayer.is_server():
+		if drop_chance == 0:
+			var coin = load("res://Scenes/energy.tscn").instantiate()
+			coin.global_position = drop_position
+			get_parent().add_child(coin, true)
+		else:
+			var hearth = load("res://Scenes/hearth.tscn").instantiate()
+			hearth.global_position = drop_position
+			get_parent().add_child(hearth, true)
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
@@ -110,7 +114,7 @@ func kill():
 	if multiplayer.is_server():
 		Network.queue_free_nodes.append(self.get_path())
 
-	queue_free()
+	Network.remove_node_synced.rpc(get_path())
 
 func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
@@ -141,8 +145,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		MusicManager.is_near_boss = true
 	
-		shoot_timer.timeout.connect(_on_shoot_timer_timeout)
-	
 		if color_str == "Green":
 			animator.play("attack slime green")
 		elif color_str == "Blue":
@@ -170,9 +172,8 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		shoot_timer.stop()
 
 func _on_shoot_timer_timeout() -> void:
-	if !multiplayer.is_server():
+	if not multiplayer.is_server():
 		return
-
 
 	var players = get_tree().get_nodes_in_group("player")
 	var closest_player = null
@@ -188,11 +189,16 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		shoot.rpc(direction_to_player)
+		var rotation_angle = bulletpos.rotation  # Captura la rotación
+		var position_angle = bulletpos.position  # Captura la posición
+		shoot.rpc(direction_to_player, rotation_angle, position_angle)
 	
 
 @rpc("any_peer", "call_local")
-func shoot(direction):
+func shoot(direction: Vector2, rotation_angle: float, position_angle: Vector2):
+	bulletpos.rotation = rotation_angle  # Aplica la rotación sincronizada
+	bulletpos.position = position_angle  # Aplica la posición sincronizada
+
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction

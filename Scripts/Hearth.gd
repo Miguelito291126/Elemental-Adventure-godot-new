@@ -14,15 +14,17 @@ func SaveGameData():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		hide_hearth.rpc(body)
+		hide_hearth.rpc(body.name)
 
 
 
 @rpc("any_peer", "call_local")
-func hide_hearth(body: Node2D):
+func hide_hearth(player_name: String):
 	if visible:
-		if body != null and body.has_method("healting"):
-			body.healting(1)
+		var players = get_tree().get_nodes_in_group("player")
+		for player in players:
+			if player.name == player_name:
+				player.healting(1)
 
 		hearthsound.play()
 		visible = false
@@ -33,4 +35,4 @@ func hide_hearth(body: Node2D):
 		Network.add_queue_free_nodes(self.get_path())
 		
 		await hearthsound.finished
-		queue_free()
+		Network.remove_node_synced.rpc(get_path())

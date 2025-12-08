@@ -33,7 +33,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready() -> void:
 	animator.play("robot 2 walk")
-	
+	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	$PointLight2D.color = color
 	
 		
@@ -85,20 +85,22 @@ func kill():
 	var drop_position = global_position
 	# Decidir aleatoriamente qué soltar
 	var drop_chance = randi() % 2  # 0 o 1
-	if drop_chance == 0:
-		var coin = load("res://Scenes/energy.tscn").instantiate()
-		coin.global_position = drop_position
-		get_parent().add_child(coin)
-	else:
-		var hearth = load("res://Scenes/hearth.tscn").instantiate()
-		hearth.global_position = drop_position
-		get_parent().add_child(hearth)
+	
+	if multiplayer.is_server():
+		if drop_chance == 0:
+			var coin = load("res://Scenes/energy.tscn").instantiate()
+			coin.global_position = drop_position
+			get_parent().add_child(coin, true)
+		else:
+			var hearth = load("res://Scenes/hearth.tscn").instantiate()
+			hearth.global_position = drop_position
+			get_parent().add_child(hearth, true)
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(self.get_path())
 		
-	queue_free()
+	Network.remove_node_synced.rpc(get_path())
 
 	
 func SaveGameData():
@@ -142,7 +144,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		is_shooting = true
 		animator.play("robot 2 shot")
-		shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 		shoot_timer.start()
 		
 func _on_area_2d_body_exited(body: Node2D) -> void:
@@ -153,7 +154,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 func _on_shoot_timer_timeout() -> void:
 
-	if !multiplayer.is_server():
+	if not multiplayer.is_server():
 		return
 
 	var players = get_tree().get_nodes_in_group("player")
@@ -170,10 +171,15 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		shoot.rpc(direction_to_player)
+		var rotation_angle = bulletpos.rotation  # Captura la rotación
+		var position_angle = bulletpos.position  # Captura la posición
+		shoot.rpc(direction_to_player, rotation_angle, position_angle)
 
 @rpc("any_peer", "call_local")
-func shoot(direction):
+func shoot(direction: Vector2, rotation_angle: float, position_angle: Vector2):
+	bulletpos.rotation = rotation_angle  # Aplica la rotación sincronizada
+	bulletpos.position = position_angle  # Aplica la posición sincronizada
+
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
