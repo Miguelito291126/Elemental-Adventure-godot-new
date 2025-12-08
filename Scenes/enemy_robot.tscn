@@ -94,6 +94,12 @@ properties/15/replication_mode = 1
 properties/16/path = NodePath("AnimatedSprite2D:flip_h")
 properties/16/spawn = true
 properties/16/replication_mode = 1
+properties/17/path = NodePath("bulletpos:scale")
+properties/17/spawn = true
+properties/17/replication_mode = 1
+properties/18/path = NodePath("bulletpos/bulletspawn:scale")
+properties/18/spawn = true
+properties/18/replication_mode = 1
 
 [node name="enemy_robot" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 script = ExtResource("1_28r5x")

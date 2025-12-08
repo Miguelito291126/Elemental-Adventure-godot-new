@@ -148,16 +148,11 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		var rotation_angle = bulletpos.rotation  # Captura la rotación
-		var position_angle = bulletpos.position  # Captura la posición
-		shoot.rpc(direction_to_player, rotation_angle, position_angle)
+		shoot.rpc(direction_to_player)
 
 
 @rpc("any_peer", "call_local")
-func shoot(direction: Vector2, rotation_angle: float, position_angle: Vector2):
-	bulletpos.rotation = rotation_angle  # Aplica la rotación sincronizada
-	bulletpos.position = position_angle  # Aplica la posición sincronizada
-
+func shoot(direction: Vector2):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction

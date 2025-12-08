@@ -99,6 +99,12 @@ properties/12/replication_mode = 1
 properties/13/path = NodePath(".:scale")
 properties/13/spawn = true
 properties/13/replication_mode = 1
+properties/14/path = NodePath("bulletpos:scale")
+properties/14/spawn = true
+properties/14/replication_mode = 1
+properties/15/path = NodePath("bulletpos/bulletspawn:scale")
+properties/15/spawn = true
+properties/15/replication_mode = 1
 
 [node name="enemy_robot_3" type="CharacterBody2D" groups=["Persistent", "enemy"]]
 script = ExtResource("1_g8808")
