@@ -153,15 +153,19 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		shoot_timer.stop()
 
 func _on_shoot_timer_timeout() -> void:
-
 	if not multiplayer.is_server():
 		return
-
+		
 	var players = get_tree().get_nodes_in_group("player")
-	var closest_player = null
-	var closest_distance = INF
+	if players.size() == 0:
+		return
+	var closest_player = players[0]
+	var closest_distance = global_position.distance_to(closest_player.global_position)
 
 	for p in players:
+		if not p or not p.is_inside_tree():
+			continue
+			
 		var distance = global_position.distance_to(p.global_position)
 		if distance < closest_distance:
 			closest_distance = distance

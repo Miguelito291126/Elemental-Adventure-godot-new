@@ -174,12 +174,17 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func _on_shoot_timer_timeout() -> void:
 	if not multiplayer.is_server():
 		return
-
+		
 	var players = get_tree().get_nodes_in_group("player")
-	var closest_player = null
-	var closest_distance = INF
+	if players.size() == 0:
+		return
+	var closest_player = players[0]
+	var closest_distance = global_position.distance_to(closest_player.global_position)
 
 	for p in players:
+		if not p or not p.is_inside_tree():
+			continue
+			
 		var distance = global_position.distance_to(p.global_position)
 		if distance < closest_distance:
 			closest_distance = distance
@@ -189,24 +194,23 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		shoot.rpc(direction_to_player)
-	
+
+		if multiplayer.is_server():
+			shoot.rpc(direction_to_player)
 
 @rpc("any_peer", "call_local")
 func shoot(direction: Vector2):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
-	bullet.fireball = color_str == "Orange"
-	
+	bullet.fireball = false
 
 	get_parent().add_child(bullet, true)
 
 	bullet.bullet_sprite.modulate = color
 	bullet.bullet_light.color = color
-	bullet.bullet_light.enabled = color_str == "Orange"
-	bullet.bullet_fire.visible = color_str == "Orange"
-
+	bullet.bullet_light.enabled = true
+	bullet.bullet_fire.visible = false
 
 func burn():
 	if is_burning:

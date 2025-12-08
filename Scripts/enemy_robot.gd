@@ -111,16 +111,28 @@ func SaveGameData():
 	return save_dict
 
 func _process(_delta: float) -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player_pos = players[0].global_position
-		bulletpos.look_at(player_pos)  # Esto sigue siendo útil para apuntar el cañón
+	if not multiplayer.is_server():
+		return
 		
-		# Voltear el sprite horizontalmente según la posición del jugador
-		if player_pos.x < global_position.x:
-			animator.flip_h = false
-		else:
-			animator.flip_h = true
+	var players = get_tree().get_nodes_in_group("player")
+	var closest_player = players[0]
+	var closest_distance = global_position.distance_to(closest_player.global_position)
+
+	if players.size() == 0:
+		return
+
+	for p in players:
+		if not p or not p.is_inside_tree():
+			continue
+			
+		var distance = global_position.distance_to(p.global_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_player = p
+
+	if closest_player:
+		var player_pos = closest_player.global_position
+		animator.flip_h = player_pos.x >= global_position.x
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -135,10 +147,15 @@ func _on_shoot_timer_timeout() -> void:
 		return
 
 	var players = get_tree().get_nodes_in_group("player")
-	var closest_player = null
-	var closest_distance = INF
+	if players.size() == 0:
+		return
+	var closest_player = players[0]
+	var closest_distance = global_position.distance_to(closest_player.global_position)
 
 	for p in players:
+		if not p or not p.is_inside_tree():
+			continue
+			
 		var distance = global_position.distance_to(p.global_position)
 		if distance < closest_distance:
 			closest_distance = distance
@@ -149,7 +166,6 @@ func _on_shoot_timer_timeout() -> void:
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
 		shoot.rpc(direction_to_player)
-
 
 @rpc("any_peer", "call_local")
 func shoot(direction: Vector2):

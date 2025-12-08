@@ -151,18 +151,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 
-	
-func shoot():
-	if not is_multiplayer_authority():
-		return
-
-	var mouse_pos = get_global_mouse_position()
-	var direction_to_mouse = (mouse_pos - global_position).normalized()
-	var radius = 20.0  # puedes ajustar esto a tu gusto
-	bulletpos.global_position = global_position + direction_to_mouse * radius
-	bulletpos.look_at(mouse_pos)
-
-	shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
 
 
 func Jump():
@@ -297,6 +285,19 @@ func healting(count):
 	health += count
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
+
+	
+func shoot():
+	if not is_multiplayer_authority():
+		return
+
+	var mouse_pos = get_global_mouse_position()
+	var direction_to_mouse = (mouse_pos - global_position).normalized()
+	var radius = 20.0  # puedes ajustar esto a tu gusto
+	bulletpos.global_position = global_position + direction_to_mouse * radius
+	bulletpos.look_at(mouse_pos)
+
+	shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
 
 
 @rpc("any_peer", "call_local")

@@ -8,7 +8,7 @@ extends Area2D
 @export var fireball: bool = false
 
 func _physics_process(delta):
-	position += direction * speed * delta
+	global_position += direction * speed * delta
 
 func _on_body_entered(_body: Node2D) -> void:
 	queue_free()
