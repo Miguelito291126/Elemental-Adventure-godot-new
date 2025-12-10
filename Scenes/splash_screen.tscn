@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://xk8b0rvqb0xx"]
+
+[ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_6b1b0"]
+[ext_resource type="Script" uid="uid://cyqxiabw8dwge" path="res://Scripts/splash_screen.gd" id="2_wwf30"]
+[ext_resource type="PackedScene" uid="uid://ck6cqfxuu22vs" path="res://Scenes/game.tscn" id="3_h5jmx"]
+
+[node name="Splash_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6b1b0")
+script = ExtResource("2_wwf30")
+scene = ExtResource("3_h5jmx")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6b1b0")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -375.0
+offset_top = -25.0
+offset_right = 375.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6b1b0")
+
+[node name="Logo" type="Label" parent="CenterContainer"]
+layout_mode = 2
+theme = ExtResource("1_6b1b0")
+text = "Miguel Present:"
