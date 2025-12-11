@@ -7,17 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://dn2uwttahe5bw" path="res://Sprites/air idle.png" id="5_3j5dd"]
 [ext_resource type="Texture2D" uid="uid://bff040cb4af36" path="res://Sprites/earth idle.png" id="6_eongy"]
 
-[node name="Chose_Character" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Chose_Character" type="CanvasLayer"]
+layer = 5
 script = ExtResource("1_hwby1")
 
 [node name="Panel" type="Panel" parent="."]
-layout_mode = 1
+z_index = 10
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -26,6 +21,7 @@ grow_vertical = 2
 theme = ExtResource("1_si5xw")
 
 [node name="Label" type="Label" parent="Panel"]
+z_index = 10
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -37,6 +33,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+z_index = 10
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,6 +63,7 @@ text = "Exit
 "
 
 [node name="fire" type="VBoxContainer" parent="Panel"]
+z_index = 10
 layout_mode = 0
 offset_left = 376.0
 offset_top = 208.0
@@ -75,17 +73,20 @@ theme = ExtResource("1_si5xw")
 alignment = 1
 
 [node name="FireIdle" type="TextureRect" parent="Panel/fire"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("3_3s6gl")
 
 [node name="Button_fire" type="Button" parent="Panel/fire"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
 [node name="water" type="VBoxContainer" parent="Panel"]
+z_index = 10
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -99,17 +100,20 @@ theme = ExtResource("1_si5xw")
 alignment = 1
 
 [node name="WaterIdle2" type="TextureRect" parent="Panel/water"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("4_ecjs8")
 
 [node name="Button_water" type="Button" parent="Panel/water"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
 [node name="air" type="VBoxContainer" parent="Panel"]
+z_index = 10
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -126,17 +130,20 @@ theme = ExtResource("1_si5xw")
 alignment = 1
 
 [node name="AirIdle3" type="TextureRect" parent="Panel/air"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("5_3j5dd")
 
 [node name="Button_air" type="Button" parent="Panel/air"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Press"
 
 [node name="earth" type="VBoxContainer" parent="Panel"]
+z_index = 10
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -150,11 +157,13 @@ theme = ExtResource("1_si5xw")
 alignment = 1
 
 [node name="Earthidle4" type="TextureRect" parent="Panel/earth"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("6_eongy")
 
 [node name="Button_earth" type="Button" parent="Panel/earth"]
+z_index = 10
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50

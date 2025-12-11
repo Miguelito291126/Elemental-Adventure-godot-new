@@ -35,4 +35,5 @@ func hide_hearth(player_name: String):
 		Network.add_queue_free_nodes(self.get_path())
 		
 		await hearthsound.finished
+
 		Network.remove_node_synced.rpc(get_path())

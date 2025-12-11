@@ -46,15 +46,15 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var snow = $Snow
 @onready var ash = $Ash
 
-@export var id: String
+@export var id: int
 
 @export var ball_color: Color = Color.WHITE
 @export var is_fireball = false
 @export var is_shotting = false
 
 func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
-	
+	id = name.to_int()
+	set_multiplayer_authority(id)
 	RespawnPos()
 	
 func _ready() -> void:
@@ -70,18 +70,43 @@ func _ready() -> void:
 		Network.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
 		Network.print_role("Node name:" + name)
 		Network.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
-
-			
 		GameController.playernode = self
+		Network.assign_element(Network.character)
 
 func _process(_delta: float) -> void:
-	if !is_multiplayer_authority():
+	if not is_multiplayer_authority():
 		return
 		
-	lifes.text = "Lifes: " + str(health)
-	energys.text = "Energys: " + str(GameController.energys)
-	points.text = "Points: " + str(GameController.points)
+	labels_update()
+	update_particles()
+	update_character()
 
+
+func labels_update():
+	if not is_multiplayer_authority():
+		return
+		
+	lifes.text = str("Lifes: " + str(health))
+	energys.text = str("Energys: " + str(GameController.energys))
+	points.text = str("Points: " + str(GameController.points))
+
+
+func update_particles():
+	if not is_multiplayer_authority():
+		return
+		
+	if GameController.level > 6 and GameController.level <= 12:
+		snow.emitting = false
+		ash.emitting = true
+	elif GameController.level > 18 and GameController.level <= 24:
+		snow.emitting = true
+		ash.emitting = false
+	else:
+		snow.emitting = false
+		ash.emitting = false
+
+@rpc("any_peer", "call_local")
+func update_character():
 	if Network.character == "fire":
 		light.color = Color.ORANGE
 		ball_color = Color.ORANGE
@@ -98,17 +123,6 @@ func _process(_delta: float) -> void:
 		light.color = Color.WHITE
 		ball_color = Color.SADDLE_BROWN
 		is_fireball = false
-
-
-	if GameController.level > 6 and GameController.level <= 12:
-		snow.emitting = false
-		ash.emitting = true
-	elif GameController.level > 18 and GameController.level <= 24:
-		snow.emitting = true
-		ash.emitting = false
-	else:
-		snow.emitting = false
-		ash.emitting = false
 
 func _physics_process(delta):
 	if !is_multiplayer_authority():

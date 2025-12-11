@@ -17,6 +17,7 @@ var main_menu: Control
 var game_over_menu: Control
 var pause_menu: CanvasLayer
 var victory_menu: Control
+var chose_characters: CanvasLayer
 
 @export var GameData: DataResource = DataResource.LoadGameData()
 

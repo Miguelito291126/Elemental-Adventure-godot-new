@@ -121,10 +121,6 @@ func kill():
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(self.get_path())
-
-	if multiplayer.is_server():
-		Network.queue_free_nodes.append(self.get_path())
-
 	Network.remove_node_synced.rpc(get_path())
 
 	

@@ -99,7 +99,6 @@ func kill():
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(self.get_path())
-		
 	Network.remove_node_synced.rpc(get_path())
 
 	
@@ -235,4 +234,3 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("mud"):
 		is_invincible = false
 		damage.rpc(health)
-

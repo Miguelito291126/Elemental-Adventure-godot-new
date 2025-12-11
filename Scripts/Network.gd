@@ -6,7 +6,6 @@ extends Node
 var player_scene = preload("res://Scenes/player.tscn")
 
 @export var character = "fire"
-@export var available_elements = ["fire", "water", "air", "earth"]
 @export var assigned_characters: Dictionary = {}
 
 var broadcaster: PacketPeerUDP
@@ -53,47 +52,26 @@ func _exit_tree() -> void:
 
 @rpc("any_peer", "call_local")
 func assign_element(element: String):
-	character = element
-	print_role("Se te asignó el personaje:" + element)
-
-@rpc("authority", "call_local")
-func assign_element_to_player(id: int) -> void:
-	# Si ya tiene un personaje asignado, reutilizarlo
-	if assigned_characters.has(id):
-		assign_element.rpc_id(id, assigned_characters[id])
+	if assigned_characters.has(multiplayer.get_unique_id()):
+		print_role("Ya tienes un personaje asignado.")
 		return
 
-	# Determinar el primer personaje libre (manteniendo el orden: fire, water, air, earth)
-	var used := []
-	for v in assigned_characters.values():
-		used.append(v)
+	assigned_characters[multiplayer.get_unique_id()] = element
+	character = element
+	
+	if GameController.playernode and is_instance_valid(GameController.playernode):
+		GameController.playernode.update_character.rpc()
 
-	var select_character: String = ""
-	for e in available_elements:
-		if e in used:
-			continue
-		select_character = e
-		break
+	print_role("Se te asignó el personaje:" + element)
 
-	# Si por alguna razón ya están todos usados (más de 4 jugadores),
-	# asignamos el siguiente de forma cíclica (o aleatoria si prefieres)
-	if select_character == "":
-		select_character = available_elements[randi() % available_elements.size()]
-
-	assigned_characters[id] = select_character
-	assign_element.rpc_id(id, select_character)
-
-	# Mensaje para debug (mostrar el "número de jugador" según el orden actual)
-	var player_number := used.size() + 1
-	print_role("Jugador %d asignado con éxito el personaje: %s" % [player_number, select_character])
-
-
-func remove_element_from_player(id: int) -> void:
+func assign_element_to_player(id, element: String):
 	if assigned_characters.has(id):
-		assigned_characters.erase(id)
-		print_role("Jugador con ID: %d ha sido eliminado de la lista de personajes asignados." % id)
-	else:
-		print_role("Jugador con ID: %d no tenía un personaje asignado." % id)
+		print_role("El jugador con ID: " + str(id) + " ya tiene un personaje asignado.")
+		return
+
+	assigned_characters[id] = element
+	assign_element.rpc_id(id, element)
+	print_role("Jugador con ID: " + str(id) + " asignado al personaje: " + element)
 
 func print_role(msg: String):
 	var peer = multiplayer.multiplayer_peer
@@ -160,24 +138,27 @@ func Play_MultiplayerClient():
 		multiplayer.multiplayer_peer = multiplayerpeer
 		if not multiplayer.is_server():
 			print_role("Cliente iniciado.")
-			UnloadScene.unload_scene(GameController.main_menu)
 
+			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+				UnloadScene.unload_scene(GameController.main_menu)
+			else:
+				LoadScene.LoadCharacterMenu(GameController.main_menu)
 	else:
 		print_role("Error al iniciar el cliente.")
 
 func MultiplayerPlayerSpawner(id: int = 1):
-	if GameController.levelnode and is_instance_valid(GameController.levelnode):
+	if GameController.levelnode and is_instance_valid(GameController.levelnode): 
 		var player = player_scene.instantiate()
 		player.name = str(id)
-		player.id = player.name
 		GameController.levelnode.add_child(player, true)
-		assign_element_to_player(id)
-		Sync_Players_Nodes.rpc()
 		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
+		Sync_Players_Nodes.rpc()
+
 		print_role("Jugador spawneado con el ID:" + str(id))
 	else:
+		sync_queue_free_nodes.rpc_id(id, queue_free_nodes) 
 		Sync_Players_Nodes.rpc()
-		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
+		
 		print_role("Jugador no spawneado con el ID:" + str(id))
 
 
@@ -187,8 +168,6 @@ func MultiplayerPlayerRemover(id: int = 1):
 		player.queue_free()
 
 		await player.tree_exited
-
-		remove_element_from_player(id)
 		
 		Sync_Players_Nodes.rpc()
 		print_role("Jugador removido con el ID:" + str(id))
@@ -211,6 +190,7 @@ func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
 
 	Players_Nodes.clear()
+	assigned_characters.clear()
 
 	CloseUp()
 
@@ -235,6 +215,7 @@ func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
 	
 	Players_Nodes.clear()
+	assigned_characters.clear()
 
 	CloseUp()
 
@@ -313,13 +294,15 @@ func sync_queue_free_nodes(nodes: Array):
 		if node:
 			# Enemigos
 			if node.is_in_group("enemy") and not node.death:
-				node.queue_free()
+				remove_node_synced.rpc(node_path)
 			# Monedas
 			elif node.is_in_group("coins") and not node.collected:
-				node.queue_free()
+				remove_node_synced.rpc(node_path)
 			# Corazones
 			elif node.is_in_group("hearth") and not node.collected:
-				node.queue_free()
+				remove_node_synced.rpc(node_path)
+
+			print_role("Nodo eliminado: " + node_path)
 		else:
 			# Log más claro para debugging
 			print_role("Nodo no encontrado: " + str(node_path))
