@@ -67,7 +67,7 @@ func damage(damage_count: int):
 	health -= damage_count
 
 	if health <= 0:
-		kill.rpc()
+		kill()
 	else:
 		start_invincibility.rpc()
 
@@ -100,23 +100,28 @@ func start_invincibility():
 	animator.modulate = original_modulate
 	is_invincible = false
 
-@rpc("any_peer", "call_local")
 func kill():
+	if not multiplayer.is_server():
+		return
+
+	if death:
+		return  # Evita ejecutar 2 veces la muerte
+
 	death = !death
 
 	# Posición donde aparecerán los objetos (cerca del jugador)
 	var drop_position = global_position
 	# Decidir aleatoriamente qué soltar
 	var drop_chance = randi() % 2  # 0 o 1
-	if multiplayer.is_server():
-		if drop_chance == 0:
-			var coin = load("res://Scenes/energy.tscn").instantiate()
-			coin.global_position = drop_position
-			get_parent().add_child(coin, true)
-		else:
-			var hearth = load("res://Scenes/hearth.tscn").instantiate()
-			hearth.global_position = drop_position
-			get_parent().add_child(hearth, true)
+	
+	if drop_chance == 0:
+		var coin = load("res://Scenes/energy.tscn").instantiate()
+		coin.global_position = drop_position
+		get_parent().add_child(coin, true)
+	else:
+		var hearth = load("res://Scenes/hearth.tscn").instantiate()
+		hearth.global_position = drop_position
+		get_parent().add_child(hearth, true)
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
