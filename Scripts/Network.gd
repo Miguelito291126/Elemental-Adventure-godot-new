@@ -6,6 +6,7 @@ extends Node
 var player_scene = preload("res://Scenes/player.tscn")
 
 @export var character = "fire"
+@export var available_characters: Array = ["fire", "water", "air", "earth"]
 @export var assigned_characters: Dictionary = {}
 
 var broadcaster: PacketPeerUDP
@@ -52,26 +53,28 @@ func _exit_tree() -> void:
 
 @rpc("any_peer", "call_local")
 func assign_element(element: String):
-	if assigned_characters.has(multiplayer.get_unique_id()):
-		print_role("Ya tienes un personaje asignado.")
-		return
+	for c in available_characters:
+		if c == element:
+			character = element
+			break
 
-	assigned_characters[multiplayer.get_unique_id()] = element
-	character = element
-	
 	if GameController.playernode and is_instance_valid(GameController.playernode):
-		GameController.playernode.update_character.rpc()
+		GameController.playernode.character = character
 
 	print_role("Se te asignó el personaje:" + element)
 
+@rpc("any_peer", "call_local")
 func assign_element_to_player(id, element: String):
-	if assigned_characters.has(id):
-		print_role("El jugador con ID: " + str(id) + " ya tiene un personaje asignado.")
-		return
-
 	assigned_characters[id] = element
 	assign_element.rpc_id(id, element)
+	sync_assigned_characters.rpc(assigned_characters)
 	print_role("Jugador con ID: " + str(id) + " asignado al personaje: " + element)
+
+@rpc("any_peer", "call_local")
+func sync_assigned_characters(data: Dictionary):
+	assigned_characters = data.duplicate(true)
+	print_role("Diccionario de personajes sincronizado.")
+
 
 func print_role(msg: String):
 	var peer = multiplayer.multiplayer_peer
@@ -152,11 +155,13 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		player.name = str(id)
 		GameController.levelnode.add_child(player, true)
 		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
+		sync_assigned_characters.rpc(assigned_characters)
 		Sync_Players_Nodes.rpc()
 
 		print_role("Jugador spawneado con el ID:" + str(id))
 	else:
 		sync_queue_free_nodes.rpc_id(id, queue_free_nodes) 
+		sync_assigned_characters.rpc(assigned_characters)
 		Sync_Players_Nodes.rpc()
 		
 		print_role("Jugador no spawneado con el ID:" + str(id))
@@ -170,9 +175,11 @@ func MultiplayerPlayerRemover(id: int = 1):
 		await player.tree_exited
 		
 		Sync_Players_Nodes.rpc()
+		sync_assigned_characters.rpc(assigned_characters)
 		print_role("Jugador removido con el ID:" + str(id))
 	else:
 		Sync_Players_Nodes.rpc()
+		sync_assigned_characters.rpc(assigned_characters)
 		print_role("El jugador con ID: " + str(id) + " no se encuentra en el juego.")
 		
 
@@ -183,7 +190,7 @@ func Sync_Players_Nodes():
 	Players_Nodes.clear()
 
 	for player in get_tree().get_nodes_in_group("player"):
-		Players_Nodes[player.name.to_int()] = player
+		Players_Nodes[player.id] = player
 
 	
 func MultiplayerConnectionFailed():

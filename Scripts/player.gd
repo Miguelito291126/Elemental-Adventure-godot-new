@@ -46,7 +46,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var snow = $Snow
 @onready var ash = $Ash
 
-@export var id: int
+@export var id: int = 1
+@export var character: String = "fire"
 
 @export var ball_color: Color = Color.WHITE
 @export var is_fireball = false
@@ -66,12 +67,13 @@ func _ready() -> void:
 
 	
 	if is_multiplayer_authority():
+		GameController.playernode = self
 		username.text = Network.Username
+		character = Network.character
 		Network.print_role("Multiplayer ID:" + str(multiplayer.get_unique_id()))
 		Network.print_role("Node name:" + name)
 		Network.print_role("is_multiplayer_authority():" + str(is_multiplayer_authority()))
-		GameController.playernode = self
-		Network.assign_element(Network.character)
+		
 
 func _process(_delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -107,19 +109,19 @@ func update_particles():
 
 @rpc("any_peer", "call_local")
 func update_character():
-	if Network.character == "fire":
+	if character == "fire":
 		light.color = Color.ORANGE
 		ball_color = Color.ORANGE
 		is_fireball = true
-	elif Network.character == "water":
+	elif character == "water":
 		light.color = Color.WHITE
 		ball_color = Color.BLUE
 		is_fireball = false
-	elif Network.character == "air":
+	elif character == "air":
 		light.color = Color.WHITE
 		ball_color = Color.DIM_GRAY
 		is_fireball = false
-	elif Network.character == "earth":
+	elif character == "earth":
 		light.color = Color.WHITE
 		ball_color = Color.SADDLE_BROWN
 		is_fireball = false
@@ -175,7 +177,7 @@ func Jump():
 		velocity.y = jump_force
 		jumpsounds.play()
 		jump_count += 1
-	elif !is_in_water_or_lava and jump_count < jump_count_max_air_element and Network.character == "air":
+	elif !is_in_water_or_lava and jump_count < jump_count_max_air_element and character == "air":
 		velocity.y = jump_force
 		jumpsounds.play()
 		jump_count += 1
@@ -218,18 +220,18 @@ func Animations(direction: Vector2):
 		return
 
 	if is_in_water_or_lava:
-		animator.play("%s swim" % [Network.character])
+		animator.play("%s swim" % [character])
 	else:
 		# Tu código de animaciones de suelo/aire
 		if !is_on_floor():
 			if velocity.y < 0:
-				animator.play("%s jump" % [Network.character])
+				animator.play("%s jump" % [character])
 			else:
-				animator.play("%s fall" % [Network.character])
+				animator.play("%s fall" % [character])
 		elif direction.x != 0:
-			animator.play("%s walk" % [Network.character])
+			animator.play("%s walk" % [character])
 		else:
-			animator.play("%s idle" % [Network.character])
+			animator.play("%s idle" % [character])
 
 func flip(direction: Vector2):
 	if !is_multiplayer_authority():
@@ -311,11 +313,15 @@ func shoot():
 	bulletpos.global_position = global_position + direction_to_mouse * radius
 	bulletpos.look_at(mouse_pos)
 
-	shoot_rpc.rpc(direction_to_mouse)  # Si está conectado en red
+	shoot_rpc.rpc(direction_to_mouse, bulletpos.global_rotation, bulletpos.global_position)  # Si está conectado en red
 
 
 @rpc("any_peer", "call_local")
-func shoot_rpc(direction):
+func shoot_rpc(direction, rotation: float, position: Vector2):
+
+	bulletpos.global_rotation = rotation
+	bulletpos.global_position = position
+	
 	is_shotting = true
 	
 	shootsounds.play()
@@ -392,7 +398,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("water"):
 		is_in_water_or_lava = true
 
-		if Network.character == "water":
+		if character == "water":
 			return 
 		
 		is_invincible = false
@@ -401,7 +407,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("lava"):
 		is_in_water_or_lava = true
 
-		if Network.character == "fire":
+		if character == "fire":
 			return 
 		
 		is_invincible = false
@@ -417,7 +423,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		is_in_water_or_lava = true
 		is_invincible = false
 
-		if Network.character == "earth":
+		if character == "earth":
 			return 
 		
 		damage.rpc(health)

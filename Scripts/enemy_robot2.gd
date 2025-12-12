@@ -178,10 +178,12 @@ func _on_shoot_timer_timeout() -> void:
 		var player_pos = closest_player.global_position
 		var direction_to_player = (player_pos - global_position).normalized()
 		bulletpos.look_at(player_pos)
-		shoot.rpc(direction_to_player)
+		shoot.rpc(direction_to_player, bulletpos.global_rotation, bulletpos.global_position)
 
 @rpc("any_peer", "call_local")
-func shoot(direction: Vector2):
+func shoot(direction: Vector2, rotation: float, position: Vector2):
+	bulletpos.global_rotation = rotation
+	bulletpos.global_position = position
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction

@@ -32,7 +32,7 @@ func _on_button_earth_pressed() -> void:
 	request_character("earth")
 
 func request_character(character: String):
-	Network.assign_element.rpc(character)
+	Network.assign_element_to_player(multiplayer.get_unique_id(), character)
 	update_character_buttons()
 
 func _on_play_pressed() -> void:
