@@ -120,6 +120,11 @@ func LoadMainMenu(current_scene = null):
 
 
 func LoadCharacterMenu(current_scene = null):
+	# Verificar si la escena de elegir personaje ya está cargada
+	if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+		# La escena ya está cargada, no cargar de nuevo
+		return
+
 	LoadScene.load_scene(current_scene, "res://Scenes/chose_character.tscn")
 
 

@@ -20,20 +20,34 @@ func update_character_buttons():
 	earth_button.disabled = "earth" in used_characters
 
 func _on_button_fire_pressed() -> void:
-	request_character("fire")
+	if not fire_button.disabled:
+		request_character("fire")
 
 func _on_button_water_pressed() -> void:
-	request_character("water")
+	if not water_button.disabled:
+		request_character("water")
 
 func _on_button_air_pressed() -> void:
-	request_character("air")
+	if not air_button.disabled:
+		request_character("air")
 
 func _on_button_earth_pressed() -> void:
-	request_character("earth")
+	if not earth_button.disabled:
+		request_character("earth")
 
 func request_character(character: String):
-	Network.assign_element_to_player(multiplayer.get_unique_id(), character)
-	update_character_buttons()
+	# Verificar que el personaje no esté ya asignado
+	if character in Network.assigned_characters.values():
+		return
+	
+	if multiplayer.is_server():
+		# Si soy servidor, llamo directamente
+		Network.request_character(character)
+	else:
+		# Si soy cliente, envío RPC al servidor
+		Network.request_character.rpc(character)
+
+	
 
 func _on_play_pressed() -> void:
 	if multiplayer.is_server():
