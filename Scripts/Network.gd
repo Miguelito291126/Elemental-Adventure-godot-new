@@ -110,12 +110,50 @@ func assign_element_to_player(id: int, element: String):
 
 
 @rpc("authority", "call_local")
+func hide_character_selection_menu():
+	# Ocultar/eliminar la pantalla de elegir personaje en todos los clientes
+	if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+		GameController.chose_characters.queue_free()
+		GameController.chose_characters = null
+
+
+@rpc("any_peer", "call_local")
+func request_sync_assigned_characters():
+	# Solo el servidor puede responder a esta solicitud
+	if not multiplayer.is_server():
+		return
+	
+	var sender = multiplayer.get_remote_sender_id()
+	# Si sender == 0, significa que fue una llamada directa (no RPC)
+	if sender == 0:
+		if multiplayer.is_server():
+			# El servidor está llamando directamente, no hacer nada
+			return
+		else:
+			# El cliente está ejecutando localmente (por call_local)
+			# No hacemos nada aquí, el servidor ya procesará la solicitud
+			return
+	
+	# Enviar la sincronización al cliente que la solicitó
+	sync_assigned_characters.rpc_id(sender, assigned_characters)
+
+
+@rpc("authority", "call_local")
 func sync_assigned_characters(data: Dictionary):
 	assigned_characters = data.duplicate(true)
 
 	if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
 		GameController.chose_characters.update_character_buttons()
 		
+
+
+func get_next_available_character() -> String:
+	# Obtener el siguiente personaje disponible en orden: fire, water, air, earth
+	for char_name in available_characters:
+		if is_character_available(char_name):
+			return char_name
+	# Si no hay personajes disponibles, devolver el primero (no debería pasar)
+	return available_characters[0] if available_characters.size() > 0 else "fire"
 
 
 func is_character_available(element: String) -> bool:
@@ -211,9 +249,21 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		player.name = str(id)
 		GameController.levelnode.add_child(player, true)
 		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
+		
+		# Si el jugador no tiene personaje asignado y el servidor ya está en el nivel,
+		# asignar automáticamente el siguiente personaje disponible
+		if not id in assigned_characters:
+			var next_character = get_next_available_character()
+			assigned_characters[id] = next_character
+			assign_element.rpc_id(id, next_character)
+			print_role("Personaje automático asignado al jugador " + str(id) + ": " + next_character)
+		
 		sync_assigned_characters.rpc(assigned_characters)
 		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
 		Sync_Players_Nodes.rpc()
+		
+		# Si el servidor ya está en el nivel, notificar al cliente para que oculte la pantalla
+		hide_character_selection_menu.rpc_id(id)
 
 		print_role("Jugador spawneado con el ID:" + str(id))
 	else:
@@ -230,22 +280,33 @@ func MultiplayerPlayerRemover(id: int = 1):
 	if not multiplayer.is_server():
 		return
 		
-	var player = Players_Nodes[id]
-	if is_instance_valid(player):
-		player.queue_free()
+	# Verificar si el jugador existe en el diccionario antes de acceder
+	if id in Players_Nodes:
+		var player = Players_Nodes[id]
+		if is_instance_valid(player):
+			player.queue_free()
 
-		await player.tree_exited
-		
-		# Remover el personaje asignado del jugador desconectado
-		if id in assigned_characters:
-			assigned_characters.erase(id)
-		
-		Sync_Players_Nodes.rpc()
-		sync_assigned_characters.rpc(assigned_characters)
-		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
-		print_role("Jugador removido con el ID:" + str(id))
+			await player.tree_exited
+			
+			# Remover el personaje asignado del jugador desconectado
+			if id in assigned_characters:
+				assigned_characters.erase(id)
+			
+			Sync_Players_Nodes.rpc()
+			sync_assigned_characters.rpc(assigned_characters)
+			sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+			print_role("Jugador removido con el ID:" + str(id))
+		else:
+			# El jugador no es válido, pero aún así remover de assigned_characters
+			if id in assigned_characters:
+				assigned_characters.erase(id)
+			
+			Sync_Players_Nodes.rpc()
+			sync_assigned_characters.rpc(assigned_characters)
+			sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+			print_role("Jugador con ID: " + str(id) + " no es válido, pero se removió de la lista.")
 	else:
-		# Remover el personaje asignado del jugador desconectado
+		# El jugador no está en Players_Nodes, pero aún así remover de assigned_characters si existe
 		if id in assigned_characters:
 			assigned_characters.erase(id)
 		
@@ -292,13 +353,27 @@ func MultiplayerConnectionServerSucess():
 	
 	# Solo cargar la escena de elegir personaje si somos cliente y no existe ya
 	if not multiplayer.is_server():
+		# Verificar si el servidor ya está en el nivel
+		if GameController.levelnode and is_instance_valid(GameController.levelnode):
+			# El servidor ya está en el nivel, no mostrar la pantalla de elegir personaje
+			# Ocultar la pantalla si existe
+			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+				GameController.chose_characters.queue_free()
+				GameController.chose_characters = null
+			return
+		
 		if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
-			# La escena ya está cargada, solo actualizar
+			# La escena ya está cargada, solo actualizar y solicitar sincronización
 			if GameController.main_menu and is_instance_valid(GameController.main_menu):
 				UnloadScene.unload_scene(GameController.main_menu)
+			# Solicitar sincronización después de un pequeño delay para asegurar que la escena esté lista
+			await get_tree().create_timer(0.1).timeout
+			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+				GameController.chose_characters.request_sync_assigned_characters()
 		else:
-			# Cargar la escena de elegir personaje
+			# Cargar la escena de elegir personaje solo si el servidor no está en el nivel
 			LoadScene.LoadCharacterMenu(GameController.main_menu)
+			# La escena solicitará la sincronización automáticamente en su _ready()
 	
 func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
@@ -381,16 +456,9 @@ func sync_queue_free_nodes(nodes: Array):
 	for node_path in nodes:
 		var node = get_tree().get_current_scene().get_node_or_null(node_path)
 		if node:
-			# Enemigos
-			if node.is_in_group("enemy") and not node.death:
-				remove_node_synced.rpc(node_path)
-			# Monedas
-			elif node.is_in_group("coins") and not node.collected:
-				remove_node_synced.rpc(node_path)
-			# Corazones
-			elif node.is_in_group("hearth") and not node.collected:
-				remove_node_synced.rpc(node_path)
-
+			# Si el nodo está en la lista, eliminarlo directamente sin verificar estado
+			# Esto asegura que los clientes que se conectan después eliminen los nodos correctos
+			remove_node_synced.rpc(node_path)
 			print_role("Nodo eliminado: " + node_path)
 		else:
 			# Log más claro para debugging

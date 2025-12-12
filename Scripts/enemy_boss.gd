@@ -106,11 +106,11 @@ func kill():
 	if drop_chance == 0:
 		var coin = load("res://Scenes/energy.tscn").instantiate()
 		coin.global_position = drop_position
-		get_parent().add_child(coin, true)
+		get_parent().add_child(coin)  # El MultiplayerSpawner manejará la replicación
 	else:
 		var hearth = load("res://Scenes/hearth.tscn").instantiate()
 		hearth.global_position = drop_position
-		get_parent().add_child(hearth, true)
+		get_parent().add_child(hearth)  # El MultiplayerSpawner manejará la replicación
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()

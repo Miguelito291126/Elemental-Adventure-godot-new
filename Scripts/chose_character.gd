@@ -4,10 +4,36 @@ extends CanvasLayer
 @onready var water_button = $Panel/water/Button_water
 @onready var air_button = $Panel/air/Button_air
 @onready var earth_button = $Panel/earth/Button_earth
+@onready var play_button = $Panel/VBoxContainer/Play
 
 func _ready():
 	GameController.chose_characters = self
 	update_character_buttons()
+	
+	# Deshabilitar el botón Play para clientes
+	if not multiplayer.is_server():
+		play_button.disabled = true
+		play_button.text = "Wait..."
+	
+	# Si el servidor ya está en el nivel, deshabilitar el botón Play
+	if GameController.levelnode and is_instance_valid(GameController.levelnode):
+		play_button.disabled = true
+		play_button.text = "Game Started"
+	
+	# Si somos cliente, solicitar sincronización inicial al servidor
+	if not multiplayer.is_server() and multiplayer.multiplayer_peer != null:
+		# Esperar un frame para asegurar que la conexión esté lista
+		await get_tree().process_frame
+		request_sync_assigned_characters()
+
+func request_sync_assigned_characters():
+	# Solicitar sincronización al servidor
+	if multiplayer.is_server():
+		# Si somos servidor, llamar directamente
+		Network.request_sync_assigned_characters()
+	else:
+		# Si somos cliente, enviar RPC al servidor
+		Network.request_sync_assigned_characters.rpc()
 
 func update_character_buttons():
 	var used_characters = []
@@ -50,11 +76,25 @@ func request_character(character: String):
 	
 
 func _on_play_pressed() -> void:
-	if multiplayer.is_server():
-		LoadScene.load_level_scene(self)
-	else:
-		if GameController.levelnode and GameController.levelnode != null:
-			UnloadScene.unload_scene(self)
+	# Solo el servidor puede presionar Play
+	if not multiplayer.is_server():
+		return
+		
+	# Si el servidor ya está en el nivel, no hacer nada
+	if GameController.levelnode and is_instance_valid(GameController.levelnode):
+		return
+		
+	# El servidor carga el nivel y notifica a los clientes
+	Network.hide_character_selection_menu.rpc()
+	Network.hide_character_selection_menu()  # Ocultar localmente también
+	LoadScene.load_level_scene(self)
 
 func _on_exit_pressed() -> void:
-	Network.close_conection()
+	# Si el servidor ya está en el nivel, solo cerrar la pantalla sin desconectar
+	if not multiplayer.is_server() and GameController.levelnode and is_instance_valid(GameController.levelnode):
+		# El servidor ya está en el nivel, solo ocultar la pantalla
+		queue_free()
+		GameController.chose_characters = null
+	else:
+		# Si no está en el nivel, cerrar la conexión
+		Network.close_conection()
