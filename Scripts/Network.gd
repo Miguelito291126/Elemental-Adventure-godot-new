@@ -24,6 +24,8 @@ var multiplayerpeer
 
 var queue_free_nodes: Array = []
 var Multiplayerspawner: Array
+var is_loading_character_menu: bool = false
+var server_is_in_level: bool = false
 
 @export var roominfo = {
 	"name": "",
@@ -116,6 +118,31 @@ func hide_character_selection_menu():
 		GameController.chose_characters.queue_free()
 		GameController.chose_characters = null
 
+
+
+@rpc("any_peer", "call_local")
+func request_server_level_state():
+	# El cliente solicita al servidor el estado del nivel
+	if not multiplayer.is_server():
+		return
+	
+	var sender = multiplayer.get_remote_sender_id()
+	if sender == 0:
+		return
+	
+	var is_in_level = GameController.levelnode != null and is_instance_valid(GameController.levelnode)
+	server_level_state.rpc_id(sender, is_in_level)
+
+@rpc("authority")
+func server_level_state(is_in_level: bool):
+	# El cliente recibe el estado del servidor
+	if not multiplayer.is_server():
+		server_is_in_level = is_in_level
+		if is_in_level:
+			# El servidor ya está en el nivel, no cargar la pantalla de elegir personaje
+			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+				GameController.chose_characters.queue_free()
+				GameController.chose_characters = null
 
 @rpc("any_peer", "call_local")
 func request_sync_assigned_characters():
@@ -353,13 +380,27 @@ func MultiplayerConnectionServerSucess():
 	
 	# Solo cargar la escena de elegir personaje si somos cliente y no existe ya
 	if not multiplayer.is_server():
-		# Verificar si el servidor ya está en el nivel
-		if GameController.levelnode and is_instance_valid(GameController.levelnode):
+		# Solicitar al servidor el estado del nivel antes de cargar cualquier escena
+		request_server_level_state.rpc()
+		
+		# Esperar un momento para recibir la respuesta del servidor
+		await get_tree().create_timer(0.2).timeout
+		
+		# Verificar si el servidor ya está en el nivel (después de recibir la respuesta)
+		if server_is_in_level:
 			# El servidor ya está en el nivel, no mostrar la pantalla de elegir personaje
 			# Ocultar la pantalla si existe
+			if GameController.main_menu and is_instance_valid(GameController.main_menu):
+				UnloadScene.unload_scene(GameController.main_menu)
+				
 			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
-				GameController.chose_characters.queue_free()
-				GameController.chose_characters = null
+				UnloadScene.unload_scene(GameController.chose_characters)
+
+				
+			return
+		
+		# Evitar cargar la escena dos veces
+		if is_loading_character_menu:
 			return
 		
 		if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
@@ -371,9 +412,14 @@ func MultiplayerConnectionServerSucess():
 			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
 				GameController.chose_characters.request_sync_assigned_characters()
 		else:
+			# Marcar que estamos cargando para evitar cargas duplicadas
+			is_loading_character_menu = true
 			# Cargar la escena de elegir personaje solo si el servidor no está en el nivel
 			LoadScene.LoadCharacterMenu(GameController.main_menu)
 			# La escena solicitará la sincronización automáticamente en su _ready()
+			# Resetear el flag después de un momento
+			await get_tree().create_timer(0.5).timeout
+			is_loading_character_menu = false
 	
 func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")

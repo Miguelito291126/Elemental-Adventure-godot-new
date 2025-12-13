@@ -67,7 +67,7 @@ func damage(damage_count: int):
 	health -= damage_count
 
 	if health <= 0:
-		kill()
+		call_deferred("kill")
 	else:
 		start_invincibility.rpc()
 
@@ -194,5 +194,3 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 		is_invincible = false
 		
 		damage.rpc(health)
-
-

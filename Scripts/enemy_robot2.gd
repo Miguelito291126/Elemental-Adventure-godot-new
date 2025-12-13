@@ -45,7 +45,7 @@ func damage(damage_count: int):
 	health -= damage_count
 
 	if health <= 0:
-		kill()
+		call_deferred("kill")
 	else:
 		start_invincibility.rpc()
 

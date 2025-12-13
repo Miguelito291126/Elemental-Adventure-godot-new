@@ -2,12 +2,18 @@ extends Control
 
 @onready var energys = $Panel/VBoxContainer2/energys
 @onready var score = $Panel/VBoxContainer2/score
+@onready var return_button = $Panel/VBoxContainer/return
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(multiplayer.get_unique_id())
 
 func _ready() -> void:
 	GameController.game_over_menu = self
+
+	# Deshabilitar el botón Play para clientes
+	if not multiplayer.is_server():
+		return_button.disabled = true
+		return_button.text = "Wait..."
 
 	score.text = str("Score: ",  GameController.points)
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
