@@ -115,8 +115,7 @@ func assign_element_to_player(id: int, element: String):
 func hide_character_selection_menu():
 	# Ocultar/eliminar la pantalla de elegir personaje en todos los clientes
 	if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
-		GameController.chose_characters.queue_free()
-		GameController.chose_characters = null
+		UnloadScene.unload_scene(GameController.chose_characters)
 
 
 
@@ -140,10 +139,8 @@ func server_level_state(is_in_level: bool):
 		server_is_in_level = is_in_level
 		if is_in_level:
 			# El servidor ya está en el nivel, no cargar la pantalla de elegir personaje
-			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
-				GameController.chose_characters.queue_free()
-				GameController.chose_characters = null
-
+			hide_character_selection_menu()
+			
 @rpc("any_peer", "call_local")
 func request_sync_assigned_characters():
 	# Solo el servidor puede responder a esta solicitud
@@ -168,7 +165,7 @@ func request_sync_assigned_characters():
 @rpc("authority", "call_local")
 func sync_assigned_characters(data: Dictionary):
 	assigned_characters = data.duplicate(true)
-
+	
 	if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
 		GameController.chose_characters.update_character_buttons()
 		
@@ -275,7 +272,6 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		var player = player_scene.instantiate()
 		player.name = str(id)
 		GameController.levelnode.add_child(player, true)
-		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
 		
 		# Si el jugador no tiene personaje asignado y el servidor ya está en el nivel,
 		# asignar automáticamente el siguiente personaje disponible
@@ -287,6 +283,7 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		
 		sync_assigned_characters.rpc(assigned_characters)
 		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
 		Sync_Players_Nodes.rpc()
 		
 		# Si el servidor ya está en el nivel, notificar al cliente para que oculte la pantalla
@@ -294,9 +291,10 @@ func MultiplayerPlayerSpawner(id: int = 1):
 
 		print_role("Jugador spawneado con el ID:" + str(id))
 	else:
-		sync_queue_free_nodes.rpc_id(id, queue_free_nodes) 
+
 		sync_assigned_characters.rpc(assigned_characters)
 		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+		sync_queue_free_nodes.rpc_id(id, queue_free_nodes) 
 		Sync_Players_Nodes.rpc()
 		
 		print_role("Jugador no spawneado con el ID:" + str(id))
@@ -393,10 +391,7 @@ func MultiplayerConnectionServerSucess():
 			if GameController.main_menu and is_instance_valid(GameController.main_menu):
 				UnloadScene.unload_scene(GameController.main_menu)
 				
-			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
-				UnloadScene.unload_scene(GameController.chose_characters)
-
-				
+			hide_character_selection_menu()
 			return
 		
 		# Evitar cargar la escena dos veces
@@ -511,7 +506,7 @@ func sync_queue_free_nodes(nodes: Array):
 			print_role("Nodo no encontrado: " + str(node_path))
 
 @rpc("any_peer", "call_local")
-func remove_node_synced(node_path: String):
+func remove_node_synced(node_path: String):	
 	var node = get_tree().get_current_scene().get_node_or_null(node_path)
 	if node and is_instance_valid(node):
 		node.queue_free()

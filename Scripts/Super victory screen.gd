@@ -5,9 +5,6 @@ extends Control
 @onready var level = $Panel/VBoxContainer2/level
 @onready var next_button = $Panel/VBoxContainer/next
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(multiplayer.get_unique_id())
-
 func _ready() -> void:
 	GameController.victory_menu = self
 
@@ -21,10 +18,14 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.energys)
 
 func _on_back_pressed() -> void:
-	if !is_multiplayer_authority():
+	# Solo el servidor puede presionar Play
+	if not multiplayer.is_server():
 		return
 
-	GameController.GameData.DeleteResource()
-	GamePersistentData.DeletePersistentNodes()
+	delete_data.rpc()
 	Network.close_conection()
 
+@rpc("any_peer", "call_local")
+func delete_data():
+	GameController.GameData.DeleteData()
+	GamePersistentData.DeletePersistentNodes()

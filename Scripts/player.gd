@@ -382,7 +382,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		
 	if area.is_in_group("bullet"):
 		damage.rpc(damagecount)
-		area.queue_free()
+		Network.remove_node_synced.rpc(area.get_path())
 	elif area.is_in_group("box"):
 		GameController.getlevel.rpc()
 

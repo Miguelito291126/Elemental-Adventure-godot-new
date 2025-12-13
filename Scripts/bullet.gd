@@ -11,9 +11,9 @@ func _physics_process(delta):
 	global_position += direction * speed * delta
 
 func _on_body_entered(_body: Node2D) -> void:
-	queue_free()
+	Network.remove_node_synced.rpc(get_path())
 
 
 func _on_area_entered(area:Area2D) -> void:
 	if area.is_in_group("bullet"):
-		queue_free()
+		Network.remove_node_synced.rpc(get_path())

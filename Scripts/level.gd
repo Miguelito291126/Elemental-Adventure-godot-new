@@ -8,12 +8,13 @@ func _ready() -> void:
 	GameController.SpawnPoint = spawnpoint
 	Network.Multiplayerspawner.append(Playersspawner)
 
-
 	if multiplayer.is_server():
 		GamePersistentData.LoadPersistentNodes()
 
+		await get_tree().create_timer(0.3).timeout
+
 		if not OS.has_feature("dedicated_server"):
-			Network.MultiplayerPlayerSpawner(multiplayer.get_unique_id())
+			Network.MultiplayerPlayerSpawner()
 
 		for id in multiplayer.get_peers():
 			Network.MultiplayerPlayerSpawner(id)

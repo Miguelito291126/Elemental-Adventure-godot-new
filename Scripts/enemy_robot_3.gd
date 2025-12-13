@@ -81,7 +81,8 @@ func kill():
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(self.get_path())
+
+	Network.add_queue_free_nodes(get_path())
 	Network.remove_node_synced.rpc(get_path())
 
 func SaveGameData():
@@ -101,11 +102,11 @@ func _process(_delta: float) -> void:
 		return
 		
 	var players = get_tree().get_nodes_in_group("player")
+	if players.size() <= 0:
+		return
+
 	var closest_player = players[0]
 	var closest_distance = global_position.distance_to(closest_player.global_position)
-
-	if players.size() == 0:
-		return
 
 	for p in players:
 		if not p or not p.is_inside_tree():
@@ -136,7 +137,7 @@ func _on_shoot_timer_timeout() -> void:
 
 
 	var players = get_tree().get_nodes_in_group("player")
-	if players.size() == 0:
+	if players.size() <= 0:
 		return
 	var closest_player = players[0]
 	var closest_distance = global_position.distance_to(closest_player.global_position)

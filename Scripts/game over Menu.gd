@@ -4,9 +4,6 @@ extends Control
 @onready var score = $Panel/VBoxContainer2/score
 @onready var return_button = $Panel/VBoxContainer/return
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(multiplayer.get_unique_id())
-
 func _ready() -> void:
 	GameController.game_over_menu = self
 
@@ -33,7 +30,8 @@ func load_level_scene():
 
 # Botón volver al nivel actual
 func _on_return_pressed() -> void:
-	if !is_multiplayer_authority():
+	# Solo el servidor puede presionar Play
+	if not multiplayer.is_server():
 		return
 
 	load_level_scene.rpc()

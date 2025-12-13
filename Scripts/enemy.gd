@@ -125,7 +125,8 @@ func kill():
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(self.get_path())
+
+	Network.add_queue_free_nodes(get_path())
 	Network.remove_node_synced.rpc(get_path())
 
 	
@@ -160,7 +161,7 @@ func burn():
 
 
 	is_burning = false	
-	fire.queue_free()
+	Network.remove_node_synced.rpc(fire.get_path())
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):

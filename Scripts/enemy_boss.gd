@@ -114,7 +114,8 @@ func kill():
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(self.get_path())
+
+	Network.add_queue_free_nodes(get_path())
 	Network.remove_node_synced.rpc(get_path())
 
 func _physics_process(delta: float) -> void:
@@ -123,11 +124,30 @@ func _physics_process(delta: float) -> void:
 
 	
 func _process(_delta: float) -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player_pos = players[0].global_position
-		bulletpos.look_at(player_pos)  # Esto sigue siendo útil para apuntar el cañón
+	if not multiplayer.is_server():
+		return
 		
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() <= 0:
+		return
+
+	var closest_player = players[0]
+	var closest_distance = global_position.distance_to(closest_player.global_position)
+
+	for p in players:
+		if not p or not p.is_inside_tree():
+			continue
+			
+		var distance = global_position.distance_to(p.global_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_player = p
+
+	if closest_player:
+		var player_pos = closest_player.global_position
+		animator.flip_h = player_pos.x >= global_position.x
+	
+	
 
 
 func SaveGameData():
@@ -177,7 +197,7 @@ func _on_shoot_timer_timeout() -> void:
 		return
 		
 	var players = get_tree().get_nodes_in_group("player")
-	if players.size() == 0:
+	if players.size() <= 0:
 		return
 	var closest_player = players[0]
 	var closest_distance = global_position.distance_to(closest_player.global_position)
@@ -205,6 +225,7 @@ func shoot(direction: Vector2, rotation: float, position: Vector2):
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
 	bullet.fireball = false
+	bullet.scale *= 0.5
 
 	get_parent().add_child(bullet, true)
 
@@ -233,7 +254,7 @@ func burn():
 
 
 	is_burning = false	
-	fire.queue_free()
+	Network.remove_node_synced.rpc(fire.get_path())
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):

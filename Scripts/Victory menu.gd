@@ -5,9 +5,6 @@ extends Control
 @onready var level = $Panel/VBoxContainer2/level
 @onready var next_button = $Panel/VBoxContainer/next
 
-func _enter_tree() -> void:
-	set_multiplayer_authority(multiplayer.get_unique_id())
-
 func _ready() -> void:
 	GameController.victory_menu = self
 
@@ -32,7 +29,8 @@ func load_level_scene():
 	LoadScene.load_level_scene(self)
 
 func _on_next_pressed() -> void:
-	if !is_multiplayer_authority():
+	# Solo el servidor puede presionar Play
+	if not multiplayer.is_server():
 		return
 
 	load_level_scene.rpc()
