@@ -356,7 +356,9 @@ func MultiplayerConnectionFailed():
 
 	Players_Nodes.clear()
 	assigned_characters.clear()
-
+	queue_free_nodes.clear()
+	Multiplayerspawner.clear()
+	
 	CloseUp()
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
@@ -421,6 +423,8 @@ func MultiplayerServerDisconnected():
 	
 	Players_Nodes.clear()
 	assigned_characters.clear()
+	queue_free_nodes.clear()
+	Multiplayerspawner.clear()
 
 	CloseUp()
 

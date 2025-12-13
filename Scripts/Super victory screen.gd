@@ -28,4 +28,3 @@ func _on_back_pressed() -> void:
 @rpc("any_peer", "call_local")
 func delete_data():
 	GameController.GameData.DeleteData()
-	GamePersistentData.DeletePersistentNodes()

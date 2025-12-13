@@ -25,8 +25,10 @@ func hide_coin():
 		GameController.getcoin()
 		visible = false
 		collected = true
-		GamePersistentData.SavePersistentNodes()
-		GameController.GameData.SaveGameData()
+		
+		if multiplayer.is_server():
+			GamePersistentData.SavePersistentNodes()
+			GameController.GameData.SaveGameData()
 
 		Network.add_queue_free_nodes(get_path())
 

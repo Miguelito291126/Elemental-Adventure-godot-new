@@ -92,8 +92,9 @@ func kill():
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)  # El MultiplayerSpawner manejará la replicación
 
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
 	Network.add_queue_free_nodes(get_path())
 	Network.remove_node_synced.rpc(get_path())

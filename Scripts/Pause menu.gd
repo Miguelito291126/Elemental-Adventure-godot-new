@@ -39,7 +39,6 @@ func SaveGameData():
 		return
 		
 	GameController.GameData.SaveGameData()
-	GamePersistentData.SavePersistentNodes()
 	
 func _on_save_pressed() -> void:
 	if !is_multiplayer_authority():

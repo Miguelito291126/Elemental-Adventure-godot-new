@@ -261,8 +261,9 @@ func damage(damage_count: int) -> void:
 
 	health -= damage_count
 
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
 	if health <= 0:
 		game_over.rpc()
@@ -299,8 +300,9 @@ func start_invincibility():
 @rpc("any_peer", "call_local")
 func healting(count):
 	health += count
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
 	
 func shoot():
@@ -353,8 +355,9 @@ func game_over():
 	
 	RespawnPos()
 	
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
 
 	load_gameover_scene.rpc()

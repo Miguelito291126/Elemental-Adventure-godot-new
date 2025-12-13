@@ -112,8 +112,9 @@ func kill():
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)  # El MultiplayerSpawner manejará la replicación
 
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
 	Network.add_queue_free_nodes(get_path())
 	Network.remove_node_synced.rpc(get_path())
@@ -225,7 +226,7 @@ func shoot(direction: Vector2, rotation: float, position: Vector2):
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
 	bullet.fireball = false
-	bullet.scale *= 0.5
+	bullet.scale *= 2
 
 	get_parent().add_child(bullet, true)
 

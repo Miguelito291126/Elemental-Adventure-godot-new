@@ -32,20 +32,20 @@ func _ready():
 func getcoin():
 	energys += 1
 
-	GamePersistentData.SavePersistentNodes()
-	GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameData.SaveGameData()
 	
 	getpoint.rpc()
 
-		
-	
 
 @rpc("any_peer", "call_local")
 func getpoint():
 	points += 5
 
-	GamePersistentData.SavePersistentNodes()
-	GameData.SaveGameData()
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameData.SaveGameData()
 
 @rpc("any_peer", "call_local")
 func load_victory_scene():
@@ -55,8 +55,10 @@ func load_victory_scene():
 func getlevel():
 	level += 1
 
-	GamePersistentData.DeletePersistentNodes()
-	Network.remove_all_queue_free_nodes()
-	GameData.SaveGameData()
-	
+	if multiplayer.is_server():
+		GamePersistentData.DeletePersistentNodes()
+		Network.remove_all_queue_free_nodes()
+		GameData.SaveGameData()
+		
 	load_victory_scene.rpc()
+

@@ -29,10 +29,12 @@ func hide_hearth(player_name: String):
 		hearthsound.play()
 		visible = false
 		collected = true
-		GamePersistentData.SavePersistentNodes()
-		GameController.GameData.SaveGameData()
+
+		if multiplayer.is_server():
+			GamePersistentData.SavePersistentNodes()
+			GameController.GameData.SaveGameData()
 		
-		Network.add_queue_free_nodes(self.get_path())
+		Network.add_queue_free_nodes(get_path())
 		
 		await hearthsound.finished
 
