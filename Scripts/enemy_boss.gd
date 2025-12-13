@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var shoot_timer = $Timer  # Asegúrate de poner el nombre correcto del Timer
 @export var color: Color
 @export var color_str = "Green"
+@export var is_fireball = false
 
 @export var is_invincible: bool = false
 @export var invincibility_time = 1.5  # segundos de invencibilidad
@@ -25,15 +26,19 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready() -> void:
 	if color_str == "Green":
+		is_fireball = false
 		if !animator.is_playing():
 			animator.play("idle slime green")
 	elif color_str == "Blue":
+		is_fireball = false
 		if !animator.is_playing():
 			animator.play("idle slime blue")
 	elif color_str == "Yellow":
+		is_fireball = false
 		if !animator.is_playing():
 			animator.play("idle slime yellow")
 	elif color_str == "Orange":
+		is_fireball = true
 		if !animator.is_playing():
 			animator.play("idle slime orange")
 		
@@ -230,10 +235,12 @@ func shoot(direction: Vector2, rotation: float, position: Vector2):
 
 	get_parent().add_child(bullet, true)
 
+	
+
 	bullet.bullet_sprite.modulate = color
 	bullet.bullet_light.color = color
-	bullet.bullet_light.enabled = true
-	bullet.bullet_fire.visible = false
+	bullet.bullet_light.enabled = is_fireball 
+	bullet.bullet_fire.visible = is_fireball
 
 func burn():
 	if is_burning:
