@@ -235,8 +235,6 @@ func shoot(direction: Vector2, rotation: float, position: Vector2):
 
 	get_parent().add_child(bullet, true)
 
-	
-
 	bullet.bullet_sprite.modulate = color
 	bullet.bullet_light.color = color
 	bullet.bullet_light.enabled = is_fireball 

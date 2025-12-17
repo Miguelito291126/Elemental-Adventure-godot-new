@@ -21,19 +21,6 @@ func _ready():
 		play_button.text = "Game Started"
 	
 	# Si somos cliente, solicitar sincronización inicial al servidor
-	if not multiplayer.is_server() and multiplayer.multiplayer_peer != null:
-		# Esperar un frame para asegurar que la conexión esté lista
-		await get_tree().process_frame
-		request_sync_assigned_characters()
-
-func request_sync_assigned_characters():
-	# Solicitar sincronización al servidor
-	if multiplayer.is_server():
-		# Si somos servidor, llamar directamente
-		Network.request_sync_assigned_characters()
-	else:
-		# Si somos cliente, enviar RPC al servidor
-		Network.request_sync_assigned_characters.rpc()
 
 func update_character_buttons():
 	var used_characters = []
@@ -73,7 +60,6 @@ func request_character(character: String):
 		# Si soy cliente, envío RPC al servidor
 		Network.request_character.rpc(character)
 
-	
 
 func _on_play_pressed() -> void:
 	# Solo el servidor puede presionar Play

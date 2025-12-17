@@ -91,22 +91,26 @@ func request_character(element: String):
 
 @rpc("authority", "call_local")
 func assign_element_to_player(id: int, element: String):
-	if not is_character_available(element):
-		character_denied.rpc_id(id, element)
-		return
+	var chosen_char = element
+
+	if chosen_char == null or chosen_char == "" or not is_character_available(element):
+		chosen_char = get_next_available_character()
+
+	if chosen_char == null or chosen_char == "" or not is_character_available(element):
+		print_role("No hay personaje disponible para el id " + str(id))
+		return false
 
 	# El servidor es quien ejecuta esta función (authority), actualizamos el diccionario:
-	assigned_characters[id] = element
+	assigned_characters[id] = chosen_char
 
 	# Notificamos al jugador concreto (asigna el personaje localmente en el cliente)
-	assign_element.rpc_id(id, element)
+	assign_element.rpc_id(id, chosen_char)
 
 	# Sincronizamos a todos los peers: enviamos la copia por RPC...
 	sync_assigned_characters.rpc(assigned_characters)
-
-	# ...y también aplicamos la sincronización localmente AHORA para el servidor
-	# (evita que el servidor espere a que el RPC vuelva a él)
 	sync_assigned_characters(assigned_characters)
+
+	return true
 
 
 
@@ -141,28 +145,9 @@ func server_level_state(is_in_level: bool):
 			# El servidor ya está en el nivel, no cargar la pantalla de elegir personaje
 			hide_character_selection_menu()
 			
+
+
 @rpc("any_peer", "call_local")
-func request_sync_assigned_characters():
-	# Solo el servidor puede responder a esta solicitud
-	if not multiplayer.is_server():
-		return
-	
-	var sender = multiplayer.get_remote_sender_id()
-	# Si sender == 0, significa que fue una llamada directa (no RPC)
-	if sender == 0:
-		if multiplayer.is_server():
-			# El servidor está llamando directamente, no hacer nada
-			return
-		else:
-			# El cliente está ejecutando localmente (por call_local)
-			# No hacemos nada aquí, el servidor ya procesará la solicitud
-			return
-	
-	# Enviar la sincronización al cliente que la solicitó
-	sync_assigned_characters.rpc_id(sender, assigned_characters)
-
-
-@rpc("authority", "call_local")
 func sync_assigned_characters(data: Dictionary):
 	assigned_characters = data.duplicate(true)
 	
@@ -187,11 +172,6 @@ func is_character_available(element: String) -> bool:
 
 
 	return true
-
-@rpc("any_peer", "call_local")
-func character_denied(element: String):
-	print_role("El personaje " + element + " está ocupado. Elige otro.")
-
 
 
 func print_role(msg: String):
@@ -273,23 +253,26 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		player.name = str(id)
 		GameController.levelnode.add_child(player, true)
 		
-		# Si el jugador no tiene personaje asignado y el servidor ya está en el nivel,
-		# asignar automáticamente el siguiente personaje disponible
+		var is_ok = true
+
 		if not id in assigned_characters:
 			var next_character = get_next_available_character()
-			assigned_characters[id] = next_character
-			assign_element.rpc_id(id, next_character)
+			is_ok = assign_element_to_player(id, next_character)
 			print_role("Personaje automático asignado al jugador " + str(id) + ": " + next_character)
 		
-		sync_assigned_characters.rpc(assigned_characters)
-		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
-		sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
-		Sync_Players_Nodes.rpc()
+		if is_ok:
+			sync_assigned_characters.rpc(assigned_characters)
+			sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+			sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
+			Sync_Players_Nodes.rpc()
 		
-		# Si el servidor ya está en el nivel, notificar al cliente para que oculte la pantalla
-		hide_character_selection_menu.rpc_id(id)
+			# Si el servidor ya está en el nivel, notificar al cliente para que oculte la pantalla
+			hide_character_selection_menu.rpc_id(id)
+			print_role("Jugador spawneado con el ID:" + str(id))
+		else:
+			print_role("No se pudo añadir al jugador con el id: " + str(id))	
 
-		print_role("Jugador spawneado con el ID:" + str(id))
+		
 	else:
 
 		sync_assigned_characters.rpc(assigned_characters)
@@ -404,10 +387,6 @@ func MultiplayerConnectionServerSucess():
 			# La escena ya está cargada, solo actualizar y solicitar sincronización
 			if GameController.main_menu and is_instance_valid(GameController.main_menu):
 				UnloadScene.unload_scene(GameController.main_menu)
-			# Solicitar sincronización después de un pequeño delay para asegurar que la escena esté lista
-			await get_tree().create_timer(0.1).timeout
-			if GameController.chose_characters and is_instance_valid(GameController.chose_characters):
-				GameController.chose_characters.request_sync_assigned_characters()
 		else:
 			# Marcar que estamos cargando para evitar cargas duplicadas
 			is_loading_character_menu = true
