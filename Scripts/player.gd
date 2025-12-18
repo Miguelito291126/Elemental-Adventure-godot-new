@@ -385,7 +385,11 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		
 	if area.is_in_group("bullet"):
 		damage.rpc(damagecount)
-		Network.remove_node_synced.rpc(area.get_path())
+
+		if is_instance_valid(area):
+			Network.remove_node_synced.rpc(area.get_path())
+
+		
 	elif area.is_in_group("box"):
 		GameController.getlevel.rpc()
 
@@ -433,7 +437,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		
 	elif body.is_in_group("box"):
 		GameController.getlevel.rpc()
-
 
 func _on_area_2d_body_exited(body:Node2D) -> void:
 	if body.is_in_group("water"):

@@ -95,13 +95,13 @@ func start_invincibility():
 	
 
 func kill():
-	if not multiplayer.is_server():
-		return
-
 	if death:
 		return  # Evita ejecutar 2 veces la muerte
 
 	death = !death
+
+	if not multiplayer.is_server():
+		return
 
 	# Posición donde aparecerán los objetos (cerca del jugador)
 	var drop_position = global_position
@@ -117,11 +117,12 @@ func kill():
 		hearth.global_position = drop_position
 		get_parent().add_child(hearth)  # El MultiplayerSpawner manejará la replicación
 
-	if multiplayer.is_server():
-		GamePersistentData.SavePersistentNodes()
-		GameController.GameData.SaveGameData()
-
+	GameController.getpoint.rpc()
+	
+	GamePersistentData.SavePersistentNodes()
+	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(get_path())
+	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 	Network.remove_node_synced.rpc(get_path())
 
 func _physics_process(delta: float) -> void:
@@ -260,7 +261,9 @@ func burn():
 
 
 	is_burning = false	
-	Network.remove_node_synced.rpc(fire.get_path())
+	
+	if is_instance_valid(fire):
+		Network.remove_node_synced.rpc(fire.get_path())
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):

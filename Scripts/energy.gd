@@ -4,8 +4,7 @@ extends RigidBody2D
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):	
-		hide_coin.rpc()
-
+		call_deferred("hide_coin")
 
 func SaveGameData():
 	var save_dict = {
@@ -17,20 +16,24 @@ func SaveGameData():
 	}
 	return save_dict
 
-
-@rpc("any_peer", "call_local")
 func hide_coin():
-	if visible:
-		coinsound.play()
-		GameController.getcoin()
-		visible = false
-		collected = true
-		
-		if multiplayer.is_server():
-			GamePersistentData.SavePersistentNodes()
-			GameController.GameData.SaveGameData()
+	if not visible:
+		return
 
-		Network.add_queue_free_nodes(get_path())
+	coinsound.play()
+	visible = false
+	collected = true
 
-		await coinsound.finished
-		Network.remove_node_synced.rpc(get_path())
+	if not multiplayer.is_server():
+		return
+
+	GameController.getcoin.rpc()
+
+	GamePersistentData.SavePersistentNodes()
+	GameController.GameData.SaveGameData()
+
+	await coinsound.finished
+
+	Network.add_queue_free_nodes(get_path())
+	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+	Network.remove_node_synced.rpc(get_path())

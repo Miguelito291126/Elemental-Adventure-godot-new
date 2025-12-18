@@ -14,28 +14,31 @@ func SaveGameData():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		hide_hearth.rpc(body.name)
+		call_deferred("hide_hearth", body.name)
 
 
+func hide_hearth(player_name: String) -> void:
+	if not visible:
+		return
 
-@rpc("any_peer", "call_local")
-func hide_hearth(player_name: String):
-	if visible:
-		var players = get_tree().get_nodes_in_group("player")
-		for player in players:
-			if player.name == player_name:
-				player.healting(1)
+	var players = get_tree().get_nodes_in_group("player")
+	for player in players:
+		if player.name == player_name:
+			# Asegúrate de que el método se llame exactamente así en el script del jugador
+			player.healting(1)
 
-		hearthsound.play()
-		visible = false
-		collected = true
+	hearthsound.play()
+	visible = false
+	collected = true
 
-		if multiplayer.is_server():
-			GamePersistentData.SavePersistentNodes()
-			GameController.GameData.SaveGameData()
-		
-		Network.add_queue_free_nodes(get_path())
-		
-		await hearthsound.finished
+	if not multiplayer.is_server():
+		return
 
-		Network.remove_node_synced.rpc(get_path())
+	GamePersistentData.SavePersistentNodes()
+	GameController.GameData.SaveGameData()
+
+	await hearthsound.finished
+
+	Network.add_queue_free_nodes(get_path())
+	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+	Network.remove_node_synced.rpc(get_path())

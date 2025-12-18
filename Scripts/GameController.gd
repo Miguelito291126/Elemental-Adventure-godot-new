@@ -36,7 +36,7 @@ func getcoin():
 		GamePersistentData.SavePersistentNodes()
 		GameData.SaveGameData()
 	
-	getpoint.rpc()
+	getpoint()
 
 
 @rpc("any_peer", "call_local")

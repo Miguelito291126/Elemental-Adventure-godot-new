@@ -89,7 +89,6 @@ func request_character(element: String):
 
 
 
-@rpc("authority", "call_local")
 func assign_element_to_player(id: int, element: String):
 	var chosen_char = element
 
@@ -108,7 +107,6 @@ func assign_element_to_player(id: int, element: String):
 
 	# Sincronizamos a todos los peers: enviamos la copia por RPC...
 	sync_assigned_characters.rpc(assigned_characters)
-	sync_assigned_characters(assigned_characters)
 
 	return true
 
@@ -262,8 +260,8 @@ func MultiplayerPlayerSpawner(id: int = 1):
 		
 		if is_ok:
 			sync_assigned_characters.rpc(assigned_characters)
-			sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
-			sync_queue_free_nodes.rpc_id(id, queue_free_nodes)
+			sync_queue_free_nodes.rpc(queue_free_nodes) 
+			remove_nodes_synced.rpc(queue_free_nodes)
 			Sync_Players_Nodes.rpc()
 		
 			# Si el servidor ya está en el nivel, notificar al cliente para que oculte la pantalla
@@ -274,10 +272,9 @@ func MultiplayerPlayerSpawner(id: int = 1):
 
 		
 	else:
-
 		sync_assigned_characters.rpc(assigned_characters)
-		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
-		sync_queue_free_nodes.rpc_id(id, queue_free_nodes) 
+		sync_queue_free_nodes.rpc(queue_free_nodes) 
+		remove_nodes_synced.rpc(queue_free_nodes)
 		Sync_Players_Nodes.rpc()
 		
 		print_role("Jugador no spawneado con el ID:" + str(id))
@@ -302,7 +299,7 @@ func MultiplayerPlayerRemover(id: int = 1):
 			
 			Sync_Players_Nodes.rpc()
 			sync_assigned_characters.rpc(assigned_characters)
-			sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+			sync_queue_free_nodes.rpc(queue_free_nodes) 
 			print_role("Jugador removido con el ID:" + str(id))
 		else:
 			# El jugador no es válido, pero aún así remover de assigned_characters
@@ -311,7 +308,7 @@ func MultiplayerPlayerRemover(id: int = 1):
 			
 			Sync_Players_Nodes.rpc()
 			sync_assigned_characters.rpc(assigned_characters)
-			sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+			sync_queue_free_nodes.rpc(queue_free_nodes) 
 			print_role("Jugador con ID: " + str(id) + " no es válido, pero se removió de la lista.")
 	else:
 		# El jugador no está en Players_Nodes, pero aún así remover de assigned_characters si existe
@@ -320,7 +317,7 @@ func MultiplayerPlayerRemover(id: int = 1):
 		
 		Sync_Players_Nodes.rpc()
 		sync_assigned_characters.rpc(assigned_characters)
-		sync_assigned_characters(assigned_characters)  # Actualizar localmente en el servidor
+		sync_queue_free_nodes.rpc(queue_free_nodes) 
 		print_role("El jugador con ID: " + str(id) + " no se encuentra en el juego.")
 		
 
@@ -477,6 +474,17 @@ func _on_server_browser_time_timeout() -> void:
 
 @rpc("any_peer", "call_local")
 func sync_queue_free_nodes(nodes: Array):
+	queue_free_nodes = nodes.duplicate(true)
+
+@rpc("any_peer", "call_local")
+func remove_node_synced(node_path: String):	
+	var node = get_tree().get_current_scene().get_node_or_null(node_path)
+	if node and is_instance_valid(node):
+		node.queue_free()
+		print_role("Nodo eliminado sincronizado: " + node_path)
+
+@rpc("any_peer", "call_local")
+func remove_nodes_synced(nodes: Array):
 	for node_path in nodes:
 		var node = get_tree().get_current_scene().get_node_or_null(node_path)
 		if node:
@@ -488,35 +496,25 @@ func sync_queue_free_nodes(nodes: Array):
 			# Log más claro para debugging
 			print_role("Nodo no encontrado: " + str(node_path))
 
-@rpc("any_peer", "call_local")
-func remove_node_synced(node_path: String):	
-	var node = get_tree().get_current_scene().get_node_or_null(node_path)
-	if node and is_instance_valid(node):
-		node.queue_free()
-		print_role("Nodo eliminado sincronizado: " + node_path)
-
 
 func add_queue_free_nodes(Name: String):
-
 	if not multiplayer.is_server():
 		return
 
 	if not queue_free_nodes.has(Name):
 		queue_free_nodes.append(Name)
 
-
 func remove_queue_free_nodes(Name: String):
-
 	if not multiplayer.is_server():
 		return
 
 	if queue_free_nodes.has(Name):
 		queue_free_nodes.erase(Name)
 
+		
 func remove_all_queue_free_nodes():
-
 	if not multiplayer.is_server():
 		return
-
+		
 	for i in queue_free_nodes:
 		remove_queue_free_nodes(i)
