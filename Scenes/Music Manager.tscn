@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bswhbe44h2joi"]
 
 [ext_resource type="Script" uid="uid://cm8kwlgrgmbfw" path="res://Scripts/music_manager.gd" id="1_mqp6t"]
-[ext_resource type="AudioStream" uid="uid://cbv44u3t1rhj7" path="res://sounds/3. Track 3.wav" id="2_x1bnw"]
-[ext_resource type="AudioStream" uid="uid://dc83shkmhvrpk" path="res://sounds/1. Track 1.wav" id="3_rbmmv"]
-[ext_resource type="AudioStream" uid="uid://dmwshcvhreqo7" path="res://sounds/8. Track 8.wav" id="4_gtdkq"]
+[ext_resource type="AudioStream" uid="uid://bj2r4jqtfhfiy" path="res://sounds/Music/musica boss elemental adventure.wav" id="2_x1bnw"]
+[ext_resource type="AudioStream" uid="uid://dv0tdvhww4csq" path="res://sounds/Music/musica level elemental adventure.wav" id="3_x1bnw"]
+[ext_resource type="AudioStream" uid="uid://b3cd3djshxoxs" path="res://sounds/Music/musica menu elemental adventure.wav" id="4_x1bnw"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_mqp6t")
@@ -13,9 +13,9 @@ stream = ExtResource("2_x1bnw")
 bus = &"Music"
 
 [node name="MusicLevel" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_rbmmv")
+stream = ExtResource("3_x1bnw")
 bus = &"Music"
 
 [node name="MusicMainMenu" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_gtdkq")
+stream = ExtResource("4_x1bnw")
 bus = &"Music"

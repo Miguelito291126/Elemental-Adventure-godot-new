@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bj2r4jqtfhfiy"
+path="res://.godot/imported/musica boss elemental adventure.wav-f38e3f01856ff450faae5ff0fa17b505.sample"
+
+[deps]
+
+source_file="res://sounds/Music/musica boss elemental adventure.wav"
+dest_files=["res://.godot/imported/musica boss elemental adventure.wav-f38e3f01856ff450faae5ff0fa17b505.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

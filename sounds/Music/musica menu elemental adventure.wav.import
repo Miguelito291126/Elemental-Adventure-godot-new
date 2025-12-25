@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b3cd3djshxoxs"
+path="res://.godot/imported/musica menu elemental adventure.wav-40712bea0b78a56b2449bb5cc60ee74e.sample"
+
+[deps]
+
+source_file="res://sounds/Music/musica menu elemental adventure.wav"
+dest_files=["res://.godot/imported/musica menu elemental adventure.wav-40712bea0b78a56b2449bb5cc60ee74e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
