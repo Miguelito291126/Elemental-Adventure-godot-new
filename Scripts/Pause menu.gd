@@ -99,41 +99,24 @@ func _on_settings_pressed() -> void:
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	if !is_multiplayer_authority():
-		return
-	
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	
 	if toggled_on == true:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	config.set_value("config", "fullscreen", toggled_on)
-	config.save("user://config.cfg")
+
+	GameController.GameData.fullscreen = toggled_on
+	GameController.GameData.SaveGameData()
 
 
 func _on_volume_value_changed(value: float) -> void:
-	if !is_multiplayer_authority():
-		return
-
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	
 	var volume_index = 2 # SFX
 	AudioServer.set_bus_volume_db(volume_index, linear_to_db(value))
-	config.set_value("config", "sfx volume", value)
-	config.save("user://config.cfg")
+	GameController.GameData.sfx = value
+	GameController.GameData.SaveGameData()
 
 
 func _on_volume_2_value_changed(value: float) -> void:
-	if !is_multiplayer_authority():
-		return
-	
-	var config = ConfigFile.new()
-	config.load("user://config.cfg")
-	
 	var volume_index = 1
 	AudioServer.set_bus_volume_db( volume_index, linear_to_db(value))
-	config.set_value("config", "music volume", value)
-	config.save("user://config.cfg")
+	GameController.GameData.music = value
+	GameController.GameData.SaveGameData()
