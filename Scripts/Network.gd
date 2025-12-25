@@ -191,7 +191,7 @@ func print_role(msg: String):
 		# Amarillo
 		print_rich("[color=yellow][Cliente] " + msg + "[/color]")
 
-
+@rpc("any_peer", "call_local")
 func close_conection():
 	var peer = multiplayer.multiplayer_peer
 
@@ -206,8 +206,6 @@ func close_conection():
 	# Si está conectado → cerrar conexión
 	peer.close()
 	multiplayerpeer.close()
-
-	print(peer.get_class())
 
 
 func Play_MultiplayerServer():
@@ -407,15 +405,15 @@ func MultiplayerServerDisconnected():
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
 
-	if is_instance_valid(GameController.levelnode):
+	if GameController.levelnode and is_instance_valid(GameController.levelnode):
 		LoadScene.LoadMainMenu(GameController.levelnode)
-	elif is_instance_valid(GameController.game_over_menu):
+	elif GameController.game_over_menu and is_instance_valid(GameController.game_over_menu):
 		LoadScene.LoadMainMenu(GameController.game_over_menu)
-	elif is_instance_valid(GameController.victory_menu):
+	elif GameController.victory_menu and is_instance_valid(GameController.victory_menu):
 		LoadScene.LoadMainMenu(GameController.victory_menu)
 	else:
 		print_role("No valid scene to load main menu.")
-		UnloadScene.unload_scene(GameController.levelnode) # ← Added to prevent errors
+		LoadScene.LoadMainMenu(null) # ← Added to prevent errors
 
 func SetUpBroadcast(Name: String,) -> void:
 	roominfo.name = Name

@@ -23,8 +23,10 @@ func _on_back_pressed() -> void:
 		return
 
 	delete_data.rpc()
-	Network.close_conection()
+	
 
 @rpc("any_peer", "call_local")
 func delete_data():
 	GameController.GameData.DeleteData()
+	GamePersistentData.DeleteData()
+	get_tree().quit()

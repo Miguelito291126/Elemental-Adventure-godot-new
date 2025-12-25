@@ -18,10 +18,8 @@ func _ready() -> void:
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
 
 func _on_back_pressed() -> void:
-	if !is_multiplayer_authority():
-		return
-
 	Network.close_conection()
+	queue_free()
 
 
 @rpc("any_peer", "call_local")

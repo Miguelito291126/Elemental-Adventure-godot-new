@@ -90,6 +90,7 @@ func _on_option_pressed() -> void:
 
 func _on_delete_data_pressed() -> void:
 	GameController.GameData.DeleteData()
+	GamePersistentData.DeleteData()
 	get_tree().quit()
 	
 
