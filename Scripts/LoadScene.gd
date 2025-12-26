@@ -108,6 +108,7 @@ func LoadGameOverMenu(current_scene = null):
 
 func LoadVictoryMenu(current_scene = null):
 	GamePersistentData.DeletePersistentNodes()
+	Network.remove_all_queue_free_nodes()
 	
 	if GameController.level <= GameController.max_level:
 		LoadScene.load_scene(current_scene, "res://Scenes/victory_menu.tscn")
