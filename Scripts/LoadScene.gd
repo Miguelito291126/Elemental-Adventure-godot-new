@@ -94,6 +94,12 @@ func _process(_delta):
 			var new_scene = ResourceLoader.load_threaded_get(scene_path).instantiate()
 			if is_instance_valid(new_scene):
 				GameController.nodegame.add_child(new_scene)
+				
+				# Si es un nivel (no un menú), limpiar la lista de nodos eliminados
+				if scene_path.begins_with("res://Scenes/level_"):
+					if multiplayer.is_server():
+						Network.queue_free_nodes.clear()
+						Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 			
 			emit_signal("progress_changed", 1.0)
 			emit_signal("load_done")
@@ -108,6 +114,7 @@ func LoadGameOverMenu(current_scene = null):
 
 func LoadVictoryMenu(current_scene = null):
 	GamePersistentData.DeletePersistentNodes()
+	Network.remove_all_queue_free_nodes()
 	
 	if GameController.level <= GameController.max_level:
 		LoadScene.load_scene(current_scene, "res://Scenes/victory_menu.tscn")

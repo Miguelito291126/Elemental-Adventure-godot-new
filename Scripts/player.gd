@@ -173,11 +173,12 @@ func Jump():
 	if !is_multiplayer_authority():
 		return
 
-	if !is_in_water_or_lava and jump_count < jump_count_max:
+	# Verificar primero si es aire para permitir doble salto
+	if !is_in_water_or_lava and character == "air" and jump_count < jump_count_max_air_element:
 		velocity.y = jump_force
 		jumpsounds.play()
 		jump_count += 1
-	elif !is_in_water_or_lava and jump_count < jump_count_max_air_element and character == "air":
+	elif !is_in_water_or_lava and jump_count < jump_count_max:
 		velocity.y = jump_force
 		jumpsounds.play()
 		jump_count += 1

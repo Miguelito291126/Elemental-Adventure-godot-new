@@ -508,10 +508,14 @@ func remove_queue_free_nodes(Name: String):
 	if queue_free_nodes.has(Name):
 		queue_free_nodes.erase(Name)
 
+	sync_queue_free_nodes.rpc(queue_free_nodes)
+
 		
 func remove_all_queue_free_nodes():
 	if not multiplayer.is_server():
 		return
 		
-	for i in queue_free_nodes:
-		remove_queue_free_nodes(i)
+	# Limpiar completamente la lista de nodos eliminados
+	queue_free_nodes.clear()
+	# Sincronizar la lista vacía con todos los clientes
+	sync_queue_free_nodes.rpc(queue_free_nodes)
