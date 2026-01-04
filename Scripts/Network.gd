@@ -199,8 +199,7 @@ func close_conection():
 	if peer == null \
 	or peer is OfflineMultiplayerPeer \
 	or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
-		get_tree().paused = false
-		LoadScene.LoadMainMenu(GameController.levelnode)
+		MultiplayerServerDisconnected()
 		return
 
 	# Si está conectado → cerrar conexión
