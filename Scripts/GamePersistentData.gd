@@ -84,7 +84,3 @@ func SavePersistentNodes():
 func DeletePersistentNodes():
 	if FileAccess.file_exists(PATH):
 		DirAccess.remove_absolute(PATH)
-
-func DeleteData():
-	DeletePersistentNodes()
-	GameController.GameData.DeleteResource()

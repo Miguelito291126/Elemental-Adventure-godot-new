@@ -31,5 +31,12 @@ func DeleteResource():
 		DirAccess.remove_absolute(path)
 		
 func DeleteData():
-	GamePersistentData.DeletePersistentNodes()
-	DeleteResource()
+	GameController.level = 1
+	GameController.points = 0
+	GameController.energys = 0
+	level = GameController.level
+	points = GameController.points
+	energys = GameController.energys
+	SaveGameData()
+
+

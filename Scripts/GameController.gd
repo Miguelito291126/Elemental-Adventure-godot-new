@@ -28,6 +28,8 @@ func _ready():
 	points = GameData.points
 	level = GameData.level
 
+	
+
 @rpc("any_peer", "call_local")
 func getcoin():
 	energys += 1

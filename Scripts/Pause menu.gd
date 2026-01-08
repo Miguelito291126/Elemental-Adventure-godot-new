@@ -17,11 +17,12 @@ func _ready() -> void:
 	optionsmenu.visible = false
 
 	LoadGameData()
-		
+
+
 func LoadGameData():
 	if !is_multiplayer_authority():
 		return
-			
+		
 	self.volume.value = GameController.GameData.sfx
 	self.volume2.value = GameController.GameData.music
 	self.fullscreen.button_pressed = GameController.GameData.fullscreen

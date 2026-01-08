@@ -58,8 +58,6 @@ func _ready() -> void:
 
 
 func LoadGameData():
-
-
 	self.volume.value = GameController.GameData.sfx
 	self.volume2.value = GameController.GameData.music
 	self.fullscreen.button_pressed = GameController.GameData.fullscreen
@@ -90,8 +88,8 @@ func _on_option_pressed() -> void:
 
 func _on_delete_data_pressed() -> void:
 	GameController.GameData.DeleteData()
-	GamePersistentData.DeleteData()
-	get_tree().quit()
+	GamePersistentData.DeletePersistentNodes()
+	
 	
 
 

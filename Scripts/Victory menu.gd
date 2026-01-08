@@ -8,10 +8,11 @@ extends Control
 func _ready() -> void:
 	GameController.victory_menu = self
 
-	# Deshabilitar el botón Play para clientes
-	if not multiplayer.is_server():
-		next_button.disabled = true
-		next_button.text = "Wait..."
+	if not OS.has_feature("dedicated_server"):
+		# Deshabilitar el botón Play para clientes
+		if not multiplayer.is_server():
+			next_button.disabled = true
+			next_button.text = "Wait..."
 
 	level.text = str("You completed level: ",  GameController.level - 1)
 	score.text = str("Score: ",  GameController.points)
@@ -27,9 +28,10 @@ func load_level_scene():
 	LoadScene.load_level_scene(self)
 
 func _on_next_pressed() -> void:
-	# Solo el servidor puede presionar Play
-	if not multiplayer.is_server():
-		return
+	if not OS.has_feature("dedicated_server"):
+		# Solo el servidor puede presionar Play
+		if not multiplayer.is_server():
+			return
 
 	load_level_scene.rpc()
 

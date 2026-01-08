@@ -81,16 +81,21 @@ grow_vertical = 2
 theme = ExtResource("1_gtgab")
 alignment = 1
 
+[node name="restart" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Restart Game"
+
 [node name="back" type="Button" parent="Panel/VBoxContainer"]
 process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_gtgab")
-text = "Exit"
+text = "back"
 
 [node name="Victory music" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("2_6qwlf")
 autoplay = true
 
+[connection signal="pressed" from="Panel/VBoxContainer/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]
