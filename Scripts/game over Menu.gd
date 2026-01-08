@@ -7,11 +7,15 @@ extends Control
 func _ready() -> void:
 	GameController.game_over_menu = self
 
-	if not OS.has_feature("dedicated_server"):
-		# Deshabilitar el botón Play para clientes
-		if not multiplayer.is_server():
-			return_button.disabled = true
-			return_button.text = "Wait..."
+	if OS.has_feature("dedicated_server"):
+		await get_tree().create_timer(5).timeout
+		load_level_scene.rpc()
+
+
+	# Deshabilitar el botón Play para clientes
+	if not multiplayer.is_server():
+		return_button.disabled = true
+		return_button.text = "Wait..."
 
 	score.text = str("Score: ",  GameController.points)
 	energys.text = str("Energys: ", GameController.energys) # ← Cambiado a energys real
@@ -28,10 +32,9 @@ func load_level_scene():
 
 # Botón volver al nivel actual
 func _on_return_pressed() -> void:
-	if not OS.has_feature("dedicated_server"):
-		# Solo el servidor puede presionar Play
-		if not multiplayer.is_server():
-			return
+	# Solo el servidor puede presionar Play
+	if not multiplayer.is_server():
+		return
 
 	load_level_scene.rpc()
 
