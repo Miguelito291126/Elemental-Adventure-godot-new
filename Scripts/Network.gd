@@ -410,6 +410,8 @@ func MultiplayerServerDisconnected():
 		LoadScene.LoadMainMenu(GameController.game_over_menu)
 	elif GameController.victory_menu and is_instance_valid(GameController.victory_menu):
 		LoadScene.LoadMainMenu(GameController.victory_menu)
+	elif GameController.chose_characters and is_instance_valid(GameController.chose_characters):
+		LoadScene.LoadMainMenu(GameController.chose_characters)
 	else:
 		print_role("No valid scene to load main menu.")
 		LoadScene.LoadMainMenu(null) # ← Added to prevent errors
