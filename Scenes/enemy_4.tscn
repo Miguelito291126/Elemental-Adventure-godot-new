@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://c8n8a7b5co0hs"]
+[gd_scene format=3 uid="uid://c8n8a7b5co0hs"]
 
 [ext_resource type="Script" uid="uid://crlfygg0huuya" path="res://Scripts/enemy.gd" id="1_cwrhc"]
 [ext_resource type="Texture2D" uid="uid://ckrpj8xtrjmc7" path="res://Sprites/enemigo4_attack.png" id="2_3yuwu"]
@@ -350,51 +350,59 @@ properties/13/path = NodePath(".:scale")
 properties/13/spawn = true
 properties/13/replication_mode = 1
 
-[node name="enemy" type="CharacterBody2D" groups=["Persistent", "enemy"]]
+[node name="enemy" type="CharacterBody2D" unique_id=653644238 groups=["Persistent", "enemy"]]
 scale = Vector2(1.5, 1.5)
+collision_layer = 32
+collision_mask = 1023
 script = ExtResource("1_cwrhc")
 color = Color(0, 0, 1, 1)
 color_str = "Blue"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=780490512]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_w7yt6")
 animation = &"idle slime blue"
 autoplay = "idle slime blue"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=585094734]
 shape = SubResource("CircleShape2D_3yuwu")
 
-[node name="left_floor" type="RayCast2D" parent="."]
+[node name="left_floor" type="RayCast2D" parent="." unique_id=1694544641]
 position = Vector2(-16, 5.33333)
 target_position = Vector2(0, 21.3333)
+collision_mask = 673
 
-[node name="left_wall" type="RayCast2D" parent="."]
+[node name="left_wall" type="RayCast2D" parent="." unique_id=739456420]
 position = Vector2(-21.3333, 0)
 target_position = Vector2(-26.6667, 0)
+collision_mask = 673
 
-[node name="right_wall" type="RayCast2D" parent="."]
+[node name="right_wall" type="RayCast2D" parent="." unique_id=990604388]
 position = Vector2(16, 0)
 rotation = 3.14159
 target_position = Vector2(-26.6667, 0)
+collision_mask = 673
 
-[node name="right_floor" type="RayCast2D" parent="."]
+[node name="right_floor" type="RayCast2D" parent="." unique_id=1598345481]
 position = Vector2(10.6667, 5.33333)
 target_position = Vector2(0, 21.3333)
+collision_mask = 673
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=321902841]
 enabled = false
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("5_xob7p")
 texture_scale = 0.29
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=676952108]
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1228683750]
 shape = SubResource("RectangleShape2D_lb24c")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1268195495]
 replication_config = SubResource("SceneReplicationConfig_3yuwu")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

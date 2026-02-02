@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bitq27tb3qfqp"]
+[gd_scene format=3 uid="uid://bitq27tb3qfqp"]
 
 [ext_resource type="Script" uid="uid://dxslqpfeh70jp" path="res://Scripts/enemy_robot_3.gd" id="1_g8808"]
 [ext_resource type="Texture2D" uid="uid://b75py0udg551" path="res://Sprites/robot 3.png" id="2_g8808"]
@@ -106,44 +106,50 @@ properties/15/path = NodePath("bulletpos/bulletspawn:scale")
 properties/15/spawn = true
 properties/15/replication_mode = 1
 
-[node name="enemy_robot_3" type="CharacterBody2D" groups=["Persistent", "enemy"]]
+[node name="enemy_robot_3" type="CharacterBody2D" unique_id=1868987399 groups=["Persistent", "enemy"]]
+collision_layer = 32
+collision_mask = 1023
 script = ExtResource("1_g8808")
 color = Color(0, 0, 1, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1551500932]
 shape = SubResource("CircleShape2D_virmk")
 
-[node name="bulletpos" type="Node2D" parent="."]
+[node name="bulletpos" type="Node2D" parent="." unique_id=55996627]
 
-[node name="bulletspawn" type="Marker2D" parent="bulletpos"]
+[node name="bulletspawn" type="Marker2D" parent="bulletpos" unique_id=1752305328]
 position = Vector2(40, 0)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=275904665]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_3q7bq")
 animation = &"robot 3 Idle"
 frame_progress = 0.700314
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=783389044]
 
-[node name="Area2D2" type="Area2D" parent="."]
+[node name="Area2D2" type="Area2D" parent="." unique_id=1752253175]
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=961016693]
 shape = SubResource("RectangleShape2D_iorok")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1571696867]
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=135770203]
 shape = SubResource("CircleShape2D_g8808")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1866147409]
 color = Color(0, 0, 1, 1)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("3_g8808")
 texture_scale = 0.5
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1900531996]
 replication_config = SubResource("SceneReplicationConfig_g8808")
 
 [connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]

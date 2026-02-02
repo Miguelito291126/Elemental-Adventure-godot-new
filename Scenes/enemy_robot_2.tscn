@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bochpsoi1xhxm"]
+[gd_scene format=3 uid="uid://bochpsoi1xhxm"]
 
 [ext_resource type="Script" uid="uid://1ypqd8c7hah3" path="res://Scripts/enemy_robot2.gd" id="1_m4iiy"]
 [ext_resource type="Texture2D" uid="uid://byi62drl0vjcq" path="res://Sprites/robot 2 idle.png" id="2_76gyl"]
@@ -175,63 +175,73 @@ properties/20/path = NodePath("bulletpos/bulletspawn:scale")
 properties/20/spawn = true
 properties/20/replication_mode = 1
 
-[node name="enemy_robot_2" type="CharacterBody2D" groups=["Persistent", "enemy"]]
+[node name="enemy_robot_2" type="CharacterBody2D" unique_id=812859080 groups=["Persistent", "enemy"]]
+collision_layer = 32
+collision_mask = 1023
 script = ExtResource("1_m4iiy")
 color = Color(0, 1, 0, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=32269019]
 shape = SubResource("CircleShape2D_76gyl")
 
-[node name="bulletpos" type="Node2D" parent="."]
+[node name="bulletpos" type="Node2D" parent="." unique_id=309608835]
 
-[node name="bulletspawn" type="Marker2D" parent="bulletpos"]
+[node name="bulletspawn" type="Marker2D" parent="bulletpos" unique_id=773666276]
 position = Vector2(40, 0)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=893266878]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_3q7bq")
 animation = &"robot 2 shot"
 frame_progress = 0.666653
 flip_h = true
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=757600940]
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1693327286]
 color = Color(0, 1, 0, 1)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("5_76gyl")
 texture_scale = 0.5
 
-[node name="left_floor" type="RayCast2D" parent="."]
+[node name="left_floor" type="RayCast2D" parent="." unique_id=1783143554]
 position = Vector2(-16, 5.33333)
 target_position = Vector2(0, 21.3333)
+collision_mask = 673
 
-[node name="left_wall" type="RayCast2D" parent="."]
+[node name="left_wall" type="RayCast2D" parent="." unique_id=1850861317]
 position = Vector2(-21.3333, 0)
 target_position = Vector2(-26.6667, 0)
+collision_mask = 673
 
-[node name="right_wall" type="RayCast2D" parent="."]
+[node name="right_wall" type="RayCast2D" parent="." unique_id=127914191]
 position = Vector2(16, 0)
 rotation = 3.14159
 target_position = Vector2(-26.6667, 0)
+collision_mask = 673
 
-[node name="right_floor" type="RayCast2D" parent="."]
+[node name="right_floor" type="RayCast2D" parent="." unique_id=1715839106]
 position = Vector2(10.6667, 5.33333)
 target_position = Vector2(0, 21.3333)
+collision_mask = 673
 
-[node name="Area2D2" type="Area2D" parent="."]
+[node name="Area2D2" type="Area2D" parent="." unique_id=1412624140]
 position = Vector2(3.8147e-06, -3.8147e-06)
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=667348425]
 shape = SubResource("RectangleShape2D_1vd66")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1735175786]
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1266906726]
 shape = SubResource("CircleShape2D_1vd66")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=33627980]
 replication_config = SubResource("SceneReplicationConfig_76gyl")
 
 [connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]

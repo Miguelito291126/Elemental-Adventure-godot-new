@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://tonkdrpt1uk3"]
+[gd_scene format=3 uid="uid://tonkdrpt1uk3"]
 
 [ext_resource type="Script" uid="uid://1ofaca4fhcwt" path="res://Scripts/energy.gd" id="1_pgc38"]
 [ext_resource type="Texture2D" uid="uid://c3wdxsquphqdl" path="res://Sprites/energy.png" id="2_4imes"]
@@ -80,25 +80,29 @@ properties/7/path = NodePath(".:collected")
 properties/7/spawn = true
 properties/7/replication_mode = 1
 
-[node name="energy" type="RigidBody2D" groups=["Persistent", "coins"]]
+[node name="energy" type="RigidBody2D" unique_id=41359937 groups=["Persistent", "coins"]]
 texture_filter = 1
+collision_layer = 16
+collision_mask = 1007
 mass = 0.01
 freeze = true
 script = ExtResource("1_pgc38")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=637742148]
 scale = Vector2(2.02128, 2.2)
 shape = SubResource("CircleShape2D_cm52s")
 disabled = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1045821801]
+collision_layer = 16
+collision_mask = 1007
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=680501553]
 position = Vector2(0, -1)
 scale = Vector2(2.02128, 2.2)
 shape = SubResource("RectangleShape2D_p13cf")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1508264339]
 position = Vector2(-0.499998, -1.43051e-06)
 scale = Vector2(1.14063, 1.3125)
 sprite_frames = SubResource("SpriteFrames_2p67g")
@@ -106,18 +110,18 @@ animation = &"Coin"
 autoplay = "Coin"
 frame_progress = 0.422143
 
-[node name="coin sound" type="AudioStreamPlayer2D" parent="."]
+[node name="coin sound" type="AudioStreamPlayer2D" parent="." unique_id=187853875]
 stream = ExtResource("3_mo1th")
 bus = &"SFX"
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=511965017]
 color = Color(1, 1, 0, 1)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("4_41mww")
 texture_scale = 0.27
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=398000662]
 replication_config = SubResource("SceneReplicationConfig_41mww")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

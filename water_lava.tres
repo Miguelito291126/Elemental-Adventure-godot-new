@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=16 format=3 uid="uid://dks7etr01h6r7"]
+[gd_resource type="TileSet" format=3 uid="uid://dks7etr01h6r7"]
 
 [ext_resource type="Texture2D" uid="uid://c8f3iqa4xr6kc" path="res://Sprites/textures2.png" id="1_4mhin"]
 [ext_resource type="Shader" uid="uid://c1867ob1lak5m" path="res://water.gdshader" id="2_3chll"]
@@ -85,6 +85,6 @@ use_texture_padding = false
 
 [resource]
 physics_layer_0/collision_layer = 14
-physics_layer_0/collision_mask = 0
+physics_layer_0/collision_mask = 256
 sources/0 = SubResource("TileSetAtlasSource_xrdnt")
 sources/1 = SubResource("TileSetAtlasSource_wrinw")

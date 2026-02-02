@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cohx7ukuvlihy"]
+[gd_scene format=3 uid="uid://cohx7ukuvlihy"]
 
 [ext_resource type="Script" uid="uid://dsfqsg7hb1m0f" path="res://Scripts/player.gd" id="1_peqvs"]
 [ext_resource type="SpriteFrames" uid="uid://cswkaimcwce0g" path="res://player.tres" id="2_svkx8"]
@@ -120,14 +120,15 @@ radius = 31.6853
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
 size = Vector2(40, 48)
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" unique_id=52007928 groups=["player"]]
+collision_mask = 1022
 script = ExtResource("1_peqvs")
 jump_force = -600
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=847132630]
 replication_config = SubResource("SceneReplicationConfig_tx1dd")
 
-[node name="Snow" type="GPUParticles2D" parent="."]
+[node name="Snow" type="GPUParticles2D" parent="." unique_id=1148373797]
 position = Vector2(0, -272)
 emitting = false
 amount = 200
@@ -135,7 +136,7 @@ lifetime = 10.0
 preprocess = 30.0
 process_material = SubResource("ParticleProcessMaterial_7dp3o")
 
-[node name="Ash" type="GPUParticles2D" parent="."]
+[node name="Ash" type="GPUParticles2D" parent="." unique_id=661567517]
 position = Vector2(0, -272)
 emitting = false
 amount = 200
@@ -143,21 +144,21 @@ lifetime = 10.0
 preprocess = 30.0
 process_material = SubResource("ParticleProcessMaterial_h4iuc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1172466288]
 scale = Vector2(0.537445, 0.540188)
 shape = SubResource("CircleShape2D_tx1dd")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1850646981]
 texture_filter = 1
 sprite_frames = ExtResource("2_svkx8")
 animation = &"earth swim"
 autoplay = "fire idle"
 frame_progress = 0.06921761
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=261246278]
 zoom = Vector2(2, 2)
 
-[node name="Username" type="Label" parent="."]
+[node name="Username" type="Label" parent="." unique_id=359280076]
 offset_left = -72.0
 offset_top = -56.0
 offset_right = 64.0
@@ -171,14 +172,14 @@ text = "Miguel"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Hud" type="CanvasLayer" parent="."]
+[node name="Hud" type="CanvasLayer" parent="." unique_id=253273130]
 
-[node name="Lifes" type="Panel" parent="Hud"]
+[node name="Lifes" type="Panel" parent="Hud" unique_id=884697770]
 offset_right = 448.0
 offset_bottom = 67.0
 theme = ExtResource("5_ns770")
 
-[node name="Label" type="Label" parent="Hud/Lifes"]
+[node name="Label" type="Label" parent="Hud/Lifes" unique_id=1502550406]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
@@ -188,13 +189,13 @@ theme_override_font_sizes/font_size = 25
 text = "Lifes: 0
 "
 
-[node name="Energys" type="Panel" parent="Hud"]
+[node name="Energys" type="Panel" parent="Hud" unique_id=628075489]
 offset_top = 72.0
 offset_right = 448.0
 offset_bottom = 139.0
 theme = ExtResource("5_ns770")
 
-[node name="Label" type="Label" parent="Hud/Energys"]
+[node name="Label" type="Label" parent="Hud/Energys" unique_id=129388511]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 24.0
@@ -203,13 +204,13 @@ offset_bottom = 49.0
 theme_override_font_sizes/font_size = 25
 text = "EnergysBalls: 0"
 
-[node name="Points" type="Panel" parent="Hud"]
+[node name="Points" type="Panel" parent="Hud" unique_id=1558764648]
 offset_top = 144.0
 offset_right = 448.0
 offset_bottom = 211.0
 theme = ExtResource("5_ns770")
 
-[node name="Label" type="Label" parent="Hud/Points"]
+[node name="Label" type="Label" parent="Hud/Points" unique_id=1939494322]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 24.0
@@ -218,7 +219,7 @@ offset_bottom = 56.0
 theme_override_font_sizes/font_size = 25
 text = "Points: 0"
 
-[node name="TextureButton" type="TextureButton" parent="Hud"]
+[node name="TextureButton" type="TextureButton" parent="Hud" unique_id=1830125031]
 modulate = Color(0.305337, 6.2955e-05, 0.305335, 1)
 anchors_preset = 1
 anchor_left = 1.0
@@ -234,7 +235,7 @@ texture_disabled = ExtResource("4_tx1dd")
 texture_focused = ExtResource("4_tx1dd")
 stretch_mode = 0
 
-[node name="JumpButton" type="Control" parent="Hud"]
+[node name="JumpButton" type="Control" parent="Hud" unique_id=199452709]
 layout_mode = 3
 anchors_preset = 3
 anchor_left = 1.0
@@ -250,7 +251,7 @@ grow_vertical = 0
 scale = Vector2(3.145, 3.145)
 script = ExtResource("5_7dp3o")
 
-[node name="Jump" type="TouchScreenButton" parent="Hud/JumpButton"]
+[node name="Jump" type="TouchScreenButton" parent="Hud/JumpButton" unique_id=2141770184]
 modulate = Color(0.415686, 0, 0.415686, 1)
 texture_normal = ExtResource("5_ukyrk")
 texture_pressed = ExtResource("5_ukyrk")
@@ -258,7 +259,7 @@ action = "jump0"
 visibility_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="Virtual Joystick" parent="Hud" instance=ExtResource("6_7dp3o")]
+[node name="Virtual Joystick" parent="Hud" unique_id=1336710695 instance=ExtResource("6_7dp3o")]
 modulate = Color(0.415686, 0, 0.415686, 1)
 offset_left = 176.0
 offset_top = -440.0
@@ -267,41 +268,41 @@ offset_bottom = -160.0
 scale = Vector2(1.495, 1.495)
 visibility_mode = 1
 
-[node name="Pause menu" parent="." instance=ExtResource("9_aviom")]
+[node name="Pause menu" parent="." unique_id=477798271 instance=ExtResource("9_aviom")]
 visible = false
 
-[node name="bulletpos" type="Node2D" parent="."]
+[node name="bulletpos" type="Node2D" parent="." unique_id=822777933]
 
-[node name="bulletspawn" type="Marker2D" parent="bulletpos"]
+[node name="bulletspawn" type="Marker2D" parent="bulletpos" unique_id=522690688]
 position = Vector2(40, 0)
 
-[node name="JumpSounds" type="AudioStreamPlayer2D" parent="."]
+[node name="JumpSounds" type="AudioStreamPlayer2D" parent="." unique_id=1540831636]
 stream = ExtResource("5_3smsa")
 bus = &"SFX"
 
-[node name="ShootSounds" type="AudioStreamPlayer2D" parent="."]
+[node name="ShootSounds" type="AudioStreamPlayer2D" parent="." unique_id=1827028051]
 stream = ExtResource("6_8erm5")
 bus = &"SFX"
 
-[node name="WalkSounds" type="AudioStreamPlayer2D" parent="."]
+[node name="WalkSounds" type="AudioStreamPlayer2D" parent="." unique_id=1630065215]
 stream = ExtResource("21_ctvyi")
 bus = &"SFX"
 
-[node name="DamageSounds" type="AudioStreamPlayer2D" parent="."]
+[node name="DamageSounds" type="AudioStreamPlayer2D" parent="." unique_id=1981029379]
 stream = ExtResource("10_gymyn")
 bus = &"SFX"
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1890390629]
 scale = Vector2(0.195313, 0.1875)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("10_tx1dd")
 texture_scale = 3.93
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_mask = 15
+[node name="Area2D" type="Area2D" parent="." unique_id=1983858745]
+collision_mask = 1022
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1221252058]
 shape = SubResource("RectangleShape2D_tx1dd")
 
 [connection signal="pressed" from="Hud/TextureButton" to="." method="_on_texture_button_pressed"]

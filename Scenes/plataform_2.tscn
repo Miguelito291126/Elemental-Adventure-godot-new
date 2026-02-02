@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://choeqgyk2lvq5"]
+[gd_scene format=3 uid="uid://choeqgyk2lvq5"]
 
 [ext_resource type="Script" uid="uid://doojc5isfvjst" path="res://Scripts/plataform.gd" id="1_unfvi"]
 [ext_resource type="Texture2D" uid="uid://c02ojrdokqqnr" path="res://Sprites/plataform_2.png" id="2_k6g71"]
@@ -67,39 +67,39 @@ _data = {
 &"move": SubResource("Animation_e2dlq")
 }
 
-[node name="plataform_2" type="Path2D"]
+[node name="plataform_2" type="Path2D" unique_id=38309587]
 script = ExtResource("1_unfvi")
 loop = false
 speed = 1.0
 speed_scale = 0.5
 
-[node name="PathFollow2D" type="PathFollow2D" parent="."]
+[node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=1224910818]
 rotates = false
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D" unique_id=1496242887]
 scale = Vector2(1.5, 1.5)
 remote_path = NodePath("../../AnimatableBody2D")
 
-[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="." unique_id=507295314]
 scale = Vector2(1.5, 1.5)
+collision_layer = 896
+collision_mask = 127
 
-[node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D" unique_id=2134201539]
 texture_filter = 1
 texture = ExtResource("2_k6g71")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D" unique_id=1976386403]
 shape = SubResource("RectangleShape2D_ylvgc")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="AnimatableBody2D"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="AnimatableBody2D" unique_id=399519934]
 position = Vector2(-12, -11.3333)
 occluder = SubResource("OccluderPolygon2D_nfts5")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="AnimatableBody2D"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="AnimatableBody2D" unique_id=1629159314]
 root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_nfts5")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=600289184]
 callback_mode_process = 0
-libraries = {
-&"": SubResource("AnimationLibrary_7wg80")
-}
+libraries/ = SubResource("AnimationLibrary_7wg80")

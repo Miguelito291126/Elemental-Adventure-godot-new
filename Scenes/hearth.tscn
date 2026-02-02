@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://betdnk2m31png"]
+[gd_scene format=3 uid="uid://betdnk2m31png"]
 
 [ext_resource type="Script" uid="uid://ci16bxk3si1py" path="res://Scripts/Hearth.gd" id="1_abea5"]
 [ext_resource type="Texture2D" uid="uid://cq23fmociwtqn" path="res://Sprites/life.png" id="2_16pkc"]
@@ -37,36 +37,40 @@ properties/7/path = NodePath(".:collected")
 properties/7/spawn = true
 properties/7/replication_mode = 1
 
-[node name="hearth" type="RigidBody2D" groups=["Persistent", "hearth"]]
+[node name="hearth" type="RigidBody2D" unique_id=1625402895 groups=["Persistent", "hearth"]]
+collision_layer = 64
+collision_mask = 959
 mass = 0.01
 freeze = true
 script = ExtResource("1_abea5")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=859626239]
 shape = SubResource("CircleShape2D_8cfbd")
 disabled = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=890462908]
+collision_layer = 64
+collision_mask = 959
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=576455501]
 shape = SubResource("RectangleShape2D_lx1vc")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=394319865]
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_16pkc")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1197369242]
 color = Color(1, 0, 0, 1)
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("3_md20t")
 texture_scale = 0.27
 
-[node name="hearth sound" type="AudioStreamPlayer2D" parent="."]
+[node name="hearth sound" type="AudioStreamPlayer2D" parent="." unique_id=1456571028]
 stream = ExtResource("4_jgkh0")
 bus = &"SFX"
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=623318216]
 replication_config = SubResource("SceneReplicationConfig_3nfkf")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

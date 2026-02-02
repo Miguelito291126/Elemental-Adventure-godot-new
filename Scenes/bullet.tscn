@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://u6equn2extll"]
+[gd_scene format=3 uid="uid://u6equn2extll"]
 
 [ext_resource type="Script" uid="uid://yaogfwpyyx6j" path="res://Scripts/bullet.gd" id="1_y16lp"]
 [ext_resource type="Texture2D" uid="uid://dgopfrj4aom1d" path="res://Sprites/fireball.png" id="2_t1plx"]
@@ -49,26 +49,28 @@ properties/11/path = NodePath(".:fireball")
 properties/11/spawn = true
 properties/11/replication_mode = 1
 
-[node name="bullet" type="Area2D" groups=["bullet"]]
+[node name="bullet" type="Area2D" unique_id=384333775 groups=["bullet"]]
+collision_layer = 256
+collision_mask = 767
 script = ExtResource("1_y16lp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=19571489]
 shape = SubResource("CircleShape2D_8u2e6")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=206749356]
 texture_filter = 1
 texture = ExtResource("2_t1plx")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=34086902]
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1288539057]
 scale = Vector2(0.258, 0.2)
 range_layer_min = -100
 shadow_enabled = true
 shadow_filter_smooth = 3.0
 texture = ExtResource("3_ycag2")
 
-[node name="Fire" type="CPUParticles2D" parent="."]
+[node name="Fire" type="CPUParticles2D" parent="." unique_id=1302592095]
 amount = 70
 texture = ExtResource("4_6afsh")
 fixed_fps = 30
@@ -79,7 +81,7 @@ direction = Vector2(0, 0)
 gravity = Vector2(0, -98)
 scale_amount_curve = SubResource("Curve_nvcuk")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=43557980]
 replication_config = SubResource("SceneReplicationConfig_6afsh")
 public_visibility = false
 

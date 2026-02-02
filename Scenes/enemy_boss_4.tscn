@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://c1y4x3g5dyj6b"]
+[gd_scene format=3 uid="uid://c1y4x3g5dyj6b"]
 
 [ext_resource type="Script" uid="uid://bfgf08on50p5h" path="res://Scripts/enemy_boss.gd" id="1_ctv7p"]
 [ext_resource type="Texture2D" uid="uid://depm702hxsrt2" path="res://Sprites/light.png" id="2_k370a"]
@@ -373,47 +373,53 @@ properties/19/path = NodePath("bulletpos/bulletspawn:scale")
 properties/19/spawn = true
 properties/19/replication_mode = 1
 
-[node name="enemy_boss" type="CharacterBody2D" groups=["Persistent", "enemy"]]
+[node name="enemy_boss" type="CharacterBody2D" unique_id=1284052609 groups=["Persistent", "enemy"]]
 scale = Vector2(9, 9)
+collision_layer = 32
+collision_mask = 1023
 script = ExtResource("1_ctv7p")
 color = Color(0, 0, 1, 1)
 color_str = "Blue"
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=518767015]
 enabled = false
 range_layer_min = -100
 shadow_enabled = true
 texture = ExtResource("2_k370a")
 texture_scale = 0.3
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1412545884]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kpjsb")
 animation = &"idle slime blue"
 autoplay = "idle slime blue"
 frame_progress = 0.686181
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=593343470]
 shape = SubResource("CircleShape2D_ctv7p")
 
-[node name="bulletpos" type="Node2D" parent="."]
+[node name="bulletpos" type="Node2D" parent="." unique_id=801305732]
 
-[node name="bulletspawn" type="Marker2D" parent="bulletpos"]
+[node name="bulletspawn" type="Marker2D" parent="bulletpos" unique_id=778452531]
 position = Vector2(23.1111, 0)
 
-[node name="Timer" type="Timer" parent="." groups=["enemy"]]
+[node name="Timer" type="Timer" parent="." unique_id=924520863 groups=["enemy"]]
 
-[node name="Area2D2" type="Area2D" parent="."]
+[node name="Area2D2" type="Area2D" parent="." unique_id=1673440288]
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=1643830707]
 shape = SubResource("RectangleShape2D_k370a")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=688475584]
+collision_layer = 32
+collision_mask = 1023
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=983932987]
 shape = SubResource("CircleShape2D_a0vro")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1476447393]
 offset_left = -29.3333
 offset_top = -15.1111
 offset_right = 27.6667
@@ -421,7 +427,7 @@ offset_bottom = -11.1111
 theme = ExtResource("15_6kpai")
 show_percentage = false
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2127366922]
 replication_config = SubResource("SceneReplicationConfig_ctv7p")
 
 [connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]
