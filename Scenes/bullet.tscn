@@ -61,8 +61,6 @@ shape = SubResource("CircleShape2D_8u2e6")
 texture_filter = 1
 texture = ExtResource("2_t1plx")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=34086902]
-
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1288539057]
 scale = Vector2(0.258, 0.2)
 range_layer_min = -100
