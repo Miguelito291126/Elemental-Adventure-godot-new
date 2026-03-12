@@ -38,6 +38,10 @@ window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 window/handheld/orientation=4
 
+[dotnet]
+
+project/assembly_name="Elemental Adventure"
+
 [editor]
 
 version_control/plugin_name="GitPlugin"
