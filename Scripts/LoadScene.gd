@@ -99,6 +99,15 @@ func _process(_delta):
 			emit_signal("load_done")
 			set_process(false)
 
+func finish_scene_load(new_scene):
+	GameController.nodegame.add_child(new_scene)
+
+	if scene_path.begins_with("res://Scenes/level_"):
+		if not multiplayer.is_server():
+			await Network.queue_synced
+
+		Network.apply_queued_deletions()
+
 
 func get_level_str() -> String:
 	return "level_%d" % GameController.level
@@ -125,14 +134,7 @@ func LoadCharacterMenu(current_scene = null):
 
 	LoadScene.load_scene(current_scene, "res://Scenes/chose_character.tscn")
 
-func finish_scene_load(new_scene):
-	GameController.nodegame.add_child(new_scene)
 
-	if scene_path.begins_with("res://Scenes/level_"):
-		if not multiplayer.is_server():
-			await Network.queue_synced
-
-		Network.apply_queued_deletions()
 
 func load_level_scene(current_scene = null):
 	var scene_path = "res://Scenes/%s.tscn" % get_level_str()
