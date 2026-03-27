@@ -1,5 +1,7 @@
 extends Node
 
+signal queue_synced
+
 @export var Username: String
 @export var Players_Nodes: Dictionary = {}
 
@@ -238,6 +240,12 @@ func Play_MultiplayerClient():
 	else:
 		print_role("Error al iniciar el cliente.")
 
+
+func sync_all():
+	sync_assigned_characters.rpc(assigned_characters)
+	sync_queue_free_nodes.rpc(queue_free_nodes)
+	Sync_Players_Nodes.rpc()
+
 func MultiplayerPlayerSpawner(id: int = 1):
 	# Solo el servidor puede spawnear jugadores y sincronizar
 	if not multiplayer.is_server():
@@ -256,23 +264,18 @@ func MultiplayerPlayerSpawner(id: int = 1):
 			print_role("Personaje automático asignado al jugador " + str(id) + ": " + next_character)
 		
 		if is_ok:
-			sync_assigned_characters.rpc(assigned_characters)
-			sync_queue_free_nodes.rpc(queue_free_nodes) 
-			remove_nodes_synced.rpc(queue_free_nodes)
-			Sync_Players_Nodes.rpc()
+			sync_all()
 		
 			# Si el servidor ya está en el nivel, notificar al cliente para que oculte la pantalla
 			hide_character_selection_menu.rpc_id(id)
 			print_role("Jugador spawneado con el ID:" + str(id))
 		else:
+			sync_all()
 			print_role("No se pudo añadir al jugador con el id: " + str(id))	
 
 		
 	else:
-		sync_assigned_characters.rpc(assigned_characters)
-		sync_queue_free_nodes.rpc(queue_free_nodes) 
-		remove_nodes_synced.rpc(queue_free_nodes)
-		Sync_Players_Nodes.rpc()
+		sync_all()
 		
 		print_role("Jugador no spawneado con el ID:" + str(id))
 
@@ -294,27 +297,21 @@ func MultiplayerPlayerRemover(id: int = 1):
 			if id in assigned_characters:
 				assigned_characters.erase(id)
 			
-			Sync_Players_Nodes.rpc()
-			sync_assigned_characters.rpc(assigned_characters)
-			sync_queue_free_nodes.rpc(queue_free_nodes) 
+			sync_all()
 			print_role("Jugador removido con el ID:" + str(id))
 		else:
 			# El jugador no es válido, pero aún así remover de assigned_characters
 			if id in assigned_characters:
 				assigned_characters.erase(id)
 			
-			Sync_Players_Nodes.rpc()
-			sync_assigned_characters.rpc(assigned_characters)
-			sync_queue_free_nodes.rpc(queue_free_nodes) 
+			sync_all()
 			print_role("Jugador con ID: " + str(id) + " no es válido, pero se removió de la lista.")
 	else:
 		# El jugador no está en Players_Nodes, pero aún así remover de assigned_characters si existe
 		if id in assigned_characters:
 			assigned_characters.erase(id)
 		
-		Sync_Players_Nodes.rpc()
-		sync_assigned_characters.rpc(assigned_characters)
-		sync_queue_free_nodes.rpc(queue_free_nodes) 
+		sync_all()
 		print_role("El jugador con ID: " + str(id) + " no se encuentra en el juego.")
 		
 
@@ -327,15 +324,16 @@ func Sync_Players_Nodes():
 	for player in get_tree().get_nodes_in_group("player"):
 		Players_Nodes[player.id] = player
 
-	
-func MultiplayerConnectionFailed():
-	print_role("Failed to connect to server")
-
+func clear_all():
 	Players_Nodes.clear()
 	assigned_characters.clear()
 	queue_free_nodes.clear()
 	Multiplayerspawner.clear()
-	
+
+func MultiplayerConnectionFailed():
+	print_role("Failed to connect to server")
+
+	clear_all()
 	CloseUp()
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
@@ -352,8 +350,16 @@ func MultiplayerConnectionFailed():
 		UnloadScene.unload_scene(GameController.levelnode) # ← Added to prevent errors
 	
 
+var next_id: int = 0
+
+func generate_unique_id() -> String:
+	next_id += 1
+	return "obj_" + str(next_id)
+
 func MultiplayerConnectionServerSucess():
 	print_role("Connected to server")
+
+	clear_all()
 	
 	# Solo cargar la escena de elegir personaje si somos cliente y no existe ya
 	if not multiplayer.is_server():
@@ -394,10 +400,7 @@ func MultiplayerConnectionServerSucess():
 func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
 	
-	Players_Nodes.clear()
-	assigned_characters.clear()
-	queue_free_nodes.clear()
-	Multiplayerspawner.clear()
+	clear_all()
 
 	CloseUp()
 
@@ -474,27 +477,16 @@ func _on_server_browser_time_timeout() -> void:
 @rpc("any_peer", "call_local")
 func sync_queue_free_nodes(nodes: Array):
 	queue_free_nodes = nodes.duplicate(true)
+	apply_queued_deletions()
+	emit_signal("queue_synced")
 
-@rpc("any_peer", "call_local")
-func remove_node_synced(node_path: String):	
-	var node = get_tree().get_current_scene().get_node_or_null(node_path)
-	if node and is_instance_valid(node):
-		node.queue_free()
-		print_role("Nodo eliminado sincronizado: " + node_path)
+func apply_queued_deletions():
+	await get_tree().process_frame
 
-@rpc("any_peer", "call_local")
-func remove_nodes_synced(nodes: Array):
-	for node_path in nodes:
-		var node = get_tree().get_current_scene().get_node_or_null(node_path)
-		if node:
-			# Si el nodo está en la lista, eliminarlo directamente sin verificar estado
-			# Esto asegura que los clientes que se conectan después eliminen los nodos correctos
-			remove_node_synced.rpc(node_path)
-			print_role("Nodo eliminado: " + node_path)
-		else:
-			# Log más claro para debugging
-			print_role("Nodo no encontrado: " + str(node_path))
-
+	for node in get_tree().get_nodes_in_group("Persistent"):
+		if node.unique_id in queue_free_nodes:
+			node.queue_free()
+			print_role("Nodo eliminado por ID: " + node.unique_id)
 
 func add_queue_free_nodes(Name: String):
 	if not multiplayer.is_server():

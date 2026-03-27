@@ -5,6 +5,8 @@ extends CharacterBody2D
 @export var color: Color
 @export var death = false
 
+@export var unique_id: String
+
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")
 @onready var bulletspawn = $bulletpos/bulletspawn
 @onready var bulletpos = $bulletpos
@@ -15,6 +17,14 @@ extends CharacterBody2D
 @export var invincibility_time = 1.5
 
 func _ready() -> void:
+	add_to_group("Persistent")
+	unique_id = name
+
+	await get_tree().process_frame
+
+	if Network.queue_free_nodes.has(unique_id):
+		queue_free()
+
 	# Animación inicial según color
 	if color == Color.RED and !animator.is_playing():
 		animator.play("robot Idle")
@@ -83,9 +93,9 @@ func kill():
 
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(get_path())
+	Network.add_queue_free_nodes(unique_id)
 	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
-	Network.remove_node_synced.rpc(get_path())
+	queue_free()
 
 func SaveGameData():
 	var save_dict = {

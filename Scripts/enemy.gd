@@ -3,6 +3,8 @@ extends CharacterBody2D
 @export var health = 10
 @export var damagecount = 3
 
+@export var unique_id: String
+
 @export var move_speed = 50
 @export var direction = Vector2.LEFT
 
@@ -26,6 +28,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var is_burning: bool = false
 
 func _ready() -> void:
+	add_to_group("Persistent")
+	unique_id = name
+
+	await get_tree().process_frame
+
+	if Network.queue_free_nodes.has(unique_id):
+		queue_free()
+
 	if color_str == "Green":
 		animator.play("walk slime green")
 	elif color_str == "Blue":
@@ -127,9 +137,9 @@ func kill():
 	
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(get_path())
+	Network.add_queue_free_nodes(unique_id)
 	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
-	Network.remove_node_synced.rpc(get_path())
+	queue_free()
 
 	
 func SaveGameData():
@@ -164,7 +174,7 @@ func burn():
 
 	is_burning = false	
 	if is_instance_valid(fire):
-		Network.remove_node_synced.rpc(fire.get_path())
+		queue_free()
 	
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):

@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 @onready var healthbar = $ProgressBar
 
+@export var unique_id: String
 
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")
 @onready var firescene = preload("res://Scenes/fire.tscn")
@@ -25,6 +26,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var is_burning: bool = false
 
 func _ready() -> void:
+	add_to_group("Persistent")
+	unique_id = name
+
+	await get_tree().process_frame
+
+	if Network.queue_free_nodes.has(unique_id):
+		queue_free()
+
 	if color_str == "Green":
 		is_fireball = false
 		if !animator.is_playing():
@@ -121,9 +130,9 @@ func kill():
 	
 	GamePersistentData.SavePersistentNodes()
 	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(get_path())
+	Network.add_queue_free_nodes(unique_id)
 	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
-	Network.remove_node_synced.rpc(get_path())
+	queue_free()
 
 func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
@@ -263,7 +272,7 @@ func burn():
 	is_burning = false	
 	
 	if is_instance_valid(fire):
-		Network.remove_node_synced.rpc(fire.get_path())
+		queue_free()
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):

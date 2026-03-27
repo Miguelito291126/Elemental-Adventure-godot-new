@@ -21,9 +21,10 @@ func LoadPersistentNodes():
 	# 🔹 Limpiar nodos persistentes existentes (solo una vez al inicio)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for i in save_nodes:
-		Network.add_queue_free_nodes(i.get_path())
-		Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
-		Network.remove_node_synced.rpc(i.get_path())
+		Network.add_queue_free_nodes(i.unique_id)
+		i.queue_free()
+
+	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.

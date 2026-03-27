@@ -1,6 +1,7 @@
 extends RigidBody2D
 @export var collected := false
 @onready var hearthsound = $"hearth sound"
+@export var unique_id: String
 
 func SaveGameData():
 	var save_dict = {
@@ -16,6 +17,14 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		call_deferred("hide_hearth", body.name)
 
+func _ready() -> void:
+	add_to_group("Persistent")
+	unique_id = name
+
+	await get_tree().process_frame
+
+	if Network.queue_free_nodes.has(unique_id):
+		queue_free()
 
 func hide_hearth(player_name: String) -> void:
 	if not visible:
@@ -39,6 +48,6 @@ func hide_hearth(player_name: String) -> void:
 
 	await hearthsound.finished
 
-	Network.add_queue_free_nodes(get_path())
+	Network.add_queue_free_nodes(unique_id)
 	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
-	Network.remove_node_synced.rpc(get_path())
+	queue_free()
