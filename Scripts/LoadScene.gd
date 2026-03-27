@@ -93,15 +93,8 @@ func _process(_delta):
 
 			var new_scene = ResourceLoader.load_threaded_get(scene_path).instantiate()
 			if is_instance_valid(new_scene):
-				GameController.nodegame.add_child(new_scene)
-
-				# ESPERAR sincronización de red
-				if not multiplayer.is_server():
-					await Network.queue_synced
-
-				# aplicar eliminación DESPUÉS de sincronizar
-				Network.apply_queued_deletions()
-			
+				finish_scene_load(new_scene)
+				
 			emit_signal("progress_changed", 1.0)
 			emit_signal("load_done")
 			set_process(false)
@@ -114,9 +107,6 @@ func LoadGameOverMenu(current_scene = null):
 	LoadScene.load_scene(current_scene, "res://Scenes/game_over_menu.tscn")
 
 func LoadVictoryMenu(current_scene = null):
-	GamePersistentData.DeletePersistentNodes()
-	Network.remove_all_queue_free_nodes()
-	
 	if GameController.level <= GameController.max_level:
 		LoadScene.load_scene(current_scene, "res://Scenes/victory_menu.tscn")
 	else:
@@ -135,6 +125,14 @@ func LoadCharacterMenu(current_scene = null):
 
 	LoadScene.load_scene(current_scene, "res://Scenes/chose_character.tscn")
 
+func finish_scene_load(new_scene):
+	GameController.nodegame.add_child(new_scene)
+
+	if scene_path.begins_with("res://Scenes/level_"):
+		if not multiplayer.is_server():
+			await Network.queue_synced
+
+		Network.apply_queued_deletions()
 
 func load_level_scene(current_scene = null):
 	var scene_path = "res://Scenes/%s.tscn" % get_level_str()
