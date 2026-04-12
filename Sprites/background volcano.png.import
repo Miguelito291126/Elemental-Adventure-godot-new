@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcrlm1mourvgp"
-path="res://.godot/imported/textures.png-64d6fb185ff71af096b1a26b6fe757ed.ctex"
+uid="uid://4cd4w5jbqunm"
+path="res://.godot/imported/background volcano.png-9cc74f876bcef83c1ae81827fff3caed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/textures.png"
-dest_files=["res://.godot/imported/textures.png-64d6fb185ff71af096b1a26b6fe757ed.ctex"]
+source_file="res://Sprites/background volcano.png"
+dest_files=["res://.godot/imported/background volcano.png-9cc74f876bcef83c1ae81827fff3caed.ctex"]
 
 [params]
 

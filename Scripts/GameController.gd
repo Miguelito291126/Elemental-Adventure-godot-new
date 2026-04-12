@@ -4,7 +4,7 @@ var version = ProjectSettings.get_setting("application/config/version")
 var gamename = ProjectSettings.get_setting("application/config/name")
 var credits = "Miguelito2911"
 
-@export var max_level = 24
+@export var max_level = 25
 @export var energys = 0
 @export var points = 0
 @export var level = 1

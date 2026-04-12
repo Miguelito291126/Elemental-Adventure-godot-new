@@ -5,7 +5,13 @@ var node_group = "Persistent"
 const PATH := "user://data_state.cfg"
 const DATA_SECTION := "Results"
 
+var already_loaded = false
+
 func LoadPersistentNodes():
+	if already_loaded:
+		return
+
+	already_loaded = true
 
 	if not multiplayer.is_server():
 		return
@@ -18,17 +24,19 @@ func LoadPersistentNodes():
 	# project, so take care with this step.
 	# For our example, we will accomplish this by deleting saveable objects.
 
-	# 🔹 Limpiar nodos persistentes existentes (solo una vez al inicio)
+	# Limpiar nodos persistentes existentes (solo una vez al inicio)
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
+
 	for i in save_nodes:
 		Network.add_queue_free_nodes(i.unique_id)
-		i.queue_free()
 
+	# sincronizar eliminación
 	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.
 	var save_file = FileAccess.open(PATH, FileAccess.READ)
+	var removed_ids = {}
 	while save_file.get_position() < save_file.get_length():
 		var json_string = save_file.get_line()
 
@@ -44,11 +52,15 @@ func LoadPersistentNodes():
 		# Get the data from the JSON object.
 		var node_data = json.data
 		
-		# ⚡ Saltar monedas recogidas o enemigos muertos
-		if (node_data.has("collected") and node_data["collected"] == true) \
-		or (node_data.has("death") and node_data["death"] == true):
+		# Saltar monedas recogidas o enemigos muertos
+		if node_data.has("collected") and node_data["collected"] == true:
+			removed_ids[node_data["unique_id"]] = true
 			continue
 
+		if node_data.has("death") and node_data["death"] == true:
+			removed_ids[node_data["unique_id"]] = true
+			continue
+	
 		if not node_data.has("filename"):
 			return
 
@@ -58,11 +70,22 @@ func LoadPersistentNodes():
 		if is_instance_valid(new_object) and is_instance_valid(parent_node):
 			parent_node.add_child(new_object, true)
 			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+			new_object.unique_id = node_data["unique_id"]
 
 		for i in node_data.keys():
-			if i in ["filename", "parent", "pos_x", "pos_y"]:
+			if i in ["filename", "parent", "pos_x", "pos_y", "unique_id"]:
 				continue
 			new_object.set(i, node_data[i])
+
+	# Volver a obtener nodos actuales (IMPORTANTE)
+	var current_nodes = get_tree().get_nodes_in_group(node_group)
+
+	for node in current_nodes:
+		if removed_ids.has(node.unique_id):
+			node.queue_free()
+
+
+
 
 
 func SavePersistentNodes():

@@ -14,18 +14,19 @@ func SaveGameData():
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
 		"pos_y" : position.y,
-		"collected" : collected
+		"collected" : collected,
+		"unique_id": unique_id
 	}
 	return save_dict
 
 func _ready() -> void:
 	add_to_group("Persistent")
-	unique_id = name
+
+	if unique_id == "" or unique_id == null:
+		randomize()
+		unique_id = str(Time.get_unix_time_from_system()) + "_" + str(randi())
 
 	await get_tree().process_frame
-
-	if Network.queue_free_nodes.has(unique_id):
-		queue_free()
 
 func hide_coin():
 	if not visible:

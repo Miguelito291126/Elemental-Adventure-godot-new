@@ -2,22 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c18dotgyxy3gs"
-path="res://.godot/imported/Background floor 2.png-14b2b89e5c66cd2562fde42414363a8e.ctex"
+uid="uid://ddglfl0f1cjju"
+path="res://.godot/imported/Background floor5.png-056cfb3844fc0e8b711a3df67fcc1f58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Background floor 2.png"
-dest_files=["res://.godot/imported/Background floor 2.png-14b2b89e5c66cd2562fde42414363a8e.ctex"]
+source_file="res://Sprites/Background floor5.png"
+dest_files=["res://.godot/imported/Background floor5.png-056cfb3844fc0e8b711a3df67fcc1f58.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

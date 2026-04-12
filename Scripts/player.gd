@@ -97,10 +97,10 @@ func update_particles():
 	if not is_multiplayer_authority():
 		return
 		
-	if GameController.level > 6 and GameController.level <= 12:
+	if GameController.level > 5 and GameController.level <= 10:
 		snow.emitting = false
 		ash.emitting = true
-	elif GameController.level > 18 and GameController.level <= 24:
+	elif GameController.level > 15 and GameController.level <= 20:
 		snow.emitting = true
 		ash.emitting = false
 	else:
