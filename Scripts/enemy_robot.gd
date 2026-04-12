@@ -109,7 +109,6 @@ func kill():
 	GameController.GameData.SaveGameData()
 	Network.add_queue_free_nodes(unique_id)
 	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
-	queue_free()
 
 
 func SaveGameData():
