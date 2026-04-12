@@ -5,13 +5,13 @@ var node_group = "Persistent"
 const PATH := "user://data_state.cfg"
 const DATA_SECTION := "Results"
 
-var already_loaded = false
+var is_loading = false
 
 func LoadPersistentNodes():
-	if already_loaded:
+	if is_loading:
 		return
 
-	already_loaded = true
+	is_loading = true
 
 	if not multiplayer.is_server():
 		return
@@ -71,9 +71,10 @@ func LoadPersistentNodes():
 			parent_node.add_child(new_object, true)
 			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 			new_object.unique_id = node_data["unique_id"]
+			
 
 		for i in node_data.keys():
-			if i in ["filename", "parent", "pos_x", "pos_y", "unique_id"]:
+			if i in ["filename", "parent", "pos_x", "pos_y", "unique_id", "Name"]:
 				continue
 			new_object.set(i, node_data[i])
 
@@ -83,6 +84,8 @@ func LoadPersistentNodes():
 	for node in current_nodes:
 		if removed_ids.has(node.unique_id):
 			node.queue_free()
+
+	is_loading = false
 
 
 

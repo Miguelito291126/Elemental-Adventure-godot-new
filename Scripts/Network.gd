@@ -353,8 +353,7 @@ func MultiplayerConnectionFailed():
 var next_id: int = 0
 
 func generate_unique_id() -> String:
-	next_id += 1
-	return "obj_" + str(next_id)
+	return "obj_" + str(Time.get_unix_time_from_system()) + "_" + str(randi())
 
 func MultiplayerConnectionServerSucess():
 	print_role("Connected to server")

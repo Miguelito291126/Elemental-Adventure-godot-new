@@ -20,6 +20,3 @@ func _ready() -> void:
 			Network.MultiplayerPlayerSpawner(id)
 
 	Network.print_role("Nivel Iniciado")
-
-
-

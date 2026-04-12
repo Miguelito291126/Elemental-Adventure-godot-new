@@ -5,12 +5,13 @@ extends RigidBody2D
 
 func SaveGameData():
 	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Vector2 is not supported by JSON
-		"pos_y" : position.y,
-		"collected" : collected,
-		"unique_id" : unique_id
+		"filename": get_scene_file_path(),
+		"parent": get_parent().get_path(),
+		"pos_x": position.x, # Vector2 is not supported by JSON
+		"pos_y": position.y,
+		"collected": collected,
+		"Name": name,
+		"unique_id": unique_id
 	}
 	return save_dict
 
@@ -22,8 +23,9 @@ func _ready() -> void:
 	add_to_group("Persistent")
 
 	if unique_id == "" or unique_id == null:
-		randomize()
-		unique_id = str(Time.get_unix_time_from_system()) + "_" + str(randi())
+		unique_id = Network.generate_unique_id()
+
+	name = unique_id
 
 	await get_tree().process_frame
 
