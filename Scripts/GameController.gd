@@ -60,7 +60,6 @@ func getlevel():
 	if multiplayer.is_server():
 		GameData.SaveGameData()
 		GamePersistentData.DeletePersistentNodes()
-		Network.remove_all_queue_free_nodes()
 
 	load_victory_scene.rpc()
 
