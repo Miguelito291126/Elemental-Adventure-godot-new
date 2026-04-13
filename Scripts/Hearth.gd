@@ -1,7 +1,10 @@
 extends RigidBody2D
-@export var collected := false
+
+
 @onready var hearthsound = $"hearth sound"
 @export var unique_id: String
+
+var collected = false
 
 func SaveGameData():
 	var save_dict = {
@@ -23,33 +26,29 @@ func _ready() -> void:
 	add_to_group("Persistent")
 
 	if unique_id == "" or unique_id == null:
-		unique_id = Network.generate_unique_id()
-
-	name = unique_id
+		unique_id = str(get_path())
 
 	await get_tree().process_frame
 
 func hide_hearth(player_name: String) -> void:
-	if not visible:
+	if collected:
 		return
+
+	collected = !collected
+	hearthsound.play()
+	visible = false
 
 	var players = get_tree().get_nodes_in_group("player")
 	for player in players:
 		if player.name == player_name:
 			# Asegúrate de que el método se llame exactamente así en el script del jugador
 			player.healting(1)
+	
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
-	hearthsound.play()
-	visible = false
-	collected = true
+		await hearthsound.finished
 
-	if not multiplayer.is_server():
-		return
-
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
-
-	await hearthsound.finished
-
-	Network.add_queue_free_nodes(unique_id)
-	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+		Network.add_queue_free_nodes(unique_id)
+		Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)

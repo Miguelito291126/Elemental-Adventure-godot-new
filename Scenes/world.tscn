@@ -30,6 +30,7 @@ color = Color(0.310617, 0.310617, 0.310617, 1)
 environment = SubResource("Environment_0fj1v")
 
 [node name="Background" type="ParallaxBackground" parent="." unique_id=1051978505]
+visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background" unique_id=1563603366]
 color = Color(0.310617, 0.310617, 0.310617, 1)
@@ -61,7 +62,7 @@ centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="Background" unique_id=2089573735]
 position = Vector2(10, 190)
-motion_scale = Vector2(0.2, 0.2)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer2" unique_id=999780058]
@@ -71,7 +72,7 @@ centered = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="Background" unique_id=1711251622]
 position = Vector2(3, 128)
-motion_scale = Vector2(0.3, 0.3)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background/ParallaxLayer" unique_id=1314257975]
@@ -112,7 +113,7 @@ texture = ExtResource("3_o06y3")
 centered = false
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="Background2" unique_id=1640692471]
-motion_scale = Vector2(0.1, 0.1)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background2/ParallaxLayer5" unique_id=1100116272]
@@ -122,7 +123,7 @@ texture = ExtResource("7_c5t2i")
 centered = false
 
 [node name="ParallaxLayer6" type="ParallaxLayer" parent="Background2" unique_id=440483120]
-motion_scale = Vector2(0.1, 0.1)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background2/ParallaxLayer6" unique_id=734335706]
@@ -165,7 +166,7 @@ texture = ExtResource("3_o06y3")
 centered = false
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="Background3" unique_id=1457794123]
-motion_scale = Vector2(0.1, 0.1)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background3/ParallaxLayer5" unique_id=915179357]
@@ -175,7 +176,7 @@ centered = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="Background3" unique_id=159892772]
 position = Vector2(3, 128)
-motion_scale = Vector2(0.3, 0.3)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background3/ParallaxLayer" unique_id=491426888]
@@ -189,7 +190,6 @@ texture = ExtResource("8_5v1tr")
 centered = false
 
 [node name="Background4" type="ParallaxBackground" parent="." unique_id=782172931]
-visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background4" unique_id=1108725289]
 color = Color(0.310617, 0.310617, 0.310617, 1)
@@ -216,7 +216,7 @@ texture = ExtResource("3_o06y3")
 centered = false
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="Background4" unique_id=545465023]
-motion_scale = Vector2(0.1, 0.1)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background4/ParallaxLayer5" unique_id=333124690]
@@ -226,7 +226,7 @@ centered = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="Background4" unique_id=281564161]
 position = Vector2(3, 128)
-motion_scale = Vector2(0.3, 0.3)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background4/ParallaxLayer" unique_id=1829135477]
@@ -240,9 +240,10 @@ texture = ExtResource("5_5v1tr")
 centered = false
 
 [node name="Background5" type="ParallaxBackground" parent="." unique_id=1217265628]
+visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background5" unique_id=1127104959]
-color = Color(0.71129656, 0.71129656, 0.71129656, 1)
+color = Color(0.310617, 0.310617, 0.310617, 1)
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="Background5" unique_id=419187859]
 motion_scale = Vector2(0, 0)
@@ -253,7 +254,7 @@ texture = ExtResource("2_5ukr8")
 centered = false
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="Background5" unique_id=1221151465]
-motion_scale = Vector2(0.1, 0.1)
+motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background5/ParallaxLayer5" unique_id=329575905]

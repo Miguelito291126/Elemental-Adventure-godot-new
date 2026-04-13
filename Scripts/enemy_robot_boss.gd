@@ -19,18 +19,19 @@ extends CharacterBody2D
 @export var invincibility_time = 1.5  # segundos de invencibilidad
 
 @onready var animator = $AnimatedSprite2D
-@export var death = false
+@export var is_burning: bool = false
+
+var death = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-@export var is_burning: bool = false
+
 
 func _ready() -> void:
 	add_to_group("Persistent")
 
 	if unique_id == "" or unique_id == null:
-		unique_id = Network.generate_unique_id()
-
-	name = unique_id
+		unique_id = str(get_path())
+	
 
 	await get_tree().process_frame
 		
@@ -92,29 +93,28 @@ func kill():
 
 	death = !death
 
-	if not multiplayer.is_server():
-		return
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
-	# Posición donde aparecerán los objetos (cerca del jugador)
-	var drop_position = global_position
-	# Decidir aleatoriamente qué soltar
-	var drop_chance = randi() % 2  # 0 o 1
-	
-	if drop_chance == 0:
-		var coin = load("res://Scenes/energy.tscn").instantiate()
-		coin.global_position = drop_position
-		get_parent().add_child(coin)  # El MultiplayerSpawner manejará la replicación
-	else:
-		var hearth = load("res://Scenes/hearth.tscn").instantiate()
-		hearth.global_position = drop_position
-		get_parent().add_child(hearth)  # El MultiplayerSpawner manejará la replicación
+		# Posición donde aparecerán los objetos (cerca del jugador)
+		var drop_position = global_position
+		# Decidir aleatoriamente qué soltar
+		var drop_chance = randi() % 2  # 0 o 1
+		
+		if drop_chance == 0:
+			var coin = load("res://Scenes/energy.tscn").instantiate()
+			coin.global_position = drop_position
+			get_parent().add_child(coin)  # El MultiplayerSpawner manejará la replicación
+		else:
+			var hearth = load("res://Scenes/hearth.tscn").instantiate()
+			hearth.global_position = drop_position
+			get_parent().add_child(hearth)  # El MultiplayerSpawner manejará la replicación
 
-	GameController.getpoint.rpc()
-	
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
-	Network.add_queue_free_nodes(unique_id)
-	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+		GameController.getpoint.rpc()
+
+		Network.add_queue_free_nodes(unique_id)
+		Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 
 func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta

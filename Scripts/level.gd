@@ -9,6 +9,9 @@ func _ready() -> void:
 	Network.Multiplayerspawner.append(Playersspawner)
 
 	if multiplayer.is_server():
+
+		await get_tree().process_frame
+
 		GamePersistentData.LoadPersistentNodes()
 
 		await get_tree().create_timer(0.3).timeout

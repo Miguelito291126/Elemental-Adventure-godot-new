@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://xk8b0rvqb0xx"]
+[gd_scene format=3 uid="uid://xk8b0rvqb0xx"]
 
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_6b1b0"]
 [ext_resource type="Script" uid="uid://cyqxiabw8dwge" path="res://Scripts/splash_screen.gd" id="2_wwf30"]
 [ext_resource type="PackedScene" uid="uid://ck6cqfxuu22vs" path="res://Scenes/game.tscn" id="3_h5jmx"]
 
-[node name="Splash_screen" type="Control"]
+[node name="Splash_screen" type="Control" unique_id=1163767767]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,7 @@ theme = ExtResource("1_6b1b0")
 script = ExtResource("2_wwf30")
 scene = ExtResource("3_h5jmx")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=417905834]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6b1b0")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1357240264]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -39,7 +39,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6b1b0")
 
-[node name="Logo" type="Label" parent="CenterContainer"]
+[node name="Logo" type="Label" parent="CenterContainer" unique_id=1680178439]
 layout_mode = 2
 theme = ExtResource("1_6b1b0")
 text = "Miguel Present:"

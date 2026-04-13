@@ -3,87 +3,65 @@ extends Node
 var node_group = "Persistent"
 
 const PATH := "user://data_state.cfg"
-const DATA_SECTION := "Results"
-
 var is_loading = false
 
 func LoadPersistentNodes():
+	if not multiplayer.is_server():
+		return
+
+	if not FileAccess.file_exists(PATH):
+		Network.print_role("No hay archivo de guardado, manteniendo nivel original.")
+		return
+
 	if is_loading:
 		return
 
 	is_loading = true
 
-	if not multiplayer.is_server():
-		return
-
-	if not FileAccess.file_exists(PATH):
-		return # Error! We don't have a save to load.
-
-	# We need to revert the game state so we're not cloning objects
-	# during loading. This will vary wildly depending on the needs of a
-	# project, so take care with this step.
-	# For our example, we will accomplish this by deleting saveable objects.
-
-	# Limpiar nodos persistentes existentes (solo una vez al inicio)
-	var save_nodes = get_tree().get_nodes_in_group(node_group)
-
-	for i in save_nodes:
-		Network.add_queue_free_nodes(i.unique_id)
-
-	# sincronizar eliminación
-	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+	Network.queue_free_nodes.clear()
 
 	# Load the file line by line and process that dictionary to restore
 	# the object it represents.
 	var save_file = FileAccess.open(PATH, FileAccess.READ)
-	var removed_ids = {}
+	var removed_ids = {} # IDs que vienen en el archivo pero no están vivos (por ejemplo, monedas recogidas o enemigos muertos)
 	while save_file.get_position() < save_file.get_length():
 		var json_string = save_file.get_line()
-
-		# Creates the helper class to interact with JSON.
 		var json = JSON.new()
-
-		# Check if there is any error while parsing the JSON string, skip in case of failure.
 		var parse_result = json.parse(json_string)
-		if not parse_result == OK:
-			Network.print_role("JSON Parse Error: " + json.get_error_message() + " in " + json_string + " at line " + str(json.get_error_line()))
-			continue
+
+		if not parse_result == OK: continue
 
 		# Get the data from the JSON object.
 		var node_data = json.data
+		var uid = node_data["unique_id"]
 		
 		# Saltar monedas recogidas o enemigos muertos
-		if node_data.has("collected") and node_data["collected"] == true:
-			removed_ids[node_data["unique_id"]] = true
-			continue
+		if (node_data.has("collected") and node_data["collected"] == true) or \
+				(node_data.has("death") and node_data["death"] == true):
+					Network.add_queue_free_nodes(uid)
+					removed_ids[uid] = true
+					continue
 
-		if node_data.has("death") and node_data["death"] == true:
-			removed_ids[node_data["unique_id"]] = true
-			continue
-	
-		if not node_data.has("filename"):
-			return
+		var parent_node = get_tree().get_root().get_node_or_null(node_data["parent"])
+		# ... (tu lógica de instanciación actual) ...
+		if is_instance_valid(parent_node):
+			# Intenta encontrar si el nodo ya existe en la escena para no duplicarlo
+			var existing = get_tree().get_nodes_in_group(node_group).filter(func(n): return n.unique_id == uid)
+			if existing.size() > 0:
+				existing[0].position = Vector2(node_data["pos_x"], node_data["pos_y"])
+			else:
+				var new_object = load(node_data["filename"]).instantiate()
+				parent_node.add_child(new_object, true)
+				new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+				new_object.unique_id = uid
 
-		var parent_node = get_node(node_data["parent"])
-		var new_object = load(node_data["filename"]).instantiate()
-
-		if is_instance_valid(new_object) and is_instance_valid(parent_node):
-			parent_node.add_child(new_object, true)
-			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-			new_object.unique_id = node_data["unique_id"]
-			
-
-		for i in node_data.keys():
-			if i in ["filename", "parent", "pos_x", "pos_y", "unique_id", "Name"]:
-				continue
-			new_object.set(i, node_data[i])
-
-	# Volver a obtener nodos actuales (IMPORTANTE)
+	# Limpieza local en el servidor
 	var current_nodes = get_tree().get_nodes_in_group(node_group)
-
 	for node in current_nodes:
 		if removed_ids.has(node.unique_id):
 			node.queue_free()
+
+	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 
 	is_loading = false
 
@@ -95,17 +73,25 @@ func SavePersistentNodes():
 	if not multiplayer.is_server():
 		return
 
-	var save_file = FileAccess.open(PATH, FileAccess.WRITE)
+	var all_data = {}
+	if FileAccess.file_exists(PATH):
+		var read_file = FileAccess.open(PATH, FileAccess.READ)
+		while read_file.get_position() < read_file.get_length():
+			var line = read_file.get_line()
+			var json = JSON.parse_string(line)
+			if json:
+				all_data[json["unique_id"]] = json
+
 	var save_nodes = get_tree().get_nodes_in_group(node_group)
 	for node in save_nodes:
-		if node.scene_file_path.is_empty() or !node.has_method("SaveGameData"):
-			continue
-		
-		var node_data = node.call("SaveGameData")
-		if node_data == null:
-			continue
-		
-		save_file.store_line(JSON.stringify(node_data))
+		if node.has_method("SaveGameData"):
+			var node_data = node.call("SaveGameData")
+			if node_data:
+				all_data[node_data["unique_id"]] = node_data
+
+	var save_file = FileAccess.open(PATH, FileAccess.WRITE)
+	for id in all_data:
+		save_file.store_line(JSON.stringify(all_data[id]))
 
 
 func DeletePersistentNodes():

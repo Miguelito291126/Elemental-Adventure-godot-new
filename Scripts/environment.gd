@@ -35,11 +35,11 @@ func _process(_delta: float) -> void:
 		lava.visible = false
 		desert.visible = false
 		destrolledeearth.visible = false
-		snow.visible = true
+		snow.visible = false
 		dark.visible = true
 	else: 
 		lava.visible = false
 		desert.visible = false
 		destrolledeearth.visible = false
 		snow.visible = false
-		dark.visible = true
+		dark.visible = false

@@ -1,8 +1,8 @@
 extends RigidBody2D
-@export var collected := false
-@onready var coinsound = $"coin sound"
 
+@onready var coinsound = $"coin sound"
 @export var unique_id: String
+var collected = false
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):	
@@ -24,29 +24,26 @@ func _ready() -> void:
 	add_to_group("Persistent")
 
 	if unique_id == "" or unique_id == null:
-		unique_id = Network.generate_unique_id()
-
-	name = unique_id
+		unique_id = str(get_path())
 
 	await get_tree().process_frame
 
 func hide_coin():
-	if not visible:
+	if collected:
 		return
 
-	coinsound.play()
+	collected = !collected
 	visible = false
-	collected = true
+	coinsound.play()
+	
+	
+	if multiplayer.is_server():
+		GamePersistentData.SavePersistentNodes()
+		GameController.GameData.SaveGameData()
 
-	if not multiplayer.is_server():
-		return
+		GameController.getcoin.rpc()
 
-	GameController.getcoin.rpc()
+		await coinsound.finished
 
-	GamePersistentData.SavePersistentNodes()
-	GameController.GameData.SaveGameData()
-
-	await coinsound.finished
-
-	Network.add_queue_free_nodes(unique_id)
-	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+		Network.add_queue_free_nodes(unique_id)
+		Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)

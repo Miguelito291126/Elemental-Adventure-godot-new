@@ -360,7 +360,6 @@ func game_over():
 		GamePersistentData.SavePersistentNodes()
 		GameController.GameData.SaveGameData()
 
-
 	load_gameover_scene.rpc()
 
 	
