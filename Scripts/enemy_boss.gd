@@ -6,7 +6,6 @@ extends CharacterBody2D
 @onready var healthbar = $ProgressBar
 
 @export var unique_id: String
-
 @onready var bulletscene = preload("res://Scenes/bullet.tscn")
 @onready var firescene = preload("res://Scenes/fire.tscn")
 @onready var bulletspawn = $bulletpos/bulletspawn
@@ -31,7 +30,8 @@ func _ready() -> void:
 	add_to_group("Persistent")
 
 	if unique_id == "" or unique_id == null:
-		unique_id = str(get_path())
+		unique_id = Network.generate_unique_id(self)
+		
 
 	await get_tree().process_frame
 
@@ -174,8 +174,8 @@ func SaveGameData():
 		"pos_y": position.y,
 		"death": death,
 		"health": health,
-		"Name": name,
-		"unique_id": unique_id
+		"name": name,
+		"unique_id": unique_id,
 	}
 	return save_dict
 

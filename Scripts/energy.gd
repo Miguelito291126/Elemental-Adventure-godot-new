@@ -2,6 +2,7 @@ extends RigidBody2D
 
 @onready var coinsound = $"coin sound"
 @export var unique_id: String
+
 var collected = false
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -15,16 +16,17 @@ func SaveGameData():
 		"pos_x": position.x, # Vector2 is not supported by JSON
 		"pos_y": position.y,
 		"collected": collected,
-		"Name": name,
-		"unique_id": unique_id
+		"name": name,
+		"unique_id": unique_id,
 	}
 	return save_dict
 
 func _ready() -> void:
 	add_to_group("Persistent")
 
-	if unique_id == "" or unique_id == null:
-		unique_id = str(get_path())
+	if  unique_id == "" or unique_id == null:
+		unique_id = Network.generate_unique_id(self)
+		
 
 	await get_tree().process_frame
 

@@ -4,6 +4,7 @@ var node_group = "Persistent"
 
 const PATH := "user://data_state.cfg"
 var is_loading = false
+var is_saving = false
 
 func LoadPersistentNodes():
 	if not multiplayer.is_server():
@@ -55,13 +56,13 @@ func LoadPersistentNodes():
 				new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 				new_object.unique_id = uid
 
+	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
+
 	# Limpieza local en el servidor
 	var current_nodes = get_tree().get_nodes_in_group(node_group)
 	for node in current_nodes:
 		if removed_ids.has(node.unique_id):
 			node.queue_free()
-
-	Network.sync_queue_free_nodes.rpc(Network.queue_free_nodes)
 
 	is_loading = false
 
@@ -70,6 +71,11 @@ func LoadPersistentNodes():
 
 
 func SavePersistentNodes():
+	if is_saving:
+		return
+
+	is_saving = true
+
 	if not multiplayer.is_server():
 		return
 
@@ -92,6 +98,8 @@ func SavePersistentNodes():
 	var save_file = FileAccess.open(PATH, FileAccess.WRITE)
 	for id in all_data:
 		save_file.store_line(JSON.stringify(all_data[id]))
+
+	is_saving = false
 
 
 func DeletePersistentNodes():

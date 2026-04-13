@@ -1,12 +1,11 @@
 extends Node2D
 
 @onready var spawnpoint = $spawner
-@onready var Playersspawner = $PlayersSpawner
+
 
 func _ready() -> void:
 	GameController.levelnode = self
 	GameController.SpawnPoint = spawnpoint
-	Network.Multiplayerspawner.append(Playersspawner)
 
 	if multiplayer.is_server():
 

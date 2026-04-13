@@ -25,7 +25,6 @@ var serverbrowser: Control
 var multiplayerpeer
 
 var queue_free_nodes: Array = []
-var Multiplayerspawner: Array
 var is_loading_character_menu: bool = false
 var server_is_in_level: bool = false
 
@@ -328,7 +327,6 @@ func clear_all():
 	Players_Nodes.clear()
 	assigned_characters.clear()
 	queue_free_nodes.clear()
-	Multiplayerspawner.clear()
 
 func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
@@ -352,8 +350,8 @@ func MultiplayerConnectionFailed():
 
 var next_id: int = 0
 
-func generate_unique_id() -> String:
-	return "obj_" + str(Time.get_unix_time_from_system()) + "_" + str(randi())
+func generate_unique_id(node: Node) -> String:
+	return "id_" + str(node.get_path().hash())
 
 func MultiplayerConnectionServerSucess():
 	print_role("Connected to server")
