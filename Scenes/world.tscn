@@ -190,6 +190,7 @@ texture = ExtResource("8_5v1tr")
 centered = false
 
 [node name="Background4" type="ParallaxBackground" parent="." unique_id=782172931]
+visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background4" unique_id=1108725289]
 color = Color(0.310617, 0.310617, 0.310617, 1)
@@ -240,7 +241,6 @@ texture = ExtResource("5_5v1tr")
 centered = false
 
 [node name="Background5" type="ParallaxBackground" parent="." unique_id=1217265628]
-visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Background5" unique_id=1127104959]
 color = Color(0.310617, 0.310617, 0.310617, 1)

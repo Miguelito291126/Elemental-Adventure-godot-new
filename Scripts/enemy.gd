@@ -122,19 +122,21 @@ func kill():
 		GamePersistentData.SavePersistentNodes()
 		GameController.GameData.SaveGameData()
 
-		# Posición donde aparecerán los objetos (cerca del jugador)
 		var drop_position = global_position
-		# Decidir aleatoriamente qué soltar
-		var drop_chance = randi() % 2  # 0 o 1
+		var drop_chance = randi() % 2
+		var item
 		
 		if drop_chance == 0:
-			var coin = load("res://Scenes/energy.tscn").instantiate()
-			coin.global_position = drop_position
-			get_parent().add_child(coin, true)  # El MultiplayerSpawner manejará la replicación
+			item = load("res://Scenes/energy.tscn").instantiate()
 		else:
-			var hearth = load("res://Scenes/hearth.tscn").instantiate()
-			hearth.global_position = drop_position
-			get_parent().add_child(hearth , true)  # El MultiplayerSpawner manejará la replicación
+			item = load("res://Scenes/hearth.tscn").instantiate()
+			
+		item.global_position = drop_position
+		
+		if item.get("unique_id") != null:
+			item.unique_id = Network.generate_unique_id(item)
+
+		get_parent().add_child(item, true) # true para que el nombre sea legible en red
 
 		GameController.getpoint.rpc()
 
