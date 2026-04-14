@@ -134,23 +134,21 @@ func SaveGameData():
 	
 
 func  _physics_process(delta: float) -> void:
-	if is_shooting:
-		velocity = Vector2.ZERO  # Se detiene al disparar
-		move_and_slide()
-		
-		return
-
-
-	velocity.x = direction.x * move_speed
 	velocity.y += gravity * delta
 
-	# Si el raycast no detecta suelo → girar
-	# Detectar borde o pared para girar
-	if (not left_floor_check.is_colliding() or left_wall_check.is_colliding()):
-		flip_direction()
-	elif (not right_floor_check.is_colliding() or right_wall_check.is_colliding()):
-		flip_direction()
-	
+	if is_shooting:
+		velocity = Vector2.ZERO  # Se detiene al disparar
+	else:
+		velocity.x = direction.x * move_speed
+
+
+		# Si el raycast no detecta suelo → girar
+		# Detectar borde o pared para girar
+		if (not left_floor_check.is_colliding() or left_wall_check.is_colliding()):
+			flip_direction()
+		elif (not right_floor_check.is_colliding() or right_wall_check.is_colliding()):
+			flip_direction()
+		
 	move_and_slide()
 	
 func flip_direction():
@@ -256,3 +254,11 @@ func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	elif body.is_in_group("mud"):
 		is_invincible = false
 		damage.rpc(health)
+
+
+func _on_area_2d_2_body_exited(body: Node2D) -> void:
+	pass # Replace with function body.
+
+
+func _on_area_2d_2_area_exited(area: Area2D) -> void:
+	pass # Replace with function body.

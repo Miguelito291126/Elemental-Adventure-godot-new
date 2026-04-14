@@ -6,6 +6,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m4x7e"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_afpow"]
+radius = 193.494
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vt4ob"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_m4x7e"]
@@ -96,6 +99,13 @@ shadow_enabled = true
 texture = ExtResource("14_m4x7e")
 texture_scale = 0.29
 
+[node name="Area2D2" type="Area2D" parent="." unique_id=1926019476]
+collision_layer = 32
+collision_mask = 1023
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=118463839]
+shape = SubResource("CircleShape2D_afpow")
+
 [node name="Area2D" type="Area2D" parent="." unique_id=499540695]
 collision_layer = 32
 collision_mask = 1023
@@ -107,5 +117,17 @@ shape = SubResource("RectangleShape2D_vt4ob")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=293712820]
 replication_config = SubResource("SceneReplicationConfig_m4x7e")
 
+[node name="bulletpos" type="Node2D" parent="." unique_id=41034151]
+
+[node name="bulletspawn" type="Marker2D" parent="bulletpos" unique_id=1164332873]
+position = Vector2(40, 0)
+
+[node name="Timer" type="Timer" parent="." unique_id=747124382]
+
+[connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]
+[connection signal="area_exited" from="Area2D2" to="." method="_on_area_2d_2_area_exited"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="." method="_on_area_2d_2_body_exited"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_shoot_timer_timeout"]

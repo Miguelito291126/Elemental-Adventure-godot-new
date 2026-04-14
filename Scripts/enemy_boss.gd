@@ -35,23 +35,10 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 
-	if color_str == "Green":
-		is_fireball = false
-		if !animator.is_playing():
-			animator.play("idle slime green")
-	elif color_str == "Blue":
-		is_fireball = false
-		if !animator.is_playing():
-			animator.play("idle slime blue")
-	elif color_str == "Yellow":
-		is_fireball = false
-		if !animator.is_playing():
-			animator.play("idle slime yellow")
-	elif color_str == "Orange":
-		is_fireball = true
-		if !animator.is_playing():
-			animator.play("idle slime orange")
-		
+	animator.play("walk slime " + color_str.to_lower())
+	
+	is_fireball = color_str == "Orange"
+	
 	$PointLight2D.enabled = color_str == "Orange"
 	$PointLight2D.color = color
 
@@ -244,7 +231,7 @@ func shoot(direction: Vector2, rotation: float, position: Vector2):
 	var bullet = bulletscene.instantiate()
 	bullet.global_position = bulletspawn.global_position
 	bullet.direction = direction
-	bullet.fireball = false
+	bullet.fireball = is_fireball
 	bullet.scale *= 2
 
 	get_parent().add_child(bullet, true)
