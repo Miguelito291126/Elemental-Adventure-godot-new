@@ -107,12 +107,12 @@ func kill():
 			item = load("res://Scenes/hearth.tscn").instantiate()
 			
 		item.global_position = drop_position
-		
-		if item.get("unique_id") != null:
-			item.unique_id = Network.generate_unique_id(item)
 
 		get_parent().add_child(item, true) # true para que el nombre sea legible en red
 
+		if item.get("unique_id") != null:
+			item.unique_id = Network.generate_unique_id_random(item)
+			
 		GameController.getpoint.rpc()
 
 		Network.add_queue_free_nodes(unique_id)
@@ -231,7 +231,7 @@ func burn():
 
 	is_burning = false	
 	if is_instance_valid(fire):
-		queue_free()
+		fire.queue_free()
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):

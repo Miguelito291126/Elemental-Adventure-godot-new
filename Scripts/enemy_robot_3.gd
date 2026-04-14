@@ -90,11 +90,13 @@ func kill():
 			
 		item.global_position = drop_position
 		
-		if item.get("unique_id") != null:
-			item.unique_id = Network.generate_unique_id(item)
+
 
 		get_parent().add_child(item, true) # true para que el nombre sea legible en red
 
+		if item.get("unique_id") != null:
+			item.unique_id = Network.generate_unique_id_random(item)
+		
 		GameController.getpoint.rpc()
 
 		Network.add_queue_free_nodes(unique_id)

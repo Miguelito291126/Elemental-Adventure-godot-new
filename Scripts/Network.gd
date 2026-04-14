@@ -348,10 +348,12 @@ func MultiplayerConnectionFailed():
 		UnloadScene.unload_scene(GameController.levelnode) # ← Added to prevent errors
 	
 
-var next_id: int = 0
-
 func generate_unique_id(node: Node) -> String:
 	return "id_" + str(node.get_path().hash())
+
+func generate_unique_id_random(node: Node) -> String:
+	return "id_" + str(node.get_path().hash())  + "_" + str(randi())
+
 
 func MultiplayerConnectionServerSucess():
 	print_role("Connected to server")
