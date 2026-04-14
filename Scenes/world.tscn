@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c4rmmw3h1xhfo" path="res://Sprites/Background floor3.png" id="9_e0ngr"]
 [ext_resource type="Texture2D" uid="uid://bkp2lb61exjq1" path="res://Sprites/Background floor4.png" id="11_kn0ld"]
 [ext_resource type="Texture2D" uid="uid://ddglfl0f1cjju" path="res://Sprites/Background floor5.png" id="12_7yui6"]
+[ext_resource type="Texture2D" uid="uid://cs6tfhkgwycvs" path="res://Sprites/background city 1.png" id="13_c5t2i"]
 
 [sub_resource type="Environment" id="Environment_0fj1v"]
 background_mode = 3
@@ -253,11 +254,44 @@ motion_mirroring = Vector2(1920, 1080)
 texture = ExtResource("2_5ukr8")
 centered = false
 
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Background5" unique_id=641856011]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background5/ParallaxLayer4" unique_id=483657927]
+texture = ExtResource("3_o06y3")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background5/ParallaxLayer4" unique_id=1374570664]
+position = Vector2(956, 3)
+texture = ExtResource("3_o06y3")
+centered = false
+
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="Background5" unique_id=1221151465]
 motion_scale = Vector2(0.5, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Background5/ParallaxLayer5" unique_id=329575905]
-position = Vector2(-3, 577)
+position = Vector2(-3, 281)
+scale = Vector2(1, 1.5873016)
 texture = ExtResource("12_7yui6")
+centered = false
+
+[node name="ParallaxLayer6" type="ParallaxLayer" parent="Background5" unique_id=2119934277]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background5/ParallaxLayer6" unique_id=204028185]
+position = Vector2(1243, 208)
+texture = ExtResource("13_c5t2i")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background5/ParallaxLayer6" unique_id=847050834]
+position = Vector2(147, 208)
+texture = ExtResource("13_c5t2i")
+centered = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Background5/ParallaxLayer6" unique_id=1985361998]
+position = Vector2(735, 499)
+texture = ExtResource("13_c5t2i")
 centered = false
