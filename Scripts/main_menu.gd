@@ -13,6 +13,7 @@ extends Control
 @onready var version = $Panel/Version
 @onready var credits = $Panel/Credits
 @onready var tittle = $"Panel/main menu/Title/Tittle"
+@onready var private_mode = $Panel/Multiplayer/PrivateMode
 
 func _ready() -> void:
 	GameController.main_menu = self
@@ -26,6 +27,7 @@ func _ready() -> void:
 	username_line = Network.Username
 	ip_line.text = Network.ip
 	port_line.text = str(Network.port)
+	private_mode.button_pressed = Network.private_mode
 
 	version.text = "V" + GameController.version
 	credits.text = "By " + GameController.credits
