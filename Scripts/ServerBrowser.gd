@@ -20,7 +20,7 @@ func _ready():
 
 func RefreshServerList():
 	# Evitar peticiones si la anterior no ha terminado (opcional pero recomendado)
-	Network.http.request(Network.masterServerUrl + "/list/natural_disaster_game")
+	Network.http.request(Network.masterServerUrl + "/list/elemental_adventure")
 
 func OnRequestCompleted(result, responseCode, headers, body):
 	if (responseCode != 200): 
