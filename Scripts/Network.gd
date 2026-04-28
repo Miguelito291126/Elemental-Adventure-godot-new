@@ -30,7 +30,7 @@ var server_is_in_level: bool = false
 
 @onready var http: HTTPRequest = $HTTPRequest
 @export var masterServerUrl = "http://79.112.95.69:5000"  # Cambia esto por la URL de tu servidor maestro
-
+@export var private_mode = false
 
 
 func _ready() -> void:
@@ -219,7 +219,9 @@ func Play_MultiplayerServer():
 	if error == OK:
 		multiplayer.multiplayer_peer = multiplayerpeer
 		if multiplayer.is_server():
-			HeartbeatTimerCreate()
+			
+			if not private_mode:
+				SendHeartbeatToMaster()
 
 			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 				print_role("Servidor dedicado iniciado.")

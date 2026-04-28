@@ -151,3 +151,7 @@ func _on_online_list_pressed() -> void:
 func _on_back_3_pressed() -> void:
 	onlinemenu.visible = !onlinemenu.visible
 	serverbrowsermenu.visible = !serverbrowsermenu.visible
+
+
+func _on_private_mode_toggled(toggled_on: bool) -> void:
+	Network.private_mode = toggled_on
