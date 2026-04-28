@@ -533,14 +533,14 @@ func UpnpSetup(Port):
 
 		if (upnp.get_gateway() != null && upnp.get_gateway().is_valid_gateway()):
 			upnp.add_port_mapping(Port, Port, "Godot_Game", "UDP");
-			print("Puerto " + str(Port) + " mapeado en el router via UPNP.");
-			print("La IP Pública es: " + PublicIp);
+			print_role("Puerto " + str(Port) + " mapeado en el router via UPNP.");
+			print_role("La IP Pública es: " + PublicIp);
 		else:
-			printerr("UPNP: No se encontró un Gateway válido.");
+			print_role("UPNP: No se encontró un Gateway válido.");
 
 
 	else:
-		printerr("UPNP Discover falló con código: " + discoverResult);
+		print_role("UPNP Discover falló con código: " + discoverResult);
 
 
 func FetchPublicIp():
@@ -556,16 +556,16 @@ func FetchPublicIp():
 		
 			#Esta es la función clave que obtiene la IP externa
 			PublicIp = upnp.query_external_address();
-			print("IP Pública: " + PublicIp);
+			print_role("IP Pública: " + PublicIp);
 		
 		else:
 		
-			printerr("UPNP: No se encontró un Gateway válido.");
+			print_role("UPNP: No se encontró un Gateway válido.");
 		
 	
 	else:
 	
-		printerr("UPNP Discover falló con código: " + discoverResult);
+		print_role("UPNP Discover falló con código: " + discoverResult);
 		# Si falla el UPNP (por ejemplo, si el router lo tiene desactivado),
 		# PublicIp se quedará vacía. Podrías poner una IP por defecto o manejar el error.
 	
@@ -578,5 +578,5 @@ func FetchLocalIp():
 		# Filtramos para quedarnos con la de la red local (típicamente 192.168.x.x)
 		if Ip.begins_with("192.168.") or Ip.begins_with("10."):
 			LocalIp = Ip
-			print("IP Local: " + LocalIp)
+			print_role("IP Local: " + LocalIp)
 			break

@@ -12,6 +12,6 @@ func join_server() -> void:
 	if ip_public_Change == Network.PublicIp:
 		Network.ip = ip_local_Change
 
-
+	
 	Network.print_role("Joining " + ip_public_Change + ":" + port_Change)
 	Network.Play_MultiplayerClient()
