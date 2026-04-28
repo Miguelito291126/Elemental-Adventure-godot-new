@@ -212,14 +212,15 @@ func close_conection():
 
 
 func Play_MultiplayerServer():
-	UpnpSetup(port)
+	if not private_mode:
+		UpnpSetup(port)
 
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	var error = multiplayerpeer.create_server(port, 4)
 	if error == OK:
 		multiplayer.multiplayer_peer = multiplayerpeer
 		if multiplayer.is_server():
-			
+
 			if not private_mode:
 				SendHeartbeatToMaster()
 

@@ -56,6 +56,7 @@ text = "V8"
 horizontal_alignment = 2
 
 [node name="main menu" type="VBoxContainer" parent="Panel" unique_id=201614387]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -119,7 +120,6 @@ theme_override_fonts/font = ExtResource("3_his25")
 text = "Exit"
 
 [node name="Multiplayer" type="VBoxContainer" parent="Panel" unique_id=229228965]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -187,6 +187,11 @@ size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Join"
+
+[node name="PrivateMode" type="CheckButton" parent="Panel/Multiplayer" unique_id=220263611]
+layout_mode = 2
+theme = ExtResource("1_f10x6")
+text = "Private"
 
 [node name="OnlineList" type="Button" parent="Panel/Multiplayer" unique_id=1603113785]
 layout_mode = 2
@@ -309,6 +314,7 @@ text = "Back"
 [connection signal="text_changed" from="Panel/Multiplayer/Port" to="." method="_on_port_text_changed"]
 [connection signal="pressed" from="Panel/Multiplayer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
 [connection signal="pressed" from="Panel/Multiplayer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
+[connection signal="toggled" from="Panel/Multiplayer/PrivateMode" to="." method="_on_private_mode_toggled"]
 [connection signal="pressed" from="Panel/Multiplayer/OnlineList" to="." method="_on_online_list_pressed"]
 [connection signal="pressed" from="Panel/Multiplayer/Back2" to="." method="_on_back_2_pressed"]
 [connection signal="pressed" from="Panel/MultiplayerList/Back3" to="." method="_on_back_3_pressed"]
