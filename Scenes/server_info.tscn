@@ -1,26 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://eackecrfc2be"]
+[gd_scene format=3 uid="uid://eackecrfc2be"]
 
 [ext_resource type="Script" uid="uid://b11wicl7mbtqo" path="res://Scripts/server_info.gd" id="1_0u8ji"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_14t2t"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_0u8ji"]
 
-[node name="server_info" type="HBoxContainer"]
+[node name="server_info" type="HBoxContainer" unique_id=1156842956]
 offset_right = 636.0
 offset_bottom = 58.0
 alignment = 1
 script = ExtResource("1_0u8ji")
 
-[node name="Name" type="Label" parent="."]
+[node name="Name" type="Label" parent="." unique_id=321900096]
 layout_mode = 2
 theme = ExtResource("1_14t2t")
 text = "Name - "
 
-[node name="PlayerCount" type="Label" parent="."]
+[node name="Players" type="Label" parent="." unique_id=824053574]
 layout_mode = 2
 theme = ExtResource("1_14t2t")
 text = "Playercount - "
 
-[node name="Join" type="Button" parent="."]
+[node name="Join" type="Button" parent="." unique_id=1338035995]
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("1_14t2t")

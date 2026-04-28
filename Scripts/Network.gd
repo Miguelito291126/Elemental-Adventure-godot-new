@@ -11,15 +11,10 @@ var player_scene = preload("res://Scenes/player.tscn")
 @export var available_characters: Array = ["fire", "water", "air", "earth"]
 @export var assigned_characters: Dictionary = {}
 
-var broadcaster: PacketPeerUDP
-var listener: PacketPeerUDP
-
 @export var port = 4444
-@export var broadcaster_ip = "255.255.255.255"
 @export var ip: String
-
-@export var listener_port =  port - 1
-@export var broadcaster_port =  port + 1
+@export var PublicIp: String
+@export var LocalIp: String
 
 var serverbrowser: Control
 var multiplayerpeer
@@ -33,7 +28,11 @@ var server_is_in_level: bool = false
 	"playerscount": 0,
 }
 
-@onready var broadcasttime = $ServerBrowserTime
+@onready var http: HTTPRequest = $HTTPRequest
+@export var masterServerUrl = "http://79.112.95.69:5000"  # Cambia esto por la URL de tu servidor maestro
+
+
+
 func _ready() -> void:
 	multiplayer.server_disconnected.connect(MultiplayerServerDisconnected)
 	multiplayer.connected_to_server.connect(MultiplayerConnectionServerSucess)
@@ -44,15 +43,16 @@ func _ready() -> void:
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
 
+	FetchPublicIp()
+	FetchLocalIp()
+
 
 func _exit_tree() -> void:
 	multiplayer.server_disconnected.disconnect(MultiplayerServerDisconnected)
 	multiplayer.connected_to_server.disconnect(MultiplayerConnectionServerSucess)
 	multiplayer.connection_failed.disconnect(MultiplayerConnectionFailed)
 	multiplayer.peer_connected.disconnect(MultiplayerPlayerSpawner)
-	multiplayer.peer_disconnected.disconnect(MultiplayerPlayerRemover)
-
-	CloseUp()
+	multiplayer.peer_disconnected.disconnect(MultiplayerPlayerRemover)	
 
 @rpc("any_peer", "call_local")
 func assign_element(element: String):
@@ -203,26 +203,33 @@ func close_conection():
 		MultiplayerServerDisconnected()
 		return
 
+	if multiplayer.is_server():
+		SendUnregisterToMaster()
+
 	# Si está conectado → cerrar conexión
 	peer.close()
 	multiplayerpeer.close()
 
 
 func Play_MultiplayerServer():
+	UpnpSetup(port)
+
 	multiplayerpeer = ENetMultiplayerPeer.new()
 	var error = multiplayerpeer.create_server(port, 4)
 	if error == OK:
 		multiplayer.multiplayer_peer = multiplayerpeer
 		if multiplayer.is_server():
+			HeartbeatTimerCreate()
+
 			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 				print_role("Servidor dedicado iniciado.")
 
 				await get_tree().create_timer(2).timeout
 				
-				SetUpBroadcast(Username)
+				
 				LoadScene.load_level_scene(GameController.main_menu)
 			else:
-				SetUpBroadcast(Username)
+				
 				LoadScene.LoadCharacterMenu(GameController.main_menu)
 	else:
 		print_role("Error al iniciar el servidor.")
@@ -332,7 +339,6 @@ func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
 
 	clear_all()
-	CloseUp()
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
@@ -400,8 +406,7 @@ func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
 	
 	clear_all()
-
-	CloseUp()
+	
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
@@ -418,60 +423,10 @@ func MultiplayerServerDisconnected():
 		print_role("No valid scene to load main menu.")
 		LoadScene.LoadMainMenu(null) # ← Added to prevent errors
 
-func SetUpBroadcast(Name: String,) -> void:
-	roominfo.name = Name
-	roominfo.playerscount = Players_Nodes.size()
-
-	broadcaster = PacketPeerUDP.new()
-	broadcaster.set_broadcast_enabled(true)
-	broadcaster.set_dest_address(broadcaster_ip, listener_port)
-
-	var ok = broadcaster.bind(broadcaster_port)
-	if ok == OK:
-		print_role("all correct to port broadcaster: " + str(broadcaster_port) + " :D")
-		if is_instance_valid(serverbrowser) and serverbrowser != null:
-			serverbrowser.label.text = "Broadcasting on port: " + str(broadcaster_port)
-	else:
-		print_role("failed to port broadcaster: " + str(broadcaster_port) + " D:")
-		if is_instance_valid(serverbrowser) and serverbrowser != null:
-			serverbrowser.label.text = "Failed to start broadcaster"
-
-	if broadcasttime != null:
-		broadcasttime.start()
-
-func CloseUp():
-	
-	if listener != null:
-		listener.close()
-
-	if broadcasttime != null:
-		broadcasttime.stop()
-
-	if broadcaster != null:
-		broadcaster.close()
-
-	print_role("Closed broadcaster and listener")
-
-func SetUpLisener():
-	listener = PacketPeerUDP.new()
-	var ok = listener.bind(listener_port)
-	if ok == OK:
-		print_role("all correct to port listener: " + str(listener_port) + " :D")
-		await get_tree().create_timer(1).timeout
-		if serverbrowser:
-			serverbrowser.label.text = "Listener on port: " + str(listener_port)
-	else:
-		print_role("failed to port listener: " + str(listener_port) + " D:")
-		await get_tree().create_timer(1).timeout
-		if serverbrowser:
-			serverbrowser.label.text = "Failed to start listener"
-
 func _on_server_browser_time_timeout() -> void:
 	roominfo.playerscount = Players_Nodes.size()
 	var data = JSON.stringify(roominfo)
 	var packet = data.to_ascii_buffer()
-	if broadcaster != null:
-		broadcaster.put_packet(packet)
 
 @rpc("any_peer", "call_local")
 func sync_queue_free_nodes(nodes: Array):
@@ -512,3 +467,116 @@ func remove_all_queue_free_nodes():
 	queue_free_nodes.clear()
 	# Sincronizar la lista vacía con todos los clientes
 	sync_queue_free_nodes.rpc(queue_free_nodes)
+
+
+
+
+func HeartbeatTimerCreate():
+	var heartbeatTimer = Timer.new()
+	heartbeatTimer.name = "HeartbeatTimer"
+	heartbeatTimer.wait_time = 1.0
+	heartbeatTimer.one_shot = false
+	heartbeatTimer.autostart = true
+	add_child(heartbeatTimer, true)
+	heartbeatTimer.timeout.connect(OnHeartbeatTimerTimeout)
+
+func OnHeartbeatTimerTimeout():
+	SendHeartbeatToMaster()
+
+
+
+func SendHeartbeatToMaster():
+	var data = {
+		"game_id": "elemental_adventure",
+		"name": Username,
+		"players": Players_Nodes.size(),
+		"public_ip": PublicIp,
+		"local_ip": LocalIp,
+		"port": port
+	}
+
+	var query = JSON.stringify(data);
+	var url = masterServerUrl + "/register"
+	var array: = [
+		"Content-Type: application/json"
+	]
+
+	http.request(url, array, HTTPClient.METHOD_POST, query)
+
+func SendUnregisterToMaster():
+
+	var heartbeatTimer = get_node_or_null("HeartbeatTimer")
+	if heartbeatTimer:
+		heartbeatTimer.stop()
+		heartbeatTimer.queue_free()
+
+	var data = {
+		"game_id": "elemental_adventure",
+		"port": port,
+		"public_ip": PublicIp
+	}
+
+	var query = JSON.stringify(data);
+	var url = masterServerUrl + "/unregister";
+	var array: = [
+		"Content-Type: application/json"
+	]
+	
+	http.request(url, array, HTTPClient.METHOD_POST, query);
+
+
+func UpnpSetup(Port):
+	var upnp = UPNP.new();
+	var discoverResult = upnp.discover();
+
+	if (discoverResult == UPNP.UPNP_RESULT_SUCCESS):
+
+		if (upnp.get_gateway() != null && upnp.get_gateway().is_valid_gateway()):
+			upnp.add_port_mapping(Port, Port, "Godot_Game", "UDP");
+			print("Puerto " + str(Port) + " mapeado en el router via UPNP.");
+			print("La IP Pública es: " + PublicIp);
+		else:
+			printerr("UPNP: No se encontró un Gateway válido.");
+
+
+	else:
+		printerr("UPNP Discover falló con código: " + discoverResult);
+
+
+func FetchPublicIp():
+
+	var upnp = UPNP.new()
+	
+	# El descubrimiento es necesario para encontrar el Gateway (Router)
+	var discoverResult = upnp.discover();
+
+	if (discoverResult == UPNP.UPNP_RESULT_SUCCESS):
+	
+		if (upnp.get_gateway() != null && upnp.get_gateway().is_valid_gateway()):
+		
+			#Esta es la función clave que obtiene la IP externa
+			PublicIp = upnp.query_external_address();
+			print("IP Pública: " + PublicIp);
+		
+		else:
+		
+			printerr("UPNP: No se encontró un Gateway válido.");
+		
+	
+	else:
+	
+		printerr("UPNP Discover falló con código: " + discoverResult);
+		# Si falla el UPNP (por ejemplo, si el router lo tiene desactivado),
+		# PublicIp se quedará vacía. Podrías poner una IP por defecto o manejar el error.
+	
+
+func FetchLocalIp():
+
+	# Obtenemos todas las IPs de la máquina
+	for Ip in IP.get_local_addresses():
+	
+		# Filtramos para quedarnos con la de la red local (típicamente 192.168.x.x)
+		if Ip.begins_with("192.168.") or Ip.begins_with("10."):
+			LocalIp = Ip
+			print("IP Local: " + LocalIp)
+			break

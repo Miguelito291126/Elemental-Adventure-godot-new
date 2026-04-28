@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bq8c11xjf1nct"]
+[gd_scene format=3 uid="uid://bq8c11xjf1nct"]
 
 [ext_resource type="Script" uid="uid://bfhjoptvad3x0" path="res://Scripts/main_menu.gd" id="1_2vk4l"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_f10x6"]
@@ -9,7 +9,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opfnp"]
 bg_color = Color(0.296219, 0.00016776, 0.345215, 1)
 
-[node name="Main Menu" type="Control"]
+[node name="Main Menu" type="Control" unique_id=1491574487]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2vk4l")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=2067408662]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_f10x6")
 
-[node name="Credits" type="Label" parent="Panel"]
+[node name="Credits" type="Label" parent="Panel" unique_id=855947663]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -39,7 +39,7 @@ theme = ExtResource("1_f10x6")
 theme_override_font_sizes/font_size = 30
 text = "make by Miguelillo223"
 
-[node name="Version" type="Label" parent="Panel"]
+[node name="Version" type="Label" parent="Panel" unique_id=672830229]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -55,7 +55,7 @@ theme_override_font_sizes/font_size = 30
 text = "V8"
 horizontal_alignment = 2
 
-[node name="main menu" type="VBoxContainer" parent="Panel"]
+[node name="main menu" type="VBoxContainer" parent="Panel" unique_id=201614387]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -71,54 +71,54 @@ grow_vertical = 2
 theme = ExtResource("1_f10x6")
 alignment = 1
 
-[node name="Title" type="HBoxContainer" parent="Panel/main menu"]
+[node name="Title" type="HBoxContainer" parent="Panel/main menu" unique_id=1748794831]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 alignment = 1
 
-[node name="Tittle" type="Label" parent="Panel/main menu/Title"]
+[node name="Tittle" type="Label" parent="Panel/main menu/Title" unique_id=525603279]
 texture_filter = 1
 layout_mode = 2
 theme = ExtResource("1_f10x6")
 text = "Elemental Adventure"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Panel/main menu/Title"]
+[node name="TextureRect" type="TextureRect" parent="Panel/main menu/Title" unique_id=1721519415]
 layout_mode = 2
 theme = ExtResource("1_f10x6")
 texture = ExtResource("3_cp0ys")
 expand_mode = 2
 
-[node name="Play" type="Button" parent="Panel/main menu"]
+[node name="Play" type="Button" parent="Panel/main menu" unique_id=636208974]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "play"
 
-[node name="Online" type="Button" parent="Panel/main menu"]
+[node name="Online" type="Button" parent="Panel/main menu" unique_id=1534350134]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Multiplayer"
 
-[node name="option" type="Button" parent="Panel/main menu"]
+[node name="option" type="Button" parent="Panel/main menu" unique_id=555710395]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Options"
 
-[node name="exit" type="Button" parent="Panel/main menu"]
+[node name="exit" type="Button" parent="Panel/main menu" unique_id=348298384]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Exit"
 
-[node name="Multiplayer" type="VBoxContainer" parent="Panel"]
+[node name="Multiplayer" type="VBoxContainer" parent="Panel" unique_id=229228965]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -135,45 +135,45 @@ grow_vertical = 2
 theme = ExtResource("1_f10x6")
 alignment = 1
 
-[node name="NameLabel" type="Label" parent="Panel/Multiplayer"]
+[node name="NameLabel" type="Label" parent="Panel/Multiplayer" unique_id=1476254685]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 text = "Username"
 horizontal_alignment = 1
 
-[node name="Name" type="LineEdit" parent="Panel/Multiplayer"]
+[node name="Name" type="LineEdit" parent="Panel/Multiplayer" unique_id=363082571]
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Your Username"
 alignment = 1
 
-[node name="IPLabel" type="Label" parent="Panel/Multiplayer"]
+[node name="IPLabel" type="Label" parent="Panel/Multiplayer" unique_id=596832127]
 layout_mode = 2
 size_flags_vertical = 10
 text = "IP"
 horizontal_alignment = 1
 
-[node name="IP" type="LineEdit" parent="Panel/Multiplayer"]
+[node name="IP" type="LineEdit" parent="Panel/Multiplayer" unique_id=429287959]
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Example: localhost"
 alignment = 1
 
-[node name="PortLabel" type="Label" parent="Panel/Multiplayer"]
+[node name="PortLabel" type="Label" parent="Panel/Multiplayer" unique_id=1299965467]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 text = "Port"
 horizontal_alignment = 1
 
-[node name="Port" type="LineEdit" parent="Panel/Multiplayer"]
+[node name="Port" type="LineEdit" parent="Panel/Multiplayer" unique_id=1191237971]
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Example: 9999"
 alignment = 1
 
-[node name="PlayMultiplayer" type="Button" parent="Panel/Multiplayer"]
+[node name="PlayMultiplayer" type="Button" parent="Panel/Multiplayer" unique_id=2028855563]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
@@ -181,26 +181,26 @@ theme_override_fonts/font = ExtResource("3_his25")
 text = "Create
 "
 
-[node name="PlayMultiplayerClient" type="Button" parent="Panel/Multiplayer"]
+[node name="PlayMultiplayerClient" type="Button" parent="Panel/Multiplayer" unique_id=881971128]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Join"
 
-[node name="OnlineList" type="Button" parent="Panel/Multiplayer"]
+[node name="OnlineList" type="Button" parent="Panel/Multiplayer" unique_id=1603113785]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Multiplayer List"
 
-[node name="Back2" type="Button" parent="Panel/Multiplayer"]
+[node name="Back2" type="Button" parent="Panel/Multiplayer" unique_id=1167058052]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Back"
 
-[node name="MultiplayerList" type="VBoxContainer" parent="Panel"]
+[node name="MultiplayerList" type="VBoxContainer" parent="Panel" unique_id=1133107339]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -217,30 +217,26 @@ grow_vertical = 2
 theme = ExtResource("1_f10x6")
 alignment = 1
 
-[node name="Label" type="Label" parent="Panel/MultiplayerList"]
-layout_mode = 2
-text = "Bound to lisen bradcast: true"
-
-[node name="ServerBrowser" type="Panel" parent="Panel/MultiplayerList"]
+[node name="ServerBrowser" type="Panel" parent="Panel/MultiplayerList" unique_id=1613793025]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_opfnp")
 script = ExtResource("5_n45e2")
 
-[node name="List" type="VBoxContainer" parent="Panel/MultiplayerList/ServerBrowser"]
+[node name="List" type="VBoxContainer" parent="Panel/MultiplayerList/ServerBrowser" unique_id=1220295288]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 alignment = 1
 
-[node name="Back3" type="Button" parent="Panel/MultiplayerList"]
+[node name="Back3" type="Button" parent="Panel/MultiplayerList" unique_id=1788327399]
 layout_mode = 2
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Back"
 
-[node name="Options" type="VBoxContainer" parent="Panel"]
+[node name="Options" type="VBoxContainer" parent="Panel" unique_id=619419647]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -255,7 +251,7 @@ offset_bottom = 326.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Panel/Options"]
+[node name="Label" type="Label" parent="Panel/Options" unique_id=751371161]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
@@ -263,13 +259,13 @@ text = "SFX"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Volume" type="HSlider" parent="Panel/Options"]
+[node name="Volume" type="HSlider" parent="Panel/Options" unique_id=353180527]
 layout_mode = 2
 size_flags_vertical = 3
 max_value = 0.8
 step = 0.001
 
-[node name="Label2" type="Label" parent="Panel/Options"]
+[node name="Label2" type="Label" parent="Panel/Options" unique_id=734680918]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
@@ -277,19 +273,19 @@ text = "Music"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Volume 2" type="HSlider" parent="Panel/Options"]
+[node name="Volume 2" type="HSlider" parent="Panel/Options" unique_id=1739635158]
 layout_mode = 2
 size_flags_vertical = 3
 max_value = 0.8
 step = 0.001
 
-[node name="CheckButton" type="CheckButton" parent="Panel/Options"]
+[node name="CheckButton" type="CheckButton" parent="Panel/Options" unique_id=346386170]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 text = "FullScreen"
 
-[node name="delete data" type="Button" parent="Panel/Options"]
+[node name="delete data" type="Button" parent="Panel/Options" unique_id=872546469]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
@@ -297,7 +293,7 @@ theme_override_fonts/font = ExtResource("3_his25")
 text = "Delete data
 "
 
-[node name="Back" type="Button" parent="Panel/Options"]
+[node name="Back" type="Button" parent="Panel/Options" unique_id=1733577585]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")

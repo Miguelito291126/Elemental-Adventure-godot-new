@@ -31,8 +31,6 @@ func _ready() -> void:
 	credits.text = "By " + GameController.credits
 	tittle.text = GameController.gamename
 
-	Network.SetUpLisener()
-
 	if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 
 		var args = OS.get_cmdline_user_args()
@@ -43,8 +41,6 @@ func _ready() -> void:
 				"--port", "port", "-p", "p":
 					if i + 1 < args.size():
 						Network.port = args[i + 1].to_int()
-						Network.listener_port = Network.port + 1
-						Network.broadcaster_port = Network.port - 1
 
 
 		Network.print_role("port:" + str(Network.port))
@@ -131,9 +127,6 @@ func _on_ip_text_changed(new_text: String) -> void:
 	
 func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
-	Network.listener_port = Network.port + 1
-	Network.broadcaster_port = Network.port - 1
-	Network.SetUpLisener()
 
 func _on_play_multiplayer_pressed() -> void:
 	Network.Play_MultiplayerServer()
