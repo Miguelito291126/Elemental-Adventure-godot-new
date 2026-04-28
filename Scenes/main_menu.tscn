@@ -173,25 +173,32 @@ size_flags_vertical = 3
 placeholder_text = "Example: 9999"
 alignment = 1
 
-[node name="PlayMultiplayer" type="Button" parent="Panel/Multiplayer" unique_id=2028855563]
+[node name="PrivateMode" type="CheckButton" parent="Panel/Multiplayer" unique_id=220263611]
 layout_mode = 2
+theme = ExtResource("1_f10x6")
+text = "Private"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Multiplayer" unique_id=2028731893]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="PlayMultiplayer" type="Button" parent="Panel/Multiplayer/HBoxContainer" unique_id=2028855563]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Create
 "
 
-[node name="PlayMultiplayerClient" type="Button" parent="Panel/Multiplayer" unique_id=881971128]
+[node name="PlayMultiplayerClient" type="Button" parent="Panel/Multiplayer/HBoxContainer" unique_id=881971128]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Join"
-
-[node name="PrivateMode" type="CheckButton" parent="Panel/Multiplayer" unique_id=220263611]
-layout_mode = 2
-theme = ExtResource("1_f10x6")
-text = "Private"
 
 [node name="OnlineList" type="Button" parent="Panel/Multiplayer" unique_id=1603113785]
 layout_mode = 2
@@ -312,9 +319,9 @@ text = "Back"
 [connection signal="text_changed" from="Panel/Multiplayer/Name" to="." method="_on_name_text_changed"]
 [connection signal="text_changed" from="Panel/Multiplayer/IP" to="." method="_on_ip_text_changed"]
 [connection signal="text_changed" from="Panel/Multiplayer/Port" to="." method="_on_port_text_changed"]
-[connection signal="pressed" from="Panel/Multiplayer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
-[connection signal="pressed" from="Panel/Multiplayer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
 [connection signal="toggled" from="Panel/Multiplayer/PrivateMode" to="." method="_on_private_mode_toggled"]
+[connection signal="pressed" from="Panel/Multiplayer/HBoxContainer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
+[connection signal="pressed" from="Panel/Multiplayer/HBoxContainer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
 [connection signal="pressed" from="Panel/Multiplayer/OnlineList" to="." method="_on_online_list_pressed"]
 [connection signal="pressed" from="Panel/Multiplayer/Back2" to="." method="_on_back_2_pressed"]
 [connection signal="pressed" from="Panel/MultiplayerList/Back3" to="." method="_on_back_3_pressed"]

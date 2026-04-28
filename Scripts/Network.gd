@@ -222,7 +222,7 @@ func Play_MultiplayerServer():
 		if multiplayer.is_server():
 
 			if not private_mode:
-				SendHeartbeatToMaster()
+				HeartbeatTimerCreate()
 
 			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 				print_role("Servidor dedicado iniciado.")
