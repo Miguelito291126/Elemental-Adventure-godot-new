@@ -48,7 +48,7 @@ func OnRequestCompleted(result, responseCode, headers, body):
 		var l_ip = str(serverData.get("local_ip", ""))
 		var raw_port = serverData.get("port", 4444)
 		var raw_players = serverData.get("players", 0)
-		var s_name = str(serverData.get("game_id", "Server")) # O "name" según tu Python
+		var s_name = str(serverData.get("name", "Server")) # O "name" según tu Python
 
 		# 2. Corregir tipos (convertir floats de Python a Int y luego a String)
 		currentinfo.ip_public_Change = p_ip
@@ -61,7 +61,7 @@ func OnRequestCompleted(result, responseCode, headers, body):
 			currentinfo.get_node("Name").text = s_name + " - "
 		
 		if currentinfo.has_node("Players"):
-			currentinfo.get_node("Players").text = str(int(raw_players)) + " Jugadores"
+			currentinfo.get_node("Players").text = str(int(raw_players)) + " - "
 
 		# 4. Conectar el botón de unirse
 		var btn = currentinfo.get_node_or_null("Join")
