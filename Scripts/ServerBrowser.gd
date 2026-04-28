@@ -1,6 +1,5 @@
 extends Control
 
-@onready var label = $"../Label"
 @onready var list = $List
 const TIMEOUT = 3.0
 
