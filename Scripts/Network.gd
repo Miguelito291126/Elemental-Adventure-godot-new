@@ -583,3 +583,8 @@ func FetchLocalIp():
 			LocalIp = Ip
 			print_role("IP Local: " + LocalIp)
 			break
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if multiplayer.is_server():
+			SendUnregisterToMaster()
