@@ -29,7 +29,7 @@ var server_is_in_level: bool = false
 }
 
 @onready var http: HTTPRequest = $HTTPRequest
-@export var masterServerUrl = "http://79.112.95.69:5000"  # Cambia esto por la URL de tu servidor maestro
+@export var masterServerUrl = "http://miguelito2911.serveminecraft.net:5000"
 @export var private_mode = false
 
 
