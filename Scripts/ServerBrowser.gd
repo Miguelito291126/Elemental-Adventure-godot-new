@@ -9,8 +9,7 @@ func _ready():
 	Network.serverbrowser = self
 
 	var cleanTimer = Timer.new()
-	# Aumentamos a 3 o 5 segundos para no saturar y permitir clics estables
-	cleanTimer.wait_time = 1.0 
+	cleanTimer.wait_time = 3
 	cleanTimer.autostart = true
 	cleanTimer.timeout.connect(RefreshServerList)
 	add_child(cleanTimer)
@@ -43,11 +42,10 @@ func _on_steam_lobbies_received(lobbies: Array):
 		if currentinfo.has_node("Players"):
 			currentinfo.get_node("Players").text = str(s_players) + " / 4 - "
 
-		# Guardamos los datos técnicos para el botón "Join"
-		currentinfo.host_id = Steam.getLobbyData(lobby_id, "host_id") # La ID de Steam del host[cite: 2]
-		currentinfo.ip_local_Change = Steam.getLobbyData(lobby_id, "local_ip") # La IP local guardada[cite: 2]
-		currentinfo.port_Change = Steam.getLobbyData(lobby_id, "port") # El puerto guardado[cite: 2]
-
+		currentinfo.lobby_id = Steam.getLobbyData(lobby_id, "lobby_id") # El ID del lobby guardado[cite: 2]
+		currentinfo.host_id = Steam.getLobbyData(lobby_id, "host_id") # El ID del host guardado[cite: 2]
+		currentinfo.last_seen = Time.get_unix_time_from_system() # Guardamos el tiempo actual para
+		
 		# Conectamos el botón de unirse[cite: 1]
 		var btn = currentinfo.get_node_or_null("Join")
 		if btn:

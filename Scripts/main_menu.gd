@@ -119,19 +119,12 @@ func _on_volume_2_value_changed(value: float) -> void:
 	GameController.GameData.music = value
 	GameController.GameData.SaveGameData()
 
-
-func _on_ip_text_changed(new_text: String) -> void:
-	Network.ip = new_text
 	
 func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
 
 func _on_play_multiplayer_pressed() -> void:
 	Network.create_steam_lobby()
-
-func _on_play_multiplayer_client_pressed() -> void:
-	Network.Play_MultiplayerClient()
-
 
 func _on_back_2_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
@@ -140,9 +133,6 @@ func _on_back_2_pressed() -> void:
 
 func _on_name_text_changed(new_text:String) -> void:
 	Network.Username = new_text
-
-func _on_online_list_pressed() -> void:
-	serverbrowsermenu.visible = !serverbrowsermenu .visible
 
 
 func _on_back_3_pressed() -> void:

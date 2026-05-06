@@ -12,11 +12,10 @@ var player_scene = preload("res://Scenes/player.tscn")
 @export var assigned_characters: Dictionary = {}
 
 @export var port = 4444
-@export var ip: String
 @export var steam_id: int
+@export var steam_lobby_id: int = 0
 @export var PublicIp: String
 @export var LocalIp: String
-var steam_lobby_id: int = 0 # Variable global en Network.gd
 
 var serverbrowser: Control
 var multiplayerpeer
@@ -71,26 +70,30 @@ func _on_lobby_match_list(lobbies: Array):
 		
 func _on_lobby_created(connect_status: int, lobby_id: int):
 	if connect_status == 1:
-		print_role("Lobby de Steam creado con éxito. ID: " + str(lobby_id))
+		print_role("Lobby de Steam creado con éxito. ID: " + str(lobby_id)) 
 		steam_lobby_id = lobby_id
-		
-		steam_id = Steam.getSteamID()
-		Steam.setLobbyData(lobby_id, "host_id", str(steam_id))
+
 		Steam.setLobbyData(lobby_id, "game_id", "elemental_adventure")
 		Steam.setLobbyData(lobby_id, "name", Username)
-		Steam.setLobbyData(lobby_id, "ip", PublicIp)
+		Steam.setLobbyData(lobby_id, "public_ip", PublicIp)
 		Steam.setLobbyData(lobby_id, "local_ip", LocalIp)
 		Steam.setLobbyData(lobby_id, "players_count", str(Players_Nodes.size()))
 		Steam.setLobbyData(lobby_id, "port", str(port))
+		Steam.setLobbyData(lobby_id, "lobby_id", str(lobby_id))
+		Steam.setLobbyData(lobby_id, "host_id", str(steam_id))
 		
-		Play_MultiplayerServer()
+		Play_MultiplayerServer(port)
 	else:
 		print_role("Error al crear el lobby de Steam: " + str(connect_status))
 
-func _on_lobby_joined(lobby_id: int, perms: int):
-	print_role("Lobby de Steam unido con éxito. ID: " + str(lobby_id) + " Perms: " + str(perms))
+func _on_lobby_joined(lobby_id: int, perms: int, locked: bool, reponse: int):
+	print_role("Lobby de Steam unido con éxito. ID: " + str(lobby_id) + " Perms: " + str(perms) + " Locked: " + str(locked) + " Response: " + str(reponse))
+	steam_lobby_id = lobby_id
+	var lobby_owner = Steam.getLobbyOwner(lobby_id)
 
-
+	await get_tree().process_frame
+	if lobby_owner != Steam.getSteamID():
+		Play_MultiplayerClient(lobby_id)
 
 func _exit_tree() -> void:
 	multiplayer.server_disconnected.disconnect(MultiplayerServerDisconnected)
@@ -253,17 +256,22 @@ func close_conection():
 	multiplayerpeer.close()
 
 func create_steam_lobby():
-	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 4) # 4 es el máximo de jugadores[cite: 2]
+	if private_mode:
+		Steam.createLobby(Steam.LOBBY_TYPE_PRIVATE, 4) # 4 es el máximo de jugadores[cite: 2]
+	else:
+		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 4) # 4 es el máximo de jugadores[cite: 2]
 
-func join_steam_lobby():
-	Steam.joinLobby(steam_lobby_id)
+func join_steam_lobby(lobby_id: int):
+	Steam.joinLobby(lobby_id)
 
-func Play_MultiplayerServer():
-	if not private_mode:
-		UpnpSetup(port)
+func Play_MultiplayerServer(server_port: int = 4444):
+	
+	if multiplayer.multiplayer_peer or multiplayerpeer:
+		multiplayerpeer.close()
+		multiplayer.multiplayer_peer.close()
 
 	multiplayerpeer = SteamMultiplayerPeer.new()
-	var error = multiplayerpeer.create_host(port)
+	var error = multiplayerpeer.create_host(server_port)
 	if error == OK:
 		multiplayer.multiplayer_peer = multiplayerpeer
 		if multiplayer.is_server():		
@@ -275,17 +283,25 @@ func Play_MultiplayerServer():
 				
 				LoadScene.load_level_scene(GameController.main_menu)
 			else:
-				
 				LoadScene.LoadCharacterMenu(GameController.main_menu)
 	else:
 		print_role("Error al iniciar el servidor.")
 
-func Play_MultiplayerClient():
+func Play_MultiplayerClient(lobby_id: int = 0):
+
+	if multiplayer.multiplayer_peer or multiplayerpeer:
+		multiplayerpeer.close()
+		multiplayer.multiplayer_peer.close()
+
+	var host_id = Steam.getLobbyOwner(lobby_id)
+	if host_id == 0:
+		host_id = int(Steam.getLobbyData(lobby_id, "host_id"))
+
 	multiplayerpeer = SteamMultiplayerPeer.new()
-	var error =  multiplayerpeer.create_client(steam_id, port)
+	var error =  multiplayerpeer.create_client(host_id, port)
 	if error == OK:
-		print_role("Conectando al servidor...")
 		multiplayer.multiplayer_peer = multiplayerpeer
+		print_role("Conectando al servidor...")
 		if not multiplayer.is_server():
 			print_role("Cliente iniciado.")
 	else:
@@ -388,7 +404,6 @@ func MultiplayerConnectionFailed():
 	if steam_lobby_id != 0:
 		Steam.leaveLobby(steam_lobby_id)
 		steam_lobby_id = 0
-		steam_id = Steam.getSteamID()
 		print_role("Saliendo del lobby de Steam.")
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
@@ -459,7 +474,7 @@ func MultiplayerServerDisconnected():
 	if steam_lobby_id != 0:
 		Steam.leaveLobby(steam_lobby_id)
 		steam_lobby_id = 0
-		steam_id = Steam.getSteamID()
+
 		print_role("Saliendo del lobby de Steam.")
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
@@ -477,10 +492,6 @@ func MultiplayerServerDisconnected():
 		print_role("No valid scene to load main menu.")
 		LoadScene.LoadMainMenu(null) # ← Added to prevent errors
 
-func _on_server_browser_time_timeout() -> void:
-	roominfo.playerscount = Players_Nodes.size()
-	var data = JSON.stringify(roominfo)
-	var packet = data.to_ascii_buffer()
 
 @rpc("any_peer", "call_local")
 func sync_queue_free_nodes(nodes: Array):
@@ -489,7 +500,7 @@ func sync_queue_free_nodes(nodes: Array):
 	emit_signal("queue_synced")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	Steam.run_callbacks()
 
 func apply_queued_deletions():
