@@ -44,7 +44,7 @@ func _on_steam_lobbies_received(lobbies: Array):
 			currentinfo.get_node("Players").text = str(s_players) + " / 4 - "
 
 		# Guardamos los datos técnicos para el botón "Join"
-		currentinfo.host_id = Steam.getLobbyData(lobby_id, "host_rpc_id")# La ID de Steam del host[cite: 2]
+		currentinfo.host_id = Steam.getLobbyData(lobby_id, "host_id") # La ID de Steam del host[cite: 2]
 		currentinfo.ip_local_Change = Steam.getLobbyData(lobby_id, "local_ip") # La IP local guardada[cite: 2]
 		currentinfo.port_Change = Steam.getLobbyData(lobby_id, "port") # El puerto guardado[cite: 2]
 

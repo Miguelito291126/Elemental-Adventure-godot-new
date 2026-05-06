@@ -6,8 +6,8 @@
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="3_his25"]
 [ext_resource type="Script" uid="uid://cw0rkwhlsa4te" path="res://Scripts/ServerBrowser.gd" id="5_n45e2"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opfnp"]
-bg_color = Color(0.33234, 0.00020332835, 0.38395324, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n45e2"]
+bg_color = Color(0.24313726, 0, 0.30980393, 1)
 
 [node name="Main Menu" type="Control" unique_id=1491574487]
 layout_mode = 3
@@ -119,101 +119,7 @@ theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
 text = "Exit"
 
-[node name="Multiplayer" type="VBoxContainer" parent="Panel" unique_id=229228965]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -804.0
-offset_top = -359.0
-offset_right = 804.0
-offset_bottom = 359.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_f10x6")
-alignment = 1
-
-[node name="NameLabel" type="Label" parent="Panel/Multiplayer" unique_id=1476254685]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 10
-text = "Username"
-horizontal_alignment = 1
-
-[node name="Name" type="LineEdit" parent="Panel/Multiplayer" unique_id=363082571]
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Your Username"
-alignment = 1
-
-[node name="IPLabel" type="Label" parent="Panel/Multiplayer" unique_id=596832127]
-layout_mode = 2
-size_flags_vertical = 10
-text = "IP"
-horizontal_alignment = 1
-
-[node name="IP" type="LineEdit" parent="Panel/Multiplayer" unique_id=429287959]
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Example: localhost"
-alignment = 1
-
-[node name="PortLabel" type="Label" parent="Panel/Multiplayer" unique_id=1299965467]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 10
-text = "Port"
-horizontal_alignment = 1
-
-[node name="Port" type="LineEdit" parent="Panel/Multiplayer" unique_id=1191237971]
-layout_mode = 2
-size_flags_vertical = 3
-placeholder_text = "Example: 9999"
-alignment = 1
-
-[node name="PrivateMode" type="CheckButton" parent="Panel/Multiplayer" unique_id=220263611]
-layout_mode = 2
-theme = ExtResource("1_f10x6")
-text = "Private"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Multiplayer" unique_id=2028731893]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="PlayMultiplayer" type="Button" parent="Panel/Multiplayer/HBoxContainer" unique_id=2028855563]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("1_f10x6")
-theme_override_fonts/font = ExtResource("3_his25")
-text = "Create
-"
-
-[node name="PlayMultiplayerClient" type="Button" parent="Panel/Multiplayer/HBoxContainer" unique_id=881971128]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("1_f10x6")
-theme_override_fonts/font = ExtResource("3_his25")
-text = "Join"
-
-[node name="OnlineList" type="Button" parent="Panel/Multiplayer" unique_id=1603113785]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Multiplayer List"
-
-[node name="Back2" type="Button" parent="Panel/Multiplayer" unique_id=1167058052]
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_f10x6")
-theme_override_fonts/font = ExtResource("3_his25")
-text = "Back"
-
-[node name="MultiplayerList" type="VBoxContainer" parent="Panel" unique_id=1133107339]
+[node name="Multiplayer" type="VBoxContainer" parent="Panel" unique_id=1133107339]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -229,23 +135,18 @@ grow_vertical = 2
 theme = ExtResource("1_f10x6")
 alignment = 1
 
-[node name="ServerBrowser" type="ItemList" parent="Panel/MultiplayerList" unique_id=1853982069]
+[node name="ServerBrowser" type="ScrollContainer" parent="Panel/Multiplayer" unique_id=463177147]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_opfnp")
+theme = ExtResource("1_f10x6")
+theme_override_styles/panel = SubResource("StyleBoxFlat_n45e2")
 script = ExtResource("5_n45e2")
 
-[node name="List" type="HBoxContainer" parent="Panel/MultiplayerList/ServerBrowser" unique_id=1566388712]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 53.0
-offset_top = 23.0
-offset_right = -68.0
-offset_bottom = 23.0
-grow_horizontal = 2
+[node name="List" type="VBoxContainer" parent="Panel/Multiplayer/ServerBrowser" unique_id=2126281247]
+layout_mode = 2
+alignment = 1
 
-[node name="PortLabel" type="Label" parent="Panel/MultiplayerList" unique_id=217182268]
+[node name="PortLabel" type="Label" parent="Panel/Multiplayer" unique_id=217182268]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
@@ -253,13 +154,13 @@ theme_override_font_sizes/font_size = 30
 text = "Port"
 horizontal_alignment = 1
 
-[node name="Port" type="LineEdit" parent="Panel/MultiplayerList" unique_id=604272947]
+[node name="Port" type="LineEdit" parent="Panel/Multiplayer" unique_id=604272947]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 placeholder_text = "Example: 9999"
 alignment = 1
 
-[node name="NameLabel" type="Label" parent="Panel/MultiplayerList" unique_id=1674178198]
+[node name="NameLabel" type="Label" parent="Panel/Multiplayer" unique_id=1674178198]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
@@ -267,13 +168,19 @@ theme_override_font_sizes/font_size = 30
 text = "Username"
 horizontal_alignment = 1
 
-[node name="Name" type="LineEdit" parent="Panel/MultiplayerList" unique_id=1448654754]
+[node name="Name" type="LineEdit" parent="Panel/Multiplayer" unique_id=1448654754]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 placeholder_text = "Your Username"
 alignment = 1
 
-[node name="PlayMultiplayer" type="Button" parent="Panel/MultiplayerList" unique_id=1315986371]
+[node name="PrivateMode" type="CheckButton" parent="Panel/Multiplayer" unique_id=990614010]
+layout_mode = 2
+theme = ExtResource("1_f10x6")
+theme_override_font_sizes/font_size = 30
+text = "Private"
+
+[node name="PlayMultiplayer" type="Button" parent="Panel/Multiplayer" unique_id=1315986371]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_f10x6")
@@ -281,7 +188,7 @@ theme_override_fonts/font = ExtResource("3_his25")
 text = "Create
 "
 
-[node name="Back3" type="Button" parent="Panel/MultiplayerList" unique_id=1788327399]
+[node name="Back3" type="Button" parent="Panel/Multiplayer" unique_id=1788327399]
 layout_mode = 2
 theme = ExtResource("1_f10x6")
 theme_override_fonts/font = ExtResource("3_his25")
@@ -355,18 +262,11 @@ text = "Back"
 [connection signal="pressed" from="Panel/main menu/Online" to="." method="_on_online_pressed"]
 [connection signal="pressed" from="Panel/main menu/option" to="." method="_on_option_pressed"]
 [connection signal="pressed" from="Panel/main menu/exit" to="." method="_on_exit_pressed"]
-[connection signal="text_changed" from="Panel/Multiplayer/Name" to="." method="_on_name_text_changed"]
-[connection signal="text_changed" from="Panel/Multiplayer/IP" to="." method="_on_ip_text_changed"]
 [connection signal="text_changed" from="Panel/Multiplayer/Port" to="." method="_on_port_text_changed"]
+[connection signal="text_changed" from="Panel/Multiplayer/Name" to="." method="_on_name_text_changed"]
 [connection signal="toggled" from="Panel/Multiplayer/PrivateMode" to="." method="_on_private_mode_toggled"]
-[connection signal="pressed" from="Panel/Multiplayer/HBoxContainer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
-[connection signal="pressed" from="Panel/Multiplayer/HBoxContainer/PlayMultiplayerClient" to="." method="_on_play_multiplayer_client_pressed"]
-[connection signal="pressed" from="Panel/Multiplayer/OnlineList" to="." method="_on_online_list_pressed"]
-[connection signal="pressed" from="Panel/Multiplayer/Back2" to="." method="_on_back_2_pressed"]
-[connection signal="text_changed" from="Panel/MultiplayerList/Port" to="." method="_on_port_text_changed"]
-[connection signal="text_changed" from="Panel/MultiplayerList/Name" to="." method="_on_name_text_changed"]
-[connection signal="pressed" from="Panel/MultiplayerList/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
-[connection signal="pressed" from="Panel/MultiplayerList/Back3" to="." method="_on_back_3_pressed"]
+[connection signal="pressed" from="Panel/Multiplayer/PlayMultiplayer" to="." method="_on_play_multiplayer_pressed"]
+[connection signal="pressed" from="Panel/Multiplayer/Back3" to="." method="_on_back_3_pressed"]
 [connection signal="value_changed" from="Panel/Options/Volume" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="Panel/Options/Volume 2" to="." method="_on_volume_2_value_changed"]
 [connection signal="toggled" from="Panel/Options/CheckButton" to="." method="_on_check_button_toggled"]

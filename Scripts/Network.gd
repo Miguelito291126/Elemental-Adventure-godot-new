@@ -75,7 +75,7 @@ func _on_lobby_created(connect_status: int, lobby_id: int):
 		steam_lobby_id = lobby_id
 		
 		steam_id = Steam.getSteamID()
-		Steam.setLobbyData(lobby_id, "host_rpc_id", str(steam_id))
+		Steam.setLobbyData(lobby_id, "host_id", str(steam_id))
 		Steam.setLobbyData(lobby_id, "game_id", "elemental_adventure")
 		Steam.setLobbyData(lobby_id, "name", Username)
 		Steam.setLobbyData(lobby_id, "ip", PublicIp)
@@ -288,7 +288,6 @@ func Play_MultiplayerClient():
 		multiplayer.multiplayer_peer = multiplayerpeer
 		if not multiplayer.is_server():
 			print_role("Cliente iniciado.")
-			# No cargar la escena aquí, esperar a que la conexión se confirme
 	else:
 		print_role("Error al iniciar el cliente.")
 
@@ -415,7 +414,6 @@ func generate_unique_id_random(node: Node) -> String:
 
 func MultiplayerConnectionServerSucess():
 	print_role("Connected to server")
-
 	clear_all()
 	
 	# Solo cargar la escena de elegir personaje si somos cliente y no existe ya

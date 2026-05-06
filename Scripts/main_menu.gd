@@ -5,10 +5,8 @@ extends Control
 @onready var volume = $Panel/Options/Volume
 @onready var volume2 = $"Panel/Options/Volume 2"
 @onready var fullscreen = $Panel/Options/CheckButton
-@onready var onlinemenu = $Panel/Multiplayer
-@onready var serverbrowsermenu = $Panel/MultiplayerList
+@onready var serverbrowsermenu = $Panel/Multiplayer
 @onready var username_line = $Panel/Multiplayer/Name
-@onready var ip_line = $Panel/Multiplayer/IP
 @onready var port_line = $Panel/Multiplayer/Port
 @onready var version = $Panel/Version
 @onready var credits = $Panel/Credits
@@ -19,13 +17,11 @@ func _ready() -> void:
 	GameController.main_menu = self
 	optionsmenu.visible = false
 	mainmenu.visible = true
-	onlinemenu.visible = false
 	serverbrowsermenu.visible = false
 
 	LoadGameData()
 
 	username_line = Network.Username
-	ip_line.text = Network.ip
 	port_line.text = str(Network.port)
 	private_mode.button_pressed = Network.private_mode
 
@@ -139,19 +135,18 @@ func _on_play_multiplayer_client_pressed() -> void:
 
 func _on_back_2_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
-	onlinemenu.visible = !onlinemenu.visible
+	serverbrowsermenu.visible = !serverbrowsermenu.visible
 
 
 func _on_name_text_changed(new_text:String) -> void:
 	Network.Username = new_text
 
 func _on_online_list_pressed() -> void:
-	onlinemenu.visible = !onlinemenu.visible
-	serverbrowsermenu.visible = !serverbrowsermenu.visible
+	serverbrowsermenu.visible = !serverbrowsermenu .visible
 
 
 func _on_back_3_pressed() -> void:
-	onlinemenu.visible = !onlinemenu.visible
+	mainmenu.visible = !mainmenu.visible
 	serverbrowsermenu.visible = !serverbrowsermenu.visible
 
 

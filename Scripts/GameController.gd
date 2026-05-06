@@ -2,7 +2,7 @@ extends Node
 
 var version = ProjectSettings.get_setting("application/config/version")
 var gamename = ProjectSettings.get_setting("application/config/name")
-var credits = "Miguelito2911"
+var credits = "Miguel Jimenez"
 
 @export var max_level = 25
 @export var energys = 0
