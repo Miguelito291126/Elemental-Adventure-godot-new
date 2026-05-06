@@ -3,27 +3,41 @@ extends Control
 @onready var mainmenu = $"Panel/main menu"
 @onready var optionsmenu = $Panel/Options
 @onready var volume = $Panel/Options/Volume
-@onready var volume2 = $"Panel/Options/Volume 2"
-@onready var fullscreen = $Panel/Options/CheckButton
-@onready var serverbrowsermenu = $Panel/Multiplayer
-@onready var username_line = $Panel/Multiplayer/Name
+@onready var volume2 = $"Panel/Options/Volume2"
+@onready var fullscreen = $Panel/Options/fullscreen
+@onready var steam_mode = $Panel/Options/steam_mode
+@onready var multiplayer_menu = $Panel/Multiplayer
+@onready var multiplayerList_menu= $Panel/MultiplayerList
 @onready var port_line = $Panel/Multiplayer/Port
+@onready var username_line = $Panel/Multiplayer/Name
+@onready var port_line2 = $Panel/MultiplayerList/Port
+@onready var username_line2 = $Panel/MultiplayerList/Name
+@onready var ip_line = $Panel/Multiplayer/Ip
 @onready var version = $Panel/Version
 @onready var credits = $Panel/Credits
 @onready var tittle = $"Panel/main menu/Title/Tittle"
 @onready var private_mode = $Panel/Multiplayer/PrivateMode
+@onready var private_mode2 = $Panel/MultiplayerList/PrivateMode
+
 
 func _ready() -> void:
 	GameController.main_menu = self
 	optionsmenu.visible = false
 	mainmenu.visible = true
-	serverbrowsermenu.visible = false
+	multiplayer_menu.visible = false
+	multiplayerList_menu.visible = false
 
 	LoadGameData()
 
 	username_line = Network.Username
+	username_line2.text = Network.Username
 	port_line.text = str(Network.port)
+	port_line2.text = str(Network.port)
 	private_mode.button_pressed = Network.private_mode
+	private_mode2.button_pressed = Network.private_mode
+
+	steam_mode.button_pressed = Network.use_steam
+	ip_line.text = Network.ip
 
 	version.text = "V" + GameController.version
 	credits.text = "By " + GameController.credits
@@ -48,7 +62,10 @@ func _ready() -> void:
 
 		await get_tree().create_timer(2).timeout
 
-		Network.create_steam_lobby()
+		if Network.is_steam_running:
+			Network.create_steam_lobby()
+		else:
+			Network.Play_MultiplayerServerNoSteam(Network.port)
 
 
 func LoadGameData():
@@ -72,7 +89,11 @@ func _on_play_pressed() -> void:
 
 func _on_online_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
-	serverbrowsermenu.visible = !serverbrowsermenu.visible
+	if Network.use_steam:
+		multiplayerList_menu.visible = !multiplayerList_menu.visible
+	else:
+		multiplayer_menu.visible = !multiplayer_menu.visible
+		ip_line.text = Network.ip
 
 
 func _on_option_pressed() -> void:
@@ -91,9 +112,6 @@ func _on_exit_pressed() -> void:
 	get_tree().quit()
 
 
-func _on_back_pressed() -> void:
-	optionsmenu.visible = !optionsmenu.visible
-	mainmenu.visible = !mainmenu.visible
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
@@ -124,21 +142,39 @@ func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
 
 func _on_play_multiplayer_pressed() -> void:
-	Network.create_steam_lobby()
+	Network.Play_MultiplayerServer(Network.port)
 
-func _on_back_2_pressed() -> void:
-	mainmenu.visible = !mainmenu.visible
-	serverbrowsermenu.visible = !serverbrowsermenu.visible
+func _on_play_multiplayer_client_pressed() -> void:
+	if Network.use_steam:
+		Network.join_steam_lobby(Network.steam_lobby_id)
+	else:
+		Network.Play_MultiplayerClientNoSteam(Network.ip, Network.port)
 
 
 func _on_name_text_changed(new_text:String) -> void:
 	Network.Username = new_text
 
-
-func _on_back_3_pressed() -> void:
-	mainmenu.visible = !mainmenu.visible
-	serverbrowsermenu.visible = !serverbrowsermenu.visible
-
-
 func _on_private_mode_toggled(toggled_on: bool) -> void:
 	Network.private_mode = toggled_on
+
+
+func _on_ip_text_changed(new_text: String) -> void:
+	Network.ip = new_text
+
+func _on_back_multiplayer_pressed() -> void:
+	mainmenu.visible = !mainmenu.visible
+	
+	if Network.use_steam:
+		multiplayerList_menu.visible = !multiplayerList_menu.visible
+	else:
+		multiplayer_menu.visible = !multiplayer_menu.visible
+
+
+func _on_back_options_pressed() -> void:
+	optionsmenu.visible = !optionsmenu.visible
+	mainmenu.visible = !mainmenu.visible
+
+
+func _on_steam_mode_toggled(toggled_on: bool) -> void:
+	Network.InitSteam()
+		

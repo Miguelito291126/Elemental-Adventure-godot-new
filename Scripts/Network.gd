@@ -11,7 +11,10 @@ var player_scene = preload("res://Scenes/player.tscn")
 @export var available_characters: Array = ["fire", "water", "air", "earth"]
 @export var assigned_characters: Dictionary = {}
 
-@export var port = 4444
+@export var port: int = 4444
+@export var ip: String
+@export var is_steam_running: bool = false
+@export var use_steam: bool = false
 @export var steam_id: int
 @export var steam_lobby_id: int = 0
 @export var PublicIp: String
@@ -45,8 +48,12 @@ func _ready() -> void:
 	multiplayer.multiplayer_peer = multiplayerpeer
 	
 	# Inicializar Steam
-	var is_steam_running: bool = Steam.steamInit()
+	InitSteam()
+
+func InitSteam():
+	is_steam_running = Steam.steamInit()
 	if is_steam_running:		
+		use_steam = true
 		print_role("Steam inicializado correctamente.")
 		
 		# Configurar señales de Lobbies
@@ -56,6 +63,12 @@ func _ready() -> void:
 
 		steam_id = Steam.getSteamID()
 		Username = Steam.getPersonaName()
+
+		FetchLocalIp()
+		FetchPublicIp()
+	else:
+		use_steam = false
+		print_role("Steam no se pudo inicializar")
 
 		FetchLocalIp()
 		FetchPublicIp()
@@ -264,28 +277,69 @@ func create_steam_lobby():
 func join_steam_lobby(lobby_id: int):
 	Steam.joinLobby(lobby_id)
 
+
+
 func Play_MultiplayerServer(server_port: int = 4444):
 	
 	if multiplayer.multiplayer_peer or multiplayerpeer:
 		multiplayerpeer.close()
 		multiplayer.multiplayer_peer.close()
 
-	multiplayerpeer = SteamMultiplayerPeer.new()
-	var error = multiplayerpeer.create_host(server_port)
+	if use_steam:
+		multiplayerpeer = SteamMultiplayerPeer.new()
+		var error = multiplayerpeer.create_host(server_port)
+		if error == OK:
+			multiplayer.multiplayer_peer = multiplayerpeer
+			if multiplayer.is_server():		
+
+				if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
+					print_role("Servidor dedicado iniciado.")
+
+					await get_tree().create_timer(2).timeout
+					
+					LoadScene.load_level_scene(GameController.main_menu)
+				else:
+					LoadScene.LoadCharacterMenu(GameController.main_menu)
+		else:
+			print_role("Error al iniciar el servidor.")
+	else:
+		if not private_mode:
+			UpnpSetup(server_port)
+
+		multiplayerpeer = ENetMultiplayerPeer.new()
+		var error = multiplayerpeer.create_server(server_port)
+		if error == OK:
+			multiplayer.multiplayer_peer = multiplayerpeer
+			if multiplayer.is_server():		
+
+				if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
+					print_role("Servidor dedicado iniciado.")
+
+					await get_tree().create_timer(2).timeout
+					
+					LoadScene.load_level_scene(GameController.main_menu)
+
+				else:
+					LoadScene.LoadCharacterMenu(GameController.main_menu)
+		else:
+			print_role("Error al iniciar el servidor.")
+
+
+func Play_MultiplayerClientNoSteam(ip: String, port: int ):
+	
+	if multiplayer.multiplayer_peer or multiplayerpeer:
+		multiplayerpeer.close()
+		multiplayer.multiplayer_peer.close()
+
+	multiplayerpeer = ENetMultiplayerPeer.new()
+	var error =  multiplayerpeer.create_client(ip, port)
 	if error == OK:
 		multiplayer.multiplayer_peer = multiplayerpeer
-		if multiplayer.is_server():		
-
-			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
-				print_role("Servidor dedicado iniciado.")
-
-				await get_tree().create_timer(2).timeout
-				
-				LoadScene.load_level_scene(GameController.main_menu)
-			else:
-				LoadScene.LoadCharacterMenu(GameController.main_menu)
+		print_role("Conectando al servidor...")
+		if not multiplayer.is_server():
+			print_role("Cliente iniciado.")
 	else:
-		print_role("Error al iniciar el servidor.")
+		print_role("Error al iniciar el cliente.")
 
 func Play_MultiplayerClient(lobby_id: int = 0):
 
