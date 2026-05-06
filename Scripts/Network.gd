@@ -366,7 +366,7 @@ func sync_all():
 	sync_assigned_characters.rpc(assigned_characters)
 	sync_queue_free_nodes.rpc(queue_free_nodes)
 	Sync_Players_Nodes.rpc()
-	if multiplayer.is_server() and steam_lobby_id != 0:
+	if multiplayer.is_server() and steam_lobby_id != 0 and use_steam:
 		Steam.setLobbyData(steam_lobby_id, "players_count", str(Players_Nodes.size()))
 
 func MultiplayerPlayerSpawner(id: int = 1):
@@ -455,7 +455,7 @@ func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
 	clear_all()
 
-	if steam_lobby_id != 0:
+	if steam_lobby_id != 0 and use_steam:
 		Steam.leaveLobby(steam_lobby_id)
 		steam_lobby_id = 0
 		print_role("Saliendo del lobby de Steam.")
@@ -525,7 +525,7 @@ func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
 	clear_all()
 
-	if steam_lobby_id != 0:
+	if steam_lobby_id != 0 and use_steam:
 		Steam.leaveLobby(steam_lobby_id)
 		steam_lobby_id = 0
 
@@ -652,7 +652,7 @@ func FetchLocalIp():
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		if steam_lobby_id != 0:
+		if steam_lobby_id != 0 and use_steam:
 			Steam.leaveLobby(steam_lobby_id) # Avisar a Steam antes de morir
 		# Ya no necesitamos SendUnregisterToMaster()[cite: 2]
 		get_tree().quit()

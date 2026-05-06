@@ -62,7 +62,7 @@ func _ready() -> void:
 
 		await get_tree().create_timer(2).timeout
 
-		if Network.is_steam_running:
+		if Network.use_steam:
 			Network.create_steam_lobby()
 		else:
 			Network.Play_MultiplayerServerNoSteam(Network.port)
@@ -176,5 +176,7 @@ func _on_back_options_pressed() -> void:
 
 
 func _on_steam_mode_toggled(toggled_on: bool) -> void:
-	Network.InitSteam()
+	Network.use_steam = toggled_on
+	if toggled_on:
+		Network.InitSteam()
 		
