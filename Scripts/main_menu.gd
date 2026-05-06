@@ -52,7 +52,7 @@ func _ready() -> void:
 
 		await get_tree().create_timer(2).timeout
 
-		Network.Play_MultiplayerServer()
+		Network.create_steam_lobby()
 
 
 func LoadGameData():
@@ -76,7 +76,7 @@ func _on_play_pressed() -> void:
 
 func _on_online_pressed() -> void:
 	mainmenu.visible = !mainmenu.visible
-	onlinemenu.visible = !onlinemenu.visible
+	serverbrowsermenu.visible = !serverbrowsermenu.visible
 
 
 func _on_option_pressed() -> void:
@@ -131,7 +131,7 @@ func _on_port_text_changed(new_text: String) -> void:
 	Network.port = new_text.to_int()
 
 func _on_play_multiplayer_pressed() -> void:
-	Network.Play_MultiplayerServer()
+	Network.create_steam_lobby()
 
 func _on_play_multiplayer_client_pressed() -> void:
 	Network.Play_MultiplayerClient()

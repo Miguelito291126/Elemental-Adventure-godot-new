@@ -2,7 +2,7 @@ extends Node
 
 signal queue_synced
 
-@export var Username: String
+@export var Username: String = "Player"
 @export var Players_Nodes: Dictionary = {}
 
 var player_scene = preload("res://Scenes/player.tscn")
@@ -13,8 +13,10 @@ var player_scene = preload("res://Scenes/player.tscn")
 
 @export var port = 4444
 @export var ip: String
+@export var steam_id: int
 @export var PublicIp: String
 @export var LocalIp: String
+var steam_lobby_id: int = 0 # Variable global en Network.gd
 
 var serverbrowser: Control
 var multiplayerpeer
@@ -42,9 +44,52 @@ func _ready() -> void:
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
+	
+	# Inicializar Steam
+	var is_steam_running: bool = Steam.steamInit()
+	if is_steam_running:		
+		print_role("Steam inicializado correctamente.")
+		
+		# Configurar señales de Lobbies
+		Steam.lobby_created.connect(_on_lobby_created)	
+		Steam.lobby_match_list.connect(_on_lobby_match_list)
+		Steam.lobby_joined.connect(_on_lobby_joined)
 
-	FetchPublicIp()
-	FetchLocalIp()
+		steam_id = Steam.getSteamID()
+		Username = Steam.getPersonaName()
+
+		FetchLocalIp()
+		FetchPublicIp()
+
+func _on_lobby_match_list(lobbies: Array):
+	# Esta función se activa cuando Steam termina de buscar partidas
+	print_role("Se encontraron " + str(lobbies.size()) + " lobbies en Steam.")
+	
+	# Si tienes una referencia al buscador de servidores, le pasamos los datos
+	if serverbrowser and is_instance_valid(serverbrowser):
+		serverbrowser._on_steam_lobbies_received(lobbies)
+		
+func _on_lobby_created(connect_status: int, lobby_id: int):
+	if connect_status == 1:
+		print_role("Lobby de Steam creado con éxito. ID: " + str(lobby_id))
+		steam_lobby_id = lobby_id
+		
+		steam_id = Steam.getSteamID()
+		Steam.setLobbyData(lobby_id, "host_rpc_id", str(steam_id))
+		Steam.setLobbyData(lobby_id, "game_id", "elemental_adventure")
+		Steam.setLobbyData(lobby_id, "name", Username)
+		Steam.setLobbyData(lobby_id, "ip", PublicIp)
+		Steam.setLobbyData(lobby_id, "local_ip", LocalIp)
+		Steam.setLobbyData(lobby_id, "players_count", str(Players_Nodes.size()))
+		Steam.setLobbyData(lobby_id, "port", str(port))
+		
+		Play_MultiplayerServer()
+	else:
+		print_role("Error al crear el lobby de Steam: " + str(connect_status))
+
+func _on_lobby_joined(lobby_id: int, perms: int):
+	print_role("Lobby de Steam unido con éxito. ID: " + str(lobby_id) + " Perms: " + str(perms))
+
 
 
 func _exit_tree() -> void:
@@ -195,7 +240,7 @@ func print_role(msg: String):
 @rpc("any_peer", "call_local")
 func close_conection():
 	var peer = multiplayer.multiplayer_peer
-
+	
 	# Si no hay peer o está desconectado o es offline → volver al menú
 	if peer == null \
 	or peer is OfflineMultiplayerPeer \
@@ -203,32 +248,30 @@ func close_conection():
 		MultiplayerServerDisconnected()
 		return
 
-	if multiplayer.is_server():
-		SendUnregisterToMaster()
-
 	# Si está conectado → cerrar conexión
 	peer.close()
 	multiplayerpeer.close()
 
+func create_steam_lobby():
+	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 4) # 4 es el máximo de jugadores[cite: 2]
+
+func join_steam_lobby():
+	Steam.joinLobby(steam_lobby_id)
 
 func Play_MultiplayerServer():
 	if not private_mode:
 		UpnpSetup(port)
 
-	multiplayerpeer = ENetMultiplayerPeer.new()
-	var error = multiplayerpeer.create_server(port, 4)
+	multiplayerpeer = SteamMultiplayerPeer.new()
+	var error = multiplayerpeer.create_host(port)
 	if error == OK:
 		multiplayer.multiplayer_peer = multiplayerpeer
-		if multiplayer.is_server():
-
-			if not private_mode:
-				HeartbeatTimerCreate()
+		if multiplayer.is_server():		
 
 			if OS.has_feature("dedicated_server") or "s" in OS.get_cmdline_user_args() or "server" in OS.get_cmdline_user_args():
 				print_role("Servidor dedicado iniciado.")
 
 				await get_tree().create_timer(2).timeout
-				
 				
 				LoadScene.load_level_scene(GameController.main_menu)
 			else:
@@ -238,8 +281,8 @@ func Play_MultiplayerServer():
 		print_role("Error al iniciar el servidor.")
 
 func Play_MultiplayerClient():
-	multiplayerpeer = ENetMultiplayerPeer.new()
-	var error =  multiplayerpeer.create_client(ip, port)
+	multiplayerpeer = SteamMultiplayerPeer.new()
+	var error =  multiplayerpeer.create_client(steam_id, port)
 	if error == OK:
 		print_role("Conectando al servidor...")
 		multiplayer.multiplayer_peer = multiplayerpeer
@@ -254,6 +297,8 @@ func sync_all():
 	sync_assigned_characters.rpc(assigned_characters)
 	sync_queue_free_nodes.rpc(queue_free_nodes)
 	Sync_Players_Nodes.rpc()
+	if multiplayer.is_server() and steam_lobby_id != 0:
+		Steam.setLobbyData(steam_lobby_id, "players_count", str(Players_Nodes.size()))
 
 func MultiplayerPlayerSpawner(id: int = 1):
 	# Solo el servidor puede spawnear jugadores y sincronizar
@@ -282,10 +327,9 @@ func MultiplayerPlayerSpawner(id: int = 1):
 			sync_all()
 			print_role("No se pudo añadir al jugador con el id: " + str(id))	
 
-		
+
 	else:
 		sync_all()
-		
 		print_role("Jugador no spawneado con el ID:" + str(id))
 
 
@@ -340,8 +384,13 @@ func clear_all():
 
 func MultiplayerConnectionFailed():
 	print_role("Failed to connect to server")
-
 	clear_all()
+
+	if steam_lobby_id != 0:
+		Steam.leaveLobby(steam_lobby_id)
+		steam_lobby_id = 0
+		steam_id = Steam.getSteamID()
+		print_role("Saliendo del lobby de Steam.")
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
@@ -407,9 +456,13 @@ func MultiplayerConnectionServerSucess():
 	
 func MultiplayerServerDisconnected():
 	print_role("Disconnecting from server...")
-	
 	clear_all()
-	
+
+	if steam_lobby_id != 0:
+		Steam.leaveLobby(steam_lobby_id)
+		steam_lobby_id = 0
+		steam_id = Steam.getSteamID()
+		print_role("Saliendo del lobby de Steam.")
 
 	multiplayerpeer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = multiplayerpeer
@@ -436,6 +489,10 @@ func sync_queue_free_nodes(nodes: Array):
 	queue_free_nodes = nodes.duplicate(true)
 	apply_queued_deletions()
 	emit_signal("queue_synced")
+
+
+func _process(delta: float) -> void:
+	Steam.run_callbacks()
 
 func apply_queued_deletions():
 	await get_tree().process_frame
@@ -471,61 +528,6 @@ func remove_all_queue_free_nodes():
 	# Sincronizar la lista vacía con todos los clientes
 	sync_queue_free_nodes.rpc(queue_free_nodes)
 
-
-
-
-func HeartbeatTimerCreate():
-	var heartbeatTimer = Timer.new()
-	heartbeatTimer.name = "HeartbeatTimer"
-	heartbeatTimer.wait_time = 1.0
-	heartbeatTimer.one_shot = false
-	heartbeatTimer.autostart = true
-	add_child(heartbeatTimer, true)
-	heartbeatTimer.timeout.connect(OnHeartbeatTimerTimeout)
-
-func OnHeartbeatTimerTimeout():
-	SendHeartbeatToMaster()
-
-
-
-func SendHeartbeatToMaster():
-	var data = {
-		"game_id": "elemental_adventure",
-		"name": Username,
-		"players": Players_Nodes.size(),
-		"public_ip": PublicIp,
-		"local_ip": LocalIp,
-		"port": port
-	}
-
-	var query = JSON.stringify(data);
-	var url = masterServerUrl + "/register"
-	var array: = [
-		"Content-Type: application/json"
-	]
-
-	http.request(url, array, HTTPClient.METHOD_POST, query)
-
-func SendUnregisterToMaster():
-
-	var heartbeatTimer = get_node_or_null("HeartbeatTimer")
-	if heartbeatTimer:
-		heartbeatTimer.stop()
-		heartbeatTimer.queue_free()
-
-	var data = {
-		"game_id": "elemental_adventure",
-		"port": port,
-		"public_ip": PublicIp
-	}
-
-	var query = JSON.stringify(data);
-	var url = masterServerUrl + "/unregister";
-	var array: = [
-		"Content-Type: application/json"
-	]
-	
-	http.request(url, array, HTTPClient.METHOD_POST, query);
 
 
 func UpnpSetup(Port):
@@ -582,9 +584,12 @@ func FetchLocalIp():
 		if Ip.begins_with("192.168.") or Ip.begins_with("10."):
 			LocalIp = Ip
 			print_role("IP Local: " + LocalIp)
-			break
+			break	
+
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		if multiplayer.is_server():
-			SendUnregisterToMaster()
+		if steam_lobby_id != 0:
+			Steam.leaveLobby(steam_lobby_id) # Avisar a Steam antes de morir
+		# Ya no necesitamos SendUnregisterToMaster()[cite: 2]
+		get_tree().quit()
