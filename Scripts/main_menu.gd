@@ -29,7 +29,7 @@ func _ready() -> void:
 
 	LoadGameData()
 
-	username_line = Network.Username
+	username_line.text = Network.Username
 	username_line2.text = Network.Username
 	port_line.text = str(Network.port)
 	port_line2.text = str(Network.port)
