@@ -18,6 +18,9 @@ func _ready():
 
 # En ServerBrowser.gd
 func RefreshServerList():
+	if not Network.use_steam:
+		return
+	
 	for n in list.get_children():
 		n.queue_free()
 		

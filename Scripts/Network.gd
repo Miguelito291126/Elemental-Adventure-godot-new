@@ -13,7 +13,6 @@ var player_scene = preload("res://Scenes/player.tscn")
 
 @export var port: int = 4444
 @export var ip: String
-@export var is_steam_running: bool = false
 @export var use_steam: bool = false
 @export var steam_id: int
 @export var steam_lobby_id: int = 0
@@ -51,7 +50,7 @@ func _ready() -> void:
 	InitSteam()
 
 func InitSteam():
-	is_steam_running = Steam.steamInit()
+	var is_steam_running = Steam.steamInit()
 	if is_steam_running:		
 		use_steam = true
 		print_role("Steam inicializado correctamente.")
