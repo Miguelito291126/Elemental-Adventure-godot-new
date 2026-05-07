@@ -65,7 +65,7 @@ func _ready() -> void:
 		if Network.use_steam:
 			Network.create_steam_lobby()
 		else:
-			Network.Play_MultiplayerServerNoSteam(Network.port)
+			Network.Play_MultiplayerServer(Network.port)
 
 
 func LoadGameData():
