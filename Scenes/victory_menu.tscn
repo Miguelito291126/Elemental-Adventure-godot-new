@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpwro3crqbft3"]
+[gd_scene format=3 uid="uid://dpwro3crqbft3"]
 
 [ext_resource type="Theme" uid="uid://bl13wvd8w8glk" path="res://Elemental Adventure victory.tres" id="1_dffxu"]
 [ext_resource type="Script" uid="uid://de5lk8gslesp0" path="res://Scripts/Victory menu.gd" id="1_hcj18"]
 [ext_resource type="AudioStream" uid="uid://bwjqphxigam7v" path="res://sounds/win.wav" id="2_dffxu"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_lqoqo"]
 
-[node name="Victory menu" type="Control"]
+[node name="Victory menu" type="Control" unique_id=331892631]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -16,7 +16,7 @@ grow_vertical = 2
 theme = ExtResource("1_dffxu")
 script = ExtResource("1_hcj18")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1001374478]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,87 +25,77 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_dffxu")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
-process_mode = 3
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -956.5
-offset_right = 956.5
-offset_bottom = 318.0
-grow_horizontal = 2
-theme = ExtResource("1_dffxu")
-alignment = 1
-
-[node name="level" type="Label" parent="Panel/VBoxContainer2"]
-process_mode = 3
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_dffxu")
-theme_override_fonts/font = ExtResource("2_lqoqo")
-text = "you Completed Level: 
-level_1 !!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="energys" type="Label" parent="Panel/VBoxContainer2"]
-process_mode = 3
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_dffxu")
-theme_override_fonts/font = ExtResource("2_lqoqo")
-text = "energys balls:0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="score" type="Label" parent="Panel/VBoxContainer2"]
-process_mode = 3
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_dffxu")
-theme_override_fonts/font = ExtResource("2_lqoqo")
-text = "Score:0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-process_mode = 3
+[node name="Container" type="MarginContainer" parent="Panel" unique_id=12146129]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -419.0
-offset_top = -151.5
-offset_right = 419.0
-offset_bottom = 151.5
+offset_left = -525.0
+offset_top = -536.0
+offset_right = 525.0
+offset_bottom = 539.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_dffxu")
 
-[node name="next" type="Button" parent="Panel/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Container" unique_id=1809773615]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
+theme = ExtResource("1_dffxu")
+alignment = 1
+
+[node name="level" type="Label" parent="Panel/Container/VBoxContainer" unique_id=1018376177]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_dffxu")
+theme_override_fonts/font = ExtResource("2_lqoqo")
+theme_override_font_sizes/font_size = 80
+text = "you Completed Level: 
+level_1 !!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="energys" type="Label" parent="Panel/Container/VBoxContainer" unique_id=214490492]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_dffxu")
+theme_override_fonts/font = ExtResource("2_lqoqo")
+text = "energys balls:0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="score" type="Label" parent="Panel/Container/VBoxContainer" unique_id=2047458127]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_dffxu")
+theme_override_fonts/font = ExtResource("2_lqoqo")
+text = "Score:0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="next" type="Button" parent="Panel/Container/VBoxContainer" unique_id=2055007219]
+process_mode = 3
+layout_mode = 2
 theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "next
 "
 
-[node name="back" type="Button" parent="Panel/VBoxContainer"]
+[node name="back" type="Button" parent="Panel/Container/VBoxContainer" unique_id=1403566975]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/outline_size = 30
 theme_override_fonts/font = ExtResource("2_lqoqo")
 text = "Back"
 
-[node name="Victory music" type="AudioStreamPlayer" parent="."]
+[node name="Victory music" type="AudioStreamPlayer" parent="." unique_id=186527353]
 process_mode = 3
 stream = ExtResource("2_dffxu")
 autoplay = true
 
-[connection signal="pressed" from="Panel/VBoxContainer/next" to="." method="_on_next_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Panel/Container/VBoxContainer/next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="Panel/Container/VBoxContainer/back" to="." method="_on_back_pressed"]

@@ -1,9 +1,9 @@
 extends Control
 
-@onready var energys = $Panel/VBoxContainer2/energys
-@onready var score = $Panel/VBoxContainer2/score
-@onready var level = $Panel/VBoxContainer2/level
-@onready var next_button = $Panel/VBoxContainer/next
+@onready var energys = $Panel/Container/VBoxContainer/energys
+@onready var score = $Panel/Container/VBoxContainer/score
+@onready var level = $Panel/Container/VBoxContainer/level
+@onready var next_button = $Panel/Container/VBoxContainer/next
 
 func _ready() -> void:
 	GameController.victory_menu = self

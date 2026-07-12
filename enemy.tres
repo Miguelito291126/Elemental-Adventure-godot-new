@@ -156,7 +156,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8cim4")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack slime blue",
 "speed": 3.0
 }, {
@@ -173,7 +173,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fa188")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack slime green",
 "speed": 3.0
 }, {
@@ -190,7 +190,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bx1xr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack slime orange",
 "speed": 3.0
 }, {
@@ -207,7 +207,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ve8xs")
 }],
-"loop": true,
+"loop": 1,
 "name": &"attack slime yellow",
 "speed": 3.0
 }, {
@@ -218,7 +218,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c1gwg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle slime blue",
 "speed": 2.0
 }, {
@@ -229,7 +229,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_llxf8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle slime green",
 "speed": 2.0
 }, {
@@ -240,7 +240,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5a56t")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle slime orange",
 "speed": 2.0
 }, {
@@ -251,7 +251,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8ej4m")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle slime yellow",
 "speed": 2.0
 }, {
@@ -262,7 +262,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iol0x")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk slime blue",
 "speed": 5.0
 }, {
@@ -273,7 +273,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j3tob")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk slime green",
 "speed": 5.0
 }, {
@@ -284,7 +284,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nus6a")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk slime orange",
 "speed": 5.0
 }, {
@@ -295,7 +295,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pyrvc")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk slime yellow",
 "speed": 5.0
 }]

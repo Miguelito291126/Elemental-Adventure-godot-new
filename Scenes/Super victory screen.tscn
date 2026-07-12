@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj5hoawm4c8hc"]
+[gd_scene format=3 uid="uid://dj5hoawm4c8hc"]
 
 [ext_resource type="Theme" uid="uid://bl13wvd8w8glk" path="res://Elemental Adventure victory.tres" id="1_gtgab"]
 [ext_resource type="Script" uid="uid://cxw8khmyf2wub" path="res://Scripts/Super victory screen.gd" id="1_x1h5b"]
 [ext_resource type="AudioStream" uid="uid://bwjqphxigam7v" path="res://sounds/win.wav" id="2_6qwlf"]
 
-[node name="Super Victory menu" type="Control"]
+[node name="Super Victory menu" type="Control" unique_id=1701363782]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -15,7 +15,7 @@ grow_vertical = 2
 theme = ExtResource("1_gtgab")
 script = ExtResource("1_x1h5b")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=621554346]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,78 +24,69 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_gtgab")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
-process_mode = 3
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -750.0
-offset_right = 750.0
-offset_bottom = 264.0
-grow_horizontal = 2
-theme = ExtResource("1_gtgab")
-
-[node name="level" type="Label" parent="Panel/VBoxContainer2"]
-process_mode = 3
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_gtgab")
-text = "you won!!
-Thank to play this!!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="energys" type="Label" parent="Panel/VBoxContainer2"]
-process_mode = 3
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_gtgab")
-text = "energys balls:0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="score" type="Label" parent="Panel/VBoxContainer2"]
-process_mode = 3
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_gtgab")
-text = "Score:0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-process_mode = 3
+[node name="Container" type="MarginContainer" parent="Panel" unique_id=2125497461]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -296.0
-offset_top = -75.0
-offset_right = 296.0
-offset_bottom = 75.0
+offset_left = -500.0
+offset_top = -544.0
+offset_right = 500.0
+offset_bottom = 546.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Container" unique_id=492746130]
+process_mode = 3
+layout_mode = 2
 theme = ExtResource("1_gtgab")
 alignment = 1
 
-[node name="restart" type="Button" parent="Panel/VBoxContainer"]
+[node name="level" type="Label" parent="Panel/Container/VBoxContainer" unique_id=349571146]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_gtgab")
+theme_override_font_sizes/font_size = 80
+text = "you won!!
+Thank to play this!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="energys" type="Label" parent="Panel/Container/VBoxContainer" unique_id=1626315391]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_gtgab")
+text = "energys balls:0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="score" type="Label" parent="Panel/Container/VBoxContainer" unique_id=77851888]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_gtgab")
+text = "Score:0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="restart" type="Button" parent="Panel/Container/VBoxContainer" unique_id=1395825460]
 layout_mode = 2
 text = "Restart Game"
 
-[node name="back" type="Button" parent="Panel/VBoxContainer"]
+[node name="back" type="Button" parent="Panel/Container/VBoxContainer" unique_id=2110454707]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_gtgab")
 text = "back"
 
-[node name="Victory music" type="AudioStreamPlayer" parent="."]
+[node name="Victory music" type="AudioStreamPlayer" parent="." unique_id=405962296]
 process_mode = 3
 stream = ExtResource("2_6qwlf")
 autoplay = true
 
-[connection signal="pressed" from="Panel/VBoxContainer/restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Panel/Container/VBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Panel/Container/VBoxContainer/back" to="." method="_on_back_pressed"]

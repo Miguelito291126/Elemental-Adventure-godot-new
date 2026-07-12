@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://y6bboatewubh"]
+[gd_scene format=3 uid="uid://y6bboatewubh"]
 
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="1_4wsq5"]
 [ext_resource type="Script" uid="uid://yrodbiwjb5bx" path="res://Scripts/Pause menu.gd" id="1_77nxw"]
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_8qk3t"]
 
-[node name="Pause menu" type="CanvasLayer"]
+[node name="Pause menu" type="CanvasLayer" unique_id=1166433578]
 process_mode = 3
 script = ExtResource("1_77nxw")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1349870864]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,26 +16,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4wsq5")
 
-[node name="Pause menu" type="VBoxContainer" parent="Panel"]
-process_mode = 3
+[node name="Container" type="MarginContainer" parent="Panel" unique_id=1748857667]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -480.0
-offset_top = -346.5
-offset_right = 480.0
-offset_bottom = 346.5
+offset_left = -475.0
+offset_top = -535.0
+offset_right = 608.0
+offset_bottom = 537.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_4wsq5")
 
-[node name="Title" type="Label" parent="Panel/Pause menu"]
+[node name="Pause menu" type="VBoxContainer" parent="Panel/Container" unique_id=806980563]
+process_mode = 3
+visible = false
+layout_mode = 2
+theme = ExtResource("1_4wsq5")
+alignment = 1
+
+[node name="Title" type="Label" parent="Panel/Container/Pause menu" unique_id=2053719791]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 6
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 theme_override_font_sizes/font_size = 100
@@ -43,115 +47,97 @@ text = "Pause"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="return" type="Button" parent="Panel/Pause menu"]
+[node name="return" type="Button" parent="Panel/Container/Pause menu" unique_id=2085450478]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Return"
 
-[node name="reset player" type="Button" parent="Panel/Pause menu"]
+[node name="reset player" type="Button" parent="Panel/Container/Pause menu" unique_id=1021943981]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Reset player"
 
-[node name="Settings" type="Button" parent="Panel/Pause menu"]
+[node name="Settings" type="Button" parent="Panel/Container/Pause menu" unique_id=1158425457]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Settings"
 
-[node name="back" type="Button" parent="Panel/Pause menu"]
+[node name="back" type="Button" parent="Panel/Container/Pause menu" unique_id=1957775431]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Back"
 
-[node name="Options" type="VBoxContainer" parent="Panel"]
+[node name="Options" type="VBoxContainer" parent="Panel/Container" unique_id=1226178905]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -524.5
-offset_top = -425.0
-offset_right = 524.5
-offset_bottom = 425.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+alignment = 1
 
-[node name="Label" type="Label" parent="Panel/Options"]
+[node name="Label" type="Label" parent="Panel/Container/Options" unique_id=1619598786]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 10
+size_flags_vertical = 8
 theme = ExtResource("1_4wsq5")
 text = "SFX"
 
-[node name="Volume" type="HSlider" parent="Panel/Options"]
+[node name="Volume" type="HSlider" parent="Panel/Container/Options" unique_id=211151921]
 layout_mode = 2
-size_flags_vertical = 6
+size_flags_vertical = 4
 max_value = 0.8
 step = 0.001
 
-[node name="Label2" type="Label" parent="Panel/Options"]
+[node name="Label2" type="Label" parent="Panel/Container/Options" unique_id=35967939]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 10
+size_flags_vertical = 8
 theme = ExtResource("1_4wsq5")
 text = "Music"
 
-[node name="Volume 2" type="HSlider" parent="Panel/Options"]
+[node name="Volume 2" type="HSlider" parent="Panel/Container/Options" unique_id=1469169659]
 layout_mode = 2
-size_flags_vertical = 6
+size_flags_vertical = 4
 max_value = 0.8
 step = 0.001
 
-[node name="CheckButton" type="CheckButton" parent="Panel/Options"]
+[node name="CheckButton" type="CheckButton" parent="Panel/Container/Options" unique_id=2081777819]
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 text = "FullScreen"
 
-[node name="save" type="Button" parent="Panel/Options"]
+[node name="save" type="Button" parent="Panel/Container/Options" unique_id=824416350]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Save
 "
 
-[node name="delete data" type="Button" parent="Panel/Options"]
+[node name="delete data" type="Button" parent="Panel/Container/Options" unique_id=1537488556]
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Delete data
 "
 
-[node name="Back Pause Menu" type="Button" parent="Panel/Options"]
+[node name="Back Pause Menu" type="Button" parent="Panel/Container/Options" unique_id=1793034709]
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_4wsq5")
 theme_override_fonts/font = ExtResource("2_8qk3t")
 text = "Back"
 
-[connection signal="pressed" from="Panel/Pause menu/return" to="." method="_on_return_pressed"]
-[connection signal="pressed" from="Panel/Pause menu/reset player" to="." method="_on_reset_player_pressed"]
-[connection signal="pressed" from="Panel/Pause menu/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="Panel/Pause menu/back" to="." method="_on_back_pressed"]
-[connection signal="value_changed" from="Panel/Options/Volume" to="." method="_on_volume_value_changed"]
-[connection signal="value_changed" from="Panel/Options/Volume 2" to="." method="_on_volume_2_value_changed"]
-[connection signal="toggled" from="Panel/Options/CheckButton" to="." method="_on_check_button_toggled"]
-[connection signal="pressed" from="Panel/Options/save" to="." method="_on_save_pressed"]
-[connection signal="pressed" from="Panel/Options/Back Pause Menu" to="." method="_on_back_pause_menu_pressed"]
+[connection signal="pressed" from="Panel/Container/Pause menu/return" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="Panel/Container/Pause menu/reset player" to="." method="_on_reset_player_pressed"]
+[connection signal="pressed" from="Panel/Container/Pause menu/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Panel/Container/Pause menu/back" to="." method="_on_back_pressed"]
+[connection signal="value_changed" from="Panel/Container/Options/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="value_changed" from="Panel/Container/Options/Volume 2" to="." method="_on_volume_2_value_changed"]
+[connection signal="toggled" from="Panel/Container/Options/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="Panel/Container/Options/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="Panel/Container/Options/Back Pause Menu" to="." method="_on_back_pause_menu_pressed"]

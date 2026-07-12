@@ -1,8 +1,8 @@
 extends Control
 
-@onready var energys = $Panel/VBoxContainer2/energys
-@onready var score = $Panel/VBoxContainer2/score
-@onready var return_button = $Panel/VBoxContainer/return
+@onready var energys = $Panel/Container/VBoxContainer/energys
+@onready var score = $Panel/Container/VBoxContainer/score
+@onready var return_button = $Panel/Container/VBoxContainer/return
 
 func _ready() -> void:
 	GameController.game_over_menu = self

@@ -1,10 +1,10 @@
 extends CanvasLayer
 
-@onready var pause_menu = $"Panel/Pause menu"
-@onready var optionsmenu = $Panel/Options
-@onready var volume = $Panel/Options/Volume
-@onready var volume2 = $"Panel/Options/Volume 2"
-@onready var fullscreen = $Panel/Options/CheckButton
+@onready var pause_menu = $"Panel/Container/Pause menu"
+@onready var optionsmenu = $Panel/Container/Options
+@onready var volume = $Panel/Container/Options/Volume
+@onready var volume2 = $"Panel/Container/Options/Volume 2"
+@onready var fullscreen = $Panel/Container/Options/CheckButton
 
 
 func _enter_tree() -> void:

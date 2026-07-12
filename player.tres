@@ -174,7 +174,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_slodb")
 }],
-"loop": true,
+"loop": 1,
 "name": &"air fall",
 "speed": 5.0
 }, {
@@ -185,7 +185,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_inlvn")
 }],
-"loop": true,
+"loop": 1,
 "name": &"air idle",
 "speed": 1.0
 }, {
@@ -193,7 +193,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_282u7")
 }],
-"loop": true,
+"loop": 1,
 "name": &"air jump",
 "speed": 5.0
 }, {
@@ -210,7 +210,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tg515")
 }],
-"loop": true,
+"loop": 1,
 "name": &"air walk",
 "speed": 5.0
 }, {
@@ -218,7 +218,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3wx17")
 }],
-"loop": true,
+"loop": 1,
 "name": &"earth fall",
 "speed": 5.0
 }, {
@@ -229,7 +229,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_s8uqo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"earth idle",
 "speed": 1.0
 }, {
@@ -237,7 +237,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vum1v")
 }],
-"loop": true,
+"loop": 1,
 "name": &"earth jump",
 "speed": 5.0
 }, {
@@ -248,7 +248,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qkcd0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"earth swim",
 "speed": 1.0
 }, {
@@ -265,7 +265,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4pynf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"earth walk",
 "speed": 5.0
 }, {
@@ -273,7 +273,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kj8ob")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fire fall",
 "speed": 5.0
 }, {
@@ -284,7 +284,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xve85")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fire idle",
 "speed": 1.0
 }, {
@@ -292,7 +292,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u7cs1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fire jump",
 "speed": 5.0
 }, {
@@ -303,7 +303,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ocews")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fire swim",
 "speed": 1.0
 }, {
@@ -320,7 +320,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sm6a2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fire walk",
 "speed": 5.0
 }, {
@@ -328,7 +328,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cf528")
 }],
-"loop": true,
+"loop": 1,
 "name": &"water fall",
 "speed": 5.0
 }, {
@@ -339,7 +339,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fvuha")
 }],
-"loop": true,
+"loop": 1,
 "name": &"water idle",
 "speed": 1.0
 }, {
@@ -347,7 +347,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hh4xs")
 }],
-"loop": true,
+"loop": 1,
 "name": &"water jump",
 "speed": 5.0
 }, {
@@ -358,7 +358,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0pvi7")
 }],
-"loop": true,
+"loop": 1,
 "name": &"water swim",
 "speed": 1.0
 }, {
@@ -375,7 +375,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xp0kf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"water walk",
 "speed": 5.0
 }]

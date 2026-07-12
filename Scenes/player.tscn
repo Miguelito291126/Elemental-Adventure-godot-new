@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://djygm6wp34b1d" path="res://Scripts/jump_button.gd" id="5_7dp3o"]
 [ext_resource type="Theme" uid="uid://cf6o5io44h03f" path="res://Elemental Adventure theme.tres" id="5_ns770"]
 [ext_resource type="Texture2D" uid="uid://njcjwnjn467m" path="res://Sprites/Controls/shaded-light/shadedLight26.png" id="5_ukyrk"]
-[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="6_7dp3o"]
 [ext_resource type="AudioStream" uid="uid://drr2wubpf40ds" path="res://sounds/laserShoot.wav" id="6_8erm5"]
 [ext_resource type="PackedScene" uid="uid://y6bboatewubh" path="res://Scenes/pause_menu.tscn" id="9_aviom"]
 [ext_resource type="AudioStream" uid="uid://epn02skm7kuj" path="res://sounds/hitHurt.wav" id="10_gymyn"]
@@ -259,14 +258,17 @@ action = "jump0"
 visibility_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="Virtual Joystick" parent="Hud" unique_id=1336710695 instance=ExtResource("6_7dp3o")]
+[node name="VirtualJoystick" type="VirtualJoystick" parent="Hud" unique_id=1110673480]
 modulate = Color(0.415686, 0, 0.415686, 1)
-offset_left = 176.0
-offset_top = -440.0
-offset_right = 476.0
-offset_bottom = -160.0
-scale = Vector2(1.495, 1.495)
-visibility_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -480.0
+offset_right = 560.0
+grow_vertical = 0
+joystick_size = 300.0
+tip_size = 100.0
+script = ExtResource("5_7dp3o")
 
 [node name="Pause menu" parent="." unique_id=477798271 instance=ExtResource("9_aviom")]
 visible = false

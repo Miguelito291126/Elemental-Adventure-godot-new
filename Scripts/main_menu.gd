@@ -1,23 +1,23 @@
 extends Control
 
-@onready var mainmenu = $"Panel/main menu"
-@onready var optionsmenu = $Panel/Options
-@onready var volume = $Panel/Options/Volume
-@onready var volume2 = $"Panel/Options/Volume2"
-@onready var fullscreen = $Panel/Options/fullscreen
-@onready var steam_mode = $Panel/Options/steam_mode
-@onready var multiplayer_menu = $Panel/Multiplayer
-@onready var multiplayerList_menu= $Panel/MultiplayerList
-@onready var port_line = $Panel/Multiplayer/Port
-@onready var username_line = $Panel/Multiplayer/Name
-@onready var port_line2 = $Panel/MultiplayerList/Port
-@onready var username_line2 = $Panel/MultiplayerList/Name
-@onready var ip_line = $Panel/Multiplayer/Ip
-@onready var version = $Panel/Version
-@onready var credits = $Panel/Credits
-@onready var tittle = $"Panel/main menu/Title/Tittle"
-@onready var private_mode = $Panel/Multiplayer/PrivateMode
-@onready var private_mode2 = $Panel/MultiplayerList/PrivateMode
+@onready var mainmenu = $"Panel/Container/main menu"
+@onready var optionsmenu = $Panel/Container/Options
+@onready var volume = $Panel/Container/Options/Volume
+@onready var volume2 = $"Panel/Container/Options/Volume2"
+@onready var fullscreen = $Panel/Container/Options/fullscreen
+@onready var steam_mode = $Panel/Container/Options/steam_mode
+@onready var multiplayer_menu = $Panel/Container/Multiplayer
+@onready var multiplayerList_menu= $Panel/Container/MultiplayerList
+@onready var port_line = $Panel/Container/Multiplayer/Port
+@onready var username_line = $Panel/Container/Multiplayer/Name
+@onready var port_line2 = $Panel/Container/MultiplayerList/Port
+@onready var username_line2 = $Panel/Container/MultiplayerList/Name
+@onready var ip_line = $Panel/Container/Multiplayer/Ip
+@onready var version = $Panel/VBoxContainer/Version
+@onready var credits = $Panel/VBoxContainer/Credits
+@onready var tittle = $"Panel/Container/main menu/Title/Tittle"
+@onready var private_mode = $Panel/Container/Multiplayer/PrivateMode
+@onready var private_mode2 = $Panel/Container/MultiplayerList/PrivateMode
 
 
 func _ready() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://v8uq1u8p3nxj"]
+[gd_scene format=3 uid="uid://v8uq1u8p3nxj"]
 
 [ext_resource type="Theme" uid="uid://p8633tbpyfve" path="res://Elemental Adventure death theme.tres" id="1_eqaa1"]
 [ext_resource type="Script" uid="uid://b6264exh1ntmu" path="res://Scripts/game over Menu.gd" id="1_i0b3j"]
@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://dsgyxibyhxj10" path="res://PressStart2P.ttf" id="2_xqlid"]
 [ext_resource type="Theme" uid="uid://bl13wvd8w8glk" path="res://Elemental Adventure victory.tres" id="3_q2job"]
 
-[node name="Death Menu" type="Control"]
+[node name="Death Menu" type="Control" unique_id=1915876132]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -17,7 +17,7 @@ grow_vertical = 2
 theme = ExtResource("1_eqaa1")
 script = ExtResource("1_i0b3j")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1983279293]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,23 +26,28 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_eqaa1")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
-process_mode = 3
+[node name="Container" type="MarginContainer" parent="Panel" unique_id=1844838656]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -956.5
-offset_right = 956.5
-offset_bottom = 318.0
+anchor_bottom = 0.5
+offset_left = -550.0
+offset_top = -543.0
+offset_right = 550.0
+offset_bottom = 538.0
 grow_horizontal = 2
-theme = ExtResource("3_q2job")
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Container" unique_id=187537261]
+layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Panel/VBoxContainer2"]
+[node name="Title" type="Label" parent="Panel/Container/VBoxContainer" unique_id=1690145667]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 theme = ExtResource("1_eqaa1")
 theme_override_fonts/font = ExtResource("2_xqlid")
 theme_override_font_sizes/font_size = 100
@@ -51,62 +56,44 @@ Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="energys" type="Label" parent="Panel/VBoxContainer2"]
+[node name="energys" type="Label" parent="Panel/Container/VBoxContainer" unique_id=681423868]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 theme = ExtResource("3_q2job")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "energys balls:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="score" type="Label" parent="Panel/VBoxContainer2"]
+[node name="score" type="Label" parent="Panel/Container/VBoxContainer" unique_id=1355911215]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 theme = ExtResource("3_q2job")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Score:0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-process_mode = 3
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -550.0
-offset_top = -170.875
-offset_right = 550.0
-offset_bottom = 170.875
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_eqaa1")
-
-[node name="return" type="Button" parent="Panel/VBoxContainer"]
+[node name="return" type="Button" parent="Panel/Container/VBoxContainer" unique_id=1438487770]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_eqaa1")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Return"
 
-[node name="back" type="Button" parent="Panel/VBoxContainer"]
+[node name="back" type="Button" parent="Panel/Container/VBoxContainer" unique_id=2048532530]
 process_mode = 3
 layout_mode = 2
-size_flags_vertical = 3
 theme = ExtResource("1_eqaa1")
 theme_override_fonts/font = ExtResource("2_xqlid")
 text = "Back"
 
-[node name="Death music" type="AudioStreamPlayer" parent="."]
+[node name="Death music" type="AudioStreamPlayer" parent="." unique_id=9411097]
 process_mode = 3
 stream = ExtResource("2_eqaa1")
 autoplay = true
 
-[connection signal="pressed" from="Panel/VBoxContainer/return" to="." method="_on_return_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Panel/Container/VBoxContainer/return" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="Panel/Container/VBoxContainer/back" to="." method="_on_back_pressed"]

@@ -48,6 +48,8 @@ func _ready() -> void:
 	
 	# Inicializar Steam
 	InitSteam()
+	FetchLocalIp()
+	FetchPublicIp()
 
 func InitSteam():
 	var is_steam_running = Steam.steamInit()
@@ -62,15 +64,11 @@ func InitSteam():
 
 		steam_id = Steam.getSteamID()
 		Username = Steam.getPersonaName()
-
-		FetchLocalIp()
-		FetchPublicIp()
 	else:
 		use_steam = false
 		print_role("Steam no se pudo inicializar")
 
-		FetchLocalIp()
-		FetchPublicIp()
+
 
 func _on_lobby_match_list(lobbies: Array):
 	# Esta función se activa cuando Steam termina de buscar partidas
@@ -99,13 +97,14 @@ func _on_lobby_created(connect_status: int, lobby_id: int):
 		print_role("Error al crear el lobby de Steam: " + str(connect_status))
 
 func _on_lobby_joined(lobby_id: int, perms: int, locked: bool, reponse: int):
-	print_role("Lobby de Steam unido con éxito. ID: " + str(lobby_id) + " Perms: " + str(perms) + " Locked: " + str(locked) + " Response: " + str(reponse))
-	steam_lobby_id = lobby_id
-	var lobby_owner = Steam.getLobbyOwner(lobby_id)
+	if reponse == 1:
+		print_role("Lobby de Steam unido con éxito. ID: " + str(lobby_id))
+		steam_lobby_id = lobby_id
+		var lobby_owner = Steam.getLobbyOwner(lobby_id)
 
-	await get_tree().process_frame
-	if lobby_owner != Steam.getSteamID():
-		Play_MultiplayerClient(lobby_id)
+		await get_tree().process_frame
+		if lobby_owner != Steam.getSteamID():
+			Play_MultiplayerClient(lobby_id)
 
 func _exit_tree() -> void:
 	multiplayer.server_disconnected.disconnect(MultiplayerServerDisconnected)
@@ -632,7 +631,7 @@ func FetchPublicIp():
 	
 	else:
 	
-		print_role("UPNP Discover falló con código: " + discoverResult);
+		print_role("UPNP Discover falló con código: " + str(discoverResult));
 		# Si falla el UPNP (por ejemplo, si el router lo tiene desactivado),
 		# PublicIp se quedará vacía. Podrías poner una IP por defecto o manejar el error.
 	
